@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python/
+env/
+venv/
+lib/
+log/
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.hypothesis/
+.pytest_cache/
+pip-log.txt
+pip-delete-this-arg.txt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# C extensions
+*.so
+*.lo
+*.lo
+*.la
+*.blt
+*.fpic
+*.x86_64-linux-gnu.so
+
+# Editor directories and files
+.idea/                  # JetBrains IDEs (PyCharm, IntelliJ, WebStorm)
+*.iml
+.vscode/                # VS Code
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.mfpak
+.DS_Store               # macOS
+Thumbs.db               # Windows
+
+# React with Vite
+/node_modules
+/dist
+.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.parcel-cache
+.cache/
+build/

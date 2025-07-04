@@ -1,0 +1,8 @@
+@triageUrl = https://ai-bot-function-506101299280.us-central1.run.app
+
+POST {{triageUrl}}
+Content-Type: application/json
+
+{
+  "message": "Shortness of breath and chest tightness since yesterday morning."
+}

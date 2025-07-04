@@ -1,0 +1,239 @@
+{"messages": [{"role": "user", "contents": "Feeling a bit under the weather, just a slight sniffle and a cough."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My head's throbbing like crazy, and I can barely keep my eyes open, c'est pas bon."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Sharp pain in my side, especially when I breathe deep."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a mild sore throat, feels a bit scratchy."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having trouble catching my breath, like there's an elephant on my chest."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Persistent cough for days now, keeping me up at night."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Fever's climbing, and I've got chills, je suis malade."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, excruciating pain in my lower back, can't move."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a stiff neck, hard to turn my head."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My knee is swollen and really tender after a fall."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Seeing double sometimes, and my vision's a bit blurry."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of heartburn after dinner, nothing major."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Can't stop throwing up, and I'm feeling really weak."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My ankle is sprained, it's quite painful to walk."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Getting dizzy spells when I stand up too quickly."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Severe stomach cramps and constant diarrhea."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A rash developed overnight, itchy and red."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Feeling very fatigued, can't seem to shake it off."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Chest pain spreading to my arm, feeling lightheaded."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a nasty splinter, but it's small."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Difficulty swallowing food, feels like something's stuck."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "My eye is red and itchy, feels like there's grit in it."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing intense pressure in my head, could be a migraine."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Suddenly lost feeling in my left arm and leg."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My child has a high fever and is very drowsy."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a small cut on my finger, needs a band-aid."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having trouble speaking, words are slurred."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Joints are aching all over, feeling very stiff."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Lost my sense of smell and taste, kinda weird."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Been coughing up blood, even if it's just a little bit."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My pregnant friend is having strong, regular contractions."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, unusual mole on my back."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Just a minor headache, probably from not enough water."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing confusion and disorientation, can't think straight."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a painful lump under my arm."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "My elderly neighbour fell and can't get up."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Feeling a bit congested, nose is runny."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe abdominal pain, like a knife twisting."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Can't stop shaking, and my heart is racing."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor skin irritation, not too bad."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My vision suddenly went dark for a few seconds."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Child swallowed a button, not sure if it's lodged."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a persistent ringing in my ears."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Feeling unusually thirsty all the time, and peeing a lot."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Just a bit tired today, didn't sleep well."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Sudden weakness on one side of my face, can't smile."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a fever and a persistent dry cough."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "My big toe is swollen and very painful, maybe gout."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Just a small bump on my head, no dizzyness."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing shortness of breath after minimal exertion."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Got a spider bite, it's red and a bit swollen."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Feeling numb in my fingers and toes."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Had a bad fall, and my head hit the pavement hard."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My throat is so sore I can barely talk, c'est terrible."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Suddenly can't move my leg at all, total paralysis."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor upset stomach, probably something I ate."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Seeing flashing lights and floaters in my eye."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A child has a persistent, high-pitched cough."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a small bruise on my arm, not painful."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Feeling very faint and dizzy, like I might pass out."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My period pain is unusually severe this month."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "My back has a persistent dull ache."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe chest tightness and shortness of breath."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a nasty cut that won't stop bleeding."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit hoarse, lost my voice slightly."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My tooth is throbbing, can't eat anything."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe pain in my testicle."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a very red and painful eye."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a small blister on my foot from new shoes."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach feels bloated and I'm gassy."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing numbness and tingling down my arm."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, rapidly growing lump on my neck."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My urine is very dark and I'm feeling jaundiced."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit sniffly and sneezing, simple cold."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having frequent, severe headaches with nausea."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "My vision has become very blurry suddenly."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A small burn on my hand from the oven, not blistering."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Can't stop itching all over my body, no visible rash."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe swelling in one leg, hot to the touch."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Experiencing a feeling of impending doom, panicky."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of dry skin on my hands."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My ear is really hurting, feels blocked."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Got a splinter that's deep under my nail."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A child has a very high fever and is unresponsive."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a mild stomach ache, passed quickly."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having trouble remembering things, memory lapses."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, sharp pain in my chest when I cough."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My fingers are numb and cold, turning white."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit dizzy after standing up too fast."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My big toe is very red and swollen, can't put on shoes."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a swollen face and lips, hard to breathe."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a small cut that's a bit red and warm."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing a persistent cough that produces green phlegm."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe pain in my side, can't get comfortable."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A pregnant woman is experiencing severe bleeding."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor paper cut, nothing to worry about."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach feels upset, and I have mild nausea."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having trouble concentrating at work, feeling foggy."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe headache and stiff neck."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A child has a persistent high fever and a rash."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit tired and rundown, normal exhaustion."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My joints are stiff in the morning, taking a while to loosen up."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, painful lump in my breast."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden vision loss in one eye."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a tiny mosquito bite, only slightly itchy."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My ankle is twisted, and it's quite painful to put weight on it."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Having difficulty breathing, wheezing sound."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A small superficial burn on my finger, no blister."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Can't stop throwing up, and I'm severely dehydrated."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My throat is scratchy, feels like a cold is coming on."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Persistent ringing in my ears that's quite loud."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing numbness and weakness on one side of my body."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a mild headache that comes and goes."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Sudden, sharp pain in my lower abdomen, like a charley horse."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My elderly parent is confused and disoriented, not like them."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor toothache, not constant pain."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My foot is swollen and bruised after I dropped something on it."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Having severe dizzy spells, feeling very lightheaded."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small cut on my hand, barely bleeding."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My vision is intermittently blurry, comes and goes."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe chest pain that radiates to my jaw."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My child has a persistent earache and fever."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a dry cough, no other symptoms."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My back is aching after lifting something heavy."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "A new, dark mole that's changing shape."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe abdominal pain and vomiting blood."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of acid reflux after a big meal."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My knee is swollen and painful, hard to bend."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing tingling and numbness in my feet."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a very red and swollen eye, vision impaired."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a small bump on my head, no headache."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having trouble breathing, feels like my airways are closing."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A pregnant woman is experiencing heavy, bright red bleeding."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor scratch on my arm."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My hand is swollen and painful after a bee sting."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden, severe weakness in my legs."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A small rash on my arm, not itchy or spreading."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach is upset, and I have some mild diarrhea."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Having difficulty sleeping due to persistent anxiety."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe pain in my side, accompanied by fever."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My vision has completely blurred in one eye."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a small blister on my heel from walking."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My shoulder is stiff and sore, hard to move."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe and persistent headaches."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A child has a persistent cough and difficulty breathing."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor sunburn on my shoulders."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My nose is stuffy, and I have a slight head cold."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing persistent fatigue and muscle weakness."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe leg pain and swelling."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My chest feels tight, and I'm short of breath."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of a cough, no fever."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My tooth is sensitive to cold, but no constant pain."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My ankle is swollen and bruised after a fall."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a very stiff neck and shoulder pain."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden, intense dizziness and nausea."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a small cut on my leg, barely noticeable."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach is cramping badly, and I have diarrhea."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My eye is red and painful, with blurry vision."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A child has a very high fever and is lethargic."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a mild sore throat, no fever."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My knee is aching after a long walk."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing persistent heartburn that won't go away."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe back pain that radiates down my leg."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My arm is numb and weak, can't lift it."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor headache, easily managed with pain relievers."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My joints are cracking and popping a lot."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Developed a small, itchy rash on my arm."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My foot is throbbing, and I can see a red streak."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden, excruciating pain in my head, le mal de tête."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small burn on my finger, just red."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My throat is really sore, and it hurts to swallow."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Having trouble concentrating and feel very sluggish."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe pain in my abdomen, doubled over."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A child has a persistent, barking cough."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of indigestion, nothing serious."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My hand is swollen and painful after a minor injury."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing numbness and tingling in both arms."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, firm lump in my groin."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My elderly neighbour is confused and has a high fever."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor skin irritation, a little red."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My ear is ringing constantly, very distracting."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Got a splinter that's causing throbbing pain."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "A pregnant woman is having persistent, painful contractions."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a cough, no other symptoms, it's just a cough."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My shoulder is stiff and painful, limited range of motion."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden, severe chest pain and breathlessness."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small cut on my finger, just a drop of blood."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach feels bloated and I'm very nauseous."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Having trouble speaking, can't get the words out."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My joints are aching, and I feel feverish."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, changing mole that's itchy."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe abdominal pain and bleeding."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit of general malaise, feeling tired."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My knee is swollen and very painful, can't put weight on it."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Having trouble seeing clearly, blurry vision."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "A child has a high fever and a rash all over their body."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor bruise on my leg, no pain."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My back has a constant dull ache, making it hard to sit."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden, intense pain in my chest, feeling crushed."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Got a deep cut that's bleeding a lot."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit hoarse, lost my voice slightly."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My tooth is throbbing, keeping me awake at night."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My ankle is swollen and discoloured after a bad twist."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Woke up with a stiff neck, can't turn my head fully."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe dizziness and balance problems."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a small scrape on my elbow, no big deal."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My foot is swollen and very painful, can't walk."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Having trouble swallowing, feels like my throat is closing."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small, red spot on my arm, not bothering me."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My stomach is upset, and I have mild nausea."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Experiencing persistent headaches with visual disturbances."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe pain in my side, radiating to my groin."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My child has a very high fever and is having seizures."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a bit tired and lethargic, not feeling great."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My joints are swollen and painful, making movement difficult."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Developed a new, rapidly growing lump on my chest."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Experiencing sudden blindness in one eye."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a tiny scratch on my finger, insignificant."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My hand is swollen and throbbing after a minor injury."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Having trouble breathing, gasping for air."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small superficial burn on my leg, not painful."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Can't stop throwing up, and I'm losing weight rapidly."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My throat is very sore and swollen, hard to breathe."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Persistent ringing in my ears, causing dizziness."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing numbness and weakness in my entire body."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a mild headache, easily relieved."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "Sudden, sharp pain in my chest when I move."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "My elderly parent is having trouble speaking and is drooling."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Just a minor toothache, manageable."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My foot is swollen and purple after a severe sprain."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Having severe dizzy spells, falling down frequently."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "A small cut on my finger, barely bleeding."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My vision is blurry and I'm seeing spots."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "Experiencing severe chest pain that's crushing."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "My child has a high fever and is refusing to eat or drink."}, {"role": "model", "contents": "urgent"}]}
+{"messages": [{"role": "user", "contents": "Just a dry cough, no other symptoms."}, {"role": "model", "contents": "routine"}]}
+{"messages": [{"role": "user", "contents": "My back is aching constantly, making it hard to sleep."}, {"role": "model", "contents": "moderate"}]}
+{"messages": [{"role": "user", "contents": "A new, dark mole that's bleeding."}, {"role": "model", "contents": "emergent"}]}
+{"messages": [{"role": "user", "contents": "Sudden, severe abdominal pain and vomiting."}, {"role": "model", "contents": "urgent"}]}

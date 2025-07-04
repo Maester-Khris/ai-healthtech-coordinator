@@ -1,0 +1,239 @@
+"Feeling a bit under the weather, just a slight sniffle and a cough.",routine
+"My head's throbbing like crazy, and I can barely keep my eyes open, c'est pas bon.",urgent
+"Sharp pain in my side, especially when I breathe deep.",emergent
+"Just a mild sore throat, feels a bit scratchy.",routine
+"Having trouble catching my breath, like there's an elephant on my chest.",emergent
+"Persistent cough for days now, keeping me up at night.",moderate
+"Fever's climbing, and I've got chills, je suis malade.",moderate
+"Sudden, excruciating pain in my lower back, can't move.",urgent
+"Woke up with a stiff neck, hard to turn my head.",routine
+"My knee is swollen and really tender after a fall.",moderate
+"Seeing double sometimes, and my vision's a bit blurry.",urgent
+"Just a bit of heartburn after dinner, nothing major.",routine
+"Can't stop throwing up, and I'm feeling really weak.",emergent
+"My ankle is sprained, it's quite painful to walk.",moderate
+"Getting dizzy spells when I stand up too quickly.",routine
+"Severe stomach cramps and constant diarrhea.",urgent
+"A rash developed overnight, itchy and red.",moderate
+"Feeling very fatigued, can't seem to shake it off.",routine
+"Chest pain spreading to my arm, feeling lightheaded.",emergent
+"Got a nasty splinter, but it's small.",routine
+"Difficulty swallowing food, feels like something's stuck.",moderate
+"My eye is red and itchy, feels like there's grit in it.",routine
+"Experiencing intense pressure in my head, could be a migraine.",urgent
+"Suddenly lost feeling in my left arm and leg.",emergent
+"My child has a high fever and is very drowsy.",urgent
+"Just a small cut on my finger, needs a band-aid.",routine
+"Having trouble speaking, words are slurred.",emergent
+"Joints are aching all over, feeling very stiff.",moderate
+"Lost my sense of smell and taste, kinda weird.",routine
+"Been coughing up blood, even if it's just a little bit.",urgent
+"My pregnant friend is having strong, regular contractions.",emergent
+"Developed a new, unusual mole on my back.",moderate
+"Just a minor headache, probably from not enough water.",routine
+"Experiencing confusion and disorientation, can't think straight.",emergent
+"Woke up with a painful lump under my arm.",moderate
+"My elderly neighbour fell and can't get up.",urgent
+"Feeling a bit congested, nose is runny.",routine
+"Sudden, severe abdominal pain, like a knife twisting.",emergent
+"Can't stop shaking, and my heart is racing.",urgent
+"Just a minor skin irritation, not too bad.",routine
+"My vision suddenly went dark for a few seconds.",urgent
+"Child swallowed a button, not sure if it's lodged.",emergent
+"Got a persistent ringing in my ears.",moderate
+"Feeling unusually thirsty all the time, and peeing a lot.",moderate
+"Just a bit tired today, didn't sleep well.",routine
+"Sudden weakness on one side of my face, can't smile.",emergent
+"Got a fever and a persistent dry cough.",moderate
+"My big toe is swollen and very painful, maybe gout.",moderate
+"Just a small bump on my head, no dizzyness.",routine
+"Experiencing shortness of breath after minimal exertion.",urgent
+"Got a spider bite, it's red and a bit swollen.",routine
+"Feeling numb in my fingers and toes.",moderate
+"Had a bad fall, and my head hit the pavement hard.",urgent
+"My throat is so sore I can barely talk, c'est terrible.",moderate
+"Suddenly can't move my leg at all, total paralysis.",emergent
+"Just a minor upset stomach, probably something I ate.",routine
+"Seeing flashing lights and floaters in my eye.",urgent
+"A child has a persistent, high-pitched cough.",urgent
+"Just a small bruise on my arm, not painful.",routine
+"Feeling very faint and dizzy, like I might pass out.",emergent
+"My period pain is unusually severe this month.",moderate
+"My back has a persistent dull ache.",routine
+"Experiencing severe chest tightness and shortness of breath.",emergent
+"Got a nasty cut that won't stop bleeding.",urgent
+"Just a bit hoarse, lost my voice slightly.",routine
+"My tooth is throbbing, can't eat anything.",moderate
+"Sudden, severe pain in my testicle.",emergent
+"Woke up with a very red and painful eye.",urgent
+"Just a small blister on my foot from new shoes.",routine
+"My stomach feels bloated and I'm gassy.",routine
+"Experiencing numbness and tingling down my arm.",moderate
+"Developed a new, rapidly growing lump on my neck.",urgent
+"My urine is very dark and I'm feeling jaundiced.",emergent
+"Just a bit sniffly and sneezing, simple cold.",routine
+"Having frequent, severe headaches with nausea.",moderate
+"My vision has become very blurry suddenly.",urgent
+"A small burn on my hand from the oven, not blistering.",routine
+"Can't stop itching all over my body, no visible rash.",moderate
+"Sudden, severe swelling in one leg, hot to the touch.",emergent
+"Experiencing a feeling of impending doom, panicky.",urgent
+"Just a bit of dry skin on my hands.",routine
+"My ear is really hurting, feels blocked.",moderate
+"Got a splinter that's deep under my nail.",urgent
+"A child has a very high fever and is unresponsive.",emergent
+"Just a mild stomach ache, passed quickly.",routine
+"Having trouble remembering things, memory lapses.",moderate
+"Sudden, sharp pain in my chest when I cough.",urgent
+"My fingers are numb and cold, turning white.",emergent
+"Just a bit dizzy after standing up too fast.",routine
+"My big toe is very red and swollen, can't put on shoes.",moderate
+"Woke up with a swollen face and lips, hard to breathe.",emergent
+"Got a small cut that's a bit red and warm.",routine
+"Experiencing a persistent cough that produces green phlegm.",moderate
+"Sudden, severe pain in my side, can't get comfortable.",urgent
+"A pregnant woman is experiencing severe bleeding.",emergent
+"Just a minor paper cut, nothing to worry about.",routine
+"My stomach feels upset, and I have mild nausea.",routine
+"Having trouble concentrating at work, feeling foggy.",moderate
+"Sudden, severe headache and stiff neck.",emergent
+"A child has a persistent high fever and a rash.",urgent
+"Just a bit tired and rundown, normal exhaustion.",routine
+"My joints are stiff in the morning, taking a while to loosen up.",moderate
+"Developed a new, painful lump in my breast.",urgent
+"Experiencing sudden vision loss in one eye.",emergent
+"Just a tiny mosquito bite, only slightly itchy.",routine
+"My ankle is twisted, and it's quite painful to put weight on it.",moderate
+"Having difficulty breathing, wheezing sound.",urgent
+"A small superficial burn on my finger, no blister.",routine
+"Can't stop throwing up, and I'm severely dehydrated.",emergent
+"My throat is scratchy, feels like a cold is coming on.",routine
+"Persistent ringing in my ears that's quite loud.",moderate
+"Experiencing numbness and weakness on one side of my body.",emergent
+"Just a mild headache that comes and goes.",routine
+"Sudden, sharp pain in my lower abdomen, like a charley horse.",urgent
+"My elderly parent is confused and disoriented, not like them.",urgent
+"Just a minor toothache, not constant pain.",routine
+"My foot is swollen and bruised after I dropped something on it.",moderate
+"Having severe dizzy spells, feeling very lightheaded.",emergent
+"A small cut on my hand, barely bleeding.",routine
+"My vision is intermittently blurry, comes and goes.",moderate
+"Experiencing severe chest pain that radiates to my jaw.",emergent
+"My child has a persistent earache and fever.",urgent
+"Just a dry cough, no other symptoms.",routine
+"My back is aching after lifting something heavy.",moderate
+"A new, dark mole that's changing shape.",urgent
+"Sudden, severe abdominal pain and vomiting blood.",emergent
+"Just a bit of acid reflux after a big meal.",routine
+"My knee is swollen and painful, hard to bend.",moderate
+"Experiencing tingling and numbness in my feet.",moderate
+"Woke up with a very red and swollen eye, vision impaired.",urgent
+"Just a small bump on my head, no headache.",routine
+"Having trouble breathing, feels like my airways are closing.",emergent
+"A pregnant woman is experiencing heavy, bright red bleeding.",emergent
+"Just a minor scratch on my arm.",routine
+"My hand is swollen and painful after a bee sting.",moderate
+"Experiencing sudden, severe weakness in my legs.",urgent
+"A small rash on my arm, not itchy or spreading.",routine
+"My stomach is upset, and I have some mild diarrhea.",routine
+"Having difficulty sleeping due to persistent anxiety.",moderate
+"Sudden, severe pain in my side, accompanied by fever.",urgent
+"My vision has completely blurred in one eye.",emergent
+"Just a small blister on my heel from walking.",routine
+"My shoulder is stiff and sore, hard to move.",moderate
+"Experiencing severe and persistent headaches.",urgent
+"A child has a persistent cough and difficulty breathing.",emergent
+"Just a minor sunburn on my shoulders.",routine
+"My nose is stuffy, and I have a slight head cold.",routine
+"Experiencing persistent fatigue and muscle weakness.",moderate
+"Sudden, severe leg pain and swelling.",urgent
+"My chest feels tight, and I'm short of breath.",emergent
+"Just a bit of a cough, no fever.",routine
+"My tooth is sensitive to cold, but no constant pain.",routine
+"My ankle is swollen and bruised after a fall.",moderate
+"Woke up with a very stiff neck and shoulder pain.",moderate
+"Experiencing sudden, intense dizziness and nausea.",emergent
+"Just a small cut on my leg, barely noticeable.",routine
+"My stomach is cramping badly, and I have diarrhea.",urgent
+"My eye is red and painful, with blurry vision.",urgent
+"A child has a very high fever and is lethargic.",emergent
+"Just a mild sore throat, no fever.",routine
+"My knee is aching after a long walk.",routine
+"Experiencing persistent heartburn that won't go away.",moderate
+"Sudden, severe back pain that radiates down my leg.",urgent
+"My arm is numb and weak, can't lift it.",emergent
+"Just a minor headache, easily managed with pain relievers.",routine
+"My joints are cracking and popping a lot.",routine
+"Developed a small, itchy rash on my arm.",routine
+"My foot is throbbing, and I can see a red streak.",moderate
+"Experiencing sudden, excruciating pain in my head, le mal de tête.",emergent
+"A small burn on my finger, just red.",routine
+"My throat is really sore, and it hurts to swallow.",moderate
+"Having trouble concentrating and feel very sluggish.",moderate
+"Sudden, severe pain in my abdomen, doubled over.",emergent
+"A child has a persistent, barking cough.",urgent
+"Just a bit of indigestion, nothing serious.",routine
+"My hand is swollen and painful after a minor injury.",moderate
+"Experiencing numbness and tingling in both arms.",moderate
+"Developed a new, firm lump in my groin.",urgent
+"My elderly neighbour is confused and has a high fever.",emergent
+"Just a minor skin irritation, a little red.",routine
+"My ear is ringing constantly, very distracting.",moderate
+"Got a splinter that's causing throbbing pain.",urgent
+"A pregnant woman is having persistent, painful contractions.",emergent
+"Just a cough, no other symptoms, it's just a cough.",routine
+"My shoulder is stiff and painful, limited range of motion.",moderate
+"Experiencing sudden, severe chest pain and breathlessness.",emergent
+"A small cut on my finger, just a drop of blood.",routine
+"My stomach feels bloated and I'm very nauseous.",moderate
+"Having trouble speaking, can't get the words out.",emergent
+"My joints are aching, and I feel feverish.",moderate
+"Developed a new, changing mole that's itchy.",urgent
+"Experiencing severe abdominal pain and bleeding.",emergent
+"Just a bit of general malaise, feeling tired.",routine
+"My knee is swollen and very painful, can't put weight on it.",urgent
+"Having trouble seeing clearly, blurry vision.",moderate
+"A child has a high fever and a rash all over their body.",emergent
+"Just a minor bruise on my leg, no pain.",routine
+"My back has a constant dull ache, making it hard to sit.",moderate
+"Experiencing sudden, intense pain in my chest, feeling crushed.",emergent
+"Got a deep cut that's bleeding a lot.",urgent
+"Just a bit hoarse, lost my voice slightly.",routine
+"My tooth is throbbing, keeping me awake at night.",urgent
+"My ankle is swollen and discoloured after a bad twist.",emergent
+"Woke up with a stiff neck, can't turn my head fully.",routine
+"Experiencing severe dizziness and balance problems.",emergent
+"Just a small scrape on my elbow, no big deal.",routine
+"My foot is swollen and very painful, can't walk.",urgent
+"Having trouble swallowing, feels like my throat is closing.",emergent
+"A small, red spot on my arm, not bothering me.",routine
+"My stomach is upset, and I have mild nausea.",routine
+"Experiencing persistent headaches with visual disturbances.",moderate
+"Sudden, severe pain in my side, radiating to my groin.",emergent
+"My child has a very high fever and is having seizures.",emergent
+"Just a bit tired and lethargic, not feeling great.",routine
+"My joints are swollen and painful, making movement difficult.",moderate
+"Developed a new, rapidly growing lump on my chest.",urgent
+"Experiencing sudden blindness in one eye.",emergent
+"Just a tiny scratch on my finger, insignificant.",routine
+"My hand is swollen and throbbing after a minor injury.",moderate
+"Having trouble breathing, gasping for air.",emergent
+"A small superficial burn on my leg, not painful.",routine
+"Can't stop throwing up, and I'm losing weight rapidly.",urgent
+"My throat is very sore and swollen, hard to breathe.",urgent
+"Persistent ringing in my ears, causing dizziness.",moderate
+"Experiencing numbness and weakness in my entire body.",emergent
+"Just a mild headache, easily relieved.",routine
+"Sudden, sharp pain in my chest when I move.",urgent
+"My elderly parent is having trouble speaking and is drooling.",emergent
+"Just a minor toothache, manageable.",routine
+"My foot is swollen and purple after a severe sprain.",urgent
+"Having severe dizzy spells, falling down frequently.",emergent
+"A small cut on my finger, barely bleeding.",routine
+"My vision is blurry and I'm seeing spots.",moderate
+"Experiencing severe chest pain that's crushing.",emergent
+"My child has a high fever and is refusing to eat or drink.",urgent
+"Just a dry cough, no other symptoms.",routine
+"My back is aching constantly, making it hard to sleep.",moderate
+"A new, dark mole that's bleeding.",emergent
+"Sudden, severe abdominal pain and vomiting.",urgent

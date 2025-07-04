@@ -1,0 +1,239 @@
+{"text_input": "Feeling a bit under the weather, just a slight sniffle and a cough.", "output_label": "routine"}
+{"text_input": "My head's throbbing like crazy, and I can barely keep my eyes open, c'est pas bon.", "output_label": "urgent"}
+{"text_input": "Sharp pain in my side, especially when I breathe deep.", "output_label": "emergent"}
+{"text_input": "Just a mild sore throat, feels a bit scratchy.", "output_label": "routine"}
+{"text_input": "Having trouble catching my breath, like there's an elephant on my chest.", "output_label": "emergent"}
+{"text_input": "Persistent cough for days now, keeping me up at night.", "output_label": "moderate"}
+{"text_input": "Fever's climbing, and I've got chills, je suis malade.", "output_label": "moderate"}
+{"text_input": "Sudden, excruciating pain in my lower back, can't move.", "output_label": "urgent"}
+{"text_input": "Woke up with a stiff neck, hard to turn my head.", "output_label": "routine"}
+{"text_input": "My knee is swollen and really tender after a fall.", "output_label": "moderate"}
+{"text_input": "Seeing double sometimes, and my vision's a bit blurry.", "output_label": "urgent"}
+{"text_input": "Just a bit of heartburn after dinner, nothing major.", "output_label": "routine"}
+{"text_input": "Can't stop throwing up, and I'm feeling really weak.", "output_label": "emergent"}
+{"text_input": "My ankle is sprained, it's quite painful to walk.", "output_label": "moderate"}
+{"text_input": "Getting dizzy spells when I stand up too quickly.", "output_label": "routine"}
+{"text_input": "Severe stomach cramps and constant diarrhea.", "output_label": "urgent"}
+{"text_input": "A rash developed overnight, itchy and red.", "output_label": "moderate"}
+{"text_input": "Feeling very fatigued, can't seem to shake it off.", "output_label": "routine"}
+{"text_input": "Chest pain spreading to my arm, feeling lightheaded.", "output_label": "emergent"}
+{"text_input": "Got a nasty splinter, but it's small.", "output_label": "routine"}
+{"text_input": "Difficulty swallowing food, feels like something's stuck.", "output_label": "moderate"}
+{"text_input": "My eye is red and itchy, feels like there's grit in it.", "output_label": "routine"}
+{"text_input": "Experiencing intense pressure in my head, could be a migraine.", "output_label": "urgent"}
+{"text_input": "Suddenly lost feeling in my left arm and leg.", "output_label": "emergent"}
+{"text_input": "My child has a high fever and is very drowsy.", "output_label": "urgent"}
+{"text_input": "Just a small cut on my finger, needs a band-aid.", "output_label": "routine"}
+{"text_input": "Having trouble speaking, words are slurred.", "output_label": "emergent"}
+{"text_input": "Joints are aching all over, feeling very stiff.", "output_label": "moderate"}
+{"text_input": "Lost my sense of smell and taste, kinda weird.", "output_label": "routine"}
+{"text_input": "Been coughing up blood, even if it's just a little bit.", "output_label": "urgent"}
+{"text_input": "My pregnant friend is having strong, regular contractions.", "output_label": "emergent"}
+{"text_input": "Developed a new, unusual mole on my back.", "output_label": "moderate"}
+{"text_input": "Just a minor headache, probably from not enough water.", "output_label": "routine"}
+{"text_input": "Experiencing confusion and disorientation, can't think straight.", "output_label": "emergent"}
+{"text_input": "Woke up with a painful lump under my arm.", "output_label": "moderate"}
+{"text_input": "My elderly neighbour fell and can't get up.", "output_label": "urgent"}
+{"text_input": "Feeling a bit congested, nose is runny.", "output_label": "routine"}
+{"text_input": "Sudden, severe abdominal pain, like a knife twisting.", "output_label": "emergent"}
+{"text_input": "Can't stop shaking, and my heart is racing.", "output_label": "urgent"}
+{"text_input": "Just a minor skin irritation, not too bad.", "output_label": "routine"}
+{"text_input": "My vision suddenly went dark for a few seconds.", "output_label": "urgent"}
+{"text_input": "Child swallowed a button, not sure if it's lodged.", "output_label": "emergent"}
+{"text_input": "Got a persistent ringing in my ears.", "output_label": "moderate"}
+{"text_input": "Feeling unusually thirsty all the time, and peeing a lot.", "output_label": "moderate"}
+{"text_input": "Just a bit tired today, didn't sleep well.", "output_label": "routine"}
+{"text_input": "Sudden weakness on one side of my face, can't smile.", "output_label": "emergent"}
+{"text_input": "Got a fever and a persistent dry cough.", "output_label": "moderate"}
+{"text_input": "My big toe is swollen and very painful, maybe gout.", "output_label": "moderate"}
+{"text_input": "Just a small bump on my head, no dizzyness.", "output_label": "routine"}
+{"text_input": "Experiencing shortness of breath after minimal exertion.", "output_label": "urgent"}
+{"text_input": "Got a spider bite, it's red and a bit swollen.", "output_label": "routine"}
+{"text_input": "Feeling numb in my fingers and toes.", "output_label": "moderate"}
+{"text_input": "Had a bad fall, and my head hit the pavement hard.", "output_label": "urgent"}
+{"text_input": "My throat is so sore I can barely talk, c'est terrible.", "output_label": "moderate"}
+{"text_input": "Suddenly can't move my leg at all, total paralysis.", "output_label": "emergent"}
+{"text_input": "Just a minor upset stomach, probably something I ate.", "output_label": "routine"}
+{"text_input": "Seeing flashing lights and floaters in my eye.", "output_label": "urgent"}
+{"text_input": "A child has a persistent, high-pitched cough.", "output_label": "urgent"}
+{"text_input": "Just a small bruise on my arm, not painful.", "output_label": "routine"}
+{"text_input": "Feeling very faint and dizzy, like I might pass out.", "output_label": "emergent"}
+{"text_input": "My period pain is unusually severe this month.", "output_label": "moderate"}
+{"text_input": "My back has a persistent dull ache.", "output_label": "routine"}
+{"text_input": "Experiencing severe chest tightness and shortness of breath.", "output_label": "emergent"}
+{"text_input": "Got a nasty cut that won't stop bleeding.", "output_label": "urgent"}
+{"text_input": "Just a bit hoarse, lost my voice slightly.", "output_label": "routine"}
+{"text_input": "My tooth is throbbing, can't eat anything.", "output_label": "moderate"}
+{"text_input": "Sudden, severe pain in my testicle.", "output_label": "emergent"}
+{"text_input": "Woke up with a very red and painful eye.", "output_label": "urgent"}
+{"text_input": "Just a small blister on my foot from new shoes.", "output_label": "routine"}
+{"text_input": "My stomach feels bloated and I'm gassy.", "output_label": "routine"}
+{"text_input": "Experiencing numbness and tingling down my arm.", "output_label": "moderate"}
+{"text_input": "Developed a new, rapidly growing lump on my neck.", "output_label": "urgent"}
+{"text_input": "My urine is very dark and I'm feeling jaundiced.", "output_label": "emergent"}
+{"text_input": "Just a bit sniffly and sneezing, simple cold.", "output_label": "routine"}
+{"text_input": "Having frequent, severe headaches with nausea.", "output_label": "moderate"}
+{"text_input": "My vision has become very blurry suddenly.", "output_label": "urgent"}
+{"text_input": "A small burn on my hand from the oven, not blistering.", "output_label": "routine"}
+{"text_input": "Can't stop itching all over my body, no visible rash.", "output_label": "moderate"}
+{"text_input": "Sudden, severe swelling in one leg, hot to the touch.", "output_label": "emergent"}
+{"text_input": "Experiencing a feeling of impending doom, panicky.", "output_label": "urgent"}
+{"text_input": "Just a bit of dry skin on my hands.", "output_label": "routine"}
+{"text_input": "My ear is really hurting, feels blocked.", "output_label": "moderate"}
+{"text_input": "Got a splinter that's deep under my nail.", "output_label": "urgent"}
+{"text_input": "A child has a very high fever and is unresponsive.", "output_label": "emergent"}
+{"text_input": "Just a mild stomach ache, passed quickly.", "output_label": "routine"}
+{"text_input": "Having trouble remembering things, memory lapses.", "output_label": "moderate"}
+{"text_input": "Sudden, sharp pain in my chest when I cough.", "output_label": "urgent"}
+{"text_input": "My fingers are numb and cold, turning white.", "output_label": "emergent"}
+{"text_input": "Just a bit dizzy after standing up too fast.", "output_label": "routine"}
+{"text_input": "My big toe is very red and swollen, can't put on shoes.", "output_label": "moderate"}
+{"text_input": "Woke up with a swollen face and lips, hard to breathe.", "output_label": "emergent"}
+{"text_input": "Got a small cut that's a bit red and warm.", "output_label": "routine"}
+{"text_input": "Experiencing a persistent cough that produces green phlegm.", "output_label": "moderate"}
+{"text_input": "Sudden, severe pain in my side, can't get comfortable.", "output_label": "urgent"}
+{"text_input": "A pregnant woman is experiencing severe bleeding.", "output_label": "emergent"}
+{"text_input": "Just a minor paper cut, nothing to worry about.", "output_label": "routine"}
+{"text_input": "My stomach feels upset, and I have mild nausea.", "output_label": "routine"}
+{"text_input": "Having trouble concentrating at work, feeling foggy.", "output_label": "moderate"}
+{"text_input": "Sudden, severe headache and stiff neck.", "output_label": "emergent"}
+{"text_input": "A child has a persistent high fever and a rash.", "output_label": "urgent"}
+{"text_input": "Just a bit tired and rundown, normal exhaustion.", "output_label": "routine"}
+{"text_input": "My joints are stiff in the morning, taking a while to loosen up.", "output_label": "moderate"}
+{"text_input": "Developed a new, painful lump in my breast.", "output_label": "urgent"}
+{"text_input": "Experiencing sudden vision loss in one eye.", "output_label": "emergent"}
+{"text_input": "Just a tiny mosquito bite, only slightly itchy.", "output_label": "routine"}
+{"text_input": "My ankle is twisted, and it's quite painful to put weight on it.", "output_label": "moderate"}
+{"text_input": "Having difficulty breathing, wheezing sound.", "output_label": "urgent"}
+{"text_input": "A small superficial burn on my finger, no blister.", "output_label": "routine"}
+{"text_input": "Can't stop throwing up, and I'm severely dehydrated.", "output_label": "emergent"}
+{"text_input": "My throat is scratchy, feels like a cold is coming on.", "output_label": "routine"}
+{"text_input": "Persistent ringing in my ears that's quite loud.", "output_label": "moderate"}
+{"text_input": "Experiencing numbness and weakness on one side of my body.", "output_label": "emergent"}
+{"text_input": "Just a mild headache that comes and goes.", "output_label": "routine"}
+{"text_input": "Sudden, sharp pain in my lower abdomen, like a charley horse.", "output_label": "urgent"}
+{"text_input": "My elderly parent is confused and disoriented, not like them.", "output_label": "urgent"}
+{"text_input": "Just a minor toothache, not constant pain.", "output_label": "routine"}
+{"text_input": "My foot is swollen and bruised after I dropped something on it.", "output_label": "moderate"}
+{"text_input": "Having severe dizzy spells, feeling very lightheaded.", "output_label": "emergent"}
+{"text_input": "A small cut on my hand, barely bleeding.", "output_label": "routine"}
+{"text_input": "My vision is intermittently blurry, comes and goes.", "output_label": "moderate"}
+{"text_input": "Experiencing severe chest pain that radiates to my jaw.", "output_label": "emergent"}
+{"text_input": "My child has a persistent earache and fever.", "output_label": "urgent"}
+{"text_input": "Just a dry cough, no other symptoms.", "output_label": "routine"}
+{"text_input": "My back is aching after lifting something heavy.", "output_label": "moderate"}
+{"text_input": "A new, dark mole that's changing shape.", "output_label": "urgent"}
+{"text_input": "Sudden, severe abdominal pain and vomiting blood.", "output_label": "emergent"}
+{"text_input": "Just a bit of acid reflux after a big meal.", "output_label": "routine"}
+{"text_input": "My knee is swollen and painful, hard to bend.", "output_label": "moderate"}
+{"text_input": "Experiencing tingling and numbness in my feet.", "output_label": "moderate"}
+{"text_input": "Woke up with a very red and swollen eye, vision impaired.", "output_label": "urgent"}
+{"text_input": "Just a small bump on my head, no headache.", "output_label": "routine"}
+{"text_input": "Having trouble breathing, feels like my airways are closing.", "output_label": "emergent"}
+{"text_input": "A pregnant woman is experiencing heavy, bright red bleeding.", "output_label": "emergent"}
+{"text_input": "Just a minor scratch on my arm.", "output_label": "routine"}
+{"text_input": "My hand is swollen and painful after a bee sting.", "output_label": "moderate"}
+{"text_input": "Experiencing sudden, severe weakness in my legs.", "output_label": "urgent"}
+{"text_input": "A small rash on my arm, not itchy or spreading.", "output_label": "routine"}
+{"text_input": "My stomach is upset, and I have some mild diarrhea.", "output_label": "routine"}
+{"text_input": "Having difficulty sleeping due to persistent anxiety.", "output_label": "moderate"}
+{"text_input": "Sudden, severe pain in my side, accompanied by fever.", "output_label": "urgent"}
+{"text_input": "My vision has completely blurred in one eye.", "output_label": "emergent"}
+{"text_input": "Just a small blister on my heel from walking.", "output_label": "routine"}
+{"text_input": "My shoulder is stiff and sore, hard to move.", "output_label": "moderate"}
+{"text_input": "Experiencing severe and persistent headaches.", "output_label": "urgent"}
+{"text_input": "A child has a persistent cough and difficulty breathing.", "output_label": "emergent"}
+{"text_input": "Just a minor sunburn on my shoulders.", "output_label": "routine"}
+{"text_input": "My nose is stuffy, and I have a slight head cold.", "output_label": "routine"}
+{"text_input": "Experiencing persistent fatigue and muscle weakness.", "output_label": "moderate"}
+{"text_input": "Sudden, severe leg pain and swelling.", "output_label": "urgent"}
+{"text_input": "My chest feels tight, and I'm short of breath.", "output_label": "emergent"}
+{"text_input": "Just a bit of a cough, no fever.", "output_label": "routine"}
+{"text_input": "My tooth is sensitive to cold, but no constant pain.", "output_label": "routine"}
+{"text_input": "My ankle is swollen and bruised after a fall.", "output_label": "moderate"}
+{"text_input": "Woke up with a very stiff neck and shoulder pain.", "output_label": "moderate"}
+{"text_input": "Experiencing sudden, intense dizziness and nausea.", "output_label": "emergent"}
+{"text_input": "Just a small cut on my leg, barely noticeable.", "output_label": "routine"}
+{"text_input": "My stomach is cramping badly, and I have diarrhea.", "output_label": "urgent"}
+{"text_input": "My eye is red and painful, with blurry vision.", "output_label": "urgent"}
+{"text_input": "A child has a very high fever and is lethargic.", "output_label": "emergent"}
+{"text_input": "Just a mild sore throat, no fever.", "output_label": "routine"}
+{"text_input": "My knee is aching after a long walk.", "output_label": "routine"}
+{"text_input": "Experiencing persistent heartburn that won't go away.", "output_label": "moderate"}
+{"text_input": "Sudden, severe back pain that radiates down my leg.", "output_label": "urgent"}
+{"text_input": "My arm is numb and weak, can't lift it.", "output_label": "emergent"}
+{"text_input": "Just a minor headache, easily managed with pain relievers.", "output_label": "routine"}
+{"text_input": "My joints are cracking and popping a lot.", "output_label": "routine"}
+{"text_input": "Developed a small, itchy rash on my arm.", "output_label": "routine"}
+{"text_input": "My foot is throbbing, and I can see a red streak.", "output_label": "moderate"}
+{"text_input": "Experiencing sudden, excruciating pain in my head, le mal de tête.", "output_label": "emergent"}
+{"text_input": "A small burn on my finger, just red.", "output_label": "routine"}
+{"text_input": "My throat is really sore, and it hurts to swallow.", "output_label": "moderate"}
+{"text_input": "Having trouble concentrating and feel very sluggish.", "output_label": "moderate"}
+{"text_input": "Sudden, severe pain in my abdomen, doubled over.", "output_label": "emergent"}
+{"text_input": "A child has a persistent, barking cough.", "output_label": "urgent"}
+{"text_input": "Just a bit of indigestion, nothing serious.", "output_label": "routine"}
+{"text_input": "My hand is swollen and painful after a minor injury.", "output_label": "moderate"}
+{"text_input": "Experiencing numbness and tingling in both arms.", "output_label": "moderate"}
+{"text_input": "Developed a new, firm lump in my groin.", "output_label": "urgent"}
+{"text_input": "My elderly neighbour is confused and has a high fever.", "output_label": "emergent"}
+{"text_input": "Just a minor skin irritation, a little red.", "output_label": "routine"}
+{"text_input": "My ear is ringing constantly, very distracting.", "output_label": "moderate"}
+{"text_input": "Got a splinter that's causing throbbing pain.", "output_label": "urgent"}
+{"text_input": "A pregnant woman is having persistent, painful contractions.", "output_label": "emergent"}
+{"text_input": "Just a cough, no other symptoms, it's just a cough.", "output_label": "routine"}
+{"text_input": "My shoulder is stiff and painful, limited range of motion.", "output_label": "moderate"}
+{"text_input": "Experiencing sudden, severe chest pain and breathlessness.", "output_label": "emergent"}
+{"text_input": "A small cut on my finger, just a drop of blood.", "output_label": "routine"}
+{"text_input": "My stomach feels bloated and I'm very nauseous.", "output_label": "moderate"}
+{"text_input": "Having trouble speaking, can't get the words out.", "output_label": "emergent"}
+{"text_input": "My joints are aching, and I feel feverish.", "output_label": "moderate"}
+{"text_input": "Developed a new, changing mole that's itchy.", "output_label": "urgent"}
+{"text_input": "Experiencing severe abdominal pain and bleeding.", "output_label": "emergent"}
+{"text_input": "Just a bit of general malaise, feeling tired.", "output_label": "routine"}
+{"text_input": "My knee is swollen and very painful, can't put weight on it.", "output_label": "urgent"}
+{"text_input": "Having trouble seeing clearly, blurry vision.", "output_label": "moderate"}
+{"text_input": "A child has a high fever and a rash all over their body.", "output_label": "emergent"}
+{"text_input": "Just a minor bruise on my leg, no pain.", "output_label": "routine"}
+{"text_input": "My back has a constant dull ache, making it hard to sit.", "output_label": "moderate"}
+{"text_input": "Experiencing sudden, intense pain in my chest, feeling crushed.", "output_label": "emergent"}
+{"text_input": "Got a deep cut that's bleeding a lot.", "output_label": "urgent"}
+{"text_input": "Just a bit hoarse, lost my voice slightly.", "output_label": "routine"}
+{"text_input": "My tooth is throbbing, keeping me awake at night.", "output_label": "urgent"}
+{"text_input": "My ankle is swollen and discoloured after a bad twist.", "output_label": "emergent"}
+{"text_input": "Woke up with a stiff neck, can't turn my head fully.", "output_label": "routine"}
+{"text_input": "Experiencing severe dizziness and balance problems.", "output_label": "emergent"}
+{"text_input": "Just a small scrape on my elbow, no big deal.", "output_label": "routine"}
+{"text_input": "My foot is swollen and very painful, can't walk.", "output_label": "urgent"}
+{"text_input": "Having trouble swallowing, feels like my throat is closing.", "output_label": "emergent"}
+{"text_input": "A small, red spot on my arm, not bothering me.", "output_label": "routine"}
+{"text_input": "My stomach is upset, and I have mild nausea.", "output_label": "routine"}
+{"text_input": "Experiencing persistent headaches with visual disturbances.", "output_label": "moderate"}
+{"text_input": "Sudden, severe pain in my side, radiating to my groin.", "output_label": "emergent"}
+{"text_input": "My child has a very high fever and is having seizures.", "output_label": "emergent"}
+{"text_input": "Just a bit tired and lethargic, not feeling great.", "output_label": "routine"}
+{"text_input": "My joints are swollen and painful, making movement difficult.", "output_label": "moderate"}
+{"text_input": "Developed a new, rapidly growing lump on my chest.", "output_label": "urgent"}
+{"text_input": "Experiencing sudden blindness in one eye.", "output_label": "emergent"}
+{"text_input": "Just a tiny scratch on my finger, insignificant.", "output_label": "routine"}
+{"text_input": "My hand is swollen and throbbing after a minor injury.", "output_label": "moderate"}
+{"text_input": "Having trouble breathing, gasping for air.", "output_label": "emergent"}
+{"text_input": "A small superficial burn on my leg, not painful.", "output_label": "routine"}
+{"text_input": "Can't stop throwing up, and I'm losing weight rapidly.", "output_label": "urgent"}
+{"text_input": "My throat is very sore and swollen, hard to breathe.", "output_label": "urgent"}
+{"text_input": "Persistent ringing in my ears, causing dizziness.", "output_label": "moderate"}
+{"text_input": "Experiencing numbness and weakness in my entire body.", "output_label": "emergent"}
+{"text_input": "Just a mild headache, easily relieved.", "output_label": "routine"}
+{"text_input": "Sudden, sharp pain in my chest when I move.", "output_label": "urgent"}
+{"text_input": "My elderly parent is having trouble speaking and is drooling.", "output_label": "emergent"}
+{"text_input": "Just a minor toothache, manageable.", "output_label": "routine"}
+{"text_input": "My foot is swollen and purple after a severe sprain.", "output_label": "urgent"}
+{"text_input": "Having severe dizzy spells, falling down frequently.", "output_label": "emergent"}
+{"text_input": "A small cut on my finger, barely bleeding.", "output_label": "routine"}
+{"text_input": "My vision is blurry and I'm seeing spots.", "output_label": "moderate"}
+{"text_input": "Experiencing severe chest pain that's crushing.", "output_label": "emergent"}
+{"text_input": "My child has a high fever and is refusing to eat or drink.", "output_label": "urgent"}
+{"text_input": "Just a dry cough, no other symptoms.", "output_label": "routine"}
+{"text_input": "My back is aching constantly, making it hard to sleep.", "output_label": "moderate"}
+{"text_input": "A new, dark mole that's bleeding.", "output_label": "emergent"}
+{"text_input": "Sudden, severe abdominal pain and vomiting.", "output_label": "urgent"}
