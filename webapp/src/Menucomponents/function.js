@@ -1,4 +1,4 @@
-function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+function haversineDistance(lat1, lon1, lat2, lon2) {
   const R = 6371e3; // metres
   const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
   const φ2 = lat2 * Math.PI / 180;
