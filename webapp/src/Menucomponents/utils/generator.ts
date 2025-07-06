@@ -1,4 +1,4 @@
-import type { Entity, LatLngTuple, Severity, Patient } from "../types";
+import type { Entity, Severity, Patient } from "../types";
 
 const waterBoxes = [
   [43.60, 43.64, -79.54, -79.40], // Humber Bay
@@ -7,9 +7,6 @@ const waterBoxes = [
 ];
 
 
-function randomName() {
-  return `P‑${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
-}
 function randomSeverity(): Severity {
   const p = Math.random();
   if (p < 0.05) return 'critical';
@@ -89,11 +86,4 @@ export function generateRandomPointsInRadius(
     if (!placed) generated++; // prevent infinite loop
   }
   return points;
-}
-
-
-export function nearestProviderIdx(pos: LatLngTuple, list: { position: LatLngTuple }[]) {
-  let best = 0, min = Number.POSITIVE_INFINITY;
- 
-  return best;
 }

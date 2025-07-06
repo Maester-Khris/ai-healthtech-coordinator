@@ -1,23 +1,21 @@
-import { PersonSimpleCircle } from '@phosphor-icons/react'
 import { SimulationForm } from './subcomponent/SimulationForm'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { PriorityQueue } from './utils/priorityQueue';
-import type { Entity, Person, Patient, Severity, HealthProvider } from './types';
-import { nearestProviderIdx, generatePatient } from './utils/generator';
-import type { LatLng, LatLngTuple } from 'leaflet';
+import type { Entity, Patient, Severity, HealthProvider } from './types';
+import { torontoHealthProviders } from './utils/provierdata';
 
 
-const GEOAPIFY_API_KEY = "38d52e39400d4a988407942232a566a6";
+//const GEOAPIFY_API_KEY = "38d52e39400d4a988407942232a566a6";
 
 function Inhousescheduler() {
-  const [patient, setPatient] = useState<Patient[]>([]);
+  // const [patient, setPatient] = useState<Patient[]>([]);
   const [peopleCount, setCount] = useState(0);          // NEW
   const [timeLeft, setLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [, setVersion] = useState(0);
+  //const [, setVersion] = useState(0);
 
-  const arrivalsId = useRef<NodeJS.Timeout | null>(null);
-  const serviceId = useRef<NodeJS.Timeout | null>(null);
+  // const arrivalsId = useRef<NodeJS.Timeout | null>(null);
+  // const serviceId = useRef<NodeJS.Timeout | null>(null);
 
   const rank: Record<Severity, number> = {
     critical: 0,
@@ -26,19 +24,7 @@ function Inhousescheduler() {
     routine: 3,
   };
 
-  const hospitals = useMemo<Entity[]>(() => [
-    { name: "Toronto General Hospital (UHN)", position: [43.6575, -79.3875] },
-    { name: "Mount Sinai Hospital", position: [43.6573, -79.3888] },
-    { name: "Hospital for Sick Children", position: [43.6593, -79.3905] },
-    { name: "St. Michael's Hospital", position: [43.6527, -79.3757] },
-    { name: "Sunnybrook Health Sciences", position: [43.7128, -79.3762] },
-    { name: "Women's College Hospital", position: [43.6608, -79.3888] },
-    { name: "Princess Margaret Cancer Ctr", position: [43.6568, -79.3879] },
-    { name: "CAMH (Queen St)", position: [43.6454, -79.4087] },
-    { name: "Michael Garron Hospital", position: [43.6934, -79.3082] },
-    { name: "Humber River Hospital", position: [43.7196, -79.5229] },
-  ],
-    []);
+  const hospitals = useMemo<Entity[]>(() => torontoHealthProviders,[]);
 
   const providersRef = useRef<HealthProvider[]>(hospitals.map(h => ({
     name: h.name,
@@ -50,61 +36,61 @@ function Inhousescheduler() {
     }),
   }))).current;
 
-  const admitPatient = useCallback(async (patients: Patient[]) => {
-    if (!patients.length) return;
-    //use the list of patient with their position and the list of provider with their position
-    //determine for each of them the closest and add patient to respective provider queue
-    try {
-      let providerpos: LatLngTuple[] = providersRef.map(p => p.position);
-      const body = JSON.stringify({
-        mode: "drive",
-        sources: patients.map(p => ({ location: [p.person.position[1], p.person.position[0]] })),
-        targets: providerpos.map(hpos => ({ location: [hpos[1], hpos[0]] })),
-      });
-      const res = await fetch(`https://api.geoapify.com/v1/routematrix?apiKey=${GEOAPIFY_API_KEY}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body,
-      });
-      if (!res.ok) throw new Error(await res.text());
+  // const admitPatient = useCallback(async (patients: Patient[]) => {
+  //   if (!patients.length) return;
+  //   //use the list of patient with their position and the list of provider with their position
+  //   //determine for each of them the closest and add patient to respective provider queue
+  //   try {
+  //     let providerpos: LatLngTuple[] = providersRef.map(p => p.position);
+  //     const body = JSON.stringify({
+  //       mode: "drive",
+  //       sources: patients.map(p => ({ location: [p.person.position[1], p.person.position[0]] })),
+  //       targets: providerpos.map(hpos => ({ location: [hpos[1], hpos[0]] })),
+  //     });
+  //     const res = await fetch(`https://api.geoapify.com/v1/routematrix?apiKey=${GEOAPIFY_API_KEY}`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body,
+  //     });
+  //     if (!res.ok) throw new Error(await res.text());
 
-      const data = await res.json();
-      data.sources_to_targets.forEach(
-        (row: { distance: number | null; target_index: number }[], srcIdx: number) => {
-          // skip completely unreachable rows (all distances null)
-          const reachable = row.filter(c => c.distance != null);
-          if (!reachable.length) return;
-          // distance is in metres; the *smallest* wins
-          const closest = reachable.reduce((best, cur) =>
-            cur.distance! < best.distance! ? cur : best
-          );
-          const patient = patients[srcIdx];
-          const provider = providersRef[closest.target_index];
-          provider.queue.enqueue(patient);
-          provider.busyness = provider.queue.size();
-        }
-      );
-      /* ---- 3. Force a re‑render so UI shows new queue sizes ---- */
-      setVersion(v => v + 1);   // see tweak #2 below
+  //     const data = await res.json();
+  //     data.sources_to_targets.forEach(
+  //       (row: { distance: number | null; target_index: number }[], srcIdx: number) => {
+  //         // skip completely unreachable rows (all distances null)
+  //         const reachable = row.filter(c => c.distance != null);
+  //         if (!reachable.length) return;
+  //         // distance is in metres; the *smallest* wins
+  //         const closest = reachable.reduce((best, cur) =>
+  //           cur.distance! < best.distance! ? cur : best
+  //         );
+  //         const patient = patients[srcIdx];
+  //         const provider = providersRef[closest.target_index];
+  //         provider.queue.enqueue(patient);
+  //         provider.busyness = provider.queue.size();
+  //       }
+  //     );
+  //     /* ---- 3. Force a re‑render so UI shows new queue sizes ---- */
+  //     setVersion(v => v + 1);   // see tweak #2 below
 
-    } catch (e) {
-      console.error(e);
-    } finally {
+  //   } catch (e) {
+  //     console.error(e);
+  //   } finally {
 
-    }
-  }, [providersRef]);
+  //   }
+  // }, [providersRef]);
 
-  const addPatient = useCallback(
-    async (qty: number) => {
-      if (!qty) return;
-      const newcomers = generatePatient(qty);      // <‑‑ random patients
-      await admitPatient(newcomers);               // ← IMPORTANT
-      setPatient(prev => [...prev, ...newcomers]); // render dots/markers etc.
-    },
-    [admitPatient]
-  );
+  // const addPatient = useCallback(
+  //   async (qty: number) => {
+  //     if (!qty) return;
+  //     const newcomers = generatePatient(qty);      // <‑‑ random patients
+  //     await admitPatient(newcomers);               // ← IMPORTANT
+  //     setPatient(prev => [...prev, ...newcomers]); // render dots/markers etc.
+  //   },
+  //   [admitPatient]
+  // );
 
-  const TIMER_MS = 800;           // adjust speed here
+  // const TIMER_MS = 800;           // adjust speed here
 
   const startSimulation = useCallback(() => {
     if (isRunning) return;
@@ -114,15 +100,17 @@ function Inhousescheduler() {
 
   const stopSimulation = useCallback(() => {
     setIsRunning(false);
+    setLeft(0);
+    setCount(0);
     //..
   }, []);
 
-  const caseDescription: any[] = [
-    { severity_level: "routine", color_description: "#28A745" }, // Green (Success/Normal)
-    { severity_level: "moderate", color_description: "#FFC107" }, // Yellow/Orange (Warning)
-    { severity_level: "severe", color_description: "#FD7E14" }, // Dark Orange/Light Red (Higher Warning/Alert)
-    { severity_level: "critical", color_description: "#DC3545" }  // Red (Danger/Error)
-  ];
+  // const caseDescription: any[] = [
+  //   { severity_level: "routine", color_description: "#28A745" }, // Green (Success/Normal)
+  //   { severity_level: "moderate", color_description: "#FFC107" }, // Yellow/Orange (Warning)
+  //   { severity_level: "severe", color_description: "#FD7E14" }, // Dark Orange/Light Red (Higher Warning/Alert)
+  //   { severity_level: "critical", color_description: "#DC3545" }  // Red (Danger/Error)
+  // ];
 
   return (
     <section className="w-full grid grid-cols-8 gap-3">
