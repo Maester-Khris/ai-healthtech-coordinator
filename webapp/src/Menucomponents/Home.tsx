@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { generateRandomPointsInRadius } from "./utils/pointGenerator";
+import { generateRandomPointsInRadius } from "./utils/generator";
 import { MapPanel } from "./subcomponent//MapPanel";
 import { SimulationForm } from "./subcomponent/SimulationForm";
 import type { Entity, RouteData, SimulationParams } from "./types";
-
+import { torontoHealthProviders } from "./utils/provierdata";
 
 const GEOAPIFY_API_KEY = "38d52e39400d4a988407942232a566a6";
 const cnTowerPos: [number, number] = [43.6426, -79.3871];
@@ -11,22 +11,20 @@ const torontoCentre: [number, number] = [43.6532, -79.3832];
 
 export default function Home() {
 
-  const hospitals = useMemo<Entity[]>(() => [
-    { name: "Toronto General Hospital (UHN)", position: [43.6575, -79.3875] },
-    { name: "Mount Sinai Hospital",            position: [43.6573, -79.3888] },
-    { name: "Hospital for Sick Children",      position: [43.6593, -79.3905] },
-    { name: "St. Michael's Hospital",          position: [43.6527, -79.3757] },
-    { name: "Sunnybrook Health Sciences",      position: [43.7128, -79.3762] },
-    { name: "Women's College Hospital",        position: [43.6608, -79.3888] },
-    { name: "Princess Margaret Cancer Ctr",    position: [43.6568, -79.3879] },
-    { name: "CAMH (Queen St)",                 position: [43.6454, -79.4087] },
-    { name: "Michael Garron Hospital",         position: [43.6934, -79.3082] },
-    { name: "Humber River Hospital",           position: [43.7196, -79.5229] },
-  ], []);
+  // [
+  //   { name: "Toronto General Hospital (UHN)", position: [43.6575, -79.3875] },
+  //   { name: "Mount Sinai Hospital",            position: [43.6573, -79.3888] },
+  //   { name: "Hospital for Sick Children",      position: [43.6593, -79.3905] },
+  //   { name: "St. Michael's Hospital",          position: [43.6527, -79.3757] },
+  //   { name: "Sunnybrook Health Sciences",      position: [43.7128, -79.3762] },
+  //   { name: "Women's College Hospital",        position: [43.6608, -79.3888] },
+  //   { name: "Princess Margaret Cancer Ctr",    position: [43.6568, -79.3879] },
+  //   { name: "CAMH (Queen St)",                 position: [43.6454, -79.4087] },
+  //   { name: "Michael Garron Hospital",         position: [43.6934, -79.3082] },
+  //   { name: "Humber River Hospital",           position: [43.7196, -79.5229] },
+  // ]
 
-  // const people = useMemo<Entity[]>(() => generateRandomPointsInRadius(torontoCentre[0], torontoCentre[1], 12, 20),[]);
-  // const [routes, setRoutes]   = useState<RouteData[]>([]);
-  // const [loading, setLoading] = useState(false);
+  const hospitals = useMemo<Entity[]>(() =>torontoHealthProviders, []);
 
   const [people, setPeople]       = useState<Entity[]>([]);   // start empty
   const [routes, setRoutes]       = useState<RouteData[]>([]);
@@ -91,11 +89,6 @@ export default function Home() {
       setLoading(false);
     }
   }, [hospitals]);
-
-  // used initially to add all data fron loading moment
-  // useEffect(()=>{
-  //   fetchRoutes();
-  // }, [fetchRoutes])
 
   // incremental peole loading
   const addRandomPeople = useCallback((qty: number) => {

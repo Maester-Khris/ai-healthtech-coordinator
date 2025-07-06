@@ -4,6 +4,7 @@ import './App.css'
 import appLogo from './assets/finbotv2.png'
 import Map from './Menucomponents/Map'
 import Home from './Menucomponents/Home'
+import Inhousescheduler from './Menucomponents/Inhousescheduler'
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <div className='header-content-right'>
               <div className='header-menu'>
               <li><NavLink to="/" className={({isActive}) => isActive ? "active-link": ""}>Smart Routing</NavLink></li>
-                <li><NavLink to="/analytics" className={({isActive}) => isActive ? "active-link": ""}>Predictive Analysis Simulation</NavLink></li>
+              <li><NavLink to="/scheduling" className={({isActive}) => isActive ? "active-link": ""}>In-house scheduling</NavLink></li>
+              <li><NavLink to="/analytics" className={({isActive}) => isActive ? "active-link": ""}>Predictive Analysis</NavLink></li>
               </div>
             </div>
           </div>
@@ -29,11 +31,14 @@ function App() {
         <section className='main-content section-hero-home' style={{backgroundColor:"transparent"}}>
           <Routes>
             <Route path="/" element={<Home />}></Route>
+            <Route path="/scheduling" element={<Inhousescheduler />}></Route>
             <Route path="/analytics" element={<Map />}></Route>
           </Routes>
         </section>
       </main>
     </BrowserRouter>
+
+
   )
 }
 

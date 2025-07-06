@@ -1,11 +1,36 @@
-import type { Entity } from "../types";
-
+import type { Entity, LatLngTuple, Severity, Patient } from "../types";
 
 const waterBoxes = [
   [43.60, 43.64, -79.54, -79.40], // Humber Bay
   [43.60, 43.65, -79.40, -79.33], // Inner Harbour
   [43.60, 43.66, -79.33, -79.20], // Outer Harbour
 ];
+
+
+function randomName() {
+  return `P‑${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+}
+function randomSeverity(): Severity {
+  const p = Math.random();
+  if (p < 0.05) return 'critical';
+  if (p < 0.20) return 'severe';
+  if (p < 0.55) return 'moderate';
+  return 'routine';
+}
+export function generatePatient(qty:number):Patient[]{
+  const torontoCentre: [number, number] = [43.6532, -79.3832];
+  //generateRandomPointsInRadius return a list of latlong position and we parse them to create full patient object
+  let patients:Patient[]  = generateRandomPointsInRadius(
+      torontoCentre[0],torontoCentre[1], 12, qty
+    ).map((e)=>{
+      return {
+        arrivalTime: Date.now(),
+        person:{name:e.name, position:e.position},
+        severity:randomSeverity()
+      }
+  });
+  return patients;
+}
 
 /**
  * 
@@ -64,4 +89,11 @@ export function generateRandomPointsInRadius(
     if (!placed) generated++; // prevent infinite loop
   }
   return points;
+}
+
+
+export function nearestProviderIdx(pos: LatLngTuple, list: { position: LatLngTuple }[]) {
+  let best = 0, min = Number.POSITIVE_INFINITY;
+ 
+  return best;
 }
