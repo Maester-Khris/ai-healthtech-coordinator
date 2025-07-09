@@ -7,7 +7,7 @@ export interface Entity  { name: string; position: LatLngTuple }
 export interface RouteData {
   person: Entity;
   provider: Entity;
-  distance: number;   // metres
+  distance: number|null;   // metres
   travelTime: number; // seconds
 }
 export interface SimulationParams {
@@ -32,4 +32,19 @@ export interface HealthProvider {
   position: LatLngTuple;
   queue: PriorityQueue<Patient>; // internal wait‑list
   busyness: number;              // queue length (derived but handy for UI)
+}
+
+
+
+export interface RouteMatrixResponse {
+  sources_to_targets: {
+    time: number | null;
+    distance: number | null;
+  }[][];
+}
+export interface GetRouteMatrixParams {
+  mode?: string;
+  sources: LatLngTuple[];
+  targets: LatLngTuple[];
+  apiKey?: string;
 }

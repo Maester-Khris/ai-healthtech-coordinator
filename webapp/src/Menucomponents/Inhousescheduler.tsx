@@ -2,7 +2,7 @@ import { SimulationForm } from './subcomponent/SimulationForm'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { PriorityQueue } from './utils/priorityQueue';
 import type { Entity, Patient, Severity, HealthProvider } from './types';
-import { torontoHealthProviders } from './utils/provierdata';
+import { torontoHealthProviders } from './utils/baseData';
 
 
 //const GEOAPIFY_API_KEY = "38d52e39400d4a988407942232a566a6";

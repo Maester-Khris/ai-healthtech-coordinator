@@ -1,5 +1,7 @@
-import { MapContainer, TileLayer, Marker, Polyline, Popup, Tooltip} from "react-leaflet";
+
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Polyline, Popup, Tooltip} from "react-leaflet";
 import type { Entity, RouteData } from "../types";
 import { CNTowerIcon, HospitalIcon, peopleIcon } from "../utils/customIcon";
 import React, { useEffect, useRef } from "react";

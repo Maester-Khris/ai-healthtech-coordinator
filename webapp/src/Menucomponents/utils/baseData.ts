@@ -1,3 +1,7 @@
+
+export const cnTowerPos: [number, number] = [43.6426, -79.3871];
+export const torontoCentre: [number, number] = [43.6532, -79.3832];
+
 export const torontoHealthProviders: { name: string; position: [number, number]; type: string; }[] = [
     { name: "Toronto General Hospital (UHN)", position: [43.6575, -79.3875], type: "Hospital" },
     { name: "Mount Sinai Hospital",            position: [43.6573, -79.3888], type: "Hospital" },
