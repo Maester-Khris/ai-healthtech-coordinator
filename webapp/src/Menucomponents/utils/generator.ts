@@ -1,4 +1,5 @@
 import type { Entity, Severity, Patient, LatLngTuple } from "../types";
+import { faker } from "@faker-js/faker";
 
 const waterBoxes = [
   [43.60, 43.64, -79.54, -79.40], // Humber Bay
@@ -22,7 +23,7 @@ export function generatePatient(qty:number):Patient[]{
     ).map((e)=>{
       return {
         arrivalTime: Date.now(),
-        person:{name:e.name, position:e.position},
+        person:{name:faker.person.fullName(), position:e.position},
         severity:randomSeverity()
       }
   });

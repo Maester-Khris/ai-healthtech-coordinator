@@ -61,4 +61,7 @@ export class PriorityQueue<T> {
     toArray(): T[] {
         return [...this.items];
     }
+    toSortedArray(): T[] {
+        return [...this.items].sort(this.compare);
+    }
 }

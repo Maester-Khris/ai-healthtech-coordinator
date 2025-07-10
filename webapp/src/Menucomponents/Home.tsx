@@ -24,15 +24,6 @@ export default function Home() {
   const cfgRef    = useRef<SimulationParams | null>(null);
   const generated = useRef(0);              // running tally  
 
-  // const formatTime = useCallback((s?: number) => {
-  //   if (s == null) return "N/A";
-  //   const m = Math.round(s / 60);
-  //   return m < 60 ? `${m} min` : `${Math.floor(m / 60)} hr ${m % 60} min`;
-  // }, []);
-
-  // const formatDistance = useCallback((m?: number | null) =>
-  //   m == null ? "N/A" : `${(m / 1000).toFixed(2)} km`, []);
-
   const fetchRoutesForPeople = useCallback(async (newPeople: Entity[]) => {
       if (!newPeople.length) return;
       setLoading(true);
@@ -149,24 +140,3 @@ export default function Home() {
     </section>
   );
 }
-
-
-//=================================================================================================
-{/* {peoplesPositions.map((p, index) => (
-    <Marker key={index} position={p.position} icon={peopleIcon}>
-    </Marker>
-))}
-{newRoutes.map((route, index) => (
-    <Polyline
-    key={`route-${index}`}
-    positions={[route.person.position, route.provider.position]}
-    pathOptions={{ weight: 3, dashArray: "4 8", color: "#0047AB", opacity:0.7 }}
-    >
-        <Popup>
-            <strong>From:</strong> {route.person.name} <br /> 
-            <strong>to:</strong> to {route.provider.name} <br /> 
-            <strong>Distance:</strong> {(route.distance / 1000).toFixed(2)} km <br />
-            <strong>Eta:</strong> {route.travelTime} s
-        </Popup>
-    </Polyline>
-))} */}
