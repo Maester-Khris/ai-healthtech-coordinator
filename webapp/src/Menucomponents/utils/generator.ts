@@ -8,7 +8,7 @@ const waterBoxes = [
 ];
 
 // ==================================== Entity generation =======================================
-function randomSeverity(): Severity {
+export function randomSeverity(): Severity {
   const p = Math.random();
   if (p < 0.05) return 'critical';
   if (p < 0.20) return 'severe';

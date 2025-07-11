@@ -100,8 +100,8 @@ const Map: React.FC = () => {
             {/* first row: four monthly side maps */}
             {months.slice(0, 4).map((m) => (
               <div key={m.label} className="relative rounded-md border bg-gray-200">
-                <span className="absolute bottom-1 left-1 z-[1000] font-semibold">
-                  {m.label}
+                <span className="absolute inline-block px-2 py-1 rounded bg-blue-200 opacity-85 bottom-1 left-1 z-[1000] text-sm font-semibold">
+                  {m.label} data
                 </span>
                 <MapPanel
                   zoom={SIDEMAP_ZOOM}
@@ -118,8 +118,8 @@ const Map: React.FC = () => {
 
             {/* big aggregate map spans 3 columns + 2 rows */}
             <div className="relative col-span-3 row-span-2 rounded-md border bg-gray-200">
-              <span className="absolute bottom-1 left-1 z-[1000] font-semibold">
-                Jan – Jun aggregate
+              <span className="absolute bottom-1 left-1 nline-block px-2 py-1 rounded bg-blue-200 opacity-85 z-[1000] text-sm font-semibold">
+                Jan – Jun aggregate data
               </span>
               <MapPanel
                 zoom={CENTRAL_ZOOM}
@@ -136,8 +136,8 @@ const Map: React.FC = () => {
             {/* second row: the last two monthly maps */}
             {months.slice(4, 6).map((m) => (
               <div key={m.label} className="relative rounded-md border bg-gray-200">
-                <span className="absolute bottom-1 left-1 z-[1000] font-semibold">
-                  {m.label}
+                <span className="absolute inline-block px-2 py-1 rounded bg-blue-200 opacity-85 bottom-1 left-1 z-[1000] text-sm font-semibold">
+                  {m.label} data
                 </span>
                 <MapPanel
                   zoom={SIDEMAP_ZOOM}
