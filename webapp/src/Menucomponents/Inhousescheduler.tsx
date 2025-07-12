@@ -147,16 +147,16 @@ function Inhousescheduler() {
   useEffect(() => () => stopSimulation(), [stopSimulation]);
 
   return (
-    <section className="w-full grid grid-cols-8 gap-3">
-      <div className="col-span-6 p-4 bg-gray-100 rounded-md">
-        <div className="grid grid-cols-3 grid-rows-2 gap-6">
+    <section className="w-full min-h-screen grid grid-cols-8 gap-3">
+      <div className="h-full col-span-6 p-4 bg-gray-100 rounded-md">
+        <div className="grid grid-cols-3 grid-rows-2 gap-6 h-full">
           {providersRef.map((prov) => (
-            <div key={prov.name} className="h-[240px] border border-gray-600 bg-gray-300 rounded-md py-3 flex flex-col items-center justify-center">
+            <div key={prov.name} className="border border-gray-600 bg-gray-300 rounded-md py-3 flex flex-col items-center justify-center h-full">
               <div className='w-full border-b border-black mb-2'>
-                <h3 className="text-center font-semibold">{prov.name.length>30 ? prov.name.slice(0,30) + '...' : prov.name}</h3>
+                <h3 className="text-center font-semibold">{prov.name.length>25 ? prov.name.slice(0,25) + ' ...' : prov.name}</h3>
               </div>
               {/* queue list */}
-              <div className="h-full w-full overflow-y-auto no-scrollbar px-3">
+              <div className="flex-grow w-full overflow-y-auto no-scrollbar px-3">
                 {prov.queue.peek() ? (
                   prov.queue           // convert to array for render
                     .toSortedArray()         // add this helper in priorityQueue if you want

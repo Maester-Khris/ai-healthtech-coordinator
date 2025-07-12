@@ -18,5 +18,5 @@ export const buildDivIcon = (element: React.ReactElement) =>
 export const peopleIcon   = buildDivIcon(
   <FaPerson size={32} style={{ color: "#097969" }}/>
 );
-export const CNTowerIcon  = buildDivIcon(<img src={CNTower}   style={{ width: 60, height: 60 }}  />);
-export const HospitalIcon = buildDivIcon(<img src={HospitalIc} style={{ width: 40, height: 40 }}  />);
+export const CNTowerIcon  = buildDivIcon(<img src={CNTower}   style={{ width: 40, height: 40 }}  />);
+export const HospitalIcon = buildDivIcon(<img src={HospitalIc} style={{ width: 35, height: 35 }}  />);

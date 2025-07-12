@@ -1,19 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { generatePatient, generateRandomPointsInRadius } from "./utils/generator";
+import { generatePatient } from "./utils/generator";
 import { MapPanel } from "./subcomponent//MapPanel";
 import { SimulationForm } from "./subcomponent/SimulationForm";
-import type { Entity, HealthProvider, Patient, RouteData, Severity, SimulationParams } from "./types";
-import { torontoHealthProviders, cnTowerPos, torontoCentre } from "./utils/baseData";
-import { getRouteMatrix, mapMatrixToRoutes } from "./utils/geoapify";
+import type { Entity, HealthProvider, Patient, RouteData, SimulationParams } from "./types";
+import { torontoHealthProviders, cnTowerPos, rank } from "./utils/baseData";
+import { getRouteMatrix } from "./utils/geoapify";
 import { formatDistance, formatTime } from "./utils/formatter";
 import { PriorityQueue } from "./utils/priorityQueue";
 
-const rank: Record<Severity, number> = {
-  critical: 0,
-  severe: 1,
-  moderate: 2,
-  routine: 3,
-};
 
 export default function Home() {
   const hospitals = useMemo<Entity[]>(() =>torontoHealthProviders, []);
@@ -27,12 +21,9 @@ export default function Home() {
       }),
     }))).current;
 
-    
-
-  // const [people, setPeople]       = useState<Entity[]>([]);  
-  const [people, setPeople]       = useState<Patient[]>([]);   // start empty
+  const [people, setPeople]       = useState<Patient[]>([]);   
   const [routes, setRoutes]       = useState<RouteData[]>([]);
-  const [peopleCount, setCount] = useState(0);          // NEW
+  const [peopleCount, setCount] = useState(0);     
   const [timeLeft, setLeft]     = useState(0);  
   const [loading, setLoading]     = useState(false);
   const [isRunning, setIsRunning] = useState(false);
@@ -40,11 +31,8 @@ export default function Home() {
   const simTimer = useRef<NodeJS.Timeout | null>(null);
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
   const cfgRef    = useRef<SimulationParams | null>(null);
-  const generated = useRef(0);              // running tally  
+  const generated = useRef(0);      
 
-  //const fetchRoutesForPeople = useCallback(async (newPeople: Entity[]) => 
-  // const fresh = mapMatrixToRoutes(matrix.sources_to_targets,newPeople,hospitals);
-  // setRoutes((prev) => [...prev, ...fresh]);
   const fetchRoutesForPeople = useCallback(async (newPatients: Patient[]) => {
       if (!newPatients.length) return;
       setLoading(true);
@@ -56,11 +44,9 @@ export default function Home() {
           targets: providersRef.map((h) => [h.position[1], h.position[0]])
         });
         
-        //use matrix.source_to_target to add route between patient and health provider using their position
         const assignments: RouteData[] = [];
         matrix.sources_to_targets.forEach((srcRow, srcIdx) => {
           let best: RouteData | any = null;
-    
           srcRow.forEach((tgtCell, tgtIdx) => {
             if (tgtCell.time == null) return; // unreachable
             if (!best || tgtCell.time < best.travelTime) {
@@ -75,7 +61,6 @@ export default function Home() {
               };
             }
           });
-    
           if (best) {
             assignments.push(best);
             // Update provider's queue
@@ -93,7 +78,6 @@ export default function Home() {
         setRoutes(prev => [...prev, ...assignments]);
         
 
-
       } catch (err) {
         console.error(err);
       } finally {
@@ -107,12 +91,11 @@ export default function Home() {
   // incremental peole loading
   const addRandomPeople = useCallback((qty: number) => {
       if (!qty) return;
-      //const newcomers = generateRandomPointsInRadius(torontoCentre[0],torontoCentre[1],12,qty);
       const newcomers:Patient[] = generatePatient(qty); 
-      setPeople(prev => [...prev, ...newcomers]);   // triggers re‑render
+      setPeople(prev => [...prev, ...newcomers]);   
       setCount(prev => prev + newcomers.length);
       fetchRoutesForPeople(newcomers);       
-      generated.current += newcomers.length;       // only new people
+      generated.current += newcomers.length;       
     },
     [fetchRoutesForPeople]
   );
@@ -120,10 +103,9 @@ export default function Home() {
   // ─── launch + paced generation loop ──────────────
   const startSimulation = useCallback((cfg: SimulationParams) => {
     if (isRunning) return;          // guard against double‑click
-    if (isRunning) return;
-    
     setPeople([]);
     setRoutes([]);
+    setCount(0);
     generated.current = 0;
     cfgRef.current    = cfg;
 
@@ -154,7 +136,7 @@ export default function Home() {
     tick();             
     countdownRef.current = setInterval(() => {
       const remain = endAt - Date.now();
-      setLeft(remain > 0 ? remain : 0);         // NEW
+      setLeft(remain > 0 ? remain : 0);         
       if (remain <= 0) stopSimulation();
     }, 1_000);
   }, [addRandomPeople, isRunning]);
@@ -173,7 +155,6 @@ export default function Home() {
 
   return (
     <section className="w-full grid grid-cols-8 gap-3">
-      {/* Map */}
       <div className="col-span-6 p-4 rounded-md bg-gray-100">
         <MapPanel
           cnTowerPos={cnTowerPos}
@@ -186,15 +167,14 @@ export default function Home() {
           formatDistance={formatDistance}
         />
       </div>
-
       <div className="col-span-2">
         <SimulationForm 
          isRunning={isRunning}
          onLaunch={startSimulation}
          onStop={stopSimulation}
-         peopleCount={peopleCount}     /* NEW */
+         peopleCount={peopleCount}   
          timeLeftMs={timeLeft}
-        />
+        /> 
       </div>
     </section>
   );

@@ -1,6 +1,14 @@
+import type { Severity } from "../types";
 
 export const cnTowerPos: [number, number] = [43.6426, -79.3871];
 export const torontoCentre: [number, number] = [43.6532, -79.3832];
+
+export const rank: Record<Severity, number> = {
+  critical: 0,
+  severe: 1,
+  moderate: 2,
+  routine: 3,
+};
 
 export const torontoHealthProviders: { name: string; position: [number, number]; type: string; }[] = [
     { name: "Toronto General Hospital (UHN)", position: [43.6575, -79.3875], type: "Hospital" },
