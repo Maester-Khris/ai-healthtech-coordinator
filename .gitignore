@@ -46,6 +46,10 @@ Thumbs.db               # Windows
 /dist
 .env
 .env.*
+!.env.example
+
+# Local-only scripts
+personal.cmd.sh
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
