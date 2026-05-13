@@ -67,8 +67,11 @@ Never use: `critical`, `severe`, `high`, `low`, or any synonym. If you see these
 ## Git Rules
 - Never add Claude as a co-author on commits
 - Commit style: conventional commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`)
-- Never commit directly to `main`
-- Branch naming: `feat/`, `fix/`, `chore/` prefixes
+- Never commit directly to `main` or `preview` — both are protected
+- Branch naming: `feat/`, `fix/`, `refactor/`, `chore/`, `docs/` prefixes — always cut from `preview`
+- One commit per logical change, not per file — all files belonging to the same
+  task are staged and committed together in a single `git add <f1> <f2> ...` call.
+  Never produce one commit per file.
 
 ## Before Big Tasks
 For any task that spans more than one file or changes an API contract:
