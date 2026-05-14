@@ -1,8 +1,9 @@
 import os
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from backend.models import Facility, FacilityCategory, Severity
 from backend.services.facilities import get_all_facilities
+from backend.middleware.auth import AuthMiddleware, get_current_user
 
 app = FastAPI(title="MediCoord AI API", version="0.1.0")
 
@@ -17,6 +18,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "Authorization"],
 )
+app.add_middleware(AuthMiddleware)
 
 
 @app.get("/")
@@ -34,6 +36,11 @@ def health() -> dict:
         "status": "ok",
         "llmProvider": os.environ.get("LLM_PROVIDER", "groq"),
     }
+
+
+@app.get("/me")
+async def me(current_user: object = Depends(get_current_user)) -> dict:
+    return {"user_id": current_user.id, "email": current_user.email}  # type: ignore[attr-defined]
 
 
 @app.get("/facilities", response_model=list[Facility])
