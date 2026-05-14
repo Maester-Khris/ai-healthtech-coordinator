@@ -1,9 +1,22 @@
+import { useState } from 'react'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
+import { LoginModal } from '../components/auth/LoginModal'
+import { UserMenu } from '../components/auth/UserMenu'
+import { useAuth } from '../auth/AuthContext'
 
 export default function Home() {
+  const { user } = useAuth()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
+
+  const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
+  const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
+
   return (
     <div className="flex flex-col h-screen bg-[#F8FAFC]">
+      <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
+
       {/* Header */}
       <header className="h-[64px] flex-none flex items-center justify-between px-8 border-b border-gray-200 bg-white z-10 shadow-sm">
         {/* Logo + wordmark */}
@@ -25,17 +38,27 @@ export default function Home() {
 
         {/* Actions */}
         <div className="flex items-center gap-4">
-          <button className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">
-            Log in
-          </button>
-          <button
-            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all active:scale-95"
-          >
-            Getting started
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+          {user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <button
+                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors"
+                onClick={openSignIn}
+              >
+                Sign in
+              </button>
+              <button
+                className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all active:scale-95"
+                onClick={openSignUp}
+              >
+                Get started
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
       </header>
 
