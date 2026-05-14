@@ -1,11 +1,17 @@
 import { useState } from 'react'
+import type { Facility } from '../../../shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
 import { useAuth } from '../auth/AuthContext'
 
-export default function Home() {
+interface HomeProps {
+  facilities: Facility[]
+  facilitiesLoading: boolean
+}
+
+export default function Home({ facilities, facilitiesLoading }: HomeProps) {
   const { user } = useAuth()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
@@ -66,7 +72,7 @@ export default function Home() {
       <div className="flex flex-1 overflow-hidden p-5 gap-5">
         {/* Map panel */}
         <div className="flex-[7] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative">
-          <MapPanel />
+          <MapPanel facilities={facilities} facilitiesLoading={facilitiesLoading} />
         </div>
 
         {/* Chat panel */}
