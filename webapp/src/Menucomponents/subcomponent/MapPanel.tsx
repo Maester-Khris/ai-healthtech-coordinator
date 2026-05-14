@@ -41,7 +41,7 @@ const LEGEND_ITEMS = [
 
 export function MapPanel() {
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full isolate">
       <MapContainer
         center={cnTowerPos}
         zoom={13}
@@ -70,7 +70,7 @@ export function MapPanel() {
       </MapContainer>
 
       {/* Status pill — top right */}
-      <div className="absolute top-5 right-5 z-[400] bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
+      <div className="absolute top-5 right-5 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
         <span className="relative flex h-2.5 w-2.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -79,7 +79,7 @@ export function MapPanel() {
       </div>
 
       {/* Legend — bottom left */}
-      <div className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
+      <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
         <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
         <div className="flex items-center gap-3">
           {LEGEND_ITEMS.map(({ label, color }) => (
