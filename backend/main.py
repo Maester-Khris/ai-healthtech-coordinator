@@ -5,9 +5,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response, JSONResponse
-from backend.services.facilities import get_all_facilities
-from backend.middleware.auth import AuthMiddleware, get_current_user
-from backend.cache import get_cached_facilities, set_cached_facilities
+from .services.facilities import get_all_facilities
+from .middleware.auth import AuthMiddleware, get_current_user
+from .cache import get_cached_facilities, set_cached_facilities
 
 
 @asynccontextmanager

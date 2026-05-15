@@ -1,4 +1,4 @@
-from backend.db import get_supabase_client
+from ..db import get_supabase_client
 from fastapi import HTTPException
 
 
