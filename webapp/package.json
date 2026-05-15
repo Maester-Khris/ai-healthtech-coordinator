@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "doppler-dev": "doppler setup --project medicoord --config dev_personal --no-interactive && doppler run -- vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/vite": "^4.1.8",
     "leaflet": "^1.9.4",
     "react": "^19.0.0-rc.1",

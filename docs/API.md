@@ -45,11 +45,15 @@ The primary endpoint. Accepts a user's symptom message and location, returns a s
   "severity": "emergent",
   "reasoning": "Chest pain with left arm numbness is a classic presentation of acute myocardial infarction. Immediate emergency care is required.",
   "facility": {
-    "id": "toronto-general",
+    "id": "uuid",
     "name": "Toronto General Hospital",
+    "category": "hospital",
+    "source_facility_type": "general",
+    "accepted_severity": ["emergent", "urgent", "moderate", "routine"],
+    "address": "200 Elizabeth St, Toronto, ON M5G 2C4",
     "lat": 43.6590,
     "lng": -79.3887,
-    "type": "hospital"
+    "source": "odhf"
   },
   "travelMinutes": 6,
   "distanceKm": 1.2,
@@ -103,38 +107,42 @@ Liveness check. Used by Render to confirm the service is running.
 Canonical definitions live in `shared/types.ts`. Replicated here for documentation.
 
 ```typescript
-export type Severity = "routine" | "moderate" | "urgent" | "emergent";
-
-export type FacilityType = "hospital" | "clinic" | "urgent_care" | "walk_in";
+export type Severity         = "routine" | "moderate" | "urgent" | "emergent";
+export type FacilityCategory = "hospital" | "ambulatory" | "residential";
 
 export interface Facility {
-  id: string;
-  name: string;
-  lat: number;
-  lng: number;
-  type: FacilityType;
-  acceptedSeverity: Severity[];
+  name:                 string;
+  category:             FacilityCategory;
+  source_facility_type: string;
+  accepted_severity:    Severity[];
+  address:              string;
+  lat:                  number;
+  lng:                  number;
+  id?:                  string;
+  source?:              string;
+  created_at?:          string;
+  updated_at?:          string;
 }
 
 export interface TriageRequest {
   message: string;
-  lat: number;
-  lng: number;
+  lat:     number;
+  lng:     number;
 }
 
 export interface ToolTrace {
-  tool: string;
-  status: "pending" | "done" | "error";
+  tool:        string;
+  status:      "pending" | "done" | "error";
   durationMs?: number;
 }
 
 export interface TriageResult {
-  severity: Severity;
-  reasoning: string;
-  facility: Facility;
+  severity:      Severity;
+  reasoning:     string;
+  facility:      Facility;
   travelMinutes: number;
-  distanceKm: number;
-  toolTrace: ToolTrace[];
+  distanceKm:    number;
+  toolTrace:     ToolTrace[];
 }
 ```
 
@@ -215,4 +223,4 @@ Response matrix is sorted by `time` ascending. The first result is selected as t
 |---|---|
 | `POST /session` | Create a persistent session (requires Supabase) |
 | `POST /alert` | User-initiated emergency contact notification |
-| `GET /facilities` | Return the full facility dataset with current busyness |
+| `GET /facilities` | Return the full facility dataset (implemented in Phase 1, busyness field deferred) |
