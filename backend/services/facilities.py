@@ -1,6 +1,6 @@
 import logging
 from fastapi import HTTPException
-from ..db import get_supabase_client
+from db import get_supabase_client
 
 logger = logging.getLogger(__name__)
 

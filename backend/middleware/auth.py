@@ -2,7 +2,7 @@ from fastapi import Header, HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
-from ..services.auth import verify_token
+from services.auth import verify_token
 
 
 async def get_current_user(authorization: str = Header(...)) -> object:
