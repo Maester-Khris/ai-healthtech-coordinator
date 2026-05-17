@@ -1,10 +1,29 @@
+import { useState } from "react"
+
+interface AuthUser {
+  id: string
+  email: string | undefined
+}
+
+interface ChatPanelProps {
+  user: AuthUser | null
+}
+
 const SUGGESTIONS = [
   'I have a fever and sore throat',
   'Chest pain and shortness of breath',
   'Twisted my ankle — it\'s swollen',
 ]
 
-export function ChatPanel() {
+const PAST_CONVERSATIONS_STUB = [
+  { id: 'stub-1', title: 'Chest pain consultation', date: 'May 14' },
+  { id: 'stub-2', title: 'Fever and sore throat', date: 'May 10' },
+  { id: 'stub-3', title: 'Ankle injury follow-up', date: 'May 3' },
+]
+
+export function ChatPanel({ user }: ChatPanelProps) {
+  const [pastConversationsOpen, setPastConversationsOpen] = useState(false)
+
   return (
     <div className="flex flex-col h-full bg-slate-50/50 relative">
       {/* Panel header */}
@@ -22,12 +41,61 @@ export function ChatPanel() {
               <p className="text-xs font-semibold text-blue-600 mt-0.5">Ready to assist you</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100/50 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] font-bold text-emerald-700 tracking-wide uppercase">Online</span>
+          <div className="flex items-center gap-3">
+            {/* New conversation button */}
+            <button
+              onClick={() => console.log('new conversation')}
+              disabled={!user}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                user
+                  ? 'text-gray-600 border-gray-200 bg-white hover:border-gray-300 hover:text-gray-900'
+                  : 'text-gray-300 border-gray-100 bg-gray-50 cursor-not-allowed'
+              }`}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
+              New conversation
+            </button>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100/50 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-bold text-emerald-700 tracking-wide uppercase">Online</span>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Past conversations — only when logged in */}
+      {user && (
+        <div className="flex-none border-b border-gray-100 bg-white z-10">
+          <button
+            onClick={() => setPastConversationsOpen(o => !o)}
+            className="w-full flex items-center justify-between px-6 py-2.5 text-xs font-semibold text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <span>Past conversations</span>
+            <svg
+              width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              className={`transition-transform ${pastConversationsOpen ? 'rotate-180' : ''}`}
+            >
+              <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          {pastConversationsOpen && (
+            <div className="border-t border-gray-100">
+              {PAST_CONVERSATIONS_STUB.map(session => (
+                <button
+                  key={session.id}
+                  onClick={() => console.log('session_id:', session.id)}
+                  className="w-full flex items-center justify-between px-6 py-2.5 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-sm text-gray-700 truncate">{session.title}</span>
+                  <span className="text-xs text-gray-400 flex-none ml-2">{session.date}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Empty state */}
       <div className="flex-1 flex flex-col items-center justify-center px-8 gap-6 overflow-hidden relative">
@@ -67,20 +135,25 @@ export function ChatPanel() {
       {/* Input area */}
       <div className="flex-none bg-white px-4 py-3 z-20 border-t border-gray-100 shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.03)] relative">
         <div className="relative flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-400 transition-all shadow-sm">
-          {/* Idea/Prompt Icon */}
           <div className="pl-2.5 pr-1 text-blue-500">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 21h6m-3-18c-3.866 0-7 3.134-7 7 0 2.21 1.028 4.185 2.632 5.487C9.28 16.035 9.8 16.924 9.8 17.9V19a2 2 0 002 2h4a2 2 0 002-2v-1.1c0-.976.52-1.865 1.168-2.413C20.972 14.185 22 12.21 22 10c0-3.866-3.134-7-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <textarea
-            className="flex-1 bg-transparent resize-none text-[13px] font-medium text-gray-900 px-2 py-2 focus:outline-none placeholder-gray-400"
-            placeholder="Type your health concern here..."
+            disabled={!user}
+            className="flex-1 bg-transparent resize-none text-[13px] font-medium text-gray-900 px-2 py-2 focus:outline-none placeholder-gray-400 disabled:cursor-not-allowed"
+            placeholder={user ? "Describe how you feel…" : "Sign in to start a conversation"}
             rows={1}
           />
           <div className="pr-1 pl-1">
             <button
-              className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-md shadow-blue-500/20 active:scale-95"
+              disabled={!user}
+              className={`w-8 h-8 rounded-lg flex items-center justify-center text-white transition-all shadow-md active:scale-95 ${
+                user
+                  ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/20'
+                  : 'bg-gray-200 cursor-not-allowed shadow-none'
+              }`}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

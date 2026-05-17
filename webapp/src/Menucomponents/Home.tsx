@@ -4,7 +4,9 @@ import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
+import { GettingStartedModal } from '../components/onboarding/GettingStartedModal'
 import { useAuth } from '../auth/AuthContext'
+import { useProfile } from '../hooks/useProfile'
 
 interface HomeProps {
   facilities: Facility[]
@@ -13,8 +15,20 @@ interface HomeProps {
 
 export default function Home({ facilities, facilitiesLoading }: HomeProps) {
   const { user } = useAuth()
+  const { profile, updateProfile } = useProfile()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
+  const handleOnboardingComplete = async (data: {
+    location_preference: 'always' | 'ask'
+    emergency_contact_name: string | null
+    emergency_contact_phone: string | null
+  }) => {
+    await updateProfile({ ...data, getting_started_done: true })
+  }
+
+  const handleOnboardingClose = async () => {
+    await updateProfile({ getting_started_done: true })
+  }
 
   const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
@@ -22,6 +36,12 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
   return (
     <div className="flex flex-col h-screen bg-[#F8FAFC]">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
+      {user && profile && !profile.getting_started_done && (
+        <GettingStartedModal
+          onComplete={handleOnboardingComplete}
+          onClose={handleOnboardingClose}
+        />
+      )}
 
       {/* Header */}
       <header className="h-[64px] flex-none flex items-center justify-between px-8 border-b border-gray-200 bg-white z-10 shadow-sm">
@@ -77,7 +97,7 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
 
         {/* Chat panel */}
         <div className="flex-[3] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative min-w-[320px]">
-          <ChatPanel />
+          <ChatPanel user={user} />
         </div>
       </div>
     </div>
