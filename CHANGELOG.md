@@ -95,7 +95,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Next — Sprint 6] · Deployment Automation
 
-**Not started. Depends on Sprint 5 completing cleanly on `preview`.**
+**Started — 2026-05-17 · branch: `feat/deployment-automation`**
 
 ### Planned
 - Vercel preview alias on stable subdomain (`preview.medicoord.yourdomain.com`)
