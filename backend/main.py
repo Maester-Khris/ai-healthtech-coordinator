@@ -5,9 +5,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response, JSONResponse
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from services.facilities import get_all_facilities
 from middleware.auth import AuthMiddleware, get_current_user
 from cache import get_cached_facilities, set_cached_facilities
+from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
 
 
 @asynccontextmanager
@@ -18,6 +20,7 @@ async def lifespan(app: FastAPI):
         print(f"Cache warm: {len(data)} facilities loaded")
     except Exception as exc:
         print(f"WARN: Cache warm failed — {exc}. First request will hit Supabase.")
+    init_observability(app)
     yield
 
 
@@ -32,9 +35,18 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type", "Authorization"],
+    allow_headers=["Content-Type", "Authorization", "X-Request-ID"],
 )
 app.add_middleware(AuthMiddleware)
+app.add_middleware(RequestIDMiddleware)
+
+
+@app.get("/metrics")
+async def metrics(_: None = Depends(verify_metrics_token)) -> Response:
+    return Response(
+        content=generate_latest(_registry),
+        media_type=CONTENT_TYPE_LATEST,
+    )
 
 
 @app.get("/")
