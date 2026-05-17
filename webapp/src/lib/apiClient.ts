@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react"
 import { authService } from "../auth/authService"
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000"
@@ -13,6 +14,11 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   if (token) {
     headers["Authorization"] = `Bearer ${token}`
   }
+
+  const activeSpan = Sentry.getActiveSpan()
+  headers["X-Request-ID"] = activeSpan
+    ? Sentry.spanToTraceHeader(activeSpan)
+    : crypto.randomUUID()
 
   const res = await fetch(`${BASE_URL}${path}`, { ...options, headers })
 
