@@ -13,14 +13,13 @@ from observability import init_observability, verify_metrics_token, RequestIDMid
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_app: FastAPI):
     try:
         data = get_all_facilities()
         set_cached_facilities(data)
         print(f"Cache warm: {len(data)} facilities loaded")
     except Exception as exc:
         print(f"WARN: Cache warm failed — {exc}. First request will hit Supabase.")
-    init_observability(app)
     yield
 
 
@@ -39,6 +38,8 @@ app.add_middleware(
 )
 app.add_middleware(AuthMiddleware)
 app.add_middleware(RequestIDMiddleware)
+
+init_observability(app)
 
 
 @app.get("/metrics")
