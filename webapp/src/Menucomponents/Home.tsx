@@ -18,6 +18,8 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
   const { profile, updateProfile } = useProfile()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
+  const [onboardingDismissed, setOnboardingDismissed] = useState(false)
+
   const handleOnboardingComplete = async (data: {
     location_preference: 'always' | 'ask'
     emergency_contact_name: string | null
@@ -26,20 +28,16 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
     await updateProfile({ ...data, getting_started_done: true })
   }
 
-  const handleOnboardingClose = async () => {
-    await updateProfile({ getting_started_done: true })
-  }
-
   const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
 
   return (
     <div className="flex flex-col h-screen bg-[#F8FAFC]">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
-      {user && profile && !profile.getting_started_done && (
+      {user && profile && !profile.getting_started_done && !onboardingDismissed && (
         <GettingStartedModal
           onComplete={handleOnboardingComplete}
-          onClose={handleOnboardingClose}
+          onClose={() => setOnboardingDismissed(true)}
         />
       )}
 
