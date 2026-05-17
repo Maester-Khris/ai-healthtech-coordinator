@@ -79,7 +79,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Next — Sprint 5] · Observability + Alerting
 
-**Not started. Blocked on: nothing — can begin immediately on `preview` branch.**
+**Started — 2026-05-15 · branch: `feat/observability`**
 
 ### Planned
 - Backend metrics via `prometheus-fastapi-instrumentator` — CPU, memory, request rate, p95 latency

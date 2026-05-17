@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@sentry/react": "^10.53.1",
     "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/vite": "^4.1.8",
     "leaflet": "^1.9.4",

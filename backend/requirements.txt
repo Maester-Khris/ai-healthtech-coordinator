@@ -3,3 +3,8 @@ uvicorn[standard]==0.29.*
 pydantic==2.*
 supabase==2.*
 python-dotenv
+prometheus-client==0.20.*
+prometheus-fastapi-instrumentator==7.*
+python-json-logger==2.*
+sentry-sdk[fastapi]==2.*
+requests==2.*
