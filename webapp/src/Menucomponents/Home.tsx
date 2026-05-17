@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Facility } from '../../../shared/types'
+import type { Facility, Message, Session, ConversationsCache } from '../../../shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
@@ -11,9 +11,13 @@ import { useProfile } from '../hooks/useProfile'
 interface HomeProps {
   facilities: Facility[]
   facilitiesLoading: boolean
+  conversationsCache: ConversationsCache | null
+  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  createSession: (firstMessage: string) => Promise<Session | null>
+  loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
 
-export default function Home({ facilities, facilitiesLoading }: HomeProps) {
+export default function Home({ facilities, facilitiesLoading, conversationsCache, sendMessage, createSession, loadOlderMessages }: HomeProps) {
   const { user } = useAuth()
   const { profile, updateProfile } = useProfile()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -95,7 +99,13 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
 
         {/* Chat panel */}
         <div className="flex-[3] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative min-w-[320px]">
-          <ChatPanel user={user} />
+          <ChatPanel
+            user={user}
+            cache={conversationsCache}
+            sendMessage={sendMessage}
+            createSession={createSession}
+            loadOlderMessages={loadOlderMessages}
+          />
         </div>
       </div>
     </div>
