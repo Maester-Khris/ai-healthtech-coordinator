@@ -99,12 +99,12 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Planned
 - Vercel preview alias on stable subdomain (`preview.medicoord.yourdomain.com`)
-  eliminates per-PR URL changes in Doppler
-- Render auto-deploy confirmed enabled per service
+  eliminates per-PR URL changes in Doppler: alreday using vercel branch specific url
+- Render auto-deploy confirmed enabled per service: custom worfklow with path detection
 - GitHub Actions workflow: Vercel deploy hook → update Doppler → trigger Render redeploy
-- Doppler CLI in CI for programmatic config updates (no manual dashboard visits)
-- Keep-alive workflow consolidated into GitHub Actions (replaces cron-job.org)
-- IaC: Doppler Terraform provider for config-as-code
+- Doppler CLI in CI for programmatic config updates (no manual dashboard visits): maybe not needed now, since added list of allowerd origins already
+- Keep-alive workflow consolidated into GitHub Actions (replaces cron-job.org): to remove, will keep cron-job.org only
+- IaC: Doppler Terraform provider for config-as-code: this might be important but dont see a fit at this current stage
 
 ---
 
