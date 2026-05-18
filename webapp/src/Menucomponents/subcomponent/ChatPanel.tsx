@@ -184,28 +184,30 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
+          className="flex-1 overflow-y-auto px-4 py-4"
         >
-          {loadingOlder && (
-            <div className="text-center text-xs text-gray-400 py-2">Loading older messages…</div>
-          )}
-          {localMessages.map(msg => (
-            <div
-              key={msg.id}
-              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-            >
+          <div className="flex flex-col justify-end min-h-full gap-3">
+            {loadingOlder && (
+              <div className="text-center text-xs text-gray-400 py-2">Loading older messages…</div>
+            )}
+            {localMessages.map(msg => (
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
-                  msg.role === "user"
-                    ? "bg-blue-600 text-white rounded-br-sm"
-                    : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
-                }`}
+                key={msg.id}
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
-                {msg.content}
+                <div
+                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+                    msg.role === "user"
+                      ? "bg-blue-600 text-white rounded-br-sm"
+                      : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
+                  }`}
+                >
+                  {msg.content}
+                </div>
               </div>
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center px-8 gap-6 overflow-hidden relative">
