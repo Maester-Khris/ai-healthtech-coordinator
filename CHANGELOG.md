@@ -120,11 +120,11 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 7 — Active] · Profile Onboarding + Chat Foundation
+## [Sprint 7 — Closed] · Profile Onboarding + Chat Foundation
 
-**Started — 2026-05-17 · branch: `feat/profile-chat`**
+**Completed — 2026-05-17 · branch: `feat/profile-chat`**
 
-### Scope
+### Delivered
 
 **Task 007 — Profile + Onboarding (frontend + migrations)**
 - `migrations/` folder at repo root: `001_profile.sql`, `002_sessions.sql`, `003_messages.sql`
@@ -133,8 +133,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Backfill SQL for existing users
 - RLS: profile readable/updatable by owner only; sessions and messages service-role only
 - `useProfile` hook — reads profile from Supabase directly (client-side RLS)
-- `GettingStartedModal` — blocking onboarding modal on first login, location preference + emergency contact
-- Chat panel shell: "New conversation" button, past conversations dropdown (stubbed), disabled state when unauthenticated
+- `GettingStartedModal` — blocking onboarding modal on first login, location preference + emergency contact; dismiss is session-only, Save marks `getting_started_done`
+- Chat panel shell: "New conversation" button, past conversations dropdown, disabled state when unauthenticated
 
 **Task 008 — Chat Backend + Frontend Integration**
 - Backend: `cache_chat.py` — per-user in-memory cache (writer-updates-cache pattern)
@@ -142,11 +142,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Backend: `routers/chat.py` — all chat endpoints with auth middleware and request ID logging
   - `GET /chat/sessions` — ETag-based, returns 5 sessions × 20 messages
   - `POST /chat/sessions` — creates session, title = first 50 chars of message
-  - `POST /chat/message` — writes user + assistant messages (stub: first 50 chars)
+  - `POST /chat/message` — writes user + assistant messages (stub: first 50 chars + `...`)
   - `GET /chat/sessions/:id/messages?before_id=` — cursor pagination for older messages
-- Frontend: `useConversations` hook — silent prefetch on login, ETag, send, create, load older
-- Frontend: chat panel fully wired — optimistic updates, real past conversations, session creation on first send
-- LLM deferred — assistant response is a stub (first 50 chars of user message + `...`)
+  - `POST /chat/sessions/invalidate` — clears server-side cache on logout
+- `shared/types.ts` — `Message`, `Session`, `ConversationsCache` added
+- Frontend: `useConversations` hook — silent prefetch on login, ETag/304, send, create, load older; all ops update React cache inline
+- Frontend: chat panel fully wired — optimistic user bubble, assistant reply appended, real past conversations dropdown with formatted dates, scroll-to-top loads older messages, Enter to send
+
+**Fixes applied post-implementation**
+- `_ser()` helper in `routers/chat.py` — recursively converts datetime objects to ISO strings before `JSONResponse`; applied to all four chat endpoints
+- `invalidate_user_cache()` in `cache_chat.py` — clears stale cache on logout to prevent 304 hits on re-login with fresh session
+- `authService.ts` `signOut` — calls `/chat/sessions/invalidate` before `supabase.auth.signOut()`; errors caught and ignored so logout always proceeds
+- Chat message list anchored to bottom via `flex flex-col justify-end min-h-full` inner wrapper
+
+**LLM deferred** — assistant response remains a stub (first 50 chars of user message + `...`)
 
 ---
 
