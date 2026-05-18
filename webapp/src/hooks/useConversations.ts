@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
-import { useAuth } from "../auth/AuthContext"
+import { useAuth } from "../auth/useAuth"
 import { apiFetch } from "../lib/apiClient"
-import type { Message, Session, ConversationsCache } from "../../../../shared/types"
+import type { Message, Session, ConversationsCache } from "@shared/types"
 
 export type { Message, Session, ConversationsCache }
 
@@ -46,7 +46,7 @@ export function useConversations(): UseConversationsResult {
 
     prefetch()
     return () => { cancelled = true }
-  }, [user?.id])
+  }, [user])
 
   const createSession = async (firstMessage: string): Promise<Session | null> => {
     const res = await apiFetch("/chat/sessions", {
@@ -55,7 +55,7 @@ export function useConversations(): UseConversationsResult {
     })
     if (!res.ok) return null
     const session: Session = await res.json()
-    setCache(prev => prev
+    setCache((prev: ConversationsCache | null) => prev
       ? { sessions: [session, ...prev.sessions], messages: { ...prev.messages, [session.id]: [] } }
       : { sessions: [session], messages: { [session.id]: [] } }
     )
@@ -69,7 +69,7 @@ export function useConversations(): UseConversationsResult {
     })
     if (!res.ok) return null
     const data: { user_message: Message; assistant_message: Message } = await res.json()
-    setCache(prev => {
+    setCache((prev: ConversationsCache | null) => {
       if (!prev) return prev
       const existing = prev.messages[sessionId] ?? []
       return {
@@ -84,7 +84,7 @@ export function useConversations(): UseConversationsResult {
     const res = await apiFetch(`/chat/sessions/${sessionId}/messages?before_id=${beforeId}`)
     if (!res.ok) return []
     const data: { messages: Message[] } = await res.json()
-    setCache(prev => {
+    setCache((prev: ConversationsCache | null) => {
       if (!prev) return prev
       const existing = prev.messages[sessionId] ?? []
       return {

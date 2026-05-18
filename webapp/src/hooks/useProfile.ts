@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabaseClient"
-import { useAuth } from "../auth/AuthContext"
+import { useAuth } from "../auth/useAuth"
 
 export interface Profile {
   id: string
@@ -28,7 +28,7 @@ export function useProfile() {
         setProfile(data)
         setLoading(false)
       })
-  }, [user?.id])
+  }, [user])
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return

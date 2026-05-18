@@ -1,16 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import path from 'path'
 
 // https://vite.dev/config/
-//base: process.env.VITE_BASE_PATH || env.BASE_PATH  {mode} loadEnv
-export default defineConfig(()=>{
-  //const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(() => {
   return {
     plugins: [
       react(),
-      tailwindcss()
+      tailwindcss(),
     ],
-    base:'/'
+    base: '/',
+    resolve: {
+      alias: {
+        '@shared': path.resolve(__dirname, '../shared'),
+      },
+    },
   }
 })

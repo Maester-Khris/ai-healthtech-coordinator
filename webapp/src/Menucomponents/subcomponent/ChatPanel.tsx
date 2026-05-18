@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react"
-import type { Message, Session, ConversationsCache } from "../../../../shared/types"
+import type { Message, Session, ConversationsCache } from "@shared/types"
 
 interface AuthUser {
   id: string

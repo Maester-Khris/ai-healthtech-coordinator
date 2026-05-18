@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react"
+import { createContext, useState, useEffect, useCallback } from "react"
 import type { ReactNode } from "react"
 import { supabase } from "../lib/supabaseClient"
 import { authService } from "./authService"
@@ -13,7 +13,7 @@ export interface AuthNotification {
   text: string
 }
 
-interface AuthContextValue {
+export interface AuthContextValue {
   user: AuthUser | null
   loading: boolean
   notification: AuthNotification | null
@@ -41,7 +41,7 @@ function toFriendlyError(err: { message: string; status?: number }): string {
   return err.message
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null)
+export const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -105,8 +105,3 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider")
-  return ctx
-}

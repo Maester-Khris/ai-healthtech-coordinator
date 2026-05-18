@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useAuth } from "../auth/AuthContext"
+import { useAuth } from "../auth/useAuth"
 
 function ErrorIcon() {
   return (

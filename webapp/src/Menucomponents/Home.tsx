@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import type { Facility, Message, Session, ConversationsCache } from '../../../shared/types'
+import type { Facility, Message, Session, ConversationsCache } from '@shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
 import { GettingStartedModal } from '../components/onboarding/GettingStartedModal'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
 
 interface HomeProps {
