@@ -1,5 +1,6 @@
 import logging
 import json
+from datetime import datetime, date
 
 from fastapi import APIRouter, Depends, Request, Header
 from fastapi.responses import JSONResponse, Response
@@ -13,7 +14,19 @@ from services.chat import (
 from cache_chat import (
     get_user_cache, set_user_cache,
     append_message_to_cache, append_session_to_cache,
+    invalidate_user_cache,
 )
+
+
+def _ser(obj: object) -> object:
+    """Recursively convert datetime objects to ISO strings for JSONResponse."""
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    if isinstance(obj, dict):
+        return {k: _ser(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_ser(item) for item in obj]
+    return obj
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 logger = logging.getLogger(__name__)
@@ -52,7 +65,7 @@ async def past_conversations(
         return Response(status_code=304)
 
     return JSONResponse(
-        content=cached,
+        content=_ser(cached),
         headers={"ETag": cached_etag, "Cache-Control": "no-cache"},
     )
 
@@ -79,7 +92,7 @@ async def create_new_session(
             "title": title,
         },
     )
-    return session
+    return _ser(session)
 
 
 @router.post("/message")
@@ -130,7 +143,7 @@ async def send_message(
         extra={"request_id": request_id, "user_id": user_id, "session_id": session_id},
     )
 
-    return {"user_message": user_msg, "assistant_message": assistant_msg}
+    return _ser({"user_message": user_msg, "assistant_message": assistant_msg})
 
 
 @router.get("/sessions/{session_id}/messages")
@@ -161,4 +174,19 @@ async def load_older_messages(
             "count": len(messages),
         },
     )
-    return {"messages": messages}
+    return _ser({"messages": messages})
+
+
+@router.post("/sessions/invalidate")
+async def invalidate_cache(
+    request: Request,
+    current_user: object = Depends(get_current_user),
+) -> dict:
+    """Clears the server-side chat cache for the user — call on logout."""
+    user_id = str(current_user.id)  # type: ignore[attr-defined]
+    invalidate_user_cache(user_id)
+    logger.info(
+        "chat cache invalidated",
+        extra={"request_id": getattr(request.state, "request_id", None), "user_id": user_id},
+    )
+    return {"status": "cache cleared"}

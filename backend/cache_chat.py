@@ -52,3 +52,8 @@ def append_session_to_cache(user_id: str, session: dict) -> None:
     entry["sessions"].insert(0, session)
     entry["messages"][session["id"]] = []
     set_user_cache(user_id, entry["sessions"], entry["messages"])
+
+
+def invalidate_user_cache(user_id: str) -> None:
+    """Call on logout or auth failure to force a fresh fetch on next login."""
+    _chat_cache.pop(user_id, None)
