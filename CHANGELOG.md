@@ -77,34 +77,155 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Next — Sprint 5] · Observability + Alerting
+## [Sprint 5 — Closed] · Observability + Alerting
 
-**Started — 2026-05-15 · branch: `feat/observability`**
+**Completed — merged to `preview`. Telemetry partially verified; may revisit.**
 
-### Planned
-- Backend metrics via `prometheus-fastapi-instrumentator` — CPU, memory, request rate, p95 latency
-- Structured JSON logging via `python-json-logger` forwarded to Grafana Loki
-- Sentry Python SDK — error tracking, stack traces, issue grouping
-- Grafana Cloud free tier — dashboards for request rate, error rate, latency, uptime
-- Alerting rules: error rate > 5%, p95 latency > 2s, service down
-- Sentry React SDK — Web Vitals (LCP, FID, CLS), page load time, transaction tracing
-- Source maps uploaded to Sentry on Vercel build
-- Custom Sentry transaction for triage chat flow (when implemented)
+### Delivered
+- `prometheus-fastapi-instrumentator` instrumenting all FastAPI routes
+- `python-json-logger` — structured JSON stdout, forwarded to Grafana Loki via Render Log Streams
+- Sentry Python SDK — `SENTRY_DSN_BACKEND`, FastAPI + Starlette integrations, `capture_message` on startup
+- `RequestIDMiddleware` — UUID per request injected into `request.state`, returned as `X-Request-ID` response header
+- Protected `/metrics` endpoint via `METRICS_BEARER_TOKEN` bearer check
+- Prometheus metrics push loop — daemon thread, 30s interval to Grafana remote write
+- Sentry React SDK — `browserTracingIntegration`, `replayIntegration`, `ErrorBoundary`, `maskAllText: true`
+- `X-Request-ID` correlation header forwarded from `apiClient.ts` to backend
+- All observability env vars documented in `.env.example` and stored in Doppler
+
+### Known issues / deferred
+- Grafana metrics push: `'Response' object is not callable` — push handler bug, fix pending
+- Sentry frontend: sessions received (200 OK confirmed) but zero performance transactions —
+  `tracesSampleRate` and `withProfiler` fix applied on `test/telemetry`, not yet merged
+- Grafana dashboard shows "No data" until metrics push bug is resolved
+- `test/telemetry` branch retained for ongoing telemetry diagnostics, not merged
 
 ---
 
-## [Next — Sprint 6] · Deployment Automation
+## [Sprint 6 — Closed] · Deployment Automation
 
 **Completed — merged to `preview`.**
 
-### Planned
-- Vercel preview alias on stable subdomain (`preview.medicoord.yourdomain.com`)
-  eliminates per-PR URL changes in Doppler: alreday using vercel branch specific url
-- Render auto-deploy confirmed enabled per service: custom worfklow with path detection
-- GitHub Actions workflow: Vercel deploy hook → update Doppler → trigger Render redeploy
-- Doppler CLI in CI for programmatic config updates (no manual dashboard visits): maybe not needed now, since added list of allowerd origins already
-- Keep-alive workflow consolidated into GitHub Actions (replaces cron-job.org): to remove, will keep cron-job.org only
-- IaC: Doppler Terraform provider for config-as-code: this might be important but dont see a fit at this current stage
+### Scope (revised from original plan)
+- ~~Vercel preview alias~~ — already using Vercel branch-specific URLs added to Doppler `ALLOWED_ORIGINS`; stable alias not needed at this stage
+- ~~Doppler CLI in CI~~ — `ALLOWED_ORIGINS` is managed manually in Doppler; no programmatic update needed right now
+- ~~Keep-alive in GitHub Actions~~ — cron-job.org retained; works reliably, no migration value
+- ~~IaC / Doppler Terraform~~ — deferred; no fit at current project stage
+
+### What is actually being built
+- GitHub Actions workflow: trigger Render deploy webhook on push to `preview`
+  **only when files under `backend/` changed** (path filter via `dorny/paths-filter`)
+- Vercel already handles frontend deploy automatically — no workflow needed
+- `RENDER_DEPLOY_HOOK_MEDICOORD` stored as GitHub Actions repository secret
+- Workflow file: `.github/workflows/deploy.yml` (update existing)
+
+---
+
+## [Sprint 7 — Closed] · Profile Onboarding + Chat Foundation
+
+**Completed — 2026-05-17 · branch: `feat/profile-chat`**
+
+### Delivered
+
+**Task 007 — Profile + Onboarding (frontend + migrations)**
+- `migrations/` folder at repo root: `001_profile.sql`, `002_sessions.sql`, `003_messages.sql`
+- Profile table: `user_id`, `getting_started_done`, `location_preference`, `emergency_contact_name`, `emergency_contact_phone`
+- Supabase trigger: auto-create profile row on `auth.users` insert (`security definer`)
+- Backfill SQL for existing users
+- RLS: profile readable/updatable by owner only; sessions and messages service-role only
+- `useProfile` hook — reads profile from Supabase directly (client-side RLS)
+- `GettingStartedModal` — blocking onboarding modal on first login, location preference + emergency contact; dismiss is session-only, Save marks `getting_started_done`
+- Chat panel shell: "New conversation" button, past conversations dropdown, disabled state when unauthenticated
+
+**Task 008 — Chat Backend + Frontend Integration**
+- Backend: `cache_chat.py` — per-user in-memory cache (writer-updates-cache pattern)
+- Backend: `services/chat.py` — session creation, message write, past conversations fetch, cursor pagination
+- Backend: `routers/chat.py` — all chat endpoints with auth middleware and request ID logging
+  - `GET /chat/sessions` — ETag-based, returns 5 sessions × 20 messages
+  - `POST /chat/sessions` — creates session, title = first 50 chars of message
+  - `POST /chat/message` — writes user + assistant messages (stub: first 50 chars + `...`)
+  - `GET /chat/sessions/:id/messages?before_id=` — cursor pagination for older messages
+  - `POST /chat/sessions/invalidate` — clears server-side cache on logout
+- `shared/types.ts` — `Message`, `Session`, `ConversationsCache` added
+- Frontend: `useConversations` hook — silent prefetch on login, ETag/304, send, create, load older; all ops update React cache inline
+- Frontend: chat panel fully wired — optimistic user bubble, assistant reply appended, real past conversations dropdown with formatted dates, scroll-to-top loads older messages, Enter to send
+
+**Fixes applied post-implementation**
+- `_ser()` helper in `routers/chat.py` — recursively converts datetime objects to ISO strings before `JSONResponse`; applied to all four chat endpoints
+- `invalidate_user_cache()` in `cache_chat.py` — clears stale cache on logout to prevent 304 hits on re-login with fresh session
+- `authService.ts` `signOut` — calls `/chat/sessions/invalidate` before `supabase.auth.signOut()`; errors caught and ignored so logout always proceeds
+- Chat message list anchored to bottom via `flex flex-col justify-end min-h-full` inner wrapper
+
+**LLM deferred** — assistant response remains a stub (first 50 chars of user message + `...`)
+
+---
+
+## [Sprint 8 — Active] · LLM Integration — Triage Agent
+
+**Started — 2026-05-17 · branch: `feat/llm-triage`**
+
+### User Stories
+
+As a user I can type how I feel in the chat panel and receive:
+- A severity classification of my symptoms
+- A recommendation for the nearest appropriate facility
+- A route drawn on the map between my location and the facility
+- An ETA for the journey
+- A set of contextual next-action buttons (call 911, message emergency contact)
+  shown at the end of the triage flow
+
+### Task 009 — LLM Agent: Symptom Classification + Chat Response
+
+Replace the stub assistant response with a real LLM call.
+
+- LLM provider abstraction already scaffolded — implement Groq client (`backend/llm/groq.py`) and Anthropic fallback (`backend/llm/anthropic.py`) behind `LLM_PROVIDER` feature flag
+- System prompt: triage assistant persona, instructs model to extract symptoms, classify severity, and respond conversationally in plain language
+- Conversation context: pass last N messages from session as context window for multi-turn coherence
+- `POST /chat/message` updated: user message → LLM → structured + conversational response
+- Severity returned as structured field alongside the natural language response
+- Sentry trace added to LLM call for latency monitoring
+- Graceful fallback: if LLM call fails, return a safe error message (never expose raw exception to user)
+
+### Task 010 — Tool Integration: Geolocation + Facility Routing
+
+Parallel tool-calling workflow triggered after severity is classified.
+
+- Tool 1a (parallel): severity classification result from Task 009
+- Tool 1b (parallel): geolocation — browser sends `lat/lng` with the message payload (user already consented in onboarding modal)
+- Tool 2 (chained): Geoapify RouteMatrix — query nearest facilities filtered by `accepted_severity`, return closest with travel time and distance
+- Backend: `services/routing.py` — wraps Geoapify RouteMatrix API call, filters by severity, returns `{ facility, travelMinutes, distanceKm, routeCoords }`
+- `POST /chat/message` request payload extended: `{ session_id, content, lat?, lng? }` — coordinates optional (user may deny location)
+- Response extended: `{ user_message, assistant_message, triage? }` where `triage` contains `{ severity, facility, travelMinutes, distanceKm }` when coordinates were provided
+- Tool-call progress trace: backend logs each tool step with `request_id` for Grafana/Sentry correlation
+
+### Task 011 — UI: Map Route + Triage Result Display
+
+Dynamic map and chat updates after triage response received.
+
+- On triage response received: place user location pin on map (blue dot, pulse animation)
+- Draw polyline from user pin to selected facility (dashed blue line, same visual language as original hackathon build)
+- Selected facility marker highlighted (enlarged, different fill color)
+- Route info pill shown on map: `{facilityName} · {travelMinutes} min`
+- Chat panel: assistant message includes facility name, category, and ETA in plain language
+- Tool-call progress trace shown in chat during processing:
+  - "Analyzing symptoms…" (LLM call in progress)
+  - "Locating nearby facilities…" (RouteMatrix in progress)
+  - "Route calculated" (complete)
+- Map resets to default state on "New conversation" button click
+
+### Task 012 — Workflow Completion: Next-Action Buttons
+
+Contextual action buttons shown at the end of a completed triage flow.
+
+- Shown only when triage is complete (severity + facility + route all resolved)
+- Displayed as a card below the assistant's final message in the chat panel
+- Button set depends on severity:
+  - `emergent`: "Call 911" (tel: link, user-initiated) + "Message emergency contact" (if contact saved in profile)
+  - `urgent`: "Message emergency contact" + "Get directions" (opens Google Maps with the route)
+  - `moderate` / `routine`: "Get directions" + "Save this recommendation"
+- None of these trigger autonomous actions — every button requires a user tap
+- "Message emergency contact": opens native SMS composer pre-filled with a message template (no server-side sending)
+- "Call 911": opens native phone dialer pre-filled with 911 (no automatic dialing)
+- Legal note preserved in code comments: all emergency actions are user-initiated, never autonomous
 
 ---
 

@@ -3,10 +3,28 @@ import Home from './Menucomponents/Home'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
 import { useFacilities } from './hooks/useFacilities'
+import { useConversations } from './hooks/useConversations'
+
+function AppInner() {
+  const { facilities, loading: facilitiesLoading } = useFacilities()
+  const { cache, sendMessage, createSession, loadOlderMessages } = useConversations()
+
+  return (
+    <>
+      <Notification />
+      <Home
+        facilities={facilities}
+        facilitiesLoading={facilitiesLoading}
+        conversationsCache={cache}
+        sendMessage={sendMessage}
+        createSession={createSession}
+        loadOlderMessages={loadOlderMessages}
+      />
+    </>
+  )
+}
 
 function App() {
-  const { facilities, loading: facilitiesLoading } = useFacilities()
-
   return (
     <Sentry.ErrorBoundary
       fallback={({ error }) => (
@@ -17,8 +35,7 @@ function App() {
       )}
     >
       <AuthProvider>
-        <Notification />
-        <Home facilities={facilities} facilitiesLoading={facilitiesLoading} />
+        <AppInner />
       </AuthProvider>
     </Sentry.ErrorBoundary>
   )

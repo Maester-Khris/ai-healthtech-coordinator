@@ -1,20 +1,36 @@
 import { useState } from 'react'
-import type { Facility } from '../../../shared/types'
+import type { Facility, Message, Session, ConversationsCache } from '@shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
-import { useAuth } from '../auth/AuthContext'
+import { GettingStartedModal } from '../components/onboarding/GettingStartedModal'
+import { useAuth } from '../auth/useAuth'
+import { useProfile } from '../hooks/useProfile'
 
 interface HomeProps {
   facilities: Facility[]
   facilitiesLoading: boolean
+  conversationsCache: ConversationsCache | null
+  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  createSession: (firstMessage: string) => Promise<Session | null>
+  loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
 
-export default function Home({ facilities, facilitiesLoading }: HomeProps) {
+export default function Home({ facilities, facilitiesLoading, conversationsCache, sendMessage, createSession, loadOlderMessages }: HomeProps) {
   const { user } = useAuth()
+  const { profile, updateProfile } = useProfile()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
+  const [onboardingDismissed, setOnboardingDismissed] = useState(false)
+
+  const handleOnboardingComplete = async (data: {
+    location_preference: 'always' | 'ask'
+    emergency_contact_name: string | null
+    emergency_contact_phone: string | null
+  }) => {
+    await updateProfile({ ...data, getting_started_done: true })
+  }
 
   const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
@@ -22,6 +38,12 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
   return (
     <div className="flex flex-col h-screen bg-[#F8FAFC]">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
+      {user && profile && !profile.getting_started_done && !onboardingDismissed && (
+        <GettingStartedModal
+          onComplete={handleOnboardingComplete}
+          onClose={() => setOnboardingDismissed(true)}
+        />
+      )}
 
       {/* Header */}
       <header className="h-[64px] flex-none flex items-center justify-between px-8 border-b border-gray-200 bg-white z-10 shadow-sm">
@@ -77,7 +99,13 @@ export default function Home({ facilities, facilitiesLoading }: HomeProps) {
 
         {/* Chat panel */}
         <div className="flex-[3] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative min-w-[320px]">
-          <ChatPanel />
+          <ChatPanel
+            user={user}
+            cache={conversationsCache}
+            sendMessage={sendMessage}
+            createSession={createSession}
+            loadOlderMessages={loadOlderMessages}
+          />
         </div>
       </div>
     </div>
