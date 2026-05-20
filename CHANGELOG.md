@@ -120,11 +120,11 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 7 — Closed] · Profile Onboarding + Chat Foundation
+## [Sprint 7 — Active] · Profile Onboarding + Chat Foundation
 
-**Completed — 2026-05-17 · branch: `feat/profile-chat`**
+**Started — 2026-05-17 · branch: `feat/profile-chat`**
 
-### Delivered
+### Scope
 
 **Task 007 — Profile + Onboarding (frontend + migrations)**
 - `migrations/` folder at repo root: `001_profile.sql`, `002_sessions.sql`, `003_messages.sql`
@@ -133,8 +133,8 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Backfill SQL for existing users
 - RLS: profile readable/updatable by owner only; sessions and messages service-role only
 - `useProfile` hook — reads profile from Supabase directly (client-side RLS)
-- `GettingStartedModal` — blocking onboarding modal on first login, location preference + emergency contact; dismiss is session-only, Save marks `getting_started_done`
-- Chat panel shell: "New conversation" button, past conversations dropdown, disabled state when unauthenticated
+- `GettingStartedModal` — blocking onboarding modal on first login, location preference + emergency contact
+- Chat panel shell: "New conversation" button, past conversations dropdown (stubbed), disabled state when unauthenticated
 
 **Task 008 — Chat Backend + Frontend Integration**
 - Backend: `cache_chat.py` — per-user in-memory cache (writer-updates-cache pattern)
@@ -142,90 +142,106 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Backend: `routers/chat.py` — all chat endpoints with auth middleware and request ID logging
   - `GET /chat/sessions` — ETag-based, returns 5 sessions × 20 messages
   - `POST /chat/sessions` — creates session, title = first 50 chars of message
-  - `POST /chat/message` — writes user + assistant messages (stub: first 50 chars + `...`)
+  - `POST /chat/message` — writes user + assistant messages (stub: first 50 chars)
   - `GET /chat/sessions/:id/messages?before_id=` — cursor pagination for older messages
-  - `POST /chat/sessions/invalidate` — clears server-side cache on logout
-- `shared/types.ts` — `Message`, `Session`, `ConversationsCache` added
-- Frontend: `useConversations` hook — silent prefetch on login, ETag/304, send, create, load older; all ops update React cache inline
-- Frontend: chat panel fully wired — optimistic user bubble, assistant reply appended, real past conversations dropdown with formatted dates, scroll-to-top loads older messages, Enter to send
-
-**Fixes applied post-implementation**
-- `_ser()` helper in `routers/chat.py` — recursively converts datetime objects to ISO strings before `JSONResponse`; applied to all four chat endpoints
-- `invalidate_user_cache()` in `cache_chat.py` — clears stale cache on logout to prevent 304 hits on re-login with fresh session
-- `authService.ts` `signOut` — calls `/chat/sessions/invalidate` before `supabase.auth.signOut()`; errors caught and ignored so logout always proceeds
-- Chat message list anchored to bottom via `flex flex-col justify-end min-h-full` inner wrapper
-
-**LLM deferred** — assistant response remains a stub (first 50 chars of user message + `...`)
+- Frontend: `useConversations` hook — silent prefetch on login, ETag, send, create, load older
+- Frontend: chat panel fully wired — optimistic updates, real past conversations, session creation on first send
+- LLM deferred — assistant response is a stub (first 50 chars of user message + `...`)
 
 ---
 
-## [Sprint 8 — Active] · LLM Integration — Triage Agent
+## [Sprint 8 — Active] · Triage MVP — Working Product to Production
 
-**Started — 2026-05-17 · branch: `feat/llm-triage`**
+**Started — 2026-05-20 · branch: `feat/triage-mvp`**
 
-### User Stories
+### Priority rationale
+Production app still shows the hackathon simulator. A working triage feature
+deployed to production takes precedence over AI engineering depth.
+Advanced LLM patterns (prompt evaluation, caching, embeddings, MCP) are
+deferred to Sprint 9 and will improve a working system, not a stub.
 
-As a user I can type how I feel in the chat panel and receive:
-- A severity classification of my symptoms
-- A recommendation for the nearest appropriate facility
-- A route drawn on the map between my location and the facility
-- An ETA for the journey
-- A set of contextual next-action buttons (call 911, message emergency contact)
-  shown at the end of the triage flow
+### Definition of done
+A logged-in user can describe symptoms in the chat panel, receive a severity
+classification and facility recommendation, see a route on the map, and get
+contextual next-action buttons — all deployed and working on `main`.
 
-### Task 009 — LLM Agent: Symptom Classification + Chat Response
+### Task 009 — LLM + Routing (backend, condensed)
 
-Replace the stub assistant response with a real LLM call.
+Single endpoint handles the full triage loop in one request.
 
-- LLM provider abstraction already scaffolded — implement Groq client (`backend/llm/groq.py`) and Anthropic fallback (`backend/llm/anthropic.py`) behind `LLM_PROVIDER` feature flag
-- System prompt: triage assistant persona, instructs model to extract symptoms, classify severity, and respond conversationally in plain language
-- Conversation context: pass last N messages from session as context window for multi-turn coherence
-- `POST /chat/message` updated: user message → LLM → structured + conversational response
-- Severity returned as structured field alongside the natural language response
-- Sentry trace added to LLM call for latency monitoring
-- Graceful fallback: if LLM call fails, return a safe error message (never expose raw exception to user)
+**LLM call (Groq primary, Anthropic fallback):**
+- Provider selected via `LLM_PROVIDER` env var — implement both clients behind shared interface
+- System prompt: triage assistant persona with explicit severity classification instruction
+- Structured output: LLM returns JSON `{ severity, reasoning, response }` via tool call or forced JSON mode
+- Conversation context: last 10 messages from session passed as context window
+- Temperature: 0.2 (low — triage must be consistent and deterministic)
+- Graceful fallback: LLM failure returns safe user-facing error, never raw exception
 
-### Task 010 — Tool Integration: Geolocation + Facility Routing
+**Parallel tool execution (asyncio.gather):**
+- Tool 1a: LLM call → severity + conversational response (above)
+- Tool 1b: lat/lng already in request payload (browser sent with message)
+- Both fire simultaneously — Tool 2 waits on both results
 
-Parallel tool-calling workflow triggered after severity is classified.
+**Chained tool execution:**
+- Tool 2: Geoapify RouteMatrix → facilities filtered by `accepted_severity`,
+  nearest selected, travel time + distance returned
+- New service: `backend/services/routing.py`
 
-- Tool 1a (parallel): severity classification result from Task 009
-- Tool 1b (parallel): geolocation — browser sends `lat/lng` with the message payload (user already consented in onboarding modal)
-- Tool 2 (chained): Geoapify RouteMatrix — query nearest facilities filtered by `accepted_severity`, return closest with travel time and distance
-- Backend: `services/routing.py` — wraps Geoapify RouteMatrix API call, filters by severity, returns `{ facility, travelMinutes, distanceKm, routeCoords }`
-- `POST /chat/message` request payload extended: `{ session_id, content, lat?, lng? }` — coordinates optional (user may deny location)
-- Response extended: `{ user_message, assistant_message, triage? }` where `triage` contains `{ severity, facility, travelMinutes, distanceKm }` when coordinates were provided
-- Tool-call progress trace: backend logs each tool step with `request_id` for Grafana/Sentry correlation
+**Extended request/response:**
+```
+Request:  { session_id, content, lat?, lng? }
+Response: { user_message, assistant_message, triage? }
+triage:   { severity, facility, travelMinutes, distanceKm }
+          — present only when lat/lng provided and routing succeeded
+```
 
-### Task 011 — UI: Map Route + Triage Result Display
+**Sentry trace** on LLM call duration for latency monitoring.
 
-Dynamic map and chat updates after triage response received.
+### Task 010 — Map + Chat UI (frontend, condensed)
 
-- On triage response received: place user location pin on map (blue dot, pulse animation)
-- Draw polyline from user pin to selected facility (dashed blue line, same visual language as original hackathon build)
-- Selected facility marker highlighted (enlarged, different fill color)
-- Route info pill shown on map: `{facilityName} · {travelMinutes} min`
-- Chat panel: assistant message includes facility name, category, and ETA in plain language
-- Tool-call progress trace shown in chat during processing:
-  - "Analyzing symptoms…" (LLM call in progress)
-  - "Locating nearby facilities…" (RouteMatrix in progress)
-  - "Route calculated" (complete)
-- Map resets to default state on "New conversation" button click
-
-### Task 012 — Workflow Completion: Next-Action Buttons
-
-Contextual action buttons shown at the end of a completed triage flow.
-
-- Shown only when triage is complete (severity + facility + route all resolved)
-- Displayed as a card below the assistant's final message in the chat panel
-- Button set depends on severity:
-  - `emergent`: "Call 911" (tel: link, user-initiated) + "Message emergency contact" (if contact saved in profile)
-  - `urgent`: "Message emergency contact" + "Get directions" (opens Google Maps with the route)
+**Chat panel:**
+- Tool-call progress trace while processing:
+  "Analyzing symptoms…" → "Locating facilities…" → "Route calculated"
+- Assistant message rendered with facility name, category, ETA when triage present
+- Next-action buttons card below final assistant message:
+  - `emergent`: "Call 911" (tel:911 link) + "Message emergency contact" (SMS composer)
+  - `urgent`: "Message emergency contact" + "Get directions" (Google Maps deep link)
   - `moderate` / `routine`: "Get directions" + "Save this recommendation"
-- None of these trigger autonomous actions — every button requires a user tap
-- "Message emergency contact": opens native SMS composer pre-filled with a message template (no server-side sending)
-- "Call 911": opens native phone dialer pre-filled with 911 (no automatic dialing)
-- Legal note preserved in code comments: all emergency actions are user-initiated, never autonomous
+  - All user-initiated — no autonomous actions, legal note in code comments
+
+**Map panel:**
+- User location pin (blue dot + pulse) placed on triage response
+- Dashed polyline from user pin to selected facility
+- Selected facility marker enlarged and highlighted
+- Route info pill: `{facilityName} · {travelMinutes} min`
+- Map resets on "New conversation" click
+
+### Production promotion (end of this sprint)
+- Doppler prod config created from staging config
+- Render production service created (separate from staging)
+- Vercel production domain configured
+- `preview` → `main` PR opened and merged
+
+---
+
+## [Sprint 9 — Planned] · AI Engineering Depth
+
+**Not started. Depends on Sprint 8 shipping to production.**
+
+### Planned — LLM engineering improvements on a working system
+- **Prompt evaluation**: DeepEval integration, eval dataset from real triage sessions
+- **Prompt caching**: Anthropic prompt caching on system prompt (reduces latency + cost)
+- **Multi-shot prompting**: few-shot examples in system prompt for edge case handling
+- **Temperature tuning**: A/B test temperature 0.1 vs 0.3 on classification accuracy
+- **Stop sequences**: constrain structured output to prevent over-generation
+- **Embedding with VoyageAI**: symptom similarity search for related past cases
+- **Embedding caching**: cache computed embeddings to avoid redundant API calls
+- **MCP client integration**: expose triage tools as MCP server for external agent access
+- **Custom LLM tools/skills**: formalize `classify_severity` and `get_nearest_facility`
+  as typed tool definitions reusable across providers
+- **Workflow optimisation**: profile parallel vs sequential execution, reduce p95 latency
+- **Agent behavior guidelines**: refine system prompt with explicit behavioral constraints,
+  refusal patterns for out-of-scope medical advice, escalation triggers
 
 ---
 
@@ -233,14 +249,8 @@ Contextual action buttons shown at the end of a completed triage flow.
 
 **These are the next product milestones after Sprint 5 and 6 close.**
 
-### Triage Chat Loop (core feature — highest priority after infra)
-- User symptom input → LLM severity classification (Groq primary, Claude fallback)
-- Parallel tool execution: severity classification + geolocation in one round-trip
-- Geoapify RouteMatrix integration: nearest facility filtered by `accepted_severity`
-- Map response: user pin + route polyline + facility highlight
-- Chat response: plain-language recommendation with reasoning
-- Tool-call progress trace in chat UI ("Analyzing symptoms… Locating facilities…")
-- LLM provider feature flag: `LLM_PROVIDER=groq | anthropic`
+### Triage Chat Loop
+- Covered in Sprint 8 (MVP) and Sprint 9 (AI engineering depth)
 
 ### Auth + Session
 - Password reset / forgot password flow
