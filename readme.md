@@ -1,83 +1,169 @@
-we are using the conversational agent preview simulator this is an example of interaction
-Notes we defined an intent with the condition and an a fullfillment agent response "Thank you. Your symptoms are not immediately urgent and your condition has been evaluated to {{$session.params.triage_severity}}. We've added you to our waiting list and a care coordinator will contact you shortly" that is supposed to acces the webhook 
+# MediCoord AI
 
-good morning
-I missed what you said. What was that?
+**AI-powered city-wide health coordination system**  
+Toronto Tech Week 2025 Hackathon → SaaS rebuild in progress
 
-My knee is swollen and really tender after a fall.
-Thank you. Your symptoms are not immediately urgent and your condition has been evaluated to {{$session.params.triage_severity}}. We've added you to our waiting list and a care coordinator will contact you shortly
+---
 
-This is an excellent and insightful idea for demonstrating the power of predictive analytics in strategic healthcare planning! Your approach leverages geospatial analysis to identify critical "service deserts" over time, which is a highly relevant application in public health and urban planning.
+## What This Is
 
-(Start Page)
-   │
-   ├──► ➊ Route “collect_symptoms”  ──┐
-   │      • Intent: collect_symptoms  │  (calls webhook, stays on page)
-   │      • Fulfillment: triage-webhook
-   │      • Transition: **stay on same page**
-   │      • Webhook response sets
-   │        sessionInfo.parameters:
-   │        { "triage_severity": "...",
-   │          "triage_confidence": 0.83 }
-   │
-   └──► Now the same page evaluates
-           other routes **without**
-           hitting the webhook again:
-           ➋  Severity route
-           ➌  Confidence route
-           ➍  Fallback route
+MediCoord AI is a health coordination platform designed to reduce the friction between a patient experiencing symptoms and the right care provider reaching them in time.
 
+A user describes how they feel in natural language. The system classifies their symptom severity, locates them, identifies the most appropriate nearby facility, and routes them there — all surfaced in a single conversational interface backed by a live city map.
 
-This is an excellent and insightful idea for demonstrating the power of predictive analytics in strategic healthcare planning! Your approach leverages geospatial analysis to identify critical "service deserts" over time, which is a highly relevant application in public health and urban planning.
+The system is designed for city-scale deployment: any Toronto resident with a browser can open it, describe their symptoms, and receive a real routing recommendation without needing to know which hospital handles what, how far away anything is, or what their condition actually warrants.
 
-How will "multiple variations" represent "long period of time"? Will each variation be a snapshot in time (e.g., population distribution in 2025, 2030, 2035)? Or will they be different plausible future scenarios? Clarifying this will help in the data generation.
+---
 
+## Background
 
-Strengths of the Idea:
+This project was originally built for **Toronto Tech Week 2025** as a hackathon submission under a 48-hour constraint. The goal was to demonstrate AI-driven triage and coordination at a city scale using Toronto's actual healthcare facility layout.
 
-Directly Addresses a Real-World Problem: Identifying underserved areas for healthcare access is a critical challenge.
+The hackathon build shipped a working frontend simulation — a React map interface that generates synthetic patients, routes them to providers using the Geoapify Route Matrix API, and visualizes queue state per hospital. It also included a GCP Cloud Function with Gemini 2.5 Flash for symptom extraction and a fine-tuned Vertex AI classifier for severity prediction.
 
-Visual & Intuitive: The map-based visualization with lines and clusters will make the "problem areas" immediately apparent and compelling.
+**What worked at submission:** the frontend simulation, the Geoapify routing integration, the priority queue scheduling algorithm, the Gemini symptom extraction call.
 
-Demonstrates Predictive Power: By showing how hypothetical population shifts would create persistent underserved areas, you're illustrating proactive planning, not just reactive analysis.
+**What didn't:** the fine-tuned Vertex AI endpoint was never successfully wired into the cloud function after 8 attempted endpoint URL formats — the deployed version silently substitutes random classification for real model inference. The frontend and backend never communicated. The severity schemas between the two layers were incompatible.
 
-Focus on Recurrence: Highlighting "recurring zones" is key. A single underserved area in one snapshot might be an anomaly, but a consistently underserved area across many variations strongly indicates a strategic need.
+The codebase is a collection of parallel exploration tracks that were not consolidated before the demo. It reads like a hackathon, because it was one.
 
-Centroid Analysis: Using centroids of clusters of underserved people makes the analysis more robust than just looking at individual points.
+---
 
-Measurable Impact: The "distance from people to service provider" provides a clear, quantifiable metric for "underserved."
+## Current State (as of May 2026 audit)
 
+| Layer | Status |
+|---|---|
+| React SPA (3 tabs: Smart Routing, In-house Scheduling, Predictive Analysis) | Working as standalone simulation |
+| Geoapify Route Matrix integration | Working (API key hardcoded — not safe to deploy) |
+| Priority queue triage algorithm | Working |
+| Gemini 2.5 Flash symptom extraction (Cloud Function) | Working given valid GCP credentials |
+| Fine-tuned Vertex AI severity classifier | Broken — never successfully called; random fallback deployed |
+| Frontend ↔ Backend integration | None — fully isolated subsystems |
+| Severity schema consistency | Broken — two incompatible 4-class schemas across layers |
+| Environment / secrets management | None — keys hardcoded in client-side source |
+| CI/CD, Docker, infrastructure config | None |
 
+See [`CHANGELOG.md`](./CHANGELOG.md) for the full known-issues inventory from the hackathon release.
 
+---
 
+## New Direction — v2.0
 
+The rebuild moves from a simulation demo to an integrated AI-powered product with a real user session flow.
 
+### Product Vision
 
+The home page presents a split interface: a conversational chat panel on the left, a live Leaflet map of Toronto on the right centered on the CN Tower with nearby medical facilities marked.
 
+The user flow:
 
+1. User types how they feel in the chat panel — free text, no structured form
+2. The AI agent runs a parallelized tool workflow:
+   - **Tool 1a** — Claude (Anthropic API) parses the input and returns structured severity classification (`routine / moderate / urgent / emergent`) with reasoning
+   - **Tool 1b** — Browser Geolocation API captures the user's position (with explicit consent prompt)
+3. On both results returning, a second tool call fires:
+   - **Tool 2** — Geoapify RouteMatrix computes travel times from the user to all nearby facilities; the system selects the most appropriate facility given severity class
+4. The map updates in real time: user pin appears, route polyline draws, destination facility highlights
+5. The chat responds with a plain-language explanation of the recommendation and why — not just a name and address
+6. Optionally: a user-initiated contact alert panel appears for high-severity classifications (user taps to send — never autonomous)
 
+The tool-calling pipeline is made visible in the chat UI with a live progress trace during the parallel step, so the AI engineering is legible to both end users and technical evaluators.
 
-SEVERITY_ENDPOINT = f"projects/{PROJECT}/locations/{REGION}/endpoints/8775805933163905024"
+### Architecture (v2.0 Target)
 
-http://8775805933163905024.aiplatform.googleapis.com/v1/models/7574459737446547456:predict
+```
+Browser
+├── Chat Panel (left)
+│   ├── User symptom input
+│   ├── Tool trace UI (parallel step progress)
+│   └── Claude response with recommendation + reasoning
+└── Map Panel (right)
+    ├── Facility markers (static, 43 Toronto providers)
+    ├── User pin (from geolocation, this session)
+    └── Route polyline (drawn after Tool 2 resolves)
 
+Backend API
+├── POST /triage
+│   ├── Tool 1a: Anthropic API → severity classification (structured output)
+│   ├── Tool 1b: Geolocation payload from client
+│   └── Tool 2: Geoapify RouteMatrix → nearest appropriate facility
+└── (Optional) POST /alert — user-initiated contact notification
 
-f"https://8775805933163905024.{REGION}-{PROJECT}.prediction.vertexai.goog/v1/projects/{PROJECT}/locations/{REGION}/endpoints/8775805933163905024:predict"
+Infrastructure
+├── Environment variables for all API keys (no hardcoded secrets)
+├── requirements.txt for Python services
+├── Docker config for backend
+└── GitHub Actions CI/CD (lint, type-check, deploy gate)
+```
 
+### What Changes from the Hackathon Build
 
-https://{REGION}-aiplatform.googleapis.com/v1/projects/{PROJECT}/locations/{REGION}/endpoints/8775805933163905024:predict
+- The Vertex AI fine-tuned classifier is retired. Claude handles severity classification natively via structured tool output — more reliable, no endpoint management, better accuracy than a 238-sample fine-tune
+- The simulation engine is not the product anymore. The map responds to this user's real session, not synthetic patients
+- Frontend and backend are connected through a real API contract with a shared severity schema
+- The Dialogflow CX dependency is dropped — the agentic workflow is implemented directly via the Anthropic API tool-calling interface
 
-gcloud ai endpoints describe 8775805933163905024 \
-    --project=crypto-sphere-464015-e4 \
-    --region=us-central1 \
-    --format="value(name)"
+---
 
-    https://us-central1-aiplatform.googleapis.com/
-projects/506101299280/locations/us-central1/endpoints/8775805933163905024:predict
+## Tech Stack
 
-{
-  "instances": [{
-    "mimeType": "text/plain",
-    "content": "CONTENT"
-  }]
-}
+**Current (hackathon build)**
+- React 18 + Vite + TypeScript + Tailwind CSS
+- React Leaflet / Leaflet
+- Geoapify Route Matrix API
+- GCP: Cloud Functions (Python), Vertex AI, Firestore
+- Gemini 2.5 Flash (symptom extraction)
+- `@faker-js/faker` (synthetic patient generation)
+
+**Target (v2.0)**
+- React 18 + Vite + TypeScript + Tailwind CSS
+- React Leaflet / Leaflet
+- Anthropic API (Claude) — agentic tool-calling, severity classification, chat
+- Geoapify Route Matrix API
+- Backend API layer (Node/Python TBD)
+- Secure environment variable management
+
+---
+
+## Repository Structure
+
+```
+medicoordai/
+├── webapp/                        # React/Vite SPA
+│   └── src/
+│       ├── App.tsx
+│       ├── Menucomponents/
+│       │   ├── Home.tsx           # Smart Routing tab
+│       │   ├── Inhousescheduler.tsx # In-house Scheduling tab
+│       │   ├── Map.tsx            # Predictive Analysis tab
+│       │   ├── subcomponent/
+│       │   │   ├── MapPanel.tsx
+│       │   │   └── SimulationForm.tsx
+│       │   └── utils/
+│       │       ├── baseData.ts    # 43 Toronto health providers
+│       │       ├── geoapify.ts    # Route Matrix API client
+│       │       ├── priorityQueue.ts # Binary min-heap triage sorter
+│       │       ├── generator.ts
+│       │       ├── formatter.ts
+│       │       └── customIcon.tsx
+├── cloud_function/
+│   ├── triage_function_original.py  # Broken Vertex AI integration
+│   └── triage_function_alternate.py # Deployed fallback (random classifier)
+├── fine_tuning_training/            # 238-sample severity dataset (archived)
+├── backup/                          # Earlier Python triage iterations
+└── CHANGELOG.md
+```
+
+---
+
+## Hackathon Team
+
+Built at Toronto Tech Week 2025.  
+Technologies: Python · GCP Vertex AI · Gemini 2.5 · React.js · Geoapify · Leaflet
+
+---
+
+## Status
+
+> **This project is in active redesign.**  
+> The hackathon build is preserved on `main` as the baseline. v2.0 development begins from the audit completed May 2026.

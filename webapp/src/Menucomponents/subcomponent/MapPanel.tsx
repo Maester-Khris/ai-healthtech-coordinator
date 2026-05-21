@@ -1,162 +1,346 @@
-
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Polyline, Popup, Tooltip} from "react-leaflet";
-import type { HealthProvider, Patient, RouteData, Severity } from "../types";
-import { buildDivIcon, CNTowerIcon, HospitalIcon } from "../utils/customIcon";
-import React, { useEffect, useRef } from "react";
-import { BsPersonRaisedHand } from "react-icons/bs";
-import { FaPerson } from "react-icons/fa6";
-
-// , peopleIcon
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
+import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
+import cnTowerSvg from '../../assets/cntower.svg'
 
 interface MapPanelProps {
-  cnTowerPos: L.LatLngTuple;
-  zoom: number;
-  people: Patient[];
-  providers: HealthProvider[];
-  routes: RouteData[];
-  loadingRoutes: boolean;
-  formatTime: (s?: number) => string;
-  formatDistance: (m?: number | null) => string;
+  facilities: Facility[]
+  facilitiesLoading: boolean
+  triage?: TriageUIState
 }
 
-const severityColorMap: Record<Severity, string> = {
-  routine: "#097969",     // green
-  moderate: "#fbbf24",    // amber
-  severe: "#f97316",      // orange
-  critical: "#dc2626"     // red
-};
-function getCrowdLevel(busyness: number): 0 | 1 | 2 | 3 {
-  if (busyness == 0) return 0;
-  if (busyness <= 3) return 1;
-  if (busyness <= 7) return 2;
-  return 3;
+const cnTowerPos: [number, number] = [43.6426, -79.3871]
+
+const INACTIVE_TRIAGE: TriageUIState = {
+  active: false,
+  severity: null,
+  reasoning: null,
+  recommendedFacility: null,
+  nearbyFacilities: [],
+  userCoords: null,
+  routes: [],
+  recommendedFacilityId: null,
 }
 
-export const MapPanel: React.FC<MapPanelProps> = ({
-  cnTowerPos,
-  zoom,
-  people,
-  providers,
-  routes,
-  loadingRoutes,
-  formatTime,
-  formatDistance,
-}) => {
-  const cnTowerMarkerRef = useRef<L.Marker>(null);
+const cnTowerIcon = L.divIcon({
+  className: '',
+  html: `<div style="width:44px;height:44px;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.2));">
+    <img src="${cnTowerSvg}" style="width:100%;height:100%;" />
+  </div>`,
+  iconSize: [44, 44],
+  iconAnchor: [22, 44],
+  tooltipAnchor: [0, -44],
+})
+
+const userIcon = L.divIcon({
+  className: '',
+  html: `<svg xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 24 24" width="32" height="32">
+    <ellipse cx="12" cy="22" rx="5" ry="2" fill="rgba(0,0,0,0.15)"/>
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+          fill="#185FA5"/>
+    <circle cx="12" cy="8" r="2.2" fill="white"/>
+    <path d="M8.5 14.5c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5"
+          fill="white"/>
+  </svg>`,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+})
+
+// H badge marker — used for all facility markers in both default and triage state.
+// In triage state: recommended is larger with animated pulse ring, others are muted.
+// In default state: recommendedId is null, so all render as the non-recommended variant.
+function getFacilityIcon(facilityId: string | undefined, recommendedId: string | null) {
+  const isRecommended = !!facilityId && facilityId === recommendedId
+  const size = isRecommended ? 38 : 26
+  const bg = isRecommended ? "#C0392B" : "#E8877A"
+  const textSize = isRecommended ? 16 : 11
+  const svgSize = isRecommended ? size + 20 : size + 4
+
+  const pulse = isRecommended
+    ? `<circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${size / 2 + 6}"
+         fill="none" stroke="#C0392B" stroke-width="2" opacity="0.3">
+         <animate attributeName="r"
+           values="${size / 2};${size / 2 + 10}" dur="1.5s"
+           repeatCount="indefinite"/>
+         <animate attributeName="opacity"
+           values="0.4;0" dur="1.5s" repeatCount="indefinite"/>
+       </circle>`
+    : ""
+
+  return L.divIcon({
+    className: "",
+    html: `<svg xmlns="http://www.w3.org/2000/svg"
+             width="${svgSize}" height="${svgSize}"
+             viewBox="0 0 ${svgSize} ${svgSize}">
+      ${pulse}
+      <rect x="${isRecommended ? 10 : 2}" y="${isRecommended ? 10 : 2}"
+            width="${size}" height="${size}" rx="${Math.round(size * 0.25)}"
+            fill="${bg}"/>
+      <text x="${svgSize / 2}" y="${svgSize / 2 + textSize * 0.35}"
+            text-anchor="middle"
+            font-family="system-ui, sans-serif"
+            font-size="${textSize}"
+            font-weight="700"
+            fill="white">H</text>
+    </svg>`,
+    iconSize: [svgSize, svgSize],
+    iconAnchor: [svgSize / 2, svgSize / 2],
+    popupAnchor: [0, -svgSize / 2],
+  })
+}
+
+function buildTriageCandidates(triage: TriageUIState): FacilityCandidate[] {
+  if (!triage.active) return []
+  if (triage.recommendedFacility) {
+    return [triage.recommendedFacility, ...triage.nearbyFacilities]
+  }
+  return triage.nearbyFacilities
+}
+
+const SEVERITY_COLORS: Record<string, string> = {
+  routine:  '#10B981',
+  moderate: '#F59E0B',
+  urgent:   '#F97316',
+  emergent: '#EF4444',
+}
+
+const LEGEND_ITEMS = [
+  { label: 'Hospital / Clinic', color: '#E24B4A' },
+  { label: 'Community Health Centre', color: '#F59E0B' },
+  { label: 'Current location', color: '#2563EB' },
+]
+
+// Must be inside MapContainer to call useMap()
+function MapFitBounds({ triage }: { triage: TriageUIState }) {
+  const map = useMap()
 
   useEffect(() => {
-    cnTowerMarkerRef.current?.openPopup();
-  }, []);
+    if (!triage.active || !triage.userCoords) return
+    const candidates = buildTriageCandidates(triage)
+    if (candidates.length === 0) return
+
+    const bounds = L.latLngBounds([
+      [triage.userCoords.lat, triage.userCoords.lng],
+      ...candidates.map(f => [f.lat, f.lng] as [number, number]),
+    ])
+    map.fitBounds(bounds, { padding: [40, 40] })
+  }, [triage.active, triage.routes, map]) // re-fit when routes arrive
+
+  useEffect(() => {
+    if (!triage.active) {
+      map.setView(cnTowerPos, 13)
+    }
+  }, [triage.active, map])
+
+  return null
+}
+
+export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProps) {
+  const activeTriage = triage ?? INACTIVE_TRIAGE
+  const triageCandidates = buildTriageCandidates(activeTriage)
+  const recommendedId = activeTriage.recommendedFacilityId
+
+  // Single recommended route — find the one route that matters
+  const recommendedRoute = activeTriage.routes.find(
+    r => r.facilityId === recommendedId
+  )
+  const recommendedFacility = triageCandidates.find(
+    f => f.id === recommendedId
+  )
 
   return (
-    <MapContainer
-      center={cnTowerPos}
-      zoom={zoom}
-      scrollWheelZoom={false}
-      className="h-full w-full border border-gray-300 rounded-md shadow-md"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+    <div className="relative h-full w-full isolate">
+      <MapContainer
+        center={cnTowerPos}
+        zoom={13}
+        scrollWheelZoom={false}
+        zoomControl={true}
+        className="h-full w-full z-0"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        />
 
-      {/* CN Tower */}
-      <Marker position={cnTowerPos} ref={cnTowerMarkerRef} icon={CNTowerIcon}>
-        <Tooltip className="text-[14px] max-w-[200px]">
-          <strong>Toronto<br />CN Tower</strong>
-        </Tooltip>
-      </Marker>
+        <MapFitBounds triage={activeTriage} />
 
-      {/* Hospitals Tooltip */}
-      {/* p, index key={index} */}
-      {providers.map((p, i) => (
-        <Marker key={i} position={p.position} icon={HospitalIcon}>
-          <Popup className="text-[14px] p-4">
-            <div className="flex flex-col justify-center items-center px-2 py-1">
-              <div className="flex flex-row">
-                <span className="font-semibold">Crowd level: </span>
-                {p.busyness ==0 ? ' Empty' :(
-                   <div className="person-wrapper ml-2 flex flex-row justify-center items-center"> 
-                   {[...Array(getCrowdLevel(p.busyness))].map(() =>
-                     <BsPersonRaisedHand  className="busyness-color"/>
-                   )} 
-                 </div>
-                )}
-              </div>
-              <div className="">
-                <span className="font-semibold">Health Insitute:</span>
-                <h5 className="text-wrap">{p.name}</h5>
-              </div>
-            </div>
-          </Popup>
+        <Marker position={cnTowerPos} icon={cnTowerIcon}>
+          <Tooltip className="text-[13px] font-semibold" direction="top">
+            CN Tower Area
+          </Tooltip>
         </Marker>
-      ))}
 
-      {/* People & Popups */}
-      {/* style={{
-            color: caseDescription.find(c => c.severity_level === patient.person..severity)?.color_description
-          }} */}
-      {people.map((patient, i) => {
-        const route = routes.find(r => r.person === patient.person);
-        return (
-          <Marker key={`person-${i}`} position={patient.person.position} 
-            icon={buildDivIcon(
-              <FaPerson size={32} style={{ color: severityColorMap[patient.severity] }} />
-            )} 
-            >
-            <Popup className="text-[14px] max-w-[200px]">
-              <strong>Person</strong>:{patient.person.name}
-              {loadingRoutes && <span className="text-gray-500"> Calculating…</span>}
-              {!loadingRoutes && route && (
-                <>
-                  <br /><strong>Case level</strong>:  <span style={{color: severityColorMap[patient.severity]}}>{patient.severity}</span> 
-                  <br /><strong>Nearest</strong>: {route.provider.name}
-                  <br /><strong>Time</strong>: {formatTime(route.travelTime)}
-                  <br /><strong>Distance</strong>: {formatDistance(route.distance)}
-                </>
-              )}
-            </Popup>
+        {/* User location pin */}
+        {activeTriage.userCoords && (
+          <Marker
+            position={[activeTriage.userCoords.lat, activeTriage.userCoords.lng]}
+            icon={userIcon}
+          >
+            <Tooltip direction="top">Your location</Tooltip>
           </Marker>
-        );
-      })}
+        )}
 
-      {/* Straight polylines !loadingRoutes && */}
-      {routes.map((r, i) => (
-        <Polyline
-          key={`route-${i}`}
-          positions={[r.person.position, r.provider.position]}
-          pathOptions={{ weight: 3, dashArray: "4 8", color: "#0047AB", opacity: 0.7 }}
-        >
-          <Popup className="text-[14px] max-w-[200px]">
-            <strong>From:</strong> {r.person.name}<br />
-            <strong>To:</strong> {r.provider.name}<br />
-            <strong>Time:</strong> {formatTime(r.travelTime)}<br />
-            <strong>Distance:</strong> {formatDistance(r.distance)}
-          </Popup>
-        </Polyline>
-      ))}
+        {/* Single route line — recommended facility only */}
+        {activeTriage.active && activeTriage.userCoords && recommendedRoute && recommendedFacility && (
+          <Polyline
+            key="recommended-route"
+            positions={[
+              [activeTriage.userCoords.lat, activeTriage.userCoords.lng],
+              [recommendedFacility.lat, recommendedFacility.lng],
+            ]}
+            pathOptions={{
+              color:     "#185FA5",
+              weight:    3,
+              dashArray: "10, 7",
+              opacity:   0.85,
+            }}
+          >
+            <Tooltip permanent className="eta-tooltip-permanent">
+              <span style={{ fontSize: 12, fontWeight: 500 }}>
+                {recommendedFacility.name} · {recommendedRoute.etaMinutes} min
+              </span>
+            </Tooltip>
+          </Polyline>
+        )}
 
-      {loadingRoutes && (
-        <div className="absolute top-3 right-3 bg-gray-300 rounded-md p-3 z-[1000] flex items-center gap-2">
-          <svg className="h-5 w-5 animate-spin text-blue-600" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4z" />
-          </svg>
-          <span className="text-[#003977] text-[14px] font-semibold">Calculating route…</span>
+        {/* Facility markers — triage state */}
+        {activeTriage.active
+          ? triageCandidates.map(facility => (
+              <Marker
+                key={facility.id}
+                position={[facility.lat, facility.lng]}
+                icon={getFacilityIcon(facility.id, recommendedId)}
+              >
+                <Tooltip sticky>
+                  <div style={{ fontSize: 12, lineHeight: 1.5 }}>
+                    <strong>{facility.name}</strong><br />
+                    {facility.category.charAt(0).toUpperCase() + facility.category.slice(1)}
+                  </div>
+                </Tooltip>
+                <Popup>
+                  <div style={{ minWidth: 160 }}>
+                    <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+                      {facility.name}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
+                      {facility.address}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#666' }}>
+                      ~{facility.distanceKm} km away
+                    </p>
+                  </div>
+                </Popup>
+              </Marker>
+            ))
+          /* Facility markers — default state (all 393) */
+          : facilities.map(facility => (
+              <Marker
+                key={facility.id ?? facility.name}
+                position={[facility.lat, facility.lng]}
+                icon={getFacilityIcon(facility.id, null)}
+              >
+                <Tooltip sticky>
+                  <div style={{ fontSize: 12, lineHeight: 1.5 }}>
+                    <strong>{facility.name}</strong><br />
+                    {facility.category.charAt(0).toUpperCase() + facility.category.slice(1)}<br />
+                    <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
+                  </div>
+                </Tooltip>
+                <Popup>
+                  <div style={{ minWidth: 160 }}>
+                    <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+                      {facility.name}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#666', marginBottom: 4, textTransform: 'capitalize' }}>
+                      {facility.category}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
+                      {facility.address}
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                      {facility.accepted_severity.map(sev => (
+                        <span
+                          key={sev}
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 600,
+                            padding: '2px 6px',
+                            borderRadius: 4,
+                            backgroundColor: `${SEVERITY_COLORS[sev]}22`,
+                            color: SEVERITY_COLORS[sev],
+                            border: `1px solid ${SEVERITY_COLORS[sev]}44`,
+                          }}
+                        >
+                          {sev}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            ))
+        }
+      </MapContainer>
+
+      {facilitiesLoading && (
+        <div style={{
+          position: 'absolute',
+          top: 52,
+          left: 12,
+          zIndex: 15,
+          background: 'rgba(255,255,255,0.88)',
+          borderRadius: 8,
+          padding: '6px 10px',
+          fontSize: 12,
+          color: '#557',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+        }}>
+          <span style={{
+            width: 12,
+            height: 12,
+            borderRadius: '50%',
+            border: '2px solid #185FA5',
+            borderTopColor: 'transparent',
+            display: 'inline-block',
+            animation: 'spin 0.8s linear infinite',
+          }} />
+          Loading facilities…
         </div>
       )}
-    </MapContainer>
-  );
-};
 
-// <img src={PersonSVG} key={index} className="z-30 h-15 w-15"/>
-{/* <div className="flex flex-col justify-center items-center px-2 py-1">
-<div className="mr-2 border flex flex-row justify-center mb-2 w-[120px] "> 
-   {[1,2,3].map((p, index) =>
-      <BsPersonRaisedHand key={index} />
-   )}
-</div>
-<h5 className="text-wrap text-center font-semibold">{p.name}</h5>
-</div> */}
+      {/* Status pill — top right */}
+      <div className="absolute top-5 right-5 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        {activeTriage.active
+          ? `${triageCandidates.length} FACILITIES SHOWN`
+          : `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
+        }
+      </div>
+
+      {/* Legend — bottom left */}
+      <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
+        <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
+        <div className="flex items-center gap-3">
+          {LEGEND_ITEMS.map(({ label, color }) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <span
+                className="w-2.5 h-2.5 rounded-full inline-block flex-none shadow-sm"
+                style={{ backgroundColor: color }}
+              />
+              <span className="text-[11px] font-semibold text-gray-600 leading-none">{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

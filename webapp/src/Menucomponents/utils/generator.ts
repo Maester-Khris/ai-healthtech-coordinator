@@ -2,7 +2,7 @@ import type { Entity, Severity, Patient, LatLngTuple } from "../types";
 import { faker } from "@faker-js/faker";
 
 const waterBoxes = [
-  [43.60, 43.64, -79.54, -79.40], // Humber Bay
+  [43.60, 43.64, -79.54, -79.40], // Humber Bay
   [43.60, 43.65, -79.40, -79.33], // Inner Harbour
   [43.60, 43.66, -79.33, -79.20], // Outer Harbour
 ];
@@ -18,7 +18,7 @@ export function randomSeverity(): Severity {
 export function generatePatient(qty:number):Patient[]{
   const torontoCentre: [number, number] = [43.6532, -79.3832];
   //generateRandomPointsInRadius return a list of latlong position and we parse them to create full patient object
-  let patients:Patient[]  = generateRandomPointsInRadius(
+  const patients:Patient[]  = generateRandomPointsInRadius(
       torontoCentre[0],torontoCentre[1], 12, qty
     ).map((e)=>{
       return {
@@ -79,7 +79,7 @@ export function generateRandomPointsInRadius(
       const newLat = (newLatR * 180) / Math.PI;
       const newLng = (newLngR * 180) / Math.PI;
       if (isOnLand(newLat, newLng)) {
-        points.push({ name: `Person ${generated + 1}`, position: [newLat, newLng] });
+        points.push({ name: `Person ${generated + 1}`, position: [newLat, newLng] });
         placed = true; generated++;
       }
       attempts++;
