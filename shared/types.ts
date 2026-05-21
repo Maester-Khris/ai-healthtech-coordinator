@@ -53,11 +53,44 @@ export interface ToolTrace {
   durationMs?: number;
 }
 
+export interface FacilityCandidate {
+  id:          string
+  name:        string
+  category:    FacilityCategory
+  address:     string
+  lat:         number
+  lng:         number
+  distanceKm:  number
+}
+
 export interface TriageResult {
-  severity:      Severity;
-  reasoning:     string;
-  facility:      Facility;
-  travelMinutes: number;
-  distanceKm:    number;
-  toolTrace:     ToolTrace[];
+  severity:             Severity
+  reasoning:            string
+  recommended_facility: FacilityCandidate | null
+  nearby_facilities:    FacilityCandidate[]
+}
+
+export interface ChatMessageResponse {
+  user_message:      Message
+  assistant_message: Message
+  triage:            TriageResult | null
+}
+
+// ── Triage UI ─────────────────────────────────────────────────────────────────
+
+export interface RouteResult {
+  facilityId:  string
+  etaMinutes:  number
+  distanceKm:  number
+}
+
+export interface TriageUIState {
+  active:                boolean
+  severity:              Severity | null
+  reasoning:             string | null
+  recommendedFacility:   FacilityCandidate | null
+  nearbyFacilities:      FacilityCandidate[]
+  userCoords:            { lat: number; lng: number } | null
+  routes:                RouteResult[]
+  recommendedFacilityId: string | null
 }

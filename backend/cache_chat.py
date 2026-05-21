@@ -1,6 +1,6 @@
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 # {
@@ -29,7 +29,7 @@ def set_user_cache(user_id: str, sessions: list[dict], messages: dict[str, list[
         "sessions": sessions,
         "messages": messages,
         "etag": etag,
-        "cached_at": datetime.utcnow(),
+        "cached_at": datetime.now(timezone.utc),
     }
     return etag
 

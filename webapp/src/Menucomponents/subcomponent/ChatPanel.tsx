@@ -1,17 +1,36 @@
 import { useState, useRef, useEffect, useCallback } from "react"
-import type { Message, Session, ConversationsCache } from "@shared/types"
+import type { Message, Session, ConversationsCache, ChatMessageResponse, TriageResult, TriageUIState } from "@shared/types"
+import { TriageCard } from "../../components/triage/TriageCard"
+import { ToolCallProgress } from "../../components/triage/ToolCallProgress"
 
 interface AuthUser {
   id: string
   email: string | undefined
 }
 
+interface GeoProps {
+  coords: { lat: number; lng: number } | null
+  requestOnce: () => Promise<{ lat: number; lng: number } | null>
+}
+
+interface ProfileProps {
+  location_preference: 'always' | 'ask'
+  emergency_contact_phone?: string | null
+}
+
+type ProgressStage = "idle" | "analyzing" | "locating" | "complete"
+
 interface ChatPanelProps {
   user: AuthUser | null
   cache: ConversationsCache | null
-  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<ChatMessageResponse | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
+  geo: GeoProps
+  profile: ProfileProps | null
+  triage: TriageUIState
+  onTriageResult: (result: TriageResult, coords: { lat: number; lng: number } | null) => Promise<void>
+  onNewConversation: () => void
 }
 
 const SUGGESTIONS = [
@@ -25,14 +44,27 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("en-CA", { month: "short", day: "numeric" })
 }
 
-export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMessages }: ChatPanelProps) {
+export function ChatPanel({
+  user,
+  cache,
+  sendMessage,
+  createSession,
+  loadOlderMessages,
+  geo,
+  profile,
+  triage,
+  onTriageResult,
+  onNewConversation,
+}: ChatPanelProps) {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [localMessages, setLocalMessages] = useState<Message[]>([])
   const [content, setContent] = useState("")
   const [pastConversationsOpen, setPastConversationsOpen] = useState(false)
   const [loadingOlder, setLoadingOlder] = useState(false)
+  const [progressStage, setProgressStage] = useState<ProgressStage>("idle")
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const loadMoreRef = useRef(false)  // synchronous lock — prevents concurrent loads
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -43,6 +75,7 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
     setLocalMessages([])
     setContent("")
     setPastConversationsOpen(false)
+    onNewConversation()
   }
 
   const handleSelectSession = (session: Session) => {
@@ -55,6 +88,17 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
     if (!content.trim() || !user) return
     const text = content.trim()
     setContent("")
+
+    // Resolve coordinates based on preference
+    let coords = geo.coords
+    if (!coords) {
+      if (profile?.location_preference === 'always') {
+        coords = await geo.requestOnce()
+      } else if (!activeSessionId) {
+        // 'ask' — prompt on the first message of a new conversation only
+        coords = await geo.requestOnce()
+      }
+    }
 
     let sid = activeSessionId
     if (!sid) {
@@ -74,28 +118,52 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
     }
     setLocalMessages(prev => [...prev, optimisticUserMsg])
 
-    const assistantMsg = await sendMessage(sid, text)
-    if (assistantMsg) {
-      setLocalMessages(prev => {
-        // replace optimistic user msg with nothing — keep it, just append assistant
-        return [...prev, assistantMsg]
-      })
+    setProgressStage("analyzing")
+    const response = await sendMessage(sid, text, coords)
+
+    // Brief locating flash before complete
+    setProgressStage("locating")
+    await new Promise(r => setTimeout(r, 500))
+    setProgressStage("complete")
+
+    if (response) {
+      setLocalMessages(prev => [
+        ...prev.filter(m => m.id !== optimisticUserMsg.id),
+        optimisticUserMsg,
+        response.assistant_message,
+      ])
+      if (response.triage) {
+        await onTriageResult(response.triage, coords)
+      }
     }
+
+    setTimeout(() => setProgressStage("idle"), 800)
   }
 
   const handleScroll = useCallback(async () => {
     const el = scrollContainerRef.current
-    if (!el || !activeSessionId || loadingOlder || localMessages.length === 0) return
-    if (el.scrollTop > 40) return
+    if (!el || !activeSessionId || localMessages.length === 0) return
+    if (el.scrollTop > 50) return
+    if (loadMoreRef.current) return  // synchronous guard — prevents concurrent loads
 
-    setLoadingOlder(true)
     const oldest = localMessages[0]
-    const older = await loadOlderMessages(activeSessionId, oldest.id)
-    if (older.length > 0) {
-      setLocalMessages(prev => [...older, ...prev])
+    // Only use Supabase-persisted messages as cursors (timestamp format: +00:00).
+    // Optimistic messages use JS toISOString() format (ends with Z) and were
+    // never written to the DB, so passing their ID as a cursor causes a 500.
+    if (!oldest.created_at.includes("+")) return
+
+    loadMoreRef.current = true
+    setLoadingOlder(true)
+    try {
+      const older = await loadOlderMessages(activeSessionId, oldest.id)
+      if (older.length > 0) {
+        setLocalMessages(prev => [...older, ...prev])
+      }
+    } finally {
+      setLoadingOlder(false)
+      loadMoreRef.current = false
     }
-    setLoadingOlder(false)
-  }, [activeSessionId, loadingOlder, localMessages, loadOlderMessages])
+  }, [activeSessionId, localMessages, loadOlderMessages])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -106,6 +174,8 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
 
   const sessions = cache?.sessions ?? []
   const hasMessages = localMessages.length > 0
+  const lastMsg = localMessages[localMessages.length - 1]
+  const showTriageCard = triage.active && lastMsg?.role === "assistant"
 
   return (
     <div className="flex flex-col h-full bg-slate-50/50 relative">
@@ -190,22 +260,32 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
             {loadingOlder && (
               <div className="text-center text-xs text-gray-400 py-2">Loading older messages…</div>
             )}
-            {localMessages.map(msg => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
-                    msg.role === "user"
-                      ? "bg-blue-600 text-white rounded-br-sm"
-                      : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
-                  }`}
-                >
-                  {msg.content}
+            {localMessages.map((msg, idx) => {
+              const isLastAssistant = msg.role === "assistant" && idx === localMessages.length - 1
+              return (
+                <div key={msg.id}>
+                  <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+                        msg.role === "user"
+                          ? "bg-blue-600 text-white rounded-br-sm"
+                          : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
+                  </div>
+                  {isLastAssistant && showTriageCard && (
+                    <div className="mt-1 max-w-[80%]">
+                      <TriageCard
+                        triage={triage}
+                        emergencyContactPhone={profile?.emergency_contact_phone ?? null}
+                      />
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              )
+            })}
             <div ref={messagesEndRef} />
           </div>
         </div>
@@ -241,6 +321,9 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
           </div>
         </div>
       )}
+
+      {/* Progress trace — visible during message processing */}
+      <ToolCallProgress stage={progressStage} />
 
       {/* Input area */}
       <div className="flex-none bg-white px-4 py-3 z-20 border-t border-gray-100 shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.03)] relative">

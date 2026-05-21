@@ -51,6 +51,25 @@ class MessageBase(BaseModel):
 class SendMessageRequest(BaseModel):
     session_id: UUID
     content:    str = Field(..., min_length=1, max_length=4000)
+    lat:        float | None = None
+    lng:        float | None = None
+
+
+class FacilityCandidate(BaseModel):
+    id:          str
+    name:        str
+    category:    FacilityCategory
+    address:     str
+    lat:         float
+    lng:         float
+    distanceKm:  float
+
+
+class TriageResult(BaseModel):
+    severity:             Severity
+    reasoning:            str
+    recommended_facility: FacilityCandidate | None = None
+    nearby_facilities:    list[FacilityCandidate] = []
 
 
 class CreateSessionRequest(BaseModel):
