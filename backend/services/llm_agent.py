@@ -130,12 +130,14 @@ class LLMAgent:
         args = json.loads(tool_call["arguments"])
         severity = args["severity"]
         reasoning = args["reasoning"]
-        needs_location = args.get("needs_location", True)
+        # Location is used whenever coordinates were provided by the client.
+        # The LLM does not decide this — the backend knows from the request.
+        needs_location = (lat is not None and lng is not None)
 
         recommended_facility = None
         nearby_facilities: list[dict] = []
 
-        if needs_location and lat is not None and lng is not None:
+        if needs_location:
             facilities = find_nearest_facilities(lat=lat, lng=lng, severity=severity)
             if facilities:
                 recommended_facility = facilities[0]

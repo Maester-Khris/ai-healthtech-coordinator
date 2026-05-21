@@ -203,7 +203,6 @@ class TestFollowupCeiling:
                 "arguments": json.dumps({
                     "severity": "moderate",
                     "reasoning": "Persistent symptoms",
-                    "needs_location": False,
                 }),
             }],
         )
@@ -263,7 +262,6 @@ class TestTriageResultShape:
                     "arguments": json.dumps({
                         "severity": "urgent",
                         "reasoning": "High fever with pain",
-                        "needs_location": True,
                     }),
                 }],
             ),
@@ -300,7 +298,6 @@ class TestTriageResultShape:
                     "arguments": json.dumps({
                         "severity": "routine",
                         "reasoning": "Minor cold",
-                        "needs_location": True,
                     }),
                 }],
             ),
