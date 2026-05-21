@@ -64,10 +64,12 @@ def get_older_messages(session_id: str, before_id: str, limit: int = 20) -> list
     """
     client = get_supabase_client()
 
+    # maybe_single() returns None when the cursor message is not found
+    # instead of raising PGRST116 like .single() does.
     cursor_resp = client.table("messages") \
         .select("created_at") \
         .eq("id", before_id) \
-        .single() \
+        .maybe_single() \
         .execute()
 
     if not cursor_resp.data:

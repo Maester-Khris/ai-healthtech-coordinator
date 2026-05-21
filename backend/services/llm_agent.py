@@ -96,9 +96,16 @@ class LLMAgent:
             force_tool=force_tool,
         )
 
-        if resp.finish_reason != "tool_calls" or not resp.tool_calls:
+        # Tool call list is the authoritative signal — not finish_reason.
+        # Groq Llama models may return both text content and tool_calls simultaneously;
+        # when tool_calls is non-empty the tool call takes absolute precedence.
+        if resp.tool_calls:
+            for tool_call in resp.tool_calls:
+                if tool_call["name"] == TRIAGE_RESPONSE.name:
+                    return self._handle_triage(tool_call, messages, lat, lng)
+            logger.warning("unexpected_tool_call", extra={"tool_calls": resp.tool_calls})
             return {
-                "response": resp.content or "Could you tell me more about your symptoms?",
+                "response": "I need a bit more information. Can you describe your symptoms?",
                 "severity": None,
                 "reasoning": None,
                 "recommended_facility": None,
@@ -106,13 +113,9 @@ class LLMAgent:
                 "turn_type": "followup",
             }
 
-        for tool_call in resp.tool_calls:
-            if tool_call["name"] == TRIAGE_RESPONSE.name:
-                return self._handle_triage(tool_call, messages, lat, lng)
-
-        logger.warning("unexpected_tool_call", extra={"tool_calls": resp.tool_calls})
+        # No tool call — conversational follow-up response
         return {
-            "response": "I need a bit more information. Can you describe your symptoms?",
+            "response": resp.content or "Could you tell me more about your symptoms?",
             "severity": None,
             "reasoning": None,
             "recommended_facility": None,
