@@ -1,0 +1,207 @@
+import json
+import os
+import logging
+from llm.base import BaseLLMClient, LLMMessage
+from llm.tools import ALL_TOOLS, TRIAGE_RESPONSE
+from llm.prompts import build_system_prompt
+from services.proximity import find_nearest_facilities
+
+logger = logging.getLogger(__name__)
+
+
+def get_llm_client() -> BaseLLMClient:
+    """
+    Factory. Reads LLM_PROVIDER env var.
+    Import is deferred so unused provider packages don't cause ImportError.
+    """
+    provider = os.environ.get("LLM_PROVIDER", "groq").lower()
+    if provider == "anthropic":
+        from llm.anthropic_client import AnthropicClient
+        return AnthropicClient()
+    from llm.groq_client import GroqClient
+    return GroqClient()
+
+
+class LLMAgent:
+    """
+    Stateless triage agent facade.
+
+    Stateless: caller provides full conversation history on every call.
+    Context window: last TRIAGE_CONTEXT_WINDOW messages from cache_chat.
+
+    Two-pass design:
+      Pass 1: LLM classifies severity via triage_response tool (no facility knowledge)
+      Pass 2: Proximity tool runs in Python (deterministic, from cache)
+              LLM generates grounded response with real facility name injected
+    """
+
+    def __init__(self, client: BaseLLMClient | None = None) -> None:
+        self._client = client or get_llm_client()
+        self._max_followups = int(os.environ.get("TRIAGE_MAX_FOLLOWUPS", "4"))
+        self._context_window = int(os.environ.get("TRIAGE_CONTEXT_WINDOW", "10"))
+        self._temperature = 0.2
+        self._response_temperature = 0.3
+        self._stop_sequences = ["</response>"]
+
+    def respond(
+        self,
+        user_message: str,
+        history: list[dict],
+        lat: float | None = None,
+        lng: float | None = None,
+    ) -> dict:
+        """
+        Main entry point. Returns:
+        {
+            "response": str,
+            "severity": str | None,
+            "reasoning": str | None,
+            "recommended_facility": dict | None,
+            "nearby_facilities": list[dict],
+            "turn_type": "followup" | "triage",
+        }
+        """
+        messages = self._build_messages(user_message, history)
+        user_turns = sum(1 for m in history if m.get("role") == "user")
+        force_classify = user_turns >= self._max_followups
+
+        return self._run(messages, lat, lng, force=force_classify)
+
+    def _build_messages(
+        self, user_message: str, history: list[dict]
+    ) -> list[LLMMessage]:
+        msgs = [
+            LLMMessage(role="system", content=build_system_prompt(self._max_followups))
+        ]
+        recent = history[-self._context_window:]
+        for h in recent:
+            msgs.append(LLMMessage(role=h["role"], content=h["content"]))
+        msgs.append(LLMMessage(role="user", content=user_message))
+        return msgs
+
+    def _run(
+        self,
+        messages: list[LLMMessage],
+        lat: float | None,
+        lng: float | None,
+        force: bool,
+    ) -> dict:
+        force_tool = TRIAGE_RESPONSE.name if force else None
+
+        resp = self._client.chat(
+            messages=messages,
+            tools=ALL_TOOLS,
+            temperature=self._temperature,
+            stop=self._stop_sequences,
+            force_tool=force_tool,
+        )
+
+        if resp.finish_reason != "tool_calls" or not resp.tool_calls:
+            return {
+                "response": resp.content or "Could you tell me more about your symptoms?",
+                "severity": None,
+                "reasoning": None,
+                "recommended_facility": None,
+                "nearby_facilities": [],
+                "turn_type": "followup",
+            }
+
+        for tool_call in resp.tool_calls:
+            if tool_call["name"] == TRIAGE_RESPONSE.name:
+                return self._handle_triage(tool_call, messages, lat, lng)
+
+        logger.warning("unexpected_tool_call", extra={"tool_calls": resp.tool_calls})
+        return {
+            "response": "I need a bit more information. Can you describe your symptoms?",
+            "severity": None,
+            "reasoning": None,
+            "recommended_facility": None,
+            "nearby_facilities": [],
+            "turn_type": "followup",
+        }
+
+    def _handle_triage(
+        self,
+        tool_call: dict,
+        messages: list[LLMMessage],
+        lat: float | None,
+        lng: float | None,
+    ) -> dict:
+        args = json.loads(tool_call["arguments"])
+        severity = args["severity"]
+        reasoning = args["reasoning"]
+        needs_location = args.get("needs_location", True)
+
+        recommended_facility = None
+        nearby_facilities: list[dict] = []
+
+        if needs_location and lat is not None and lng is not None:
+            facilities = find_nearest_facilities(lat=lat, lng=lng, severity=severity)
+            if facilities:
+                recommended_facility = facilities[0]
+                nearby_facilities = facilities[1:]
+                logger.info(
+                    "proximity resolved",
+                    extra={
+                        "severity": severity,
+                        "recommended": recommended_facility["name"],
+                        "distanceKm": recommended_facility["distanceKm"],
+                        "candidates": len(nearby_facilities),
+                    },
+                )
+
+        response_text = self._generate_grounded_response(
+            messages=messages,
+            severity=severity,
+            reasoning=reasoning,
+            facility=recommended_facility,
+        )
+
+        return {
+            "response": response_text,
+            "severity": severity,
+            "reasoning": reasoning,
+            "recommended_facility": recommended_facility,
+            "nearby_facilities": nearby_facilities,
+            "turn_type": "triage",
+        }
+
+    def _generate_grounded_response(
+        self,
+        messages: list[LLMMessage],
+        severity: str,
+        reasoning: str,
+        facility: dict | None,
+    ) -> str:
+        if facility:
+            facility_fact = (
+                f"The nearest appropriate facility is: {facility['name']} "
+                f"at {facility['address']}, approximately {facility['distanceKm']} km away. "
+                f"Use this exact facility name in your response — do not modify or replace it."
+            )
+        else:
+            facility_fact = (
+                "No location data is available. Do not mention any specific facility. "
+                "Advise the patient to call 211 or search online for nearby care."
+            )
+
+        grounding = LLMMessage(
+            role="system",
+            content=(
+                f"Symptom severity has been classified as: {severity}.\n"
+                f"Internal reasoning (do not reveal): {reasoning}\n\n"
+                f"{facility_fact}\n\n"
+                f"Write a warm, concise response to the patient (2-4 sentences). "
+                f"Mention the severity level and the facility name. "
+                f"Do not recommend treatments or medications. "
+                f"Do not repeat the internal reasoning."
+            ),
+        )
+
+        resp = self._client.chat(
+            messages=messages + [grounding],
+            tools=None,
+            temperature=self._response_temperature,
+        )
+
+        return resp.content or "Please proceed to the recommended facility for assessment."

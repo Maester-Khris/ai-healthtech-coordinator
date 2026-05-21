@@ -1,5 +1,4 @@
 import logging
-import json
 from datetime import datetime, date
 
 from fastapi import APIRouter, Depends, Request, Header
@@ -102,48 +101,73 @@ async def send_message(
     current_user: object = Depends(get_current_user),
 ) -> dict:
     """
-    Saves a user message, generates a stub assistant response,
-    saves the assistant message, updates the in-memory cache.
-    Returns both the user message and the assistant response.
+    Saves a user message, runs the LLM triage agent, saves the assistant response.
+    Returns user message, assistant message, and triage result (null on follow-up turns).
     """
     user_id = str(current_user.id)  # type: ignore[attr-defined]
     session_id = str(body.session_id)
     request_id = getattr(request.state, "request_id", None)
 
-    logger.info(
-        "message received",
-        extra={
-            "request_id": request_id,
-            "user_id": user_id,
-            "session_id": session_id,
-            "content_length": len(body.content),
-        },
-    )
+    # Fetch history from cache for context window
+    cache_entry, _ = get_user_cache(user_id)
+    history: list[dict] = []
+    if cache_entry:
+        history = cache_entry.get("messages", {}).get(session_id, [])
 
-    user_msg = add_message(
-        session_id=session_id,
-        user_id=user_id,
-        role="user",
-        content=body.content,
-    )
-
-    stub = body.content.strip()[:50] + ("..." if len(body.content.strip()) > 50 else "")
-    assistant_msg = add_message(
-        session_id=session_id,
-        user_id=user_id,
-        role="assistant",
-        content=stub,
-    )
-
+    user_msg = add_message(session_id=session_id, user_id=user_id, role="user", content=body.content)
     append_message_to_cache(user_id, session_id, user_msg)
+
+    try:
+        from services.llm_agent import LLMAgent
+        agent = LLMAgent()
+        result = agent.respond(
+            user_message=body.content,
+            history=history,
+            lat=body.lat,
+            lng=body.lng,
+        )
+    except Exception as exc:
+        import sentry_sdk
+        sentry_sdk.capture_exception(exc)
+        logger.error("llm_agent_failed", extra={"request_id": request_id, "error": str(exc)})
+        result = {
+            "response": (
+                "I'm having trouble processing your request right now. "
+                "If this is an emergency, please call 911."
+            ),
+            "severity": None,
+            "reasoning": None,
+            "recommended_facility": None,
+            "nearby_facilities": [],
+            "turn_type": "followup",
+        }
+
+    assistant_msg = add_message(
+        session_id=session_id, user_id=user_id, role="assistant", content=result["response"]
+    )
     append_message_to_cache(user_id, session_id, assistant_msg)
 
     logger.info(
-        "message pair written",
-        extra={"request_id": request_id, "user_id": user_id, "session_id": session_id},
+        "triage_agent_responded",
+        extra={
+            "request_id": request_id,
+            "turn_type": result["turn_type"],
+            "severity": result.get("severity"),
+            "has_facility": result.get("recommended_facility") is not None,
+            "nearby_count": len(result.get("nearby_facilities", [])),
+        },
     )
 
-    return _ser({"user_message": user_msg, "assistant_message": assistant_msg})
+    triage = None
+    if result["turn_type"] == "triage":
+        triage = {
+            "severity": result["severity"],
+            "reasoning": result["reasoning"],
+            "recommended_facility": result["recommended_facility"],
+            "nearby_facilities": result["nearby_facilities"],
+        }
+
+    return _ser({"user_message": user_msg, "assistant_message": assistant_msg, "triage": triage})
 
 
 @router.get("/sessions/{session_id}/messages")
