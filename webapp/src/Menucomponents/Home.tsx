@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { Facility, Message, Session, ConversationsCache } from '@shared/types'
+import type { Facility, Message, Session, ConversationsCache, ChatMessageResponse } from '@shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
@@ -8,12 +8,13 @@ import { GettingStartedModal } from '../components/onboarding/GettingStartedModa
 import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
 import { useGeolocation } from '../hooks/useGeolocation'
+import { useTriageState } from '../hooks/useTriageState'
 
 interface HomeProps {
   facilities: Facility[]
   facilitiesLoading: boolean
   conversationsCache: ConversationsCache | null
-  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<ChatMessageResponse | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
@@ -22,9 +23,16 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
   const { user } = useAuth()
   const { profile, updateProfile } = useProfile()
   const geo = useGeolocation()
+  const { triage, applyTriageResult, reset: triageReset } = useTriageState()
+  const [sessionKey, setSessionKey] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
   const [onboardingDismissed, setOnboardingDismissed] = useState(false)
+
+  const handleNewConversation = () => {
+    triageReset()
+    setSessionKey(k => k + 1)  // remounts ChatPanel, clearing all local state
+  }
 
   useEffect(() => {
     if (!user) geo.setCoords(null)
@@ -101,12 +109,17 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
       <div className="flex flex-1 overflow-hidden p-5 gap-5">
         {/* Map panel */}
         <div className="flex-[7] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative">
-          <MapPanel facilities={facilities} facilitiesLoading={facilitiesLoading} />
+          <MapPanel
+            facilities={facilities}
+            facilitiesLoading={facilitiesLoading}
+            triage={triage}
+          />
         </div>
 
         {/* Chat panel */}
         <div className="flex-[3] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative min-w-[320px]">
           <ChatPanel
+            key={sessionKey}
             user={user}
             cache={conversationsCache}
             sendMessage={sendMessage}
@@ -114,6 +127,9 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
             loadOlderMessages={loadOlderMessages}
             geo={geo}
             profile={profile}
+            triage={triage}
+            onTriageResult={applyTriageResult}
+            onNewConversation={handleNewConversation}
           />
         </div>
       </div>

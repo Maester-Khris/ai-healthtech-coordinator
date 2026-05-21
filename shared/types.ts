@@ -75,3 +75,22 @@ export interface ChatMessageResponse {
   assistant_message: Message
   triage:            TriageResult | null
 }
+
+// ── Triage UI ─────────────────────────────────────────────────────────────────
+
+export interface RouteResult {
+  facilityId:  string
+  etaMinutes:  number
+  distanceKm:  number
+}
+
+export interface TriageUIState {
+  active:                boolean
+  severity:              Severity | null
+  reasoning:             string | null
+  recommendedFacility:   FacilityCandidate | null
+  nearbyFacilities:      FacilityCandidate[]
+  userCoords:            { lat: number; lng: number } | null
+  routes:                RouteResult[]
+  recommendedFacilityId: string | null
+}

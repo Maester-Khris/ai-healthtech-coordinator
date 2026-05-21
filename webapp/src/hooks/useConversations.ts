@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react"
 import { useAuth } from "../auth/useAuth"
 import { apiFetch } from "../lib/apiClient"
-import type { Message, Session, ConversationsCache } from "@shared/types"
+import type { Message, Session, ConversationsCache, ChatMessageResponse } from "@shared/types"
 
-export type { Message, Session, ConversationsCache }
+export type { Message, Session, ConversationsCache, ChatMessageResponse }
 
 interface UseConversationsResult {
   cache: ConversationsCache | null
   loading: boolean
   error: string | null
-  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<ChatMessageResponse | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
@@ -66,7 +66,7 @@ export function useConversations(): UseConversationsResult {
     sessionId: string,
     content: string,
     coords?: { lat: number; lng: number } | null,
-  ): Promise<Message | null> => {
+  ): Promise<ChatMessageResponse | null> => {
     const res = await apiFetch("/chat/message", {
       method: "POST",
       body: JSON.stringify({
@@ -76,7 +76,7 @@ export function useConversations(): UseConversationsResult {
       }),
     })
     if (!res.ok) return null
-    const data: { user_message: Message; assistant_message: Message } = await res.json()
+    const data: ChatMessageResponse = await res.json()
     setCache((prev: ConversationsCache | null) => {
       if (!prev) return prev
       const existing = prev.messages[sessionId] ?? []
@@ -85,7 +85,7 @@ export function useConversations(): UseConversationsResult {
         messages: { ...prev.messages, [sessionId]: [...existing, data.user_message, data.assistant_message] },
       }
     })
-    return data.assistant_message
+    return data
   }
 
   const loadOlderMessages = async (sessionId: string, beforeId: string): Promise<Message[]> => {
