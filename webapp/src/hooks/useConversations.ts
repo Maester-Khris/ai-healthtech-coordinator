@@ -9,7 +9,7 @@ interface UseConversationsResult {
   cache: ConversationsCache | null
   loading: boolean
   error: string | null
-  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<Message | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
@@ -62,10 +62,18 @@ export function useConversations(): UseConversationsResult {
     return session
   }
 
-  const sendMessage = async (sessionId: string, content: string): Promise<Message | null> => {
+  const sendMessage = async (
+    sessionId: string,
+    content: string,
+    coords?: { lat: number; lng: number } | null,
+  ): Promise<Message | null> => {
     const res = await apiFetch("/chat/message", {
       method: "POST",
-      body: JSON.stringify({ session_id: sessionId, content }),
+      body: JSON.stringify({
+        session_id: sessionId,
+        content,
+        ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
+      }),
     })
     if (!res.ok) return null
     const data: { user_message: Message; assistant_message: Message } = await res.json()

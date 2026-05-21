@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Facility, Message, Session, ConversationsCache } from '@shared/types'
 import { MapPanel } from './subcomponent/MapPanel'
 import { ChatPanel } from './subcomponent/ChatPanel'
@@ -7,12 +7,13 @@ import { UserMenu } from '../components/auth/UserMenu'
 import { GettingStartedModal } from '../components/onboarding/GettingStartedModal'
 import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
+import { useGeolocation } from '../hooks/useGeolocation'
 
 interface HomeProps {
   facilities: Facility[]
   facilitiesLoading: boolean
   conversationsCache: ConversationsCache | null
-  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<Message | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
@@ -20,9 +21,14 @@ interface HomeProps {
 export default function Home({ facilities, facilitiesLoading, conversationsCache, sendMessage, createSession, loadOlderMessages }: HomeProps) {
   const { user } = useAuth()
   const { profile, updateProfile } = useProfile()
+  const geo = useGeolocation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
   const [onboardingDismissed, setOnboardingDismissed] = useState(false)
+
+  useEffect(() => {
+    if (!user) geo.setCoords(null)
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnboardingComplete = async (data: {
     location_preference: 'always' | 'ask'
@@ -42,6 +48,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         <GettingStartedModal
           onComplete={handleOnboardingComplete}
           onClose={() => setOnboardingDismissed(true)}
+          geo={geo}
         />
       )}
 
@@ -105,6 +112,8 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
             sendMessage={sendMessage}
             createSession={createSession}
             loadOlderMessages={loadOlderMessages}
+            geo={geo}
+            profile={profile}
           />
         </div>
       </div>

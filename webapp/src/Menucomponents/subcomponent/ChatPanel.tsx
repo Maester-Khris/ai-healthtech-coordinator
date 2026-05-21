@@ -6,12 +6,19 @@ interface AuthUser {
   email: string | undefined
 }
 
+interface GeoProps {
+  coords: { lat: number; lng: number } | null
+  requestOnce: () => Promise<{ lat: number; lng: number } | null>
+}
+
 interface ChatPanelProps {
   user: AuthUser | null
   cache: ConversationsCache | null
-  sendMessage: (sessionId: string, content: string) => Promise<Message | null>
+  sendMessage: (sessionId: string, content: string, coords?: { lat: number; lng: number } | null) => Promise<Message | null>
   createSession: (firstMessage: string) => Promise<Session | null>
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
+  geo: GeoProps
+  profile: { location_preference: 'always' | 'ask' } | null
 }
 
 const SUGGESTIONS = [
@@ -25,7 +32,7 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("en-CA", { month: "short", day: "numeric" })
 }
 
-export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMessages }: ChatPanelProps) {
+export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMessages, geo, profile }: ChatPanelProps) {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [localMessages, setLocalMessages] = useState<Message[]>([])
   const [content, setContent] = useState("")
@@ -56,6 +63,17 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
     const text = content.trim()
     setContent("")
 
+    // Resolve coordinates based on preference
+    let coords = geo.coords
+    if (!coords) {
+      if (profile?.location_preference === 'always') {
+        coords = await geo.requestOnce()
+      } else if (!activeSessionId) {
+        // 'ask' — prompt on the first message of a new conversation only
+        coords = await geo.requestOnce()
+      }
+    }
+
     let sid = activeSessionId
     if (!sid) {
       const session = await createSession(text)
@@ -74,12 +92,13 @@ export function ChatPanel({ user, cache, sendMessage, createSession, loadOlderMe
     }
     setLocalMessages(prev => [...prev, optimisticUserMsg])
 
-    const assistantMsg = await sendMessage(sid, text)
+    const assistantMsg = await sendMessage(sid, text, coords)
     if (assistantMsg) {
-      setLocalMessages(prev => {
-        // replace optimistic user msg with nothing — keep it, just append assistant
-        return [...prev, assistantMsg]
-      })
+      setLocalMessages(prev => [
+        ...prev.filter(m => m.id !== optimisticUserMsg.id),
+        optimisticUserMsg,
+        assistantMsg,
+      ])
     }
   }
 

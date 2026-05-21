@@ -1,5 +1,10 @@
 import { useState } from "react"
 
+interface GeoProps {
+  requestOnce: () => Promise<{ lat: number; lng: number } | null>
+  setCoords: (coords: { lat: number; lng: number } | null) => void
+}
+
 interface GettingStartedModalProps {
   onComplete: (data: {
     location_preference: 'always' | 'ask'
@@ -7,9 +12,10 @@ interface GettingStartedModalProps {
     emergency_contact_phone: string | null
   }) => Promise<void>
   onClose: () => void
+  geo: GeoProps
 }
 
-export function GettingStartedModal({ onComplete, onClose }: GettingStartedModalProps) {
+export function GettingStartedModal({ onComplete, onClose, geo }: GettingStartedModalProps) {
   const [locationPreference, setLocationPreference] = useState<'always' | 'ask'>('ask')
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
@@ -74,7 +80,11 @@ export function GettingStartedModal({ onComplete, onClose }: GettingStartedModal
             <div className="flex flex-col gap-2">
               <button
                 type="button"
-                onClick={() => setLocationPreference('always')}
+                onClick={async () => {
+                  setLocationPreference('always')
+                  const position = await geo.requestOnce()
+                  if (position) geo.setCoords(position)
+                }}
                 className={`flex items-start gap-3 px-4 py-3 rounded-xl border text-left transition-all ${
                   locationPreference === 'always'
                     ? 'border-blue-500 bg-blue-50'
