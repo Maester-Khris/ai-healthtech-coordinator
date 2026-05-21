@@ -26,8 +26,8 @@ what is already there.
 
 ### Always read (if not already in context)
 
-- `AGENTS.md`
-- `.claude/CLAUDE.md`
+- `.AGENTS.md`
+- `.claude/.CLAUDE.md`
 - `docs/ARCHITECTURE.md`
 - `docs/API.md`
 - `shared/types.ts` — if it exists
