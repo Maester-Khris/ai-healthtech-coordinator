@@ -266,16 +266,83 @@ class TestSendMessage:
         assert resp.status_code == 200
         assert resp.json()["assistant_message"]["content"] == "hello"
 
-    def test_60_char_content_truncated_to_50_plus_ellipsis(self, client):
-        long_content = "x" * 60
-        expected_stub = "x" * 50 + "..."
-        user_msg = self._fake_msg("user", long_content)
-        assistant_msg = self._fake_msg("assistant", expected_stub)
-        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]) as mock_add:
-            resp = self._post(client, long_content)
+    def test_send_message_calls_llm_agent_and_returns_response(self, client):
+        """LLMAgent.respond is called and its response is used as assistant content."""
+        from unittest.mock import patch, MagicMock
+
+        user_msg = self._fake_msg("user", "I have a headache")
+        assistant_msg = self._fake_msg("assistant", "Can you tell me more?")
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent:
+            mock_instance = MagicMock()
+            mock_instance.respond.return_value = {
+                "response": "Can you tell me more?",
+                "severity": None,
+                "reasoning": None,
+                "recommended_facility": None,
+                "nearby_facilities": [],
+                "turn_type": "followup",
+            }
+            MockAgent.return_value = mock_instance
+            resp = self._post(client, "I have a headache")
+
         assert resp.status_code == 200
-        # Verify the stub was computed and passed as the assistant content
-        assert mock_add.call_args_list[1].kwargs["content"] == expected_stub
+        data = resp.json()
+        assert data["assistant_message"]["content"] == "Can you tell me more?"
+        assert data["triage"] is None
+
+    def test_send_message_returns_triage_on_classification(self, client):
+        """When LLMAgent returns turn_type=triage, response includes triage object."""
+        from unittest.mock import patch, MagicMock
+
+        user_msg = self._fake_msg("user", "chest pain")
+        assistant_msg = self._fake_msg("assistant", "Go to Toronto General immediately.")
+
+        fake_facility = {
+            "id": "fac-001", "name": "Toronto General Hospital",
+            "category": "hospital", "address": "200 Elizabeth St",
+            "lat": 43.659, "lng": -79.388, "distanceKm": 1.2,
+        }
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent:
+            mock_instance = MagicMock()
+            mock_instance.respond.return_value = {
+                "response": "Go to Toronto General immediately.",
+                "severity": "emergent",
+                "reasoning": "Chest pain may indicate cardiac event.",
+                "recommended_facility": fake_facility,
+                "nearby_facilities": [],
+                "turn_type": "triage",
+            }
+            MockAgent.return_value = mock_instance
+            resp = self._post(client, "chest pain")
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["triage"] is not None
+        assert data["triage"]["severity"] == "emergent"
+        assert data["triage"]["recommended_facility"]["name"] == "Toronto General Hospital"
+
+    def test_llm_agent_failure_returns_safe_fallback(self, client):
+        """When LLMAgent raises, endpoint returns 200 with safe error message."""
+        from unittest.mock import patch, MagicMock
+
+        user_msg = self._fake_msg("user", "I feel sick")
+        fallback_msg = self._fake_msg("assistant",
+            "I'm having trouble processing your request right now. "
+            "If this is an emergency, please call 911.")
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, fallback_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent:
+            MockAgent.return_value.respond.side_effect = Exception("LLM unavailable")
+            resp = self._post(client, "I feel sick")
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "911" in data["assistant_message"]["content"]
+        assert data["triage"] is None
 
     def test_response_contains_both_user_and_assistant_messages(self, client):
         user_msg = self._fake_msg("user", "hi")
