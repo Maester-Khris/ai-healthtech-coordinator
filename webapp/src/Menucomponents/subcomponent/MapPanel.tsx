@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
 import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
 import cnTowerSvg from '../../assets/cntower.svg'
@@ -143,6 +143,62 @@ const LEGEND_ITEMS = [
   { color: "#185FA5", label: "Current location", isPin: true },
 ] as const
 
+type CategoryFilter = "all" | "hospital" | "ambulatory" | "residential"
+
+const FILTER_OPTIONS: Array<{ value: CategoryFilter; label: string; color: string }> = [
+  { value: "all",         label: "All types",       color: "#334455" },
+  { value: "hospital",    label: "Hospital",         color: "#C0392B" },
+  { value: "ambulatory",  label: "Walk-in / Clinic", color: "#1A7A8A" },
+  { value: "residential", label: "Residential Care", color: "#5A7A4A" },
+]
+
+function CategoryFilterDropdown({
+  value,
+  onChange,
+  counts,
+}: {
+  value: CategoryFilter
+  onChange: (v: CategoryFilter) => void
+  counts: Record<CategoryFilter, number>
+}) {
+  const selected = FILTER_OPTIONS.find(o => o.value === value)!
+
+  return (
+    <div style={{ position: "relative" }}>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value as CategoryFilter)}
+        style={{
+          appearance: "none",
+          WebkitAppearance: "none",
+          background: "rgba(255,255,255,0.95)",
+          border: "0.5px solid rgba(0,0,0,0.12)",
+          borderRadius: 20,
+          padding: "5px 28px 5px 12px",
+          fontSize: 12,
+          fontWeight: 500,
+          color: selected.color,
+          cursor: "pointer",
+          backdropFilter: "blur(4px)",
+          outline: "none",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right 8px center",
+        }}
+      >
+        {FILTER_OPTIONS.map(opt => (
+          <option key={opt.value} value={opt.value}>
+            {opt.value === "all"
+              ? `All types (${counts.all})`
+              : `${opt.label} (${counts[opt.value]})`}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
 // Must be inside MapContainer to call useMap()
 function MapFitBounds({ triage }: { triage: TriageUIState }) {
   const map = useMap()
@@ -172,6 +228,23 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
   const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
   const recommendedId = activeTriage.recommendedFacilityId
+
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all")
+
+  useEffect(() => {
+    if (activeTriage.active) setCategoryFilter("all")
+  }, [activeTriage.active])
+
+  const counts: Record<CategoryFilter, number> = {
+    all:         facilities.length,
+    hospital:    facilities.filter(f => f.category === "hospital").length,
+    ambulatory:  facilities.filter(f => f.category === "ambulatory").length,
+    residential: facilities.filter(f => f.category === "residential").length,
+  }
+
+  const displayedFacilities = categoryFilter === "all"
+    ? facilities
+    : facilities.filter(f => f.category === categoryFilter)
 
   // Single recommended route — find the one route that matters
   const recommendedRoute = activeTriage.routes.find(
@@ -276,8 +349,8 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
                 </Popup>
               </Marker>
             ))
-          /* Facility markers — default state (all 393) */
-          : facilities.map(facility => (
+          /* Facility markers — default state, filtered */
+          : displayedFacilities.map(facility => (
               <Marker
                 key={facility.id ?? facility.name}
                 position={[facility.lat, facility.lng]}
@@ -365,16 +438,36 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
         </div>
       )}
 
-      {/* Status pill — top right */}
-      <div className="absolute top-5 right-5 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-        </span>
-        {activeTriage.active
-          ? `${triageCandidates.length} FACILITIES SHOWN`
-          : `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
-        }
+      {/* Filter + status pill — top right, shared container */}
+      <div style={{
+        position: "absolute",
+        top: 12,
+        right: 12,
+        zIndex: 20,
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        pointerEvents: "auto",
+      }}>
+        {!activeTriage.active && (
+          <CategoryFilterDropdown
+            value={categoryFilter}
+            onChange={setCategoryFilter}
+            counts={counts}
+          />
+        )}
+        <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          {activeTriage.active
+            ? `${triageCandidates.length} FACILITIES SHOWN`
+            : categoryFilter === "all"
+              ? `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
+              : `${displayedFacilities.length} OF ${facilities.length} SHOWN`
+          }
+        </div>
       </div>
 
       {/* Legend — bottom left */}
