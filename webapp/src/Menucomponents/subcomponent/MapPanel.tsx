@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
 import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
 import cnTowerSvg from '../../assets/cntower.svg'
@@ -51,8 +51,8 @@ const userIcon = L.divIcon({
 })
 
 const CATEGORY_STYLES: Record<string, { color: string; letter: string; label: string }> = {
-  hospital:    { color: "#C0392B", letter: "H", label: "Hospital" },
-  ambulatory:  { color: "#1A7A8A", letter: "A", label: "Walk-in / Clinic" },
+  hospital: { color: "#C0392B", letter: "H", label: "Hospital" },
+  ambulatory: { color: "#1A7A8A", letter: "A", label: "Walk-in / Clinic" },
   residential: { color: "#5A7A4A", letter: "R", label: "Residential Care" },
 }
 
@@ -130,9 +130,9 @@ function buildTriageCandidates(triage: TriageUIState): FacilityCandidate[] {
 }
 
 const SEVERITY_COLORS: Record<string, string> = {
-  routine:  '#10B981',
+  routine: '#10B981',
   moderate: '#F59E0B',
-  urgent:   '#F97316',
+  urgent: '#F97316',
   emergent: '#EF4444',
 }
 
@@ -146,9 +146,9 @@ const LEGEND_ITEMS = [
 type CategoryFilter = "all" | "hospital" | "ambulatory" | "residential"
 
 const FILTER_OPTIONS: Array<{ value: CategoryFilter; label: string; color: string }> = [
-  { value: "all",         label: "All types",       color: "#334455" },
-  { value: "hospital",    label: "Hospital",         color: "#C0392B" },
-  { value: "ambulatory",  label: "Walk-in / Clinic", color: "#1A7A8A" },
+  { value: "all", label: "All types", color: "#334455" },
+  { value: "hospital", label: "Hospital", color: "#C0392B" },
+  { value: "ambulatory", label: "Walk-in / Clinic", color: "#1A7A8A" },
   { value: "residential", label: "Residential Care", color: "#5A7A4A" },
 ]
 
@@ -162,39 +162,65 @@ function CategoryFilterDropdown({
   counts: Record<CategoryFilter, number>
 }) {
   const selected = FILTER_OPTIONS.find(o => o.value === value)!
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
-    <div style={{ position: "relative" }}>
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value as CategoryFilter)}
-        style={{
-          appearance: "none",
-          WebkitAppearance: "none",
-          background: "rgba(255,255,255,0.95)",
-          border: "0.5px solid rgba(0,0,0,0.12)",
-          borderRadius: 20,
-          padding: "5px 28px 5px 12px",
-          fontSize: 12,
-          fontWeight: 500,
-          color: selected.color,
-          cursor: "pointer",
-          backdropFilter: "blur(4px)",
-          outline: "none",
-          boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right 8px center",
-        }}
+    <div className="relative group flex items-center" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className='map-category-filter appearance-none bg-white/80 hover:bg-white/95 backdrop-blur-md border border-gray-200/60 hover:border-gray-300/80 rounded-full py-2.5 pl-10 pr-11 text-xs font-bold text-gray-800 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out cursor-pointer outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 flex items-center justify-between min-w-[180px] relative'
       >
-        {FILTER_OPTIONS.map(opt => (
-          <option key={opt.value} value={opt.value}>
-            {opt.value === "all"
-              ? `All types (${counts.all})`
-              : `${opt.label} (${counts[opt.value]})`}
-          </option>
-        ))}
-      </select>
+        <div 
+          className="absolute left-4 w-2.5 h-2.5 rounded-full shadow-sm transition-colors duration-300 pointer-events-none" 
+          style={{ backgroundColor: selected.color }}
+        />
+        <span className="truncate flex-1 text-left">
+          {selected.value === "all"
+            ? `All types (${counts.all})`
+            : `${selected.label} (${counts[selected.value]})`}
+        </span>
+        <div className="absolute right-4 pointer-events-none text-gray-400 group-hover:text-gray-600 transition-transform duration-300" style={{ transform: isOpen ? 'rotate(180deg)' : 'none' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-[calc(100%+8px)] right-0 min-w-[220px] bg-white/95 backdrop-blur-xl border border-gray-200/80 shadow-xl rounded-2xl overflow-hidden z-50 flex flex-col py-2">
+          {FILTER_OPTIONS.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => {
+                onChange(opt.value)
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-3.5 px-5 py-3 hover:bg-gray-100/80 text-left transition-colors w-full"
+            >
+              <div 
+                className="w-2.5 h-2.5 rounded-full shadow-sm flex-shrink-0" 
+                style={{ backgroundColor: opt.color }}
+              />
+              <span className="text-xs font-bold text-gray-800">
+                {opt.value === "all"
+                  ? `All types (${counts.all})`
+                  : `${opt.label} (${counts[opt.value]})`}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -236,9 +262,9 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
   }, [activeTriage.active])
 
   const counts: Record<CategoryFilter, number> = {
-    all:         facilities.length,
-    hospital:    facilities.filter(f => f.category === "hospital").length,
-    ambulatory:  facilities.filter(f => f.category === "ambulatory").length,
+    all: facilities.length,
+    hospital: facilities.filter(f => f.category === "hospital").length,
+    ambulatory: facilities.filter(f => f.category === "ambulatory").length,
     residential: facilities.filter(f => f.category === "residential").length,
   }
 
@@ -295,10 +321,10 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
               [recommendedFacility.lat, recommendedFacility.lng],
             ]}
             pathOptions={{
-              color:     "#185FA5",
-              weight:    3,
+              color: "#185FA5",
+              weight: 3,
               dashArray: "10, 7",
-              opacity:   0.85,
+              opacity: 0.85,
             }}
           >
             <Tooltip permanent className="eta-tooltip-permanent">
@@ -312,101 +338,101 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
         {/* Facility markers — triage state */}
         {activeTriage.active
           ? triageCandidates.map(facility => (
-              <Marker
-                key={facility.id}
-                position={[facility.lat, facility.lng]}
-                icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
-              >
-                <Tooltip sticky>
-                  <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                    <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                    <span style={{
-                      display: 'inline-block',
-                      background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                      color: 'white',
-                      fontSize: 10,
-                      fontWeight: 600,
-                      padding: '1px 6px',
-                      borderRadius: 4,
-                      marginBottom: 3,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                    }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span>
-                  </div>
-                </Tooltip>
-                <Popup>
-                  <div style={{ minWidth: 160 }}>
-                    <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                      {facility.name}
-                    </p>
-                    <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                      {facility.address}
-                    </p>
-                    <p style={{ fontSize: 11, color: '#666' }}>
-                      ~{facility.distanceKm} km away
-                    </p>
-                  </div>
-                </Popup>
-              </Marker>
-            ))
+            <Marker
+              key={facility.id}
+              position={[facility.lat, facility.lng]}
+              icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
+            >
+              <Tooltip sticky>
+                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
+                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
+                  <span style={{
+                    display: 'inline-block',
+                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
+                    color: 'white',
+                    fontSize: 10,
+                    fontWeight: 600,
+                    padding: '1px 6px',
+                    borderRadius: 4,
+                    marginBottom: 3,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span>
+                </div>
+              </Tooltip>
+              <Popup>
+                <div style={{ minWidth: 160 }}>
+                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+                    {facility.name}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
+                    {facility.address}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#666' }}>
+                    ~{facility.distanceKm} km away
+                  </p>
+                </div>
+              </Popup>
+            </Marker>
+          ))
           /* Facility markers — default state, filtered */
           : displayedFacilities.map(facility => (
-              <Marker
-                key={facility.id ?? facility.name}
-                position={[facility.lat, facility.lng]}
-                icon={getFacilityIcon(facility, null, false)}
-              >
-                <Tooltip sticky>
-                  <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                    <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                    <span style={{
-                      display: 'inline-block',
-                      background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                      color: 'white',
-                      fontSize: 10,
-                      fontWeight: 600,
-                      padding: '1px 6px',
-                      borderRadius: 4,
-                      marginBottom: 3,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                    }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span><br />
-                    <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
+            <Marker
+              key={facility.id ?? facility.name}
+              position={[facility.lat, facility.lng]}
+              icon={getFacilityIcon(facility, null, false)}
+            >
+              <Tooltip sticky>
+                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
+                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
+                  <span style={{
+                    display: 'inline-block',
+                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
+                    color: 'white',
+                    fontSize: 10,
+                    fontWeight: 600,
+                    padding: '1px 6px',
+                    borderRadius: 4,
+                    marginBottom: 3,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span><br />
+                  <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
+                </div>
+              </Tooltip>
+              <Popup>
+                <div style={{ minWidth: 160 }}>
+                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+                    {facility.name}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#666', marginBottom: 4, textTransform: 'capitalize' }}>
+                    {facility.category}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
+                    {facility.address}
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                    {facility.accepted_severity.map(sev => (
+                      <span
+                        key={sev}
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 600,
+                          padding: '2px 6px',
+                          borderRadius: 4,
+                          backgroundColor: `${SEVERITY_COLORS[sev]}22`,
+                          color: SEVERITY_COLORS[sev],
+                          border: `1px solid ${SEVERITY_COLORS[sev]}44`,
+                        }}
+                      >
+                        {sev}
+                      </span>
+                    ))}
                   </div>
-                </Tooltip>
-                <Popup>
-                  <div style={{ minWidth: 160 }}>
-                    <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                      {facility.name}
-                    </p>
-                    <p style={{ fontSize: 11, color: '#666', marginBottom: 4, textTransform: 'capitalize' }}>
-                      {facility.category}
-                    </p>
-                    <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                      {facility.address}
-                    </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                      {facility.accepted_severity.map(sev => (
-                        <span
-                          key={sev}
-                          style={{
-                            fontSize: 10,
-                            fontWeight: 600,
-                            padding: '2px 6px',
-                            borderRadius: 4,
-                            backgroundColor: `${SEVERITY_COLORS[sev]}22`,
-                            color: SEVERITY_COLORS[sev],
-                            border: `1px solid ${SEVERITY_COLORS[sev]}44`,
-                          }}
-                        >
-                          {sev}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            ))
+                </div>
+              </Popup>
+            </Marker>
+          ))
         }
       </MapContainer>
 
