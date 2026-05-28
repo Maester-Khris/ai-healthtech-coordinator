@@ -50,46 +50,74 @@ const userIcon = L.divIcon({
   popupAnchor: [0, -32],
 })
 
-// H badge marker — used for all facility markers in both default and triage state.
-// In triage state: recommended is larger with animated pulse ring, others are muted.
-// In default state: recommendedId is null, so all render as the non-recommended variant.
-function getFacilityIcon(facilityId: string | undefined, recommendedId: string | null) {
-  const isRecommended = !!facilityId && facilityId === recommendedId
-  const size = isRecommended ? 38 : 26
-  const bg = isRecommended ? "#C0392B" : "#E8877A"
-  const textSize = isRecommended ? 16 : 11
-  const svgSize = isRecommended ? size + 20 : size + 4
+const CATEGORY_STYLES: Record<string, { color: string; letter: string; label: string }> = {
+  hospital:    { color: "#C0392B", letter: "H", label: "Hospital" },
+  ambulatory:  { color: "#1A7A8A", letter: "A", label: "Walk-in / Clinic" },
+  residential: { color: "#5A7A4A", letter: "R", label: "Residential Care" },
+}
+
+const DEFAULT_STYLE = { color: "#888888", letter: "H", label: "Other" }
+
+function getFacilityIcon(
+  facility: { id?: string; category: string },
+  recommendedId: string | null,
+  triageActive: boolean,
+): L.DivIcon {
+  const style = CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE
+  const isRecommended = triageActive && !!facility.id && facility.id === recommendedId
+  const isCandidate = triageActive && !isRecommended
+
+  const size = isRecommended ? 40 : 28
+  const svgSize = isRecommended ? 60 : 36
+  const textSize = isRecommended ? 17 : 12
+  const opacity = isCandidate ? 0.55 : 1
+  const bg = style.color
 
   const pulse = isRecommended
-    ? `<circle cx="${svgSize / 2}" cy="${svgSize / 2}" r="${size / 2 + 6}"
-         fill="none" stroke="#C0392B" stroke-width="2" opacity="0.3">
+    ? `<circle
+         cx="${svgSize / 2}" cy="${svgSize / 2}"
+         r="${size / 2 + 4}"
+         fill="none"
+         stroke="${bg}"
+         stroke-width="2"
+         opacity="0.4">
          <animate attributeName="r"
-           values="${size / 2};${size / 2 + 10}" dur="1.5s"
-           repeatCount="indefinite"/>
+           values="${size / 2 + 4};${size / 2 + 12}"
+           dur="1.5s" repeatCount="indefinite"/>
          <animate attributeName="opacity"
            values="0.4;0" dur="1.5s" repeatCount="indefinite"/>
        </circle>`
     : ""
 
+  const offset = (svgSize - size) / 2
+
   return L.divIcon({
     className: "",
-    html: `<svg xmlns="http://www.w3.org/2000/svg"
+    html: `<svg
+             xmlns="http://www.w3.org/2000/svg"
              width="${svgSize}" height="${svgSize}"
-             viewBox="0 0 ${svgSize} ${svgSize}">
+             viewBox="0 0 ${svgSize} ${svgSize}"
+             style="opacity:${opacity}">
       ${pulse}
-      <rect x="${isRecommended ? 10 : 2}" y="${isRecommended ? 10 : 2}"
-            width="${size}" height="${size}" rx="${Math.round(size * 0.25)}"
-            fill="${bg}"/>
-      <text x="${svgSize / 2}" y="${svgSize / 2 + textSize * 0.35}"
-            text-anchor="middle"
-            font-family="system-ui, sans-serif"
-            font-size="${textSize}"
-            font-weight="700"
-            fill="white">H</text>
+      <rect
+        x="${offset}" y="${offset}"
+        width="${size}" height="${size}"
+        rx="${size * 0.22}"
+        fill="${bg}"
+        filter="${isRecommended ? "drop-shadow(0 2px 5px rgba(0,0,0,0.35))" : "none"}"/>
+      <text
+        x="${svgSize / 2}" y="${svgSize / 2 + textSize * 0.38}"
+        text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="${textSize}"
+        font-weight="700"
+        fill="white">
+        ${style.letter}
+      </text>
     </svg>`,
     iconSize: [svgSize, svgSize],
     iconAnchor: [svgSize / 2, svgSize / 2],
-    popupAnchor: [0, -svgSize / 2],
+    popupAnchor: [0, -(svgSize / 2 + 4)],
   })
 }
 
@@ -109,10 +137,11 @@ const SEVERITY_COLORS: Record<string, string> = {
 }
 
 const LEGEND_ITEMS = [
-  { label: 'Hospital / Clinic', color: '#E24B4A' },
-  { label: 'Community Health Centre', color: '#F59E0B' },
-  { label: 'Current location', color: '#2563EB' },
-]
+  { color: "#C0392B", letter: "H", label: "Hospital" },
+  { color: "#1A7A8A", letter: "A", label: "Walk-in / Clinic" },
+  { color: "#5A7A4A", letter: "R", label: "Residential Care" },
+  { color: "#185FA5", label: "Current location", isPin: true },
+] as const
 
 // Must be inside MapContainer to call useMap()
 function MapFitBounds({ triage }: { triage: TriageUIState }) {
@@ -213,12 +242,23 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
               <Marker
                 key={facility.id}
                 position={[facility.lat, facility.lng]}
-                icon={getFacilityIcon(facility.id, recommendedId)}
+                icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
               >
                 <Tooltip sticky>
-                  <div style={{ fontSize: 12, lineHeight: 1.5 }}>
-                    <strong>{facility.name}</strong><br />
-                    {facility.category.charAt(0).toUpperCase() + facility.category.slice(1)}
+                  <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
+                    <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
+                    <span style={{
+                      display: 'inline-block',
+                      background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
+                      color: 'white',
+                      fontSize: 10,
+                      fontWeight: 600,
+                      padding: '1px 6px',
+                      borderRadius: 4,
+                      marginBottom: 3,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                    }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span>
                   </div>
                 </Tooltip>
                 <Popup>
@@ -241,12 +281,23 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
               <Marker
                 key={facility.id ?? facility.name}
                 position={[facility.lat, facility.lng]}
-                icon={getFacilityIcon(facility.id, null)}
+                icon={getFacilityIcon(facility, null, false)}
               >
                 <Tooltip sticky>
-                  <div style={{ fontSize: 12, lineHeight: 1.5 }}>
-                    <strong>{facility.name}</strong><br />
-                    {facility.category.charAt(0).toUpperCase() + facility.category.slice(1)}<br />
+                  <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
+                    <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
+                    <span style={{
+                      display: 'inline-block',
+                      background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
+                      color: 'white',
+                      fontSize: 10,
+                      fontWeight: 600,
+                      padding: '1px 6px',
+                      borderRadius: 4,
+                      marginBottom: 3,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                    }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span><br />
                     <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
                   </div>
                 </Tooltip>
@@ -330,13 +381,27 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
       <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
         <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
         <div className="flex items-center gap-3">
-          {LEGEND_ITEMS.map(({ label, color }) => (
-            <div key={label} className="flex items-center gap-1.5">
-              <span
-                className="w-2.5 h-2.5 rounded-full inline-block flex-none shadow-sm"
-                style={{ backgroundColor: color }}
-              />
-              <span className="text-[11px] font-semibold text-gray-600 leading-none">{label}</span>
+          {LEGEND_ITEMS.map(item => (
+            <div key={item.label} className="flex items-center gap-1.5">
+              {'isPin' in item ? (
+                <span
+                  className="w-2.5 h-2.5 rounded-full inline-block flex-none shadow-sm"
+                  style={{ backgroundColor: item.color }}
+                />
+              ) : (
+                <span
+                  className="inline-flex items-center justify-center flex-none rounded shadow-sm"
+                  style={{
+                    width: 18, height: 18,
+                    background: item.color,
+                    fontSize: 10, fontWeight: 700, color: 'white',
+                    borderRadius: 4,
+                  }}
+                >
+                  {'letter' in item ? item.letter : ''}
+                </span>
+              )}
+              <span className="text-[11px] font-semibold text-gray-600 leading-none">{item.label}</span>
             </div>
           ))}
         </div>
