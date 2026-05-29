@@ -9,7 +9,7 @@ import type {
 } from '@shared/types'
 import { MapTab } from './MapTab'
 import { AiAssistantTab } from './AiAssistantTab'
-import { LoginModal } from '../auth/LoginModal'
+import { MobileNavBar } from './MobileNavBar'
 import { useAuth } from '../../auth/useAuth'
 import { useProfile } from '../../hooks/useProfile'
 import { useGeolocation } from '../../hooks/useGeolocation'
@@ -74,8 +74,6 @@ export function MobileLayout({
   const [activeTab, setActiveTab] = useState<Tab>('map')
   const [sessionKey, setSessionKey] = useState(0)
   const [symptomValue, setSymptomValue] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalTab, setModalTab] = useState<'signin' | 'signup'>('signin')
 
   useEffect(() => {
     if (!user) geo.setCoords(null)
@@ -94,64 +92,27 @@ export function MobileLayout({
     await applyTriageResult(result, coords)
   }
 
-  // Switch to AI tab when user submits from map input bar
   const handleMapSend = () => {
     if (symptomValue.trim()) setActiveTab('ai')
   }
 
-  const initials = user?.email ? user.email[0].toUpperCase() : '?'
-
   return (
     <div className="flex flex-col bg-[#F8FAFC]" style={{ height: '100dvh' }}>
-      <LoginModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        defaultTab={modalTab}
-      />
-
-      {/* Nav bar — 44px */}
-      <header
-        className="flex-none flex items-center justify-between px-4 bg-white border-b border-gray-200 z-10 shadow-sm"
-        style={{ height: 44 }}
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg overflow-hidden shadow-sm flex-none">
-            <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
-          </div>
-          <span className="text-[15px] font-bold text-gray-900 tracking-tight">
-            MediCoord<span className="text-blue-600">AI</span>
-          </span>
-        </div>
-
-        {user ? (
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[12px] font-bold flex-none">
-            {initials}
-          </div>
-        ) : (
-          <button
-            onClick={() => { setModalTab('signin'); setIsModalOpen(true) }}
-            className="text-[12px] font-semibold text-blue-600 px-3 py-1.5"
-            style={{ minHeight: 36 }}
-          >
-            Sign in
-          </button>
-        )}
-      </header>
+      <MobileNavBar />
 
       {/* Tab bar — 36px */}
       <div
         className="flex-none flex bg-white border-b border-gray-100 z-10"
-        style={{ height: 36 }}
+        style={{ height: 46 }}
       >
         {(['map', 'ai'] as Tab[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors border-b-2 ${
-              activeTab === tab
-                ? 'text-blue-600 border-blue-600'
-                : 'text-gray-400 border-transparent'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-[12px] font-semibold transition-colors border-b-2 ${activeTab === tab
+              ? 'text-blue-600 border-blue-600'
+              : 'text-gray-400 border-transparent'
+              }`}
           >
             {tab === 'map' ? <MapIcon /> : <ChatIcon />}
             {tab === 'map' ? 'Map view' : 'AI assistant'}

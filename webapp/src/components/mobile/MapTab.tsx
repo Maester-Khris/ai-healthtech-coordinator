@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { Facility, TriageUIState } from '@shared/types'
 import { MapPanel } from '../../Menucomponents/subcomponent/MapPanel'
 import { BottomSheet } from './BottomSheet'
@@ -9,8 +9,6 @@ import { useNextActions } from '../../hooks/useNextActions'
 
 const NAV_H = 44
 const TAB_H = 36
-const COLLAPSED_MAP_H = 210
-const SLIM_BAR_H = 70
 
 interface MapTabProps {
   facilities: Facility[]
@@ -34,41 +32,46 @@ export function MapTab({
   const [availH, setAvailH] = useState(() => window.innerHeight - NAV_H - TAB_H)
 
   useEffect(() => {
-    const onResize = () => setAvailH(window.innerHeight - NAV_H - TAB_H)
+    let timer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => setAvailH(window.innerHeight - NAV_H - TAB_H), 100)
+    }
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      clearTimeout(timer)
+    }
   }, [])
 
-  const {
-    sheetState,
-    dragOffset,
-    isDragging,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
-  } = useBottomSheet()
+  // 70% of available height for the map on initial load
+  const initialMapH = Math.round(availH * 0.70)
+
+  const mapRef = useRef<HTMLDivElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
+
+  const { sheetState, handleTouchStart, handleTouchMove, handleTouchEnd } = useBottomSheet({
+    mapRef,
+    sheetRef,
+    availH,
+    initialMapH,
+  })
 
   const { getDirections } = useNextActions(triage.severity)
 
   const isExpanded = sheetState === 'expanded'
-  const expandedMapH = availH - SLIM_BAR_H
-  const baseMapH = isExpanded ? expandedMapH : COLLAPSED_MAP_H
-  // dragOffset > 0 = dragged up (finger toward top) → map grows
-  // dragOffset < 0 = dragged down (finger toward bottom) → map shrinks
-  const liveMapH = Math.max(SLIM_BAR_H, Math.min(expandedMapH, baseMapH + dragOffset))
-  const liveSheetH = availH - liveMapH
-
   const recommended = triage.recommendedFacility
   const route = triage.routes.find(r => r.facilityId === triage.recommendedFacilityId)
 
   return (
     <div className="flex flex-col overflow-hidden" style={{ height: availH }}>
-      {/* Map */}
+      {/* Map — position:relative + overflow:hidden clips the legend inside the map bounds */}
       <div
+        ref={mapRef}
         style={{
-          height: liveMapH,
           flexShrink: 0,
-          transition: isDragging ? 'none' : 'height 0.25s ease',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
         <MapPanel
@@ -79,10 +82,9 @@ export function MapTab({
         />
       </div>
 
-      {/* Draggable bottom sheet */}
+      {/* Draggable bottom sheet — height managed by useBottomSheet via the forwarded ref */}
       <BottomSheet
-        height={liveSheetH}
-        isDragging={isDragging}
+        ref={sheetRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}

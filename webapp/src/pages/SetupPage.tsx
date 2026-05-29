@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProfile } from '../hooks/useProfile'
+import { MobileNavBar } from '../components/mobile/MobileNavBar'
 
 export default function SetupPage() {
   const navigate = useNavigate()
@@ -37,6 +38,8 @@ export default function SetupPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <MobileNavBar />
+
       {/* Hero */}
       <div
         className="flex-none flex flex-col items-center justify-center py-8 px-6"
