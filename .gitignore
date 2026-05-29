@@ -57,3 +57,6 @@ yarn-error.log*
 .parcel-cache
 .cache/
 build/
+
+# Local development automation
+Makefile
