@@ -9,6 +9,7 @@ interface MapPanelProps {
   facilities: Facility[]
   facilitiesLoading: boolean
   triage?: TriageUIState
+  verticalLegend?: boolean
 }
 
 const cnTowerPos: [number, number] = [43.6426, -79.3871]
@@ -250,7 +251,7 @@ function MapFitBounds({ triage }: { triage: TriageUIState }) {
   return null
 }
 
-export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProps) {
+export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false }: MapPanelProps) {
   const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
   const recommendedId = activeTriage.recommendedFacilityId
@@ -499,7 +500,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
       {/* Legend — bottom left */}
       <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
         <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
-        <div className="flex items-center gap-3">
+        <div className={verticalLegend ? "flex flex-col gap-1.5" : "flex items-center gap-3"}>
           {LEGEND_ITEMS.map(item => (
             <div key={item.label} className="flex items-center gap-1.5">
               {'isPin' in item ? (
