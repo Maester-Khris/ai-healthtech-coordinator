@@ -12,6 +12,7 @@ interface MapPanelProps {
   triage?: TriageUIState
   verticalLegend?: boolean
   sizeVersion?: number
+  onClear?: () => void
 }
 
 const cnTowerPos: [number, number] = [43.6426, -79.3871]
@@ -303,7 +304,7 @@ function UnifiedFacilityPopup({ name, category, address, distanceKm }: {
   )
 }
 
-export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0 }: MapPanelProps) {
+export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0, onClear }: MapPanelProps) {
   const isMobile = useBreakpoint()
   const pinnedIdRef = useRef<string | null>(null)
 
@@ -511,6 +512,40 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
           }
         </div>
       </div>
+
+      {/* Clear map — pill, top-right below the facilities badge, only when triage is active */}
+      {onClear && activeTriage.active && (
+        <button
+          onClick={onClear}
+          aria-label="Clear map"
+          style={{
+            position: 'absolute',
+            top: 58,
+            right: 12,
+            zIndex: 20,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+            background: 'white',
+            border: '0.5px solid rgba(0,0,0,0.15)',
+            borderRadius: 20,
+            padding: '0 12px',
+            height: 36,
+            fontSize: 11,
+            fontWeight: 500,
+            color: '#1a3a5c',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M15 9l-6 6M9 9l6 6" />
+          </svg>
+          Clear map
+        </button>
+      )}
 
       {/* Legend — bottom left */}
       <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">

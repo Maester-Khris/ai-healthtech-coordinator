@@ -113,6 +113,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
             facilities={facilities}
             facilitiesLoading={facilitiesLoading}
             triage={triage}
+            onClear={handleNewConversation}
           />
         </div>
 

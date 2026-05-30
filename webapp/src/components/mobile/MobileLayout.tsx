@@ -138,6 +138,7 @@ export function MobileLayout({
             onSymptomSend={handleMapSend}
             inputDisabled={!user}
             visible={activeTab === 'map'}
+            onClear={handleNewConversation}
           />
         </div>
 

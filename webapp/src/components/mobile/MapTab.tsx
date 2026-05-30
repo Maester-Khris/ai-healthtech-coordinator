@@ -22,6 +22,7 @@ interface MapTabProps {
   onSymptomSend: () => void
   inputDisabled: boolean
   visible: boolean
+  onClear: () => void
 }
 
 export function MapTab({
@@ -33,6 +34,7 @@ export function MapTab({
   onSymptomSend,
   inputDisabled,
   visible,
+  onClear,
 }: MapTabProps) {
   const [availH, setAvailH] = useState(() => window.innerHeight - NAV_H - TAB_H)
   const [mapExpanded, setMapExpanded] = useState(false)
@@ -140,6 +142,7 @@ export function MapTab({
           triage={triage}
           verticalLegend
           sizeVersion={sizeVersion}
+          onClear={onClear}
         />
         {/* Expand/collapse button — right side of map, vertically centered */}
         <button
