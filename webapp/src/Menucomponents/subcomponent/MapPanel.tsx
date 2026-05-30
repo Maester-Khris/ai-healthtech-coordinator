@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
 import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
 import cnTowerSvg from '../../assets/cntower.svg'
+import { useBreakpoint } from '../../hooks/useBreakpoint'
 
 interface MapPanelProps {
   facilities: Facility[]
@@ -131,12 +132,6 @@ function buildTriageCandidates(triage: TriageUIState): FacilityCandidate[] {
   return triage.nearbyFacilities
 }
 
-const SEVERITY_COLORS: Record<string, string> = {
-  routine: '#10B981',
-  moderate: '#F59E0B',
-  urgent: '#F97316',
-  emergent: '#EF4444',
-}
 
 const LEGEND_ITEMS = [
   { color: "#C0392B", letter: "H", label: "Hospital" },
@@ -272,7 +267,64 @@ function MapSizeGuard({ sizeVersion }: { sizeVersion: number }) {
   return null
 }
 
+function UnifiedFacilityPopup({ name, category, address, distanceKm }: {
+  name: string
+  category: string
+  address: string
+  distanceKm?: number
+}) {
+  const style = CATEGORY_STYLES[category] ?? DEFAULT_STYLE
+  return (
+    <div style={{ minWidth: 160 }}>
+      <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+        {name}
+      </p>
+      <span style={{
+        display: 'inline-block',
+        background: style.color,
+        color: 'white',
+        fontSize: 10,
+        fontWeight: 600,
+        padding: '1px 6px',
+        borderRadius: 4,
+        marginBottom: 4,
+        textTransform: 'uppercase',
+        letterSpacing: '0.04em',
+      }}>
+        {style.label}
+      </span>
+      <p style={{ fontSize: 11, color: '#666', marginBottom: distanceKm != null ? 2 : 0 }}>
+        {address}
+      </p>
+      {distanceKm != null && (
+        <p style={{ fontSize: 11, color: '#666' }}>~{distanceKm} km away</p>
+      )}
+    </div>
+  )
+}
+
 export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0 }: MapPanelProps) {
+  const isMobile = useBreakpoint()
+  const pinnedIdRef = useRef<string | null>(null)
+
+  const facilityHandlers = (id: string) => ({
+    mouseover(e: L.LeafletMouseEvent) {
+      if (!isMobile) {
+        pinnedIdRef.current = null
+        e.target.openPopup()
+      }
+    },
+    mouseout(e: L.LeafletMouseEvent) {
+      if (!isMobile && pinnedIdRef.current !== id) e.target.closePopup()
+    },
+    click() {
+      pinnedIdRef.current = id
+    },
+    popupclose() {
+      if (pinnedIdRef.current === id) pinnedIdRef.current = null
+    },
+  })
+
   const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
   const recommendedId = activeTriage.recommendedFacilityId
@@ -368,36 +420,15 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
               key={facility.id}
               position={[facility.lat, facility.lng]}
               icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
+              eventHandlers={facilityHandlers(facility.id)}
             >
-              <Tooltip sticky>
-                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                  <span style={{
-                    display: 'inline-block',
-                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                    color: 'white',
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: '1px 6px',
-                    borderRadius: 4,
-                    marginBottom: 3,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span>
-                </div>
-              </Tooltip>
               <Popup>
-                <div style={{ minWidth: 160 }}>
-                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                    {facility.name}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                    {facility.address}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666' }}>
-                    ~{facility.distanceKm} km away
-                  </p>
-                </div>
+                <UnifiedFacilityPopup
+                  name={facility.name}
+                  category={facility.category}
+                  address={facility.address}
+                  distanceKm={facility.distanceKm}
+                />
               </Popup>
             </Marker>
           ))
@@ -407,55 +438,14 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
               key={facility.id ?? facility.name}
               position={[facility.lat, facility.lng]}
               icon={getFacilityIcon(facility, null, false)}
+              eventHandlers={facilityHandlers(facility.id ?? facility.name)}
             >
-              <Tooltip sticky>
-                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                  <span style={{
-                    display: 'inline-block',
-                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                    color: 'white',
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: '1px 6px',
-                    borderRadius: 4,
-                    marginBottom: 3,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span><br />
-                  <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
-                </div>
-              </Tooltip>
               <Popup>
-                <div style={{ minWidth: 160 }}>
-                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                    {facility.name}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 4, textTransform: 'capitalize' }}>
-                    {facility.category}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                    {facility.address}
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {facility.accepted_severity.map(sev => (
-                      <span
-                        key={sev}
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 600,
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          backgroundColor: `${SEVERITY_COLORS[sev]}22`,
-                          color: SEVERITY_COLORS[sev],
-                          border: `1px solid ${SEVERITY_COLORS[sev]}44`,
-                        }}
-                      >
-                        {sev}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <UnifiedFacilityPopup
+                  name={facility.name}
+                  category={facility.category}
+                  address={facility.address}
+                />
               </Popup>
             </Marker>
           ))
