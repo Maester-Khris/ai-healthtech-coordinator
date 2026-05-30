@@ -73,6 +73,7 @@ export function AiAssistantTab({
   const [localMessages, setLocalMessages] = useState<Message[]>([])
   const [loadingOlder, setLoadingOlder] = useState(false)
   const [progressStage, setProgressStage] = useState<ProgressStage>('idle')
+  const [pastConvosOpen, setPastConvosOpen] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef(false)
@@ -149,7 +150,10 @@ export function AiAssistantTab({
   const handleScroll = useCallback(async () => {
     const el = scrollContainerRef.current
     if (!el || !activeSessionId || localMessages.length === 0) return
-    if (el.scrollTop > 50) return
+    // column-reverse: scrollTop=0 is the visual bottom (newest msgs).
+    // Load older messages when near the visual top = scrollTop near its maximum.
+    const distanceFromTop = el.scrollHeight - el.clientHeight - el.scrollTop
+    if (distanceFromTop > 50) return
     if (loadMoreRef.current) return
 
     const oldest = localMessages[0]
@@ -198,12 +202,59 @@ export function AiAssistantTab({
 
       {/* Scrollable content */}
       {hasMessages ? (
+        // column-reverse anchors content to the bottom — newest messages stay visible
+        // without programmatic scroll. DOM order is reversed from visual order:
+        //   1st child (DOM) = past conversations → visual bottom, just above input bar
+        //   2nd child (DOM) = message thread     → visual top, grows upward
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-4 py-4"
+          className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col-reverse"
         >
-          <div className="flex flex-col gap-3 min-h-full">
+          {/* 1st in DOM → visual bottom */}
+          {user && recentSessions.length > 0 && (
+            <div className="px-4 mt-4 pt-4 pb-2 border-t border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
+                  Past conversations
+                </span>
+                <button
+                  onClick={() => setPastConvosOpen(v => !v)}
+                  className="text-[11px] font-semibold text-blue-600"
+                >
+                  {pastConvosOpen ? 'Hide' : 'See'}
+                </button>
+              </div>
+              <div
+                style={{
+                  maxHeight: pastConvosOpen ? '400px' : '0px',
+                  overflow: 'hidden',
+                  transition: 'max-height 0.25s ease',
+                }}
+              >
+                <div className="flex flex-col gap-2">
+                  {recentSessions.map(session => (
+                    <button
+                      key={session.id}
+                      onClick={() => handleSelectSession(session)}
+                      className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
+                    >
+                      <p className="text-[9px] font-semibold text-gray-700 leading-snug">
+                        {session.title}
+                      </p>
+                      <p className="text-[8px] text-gray-400 mt-0.5">
+                        {formatDate(session.updated_at)}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+                <button className="text-[11px] font-semibold text-blue-600 mt-2 block">See all</button>
+              </div>
+            </div>
+          )}
+
+          {/* 2nd in DOM → visual top (message thread, chronological column within) */}
+          <div className="flex flex-col gap-3 px-4 py-4">
             {loadingOlder && (
               <p className="text-center text-[11px] text-gray-400 py-2">Loading older messages…</p>
             )}
@@ -238,38 +289,10 @@ export function AiAssistantTab({
               )
             })}
             <div ref={messagesEndRef} />
-
-            {/* Past conversations — inline below thread */}
-            {user && recentSessions.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
-                    Past conversations
-                  </span>
-                  <button className="text-[11px] font-semibold text-blue-600">See all</button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {recentSessions.map(session => (
-                    <button
-                      key={session.id}
-                      onClick={() => handleSelectSession(session)}
-                      className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
-                    >
-                      <p className="text-[9px] font-semibold text-gray-700 leading-snug">
-                        {session.title}
-                      </p>
-                      <p className="text-[8px] text-gray-400 mt-0.5">
-                        {formatDate(session.updated_at)}
-                      </p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       ) : (
-        // Empty state
+        // Empty state — centered, no column-reverse needed
         <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col items-center justify-center gap-5">
           <div className="text-center">
             <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 mx-auto mb-4">
@@ -298,23 +321,37 @@ export function AiAssistantTab({
                 <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
                   Past conversations
                 </span>
-                <button className="text-[11px] font-semibold text-blue-600">See all</button>
+                <button
+                  onClick={() => setPastConvosOpen(v => !v)}
+                  className="text-[11px] font-semibold text-blue-600"
+                >
+                  {pastConvosOpen ? 'Hide' : 'See'}
+                </button>
               </div>
-              <div className="flex flex-col gap-2">
-                {recentSessions.map(session => (
-                  <button
-                    key={session.id}
-                    onClick={() => handleSelectSession(session)}
-                    className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
-                  >
-                    <p className="text-[9px] font-semibold text-gray-700 leading-snug">
-                      {session.title}
-                    </p>
-                    <p className="text-[8px] text-gray-400 mt-0.5">
-                      {formatDate(session.updated_at)}
-                    </p>
-                  </button>
-                ))}
+              <div
+                style={{
+                  maxHeight: pastConvosOpen ? '400px' : '0px',
+                  overflow: 'hidden',
+                  transition: 'max-height 0.25s ease',
+                }}
+              >
+                <div className="flex flex-col gap-2">
+                  {recentSessions.map(session => (
+                    <button
+                      key={session.id}
+                      onClick={() => handleSelectSession(session)}
+                      className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
+                    >
+                      <p className="text-[9px] font-semibold text-gray-700 leading-snug">
+                        {session.title}
+                      </p>
+                      <p className="text-[8px] text-gray-400 mt-0.5">
+                        {formatDate(session.updated_at)}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+                <button className="text-[11px] font-semibold text-blue-600 mt-2 block">See all</button>
               </div>
             </div>
           )}

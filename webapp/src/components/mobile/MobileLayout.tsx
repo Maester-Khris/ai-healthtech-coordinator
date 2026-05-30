@@ -90,6 +90,9 @@ export function MobileLayout({
     coords: { lat: number; lng: number } | null
   ) => {
     await applyTriageResult(result, coords)
+    if (result.recommended_facility) {
+      setTimeout(() => setActiveTab('map'), 1200)
+    }
   }
 
   const handleMapSend = () => {
@@ -134,6 +137,7 @@ export function MobileLayout({
             onSymptomChange={setSymptomValue}
             onSymptomSend={handleMapSend}
             inputDisabled={!user}
+            visible={activeTab === 'map'}
           />
         </div>
 

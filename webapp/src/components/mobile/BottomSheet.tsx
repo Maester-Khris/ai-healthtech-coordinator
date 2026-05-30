@@ -1,22 +1,19 @@
 import { forwardRef, type ReactNode } from 'react'
 
 interface BottomSheetProps {
-  onTouchStart: (e: React.TouchEvent) => void
-  onTouchMove: (e: React.TouchEvent) => void
-  onTouchEnd: () => void
-  showHint?: boolean
   children: ReactNode
 }
 
 export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
-  function BottomSheet({ onTouchStart, onTouchMove, onTouchEnd, showHint = false, children }, ref) {
+  function BottomSheet({ children }, ref) {
     return (
       <div
         ref={ref}
         className="flex flex-col bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.08)] overflow-hidden"
         style={{ flexShrink: 0 }}
       >
-        {/* Drag handle — hook controls height directly via the forwarded ref */}
+        {/* DRAG DISABLED — revisit later */}
+        {/*
         <div
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
@@ -29,6 +26,8 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
             <span className="text-[9px] text-gray-400">↑ drag to expand</span>
           )}
         </div>
+        */}
+        {/* DRAG DISABLED — revisit later */}
         {children}
       </div>
     )

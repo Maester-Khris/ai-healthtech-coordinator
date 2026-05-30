@@ -10,6 +10,7 @@ interface MapPanelProps {
   facilitiesLoading: boolean
   triage?: TriageUIState
   verticalLegend?: boolean
+  sizeVersion?: number
 }
 
 const cnTowerPos: [number, number] = [43.6426, -79.3871]
@@ -251,7 +252,27 @@ function MapFitBounds({ triage }: { triage: TriageUIState }) {
   return null
 }
 
-export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false }: MapPanelProps) {
+// Must be inside MapContainer to call useMap()
+function MapSizeGuard({ sizeVersion }: { sizeVersion: number }) {
+  const map = useMap()
+  const isFirstRef = useRef(true)
+
+  useEffect(() => {
+    if (isFirstRef.current) {
+      // Fix B: initial mount — give the DOM 100ms to paint at its real height
+      isFirstRef.current = false
+      const t = setTimeout(() => map.invalidateSize(), 100)
+      return () => clearTimeout(t)
+    }
+    // Fix C: triggered by sizeVersion increment after tab-switch / expand-collapse.
+    // The 150ms delay is already held by the caller; call immediately here.
+    map.invalidateSize()
+  }, [map, sizeVersion])
+
+  return null
+}
+
+export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0 }: MapPanelProps) {
   const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
   const recommendedId = activeTriage.recommendedFacilityId
@@ -293,9 +314,13 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          tileSize={512}
+          zoomOffset={-1}
+          detectRetina={true}
         />
 
         <MapFitBounds triage={activeTriage} />
+        <MapSizeGuard sizeVersion={sizeVersion} />
 
         <Marker position={cnTowerPos} icon={cnTowerIcon}>
           <Tooltip className="text-[13px] font-semibold" direction="top">
