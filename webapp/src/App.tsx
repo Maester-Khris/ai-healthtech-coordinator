@@ -1,25 +1,35 @@
 import * as Sentry from "@sentry/react"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Menucomponents/Home'
+import SetupPage from './pages/SetupPage'
+import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
 import { useFacilities } from './hooks/useFacilities'
 import { useConversations } from './hooks/useConversations'
+import { useBreakpoint } from './hooks/useBreakpoint'
 
 function AppInner() {
+  const isMobile = useBreakpoint()
   const { facilities, loading: facilitiesLoading } = useFacilities()
   const { cache, sendMessage, createSession, loadOlderMessages } = useConversations()
+
+  const sharedProps = {
+    facilities,
+    facilitiesLoading,
+    conversationsCache: cache,
+    sendMessage,
+    createSession,
+    loadOlderMessages,
+  }
 
   return (
     <>
       <Notification />
-      <Home
-        facilities={facilities}
-        facilitiesLoading={facilitiesLoading}
-        conversationsCache={cache}
-        sendMessage={sendMessage}
-        createSession={createSession}
-        loadOlderMessages={loadOlderMessages}
-      />
+      {isMobile
+        ? <MobileLayout {...sharedProps} />
+        : <Home {...sharedProps} />
+      }
     </>
   )
 }
@@ -35,7 +45,12 @@ function App() {
       )}
     >
       <AuthProvider>
-        <AppInner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/setup" element={<SetupPage />} />
+            <Route path="*" element={<AppInner />} />
+          </Routes>
+        </BrowserRouter>
       </AuthProvider>
     </Sentry.ErrorBoundary>
   )
