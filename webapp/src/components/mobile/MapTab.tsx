@@ -1,0 +1,236 @@
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import type { Facility, TriageUIState } from '@shared/types'
+import { MapPanel } from '../../Menucomponents/subcomponent/MapPanel'
+import { BottomSheet } from './BottomSheet'
+import { FacilityCard } from './FacilityCard'
+import { SymptomInput } from './SymptomInput'
+/* DRAG DISABLED — revisit later */
+// import { useBottomSheet } from '../../hooks/useBottomSheet'
+/* DRAG DISABLED — revisit later */
+import { useNextActions } from '../../hooks/useNextActions'
+
+const NAV_H = 44
+const TAB_H = 36
+const MIN_SHEET_H = 70
+
+interface MapTabProps {
+  facilities: Facility[]
+  facilitiesLoading: boolean
+  triage: TriageUIState
+  symptomValue: string
+  onSymptomChange: (v: string) => void
+  onSymptomSend: () => void
+  inputDisabled: boolean
+  visible: boolean
+  onClear: () => void
+}
+
+export function MapTab({
+  facilities,
+  facilitiesLoading,
+  triage,
+  symptomValue,
+  onSymptomChange,
+  onSymptomSend,
+  inputDisabled,
+  visible,
+  onClear,
+}: MapTabProps) {
+  const [availH, setAvailH] = useState(() => window.innerHeight - NAV_H - TAB_H)
+  const [mapExpanded, setMapExpanded] = useState(false)
+  const [sizeVersion, setSizeVersion] = useState(0)
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => setAvailH(window.innerHeight - NAV_H - TAB_H), 100)
+    }
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      clearTimeout(timer)
+    }
+  }, [])
+
+  const initialMapH = Math.round(availH * 0.70)
+
+  const mapRef = useRef<HTMLDivElement>(null)
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const mapExpandedRef = useRef(false)
+  const isFirstVisibleRender = useRef(true)
+
+  // Fix C — invalidate Leaflet size when this tab becomes visible after a tab switch.
+  // Skip the very first render (initial mount handled by MapSizeGuard inside MapPanel).
+  useEffect(() => {
+    if (isFirstVisibleRender.current) {
+      isFirstVisibleRender.current = false
+      return
+    }
+    if (visible) {
+      setTimeout(() => setSizeVersion(v => v + 1), 150)
+    }
+  }, [visible])
+
+  /* DRAG DISABLED — revisit later
+  const { sheetState, handleTouchStart, handleTouchMove, handleTouchEnd } = useBottomSheet({
+    mapRef,
+    sheetRef,
+    availH,
+    initialMapH,
+  })
+  DRAG DISABLED — revisit later */
+
+  // Set heights synchronously before paint on resize/dimension changes
+  useLayoutEffect(() => {
+    const mapEl = mapRef.current
+    const sheetEl = sheetRef.current
+    if (!mapEl || !sheetEl) return
+    if (mapExpandedRef.current) {
+      mapEl.style.height = (availH - MIN_SHEET_H) + 'px'
+      sheetEl.style.height = MIN_SHEET_H + 'px'
+    } else {
+      mapEl.style.height = initialMapH + 'px'
+      sheetEl.style.height = (availH - initialMapH) + 'px'
+    }
+  }, [availH, initialMapH])
+
+  const toggleExpand = () => {
+    const mapEl = mapRef.current
+    const sheetEl = sheetRef.current
+    if (!mapEl || !sheetEl) return
+    const next = !mapExpanded
+    mapExpandedRef.current = next
+    mapEl.style.transition = 'height 0.3s ease'
+    sheetEl.style.transition = 'height 0.3s ease'
+    if (next) {
+      mapEl.style.height = (availH - MIN_SHEET_H) + 'px'
+      sheetEl.style.height = MIN_SHEET_H + 'px'
+    } else {
+      mapEl.style.height = initialMapH + 'px'
+      sheetEl.style.height = (availH - initialMapH) + 'px'
+    }
+    setTimeout(() => {
+      if (mapRef.current) mapRef.current.style.transition = ''
+      if (sheetRef.current) sheetRef.current.style.transition = ''
+    }, 320)
+    setMapExpanded(next)
+    // Fix C — tell Leaflet the container has resized after the height transition starts
+    setTimeout(() => setSizeVersion(v => v + 1), 150)
+  }
+
+  const { getDirections } = useNextActions(triage.severity)
+
+  const isExpanded = mapExpanded
+  const recommended = triage.recommendedFacility
+  const route = triage.routes.find(r => r.facilityId === triage.recommendedFacilityId)
+
+  return (
+    <div className="flex flex-col overflow-hidden" style={{ height: availH }}>
+      {/* Map — overflow:visible so the toggle button can protrude */}
+      <div
+        ref={mapRef}
+        style={{
+          flexShrink: 0,
+          position: 'relative',
+          overflow: 'visible',
+        }}
+      >
+        <MapPanel
+          facilities={facilities}
+          facilitiesLoading={facilitiesLoading}
+          triage={triage}
+          verticalLegend
+          sizeVersion={sizeVersion}
+          onClear={onClear}
+        />
+        {/* Expand/collapse button — right side of map, vertically centered */}
+        <button
+          onClick={toggleExpand}
+          aria-label={isExpanded ? 'Collapse map' : 'Expand map'}
+          style={{
+            position: 'absolute',
+            right: 8,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: 32,
+            height: 32,
+            borderRadius: '50%',
+            background: 'white',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 20,
+            fontWeight: 'bold',
+            lineHeight: 1,
+            color: '#1a3a5c',
+            zIndex: 1000,
+          }}
+        >
+          {isExpanded ? '−' : '+'}
+        </button>
+      </div>
+
+      {/* Bottom sheet — height managed imperatively via sheetRef */}
+      <BottomSheet ref={sheetRef}>
+        {isExpanded ? (
+          // Slim persistent bar — facility summary + Nav + input
+          <div className="flex items-center gap-2 px-3 flex-1 min-w-0">
+            {recommended && (
+              <>
+                <div className="flex-1 min-w-0 mr-1">
+                  <p className="text-[11px] font-semibold text-gray-900 truncate leading-tight">
+                    {recommended.name}
+                  </p>
+                  {route && (
+                    <p className="text-[9px] text-gray-500">
+                      {route.etaMinutes} min · {route.distanceKm} km
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={() => getDirections(recommended.name, recommended.lat, recommended.lng)}
+                  className="flex-none text-[11px] font-bold text-white rounded-lg px-3"
+                  style={{ background: '#1a3a5c', minHeight: 44, minWidth: 44 }}
+                >
+                  Nav
+                </button>
+              </>
+            )}
+            <SymptomInput
+              value={symptomValue}
+              onChange={onSymptomChange}
+              onSend={onSymptomSend}
+              disabled={inputDisabled}
+              className="flex-1"
+            />
+          </div>
+        ) : (
+          // Collapsed — facility card + symptom input
+          <div className="flex flex-col flex-1 overflow-y-auto min-h-0">
+            {triage.active ? (
+              <FacilityCard triage={triage} />
+            ) : (
+              <div className="flex flex-1 items-center justify-center px-4 py-4">
+                <p className="text-[11px] text-gray-400 text-center">
+                  Describe your symptoms to get a recommendation
+                </p>
+              </div>
+            )}
+            <div className="flex-none px-3 pb-3 mt-auto">
+              <SymptomInput
+                value={symptomValue}
+                onChange={onSymptomChange}
+                onSend={onSymptomSend}
+                disabled={inputDisabled}
+              />
+            </div>
+          </div>
+        )}
+      </BottomSheet>
+    </div>
+  )
+}

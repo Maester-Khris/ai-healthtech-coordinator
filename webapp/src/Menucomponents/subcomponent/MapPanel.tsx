@@ -4,11 +4,15 @@ import { useEffect, useState, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
 import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
 import cnTowerSvg from '../../assets/cntower.svg'
+import { useBreakpoint } from '../../hooks/useBreakpoint'
 
 interface MapPanelProps {
   facilities: Facility[]
   facilitiesLoading: boolean
   triage?: TriageUIState
+  verticalLegend?: boolean
+  sizeVersion?: number
+  onClear?: () => void
 }
 
 const cnTowerPos: [number, number] = [43.6426, -79.3871]
@@ -129,12 +133,6 @@ function buildTriageCandidates(triage: TriageUIState): FacilityCandidate[] {
   return triage.nearbyFacilities
 }
 
-const SEVERITY_COLORS: Record<string, string> = {
-  routine: '#10B981',
-  moderate: '#F59E0B',
-  urgent: '#F97316',
-  emergent: '#EF4444',
-}
 
 const LEGEND_ITEMS = [
   { color: "#C0392B", letter: "H", label: "Hospital" },
@@ -250,7 +248,84 @@ function MapFitBounds({ triage }: { triage: TriageUIState }) {
   return null
 }
 
-export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProps) {
+// Must be inside MapContainer to call useMap()
+function MapSizeGuard({ sizeVersion }: { sizeVersion: number }) {
+  const map = useMap()
+  const isFirstRef = useRef(true)
+
+  useEffect(() => {
+    if (isFirstRef.current) {
+      // Fix B: initial mount — give the DOM 100ms to paint at its real height
+      isFirstRef.current = false
+      const t = setTimeout(() => map.invalidateSize(), 100)
+      return () => clearTimeout(t)
+    }
+    // Fix C: triggered by sizeVersion increment after tab-switch / expand-collapse.
+    // The 150ms delay is already held by the caller; call immediately here.
+    map.invalidateSize()
+  }, [map, sizeVersion])
+
+  return null
+}
+
+function UnifiedFacilityPopup({ name, category, address, distanceKm }: {
+  name: string
+  category: string
+  address: string
+  distanceKm?: number
+}) {
+  const style = CATEGORY_STYLES[category] ?? DEFAULT_STYLE
+  return (
+    <div style={{ minWidth: 160 }}>
+      <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+        {name}
+      </p>
+      <span style={{
+        display: 'inline-block',
+        background: style.color,
+        color: 'white',
+        fontSize: 10,
+        fontWeight: 600,
+        padding: '1px 6px',
+        borderRadius: 4,
+        marginBottom: 4,
+        textTransform: 'uppercase',
+        letterSpacing: '0.04em',
+      }}>
+        {style.label}
+      </span>
+      <p style={{ fontSize: 11, color: '#666', marginBottom: distanceKm != null ? 2 : 0 }}>
+        {address}
+      </p>
+      {distanceKm != null && (
+        <p style={{ fontSize: 11, color: '#666' }}>~{distanceKm} km away</p>
+      )}
+    </div>
+  )
+}
+
+export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0, onClear }: MapPanelProps) {
+  const isMobile = useBreakpoint()
+  const pinnedIdRef = useRef<string | null>(null)
+
+  const facilityHandlers = (id: string) => ({
+    mouseover(e: L.LeafletMouseEvent) {
+      if (!isMobile) {
+        pinnedIdRef.current = null
+        e.target.openPopup()
+      }
+    },
+    mouseout(e: L.LeafletMouseEvent) {
+      if (!isMobile && pinnedIdRef.current !== id) e.target.closePopup()
+    },
+    click() {
+      pinnedIdRef.current = id
+    },
+    popupclose() {
+      if (pinnedIdRef.current === id) pinnedIdRef.current = null
+    },
+  })
+
   const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
   const recommendedId = activeTriage.recommendedFacilityId
@@ -292,9 +367,13 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          tileSize={512}
+          zoomOffset={-1}
+          detectRetina={true}
         />
 
         <MapFitBounds triage={activeTriage} />
+        <MapSizeGuard sizeVersion={sizeVersion} />
 
         <Marker position={cnTowerPos} icon={cnTowerIcon}>
           <Tooltip className="text-[13px] font-semibold" direction="top">
@@ -342,36 +421,15 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
               key={facility.id}
               position={[facility.lat, facility.lng]}
               icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
+              eventHandlers={facilityHandlers(facility.id)}
             >
-              <Tooltip sticky>
-                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                  <span style={{
-                    display: 'inline-block',
-                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                    color: 'white',
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: '1px 6px',
-                    borderRadius: 4,
-                    marginBottom: 3,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span>
-                </div>
-              </Tooltip>
               <Popup>
-                <div style={{ minWidth: 160 }}>
-                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                    {facility.name}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                    {facility.address}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666' }}>
-                    ~{facility.distanceKm} km away
-                  </p>
-                </div>
+                <UnifiedFacilityPopup
+                  name={facility.name}
+                  category={facility.category}
+                  address={facility.address}
+                  distanceKm={facility.distanceKm}
+                />
               </Popup>
             </Marker>
           ))
@@ -381,55 +439,14 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
               key={facility.id ?? facility.name}
               position={[facility.lat, facility.lng]}
               icon={getFacilityIcon(facility, null, false)}
+              eventHandlers={facilityHandlers(facility.id ?? facility.name)}
             >
-              <Tooltip sticky>
-                <div style={{ fontSize: 12, lineHeight: 1.6, minWidth: 140 }}>
-                  <strong style={{ display: 'block', marginBottom: 2 }}>{facility.name}</strong>
-                  <span style={{
-                    display: 'inline-block',
-                    background: (CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).color,
-                    color: 'white',
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: '1px 6px',
-                    borderRadius: 4,
-                    marginBottom: 3,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                  }}>{(CATEGORY_STYLES[facility.category] ?? DEFAULT_STYLE).label}</span><br />
-                  <span style={{ color: "#666" }}>{facility.source_facility_type}</span>
-                </div>
-              </Tooltip>
               <Popup>
-                <div style={{ minWidth: 160 }}>
-                  <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
-                    {facility.name}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 4, textTransform: 'capitalize' }}>
-                    {facility.category}
-                  </p>
-                  <p style={{ fontSize: 11, color: '#666', marginBottom: 8 }}>
-                    {facility.address}
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {facility.accepted_severity.map(sev => (
-                      <span
-                        key={sev}
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 600,
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                          backgroundColor: `${SEVERITY_COLORS[sev]}22`,
-                          color: SEVERITY_COLORS[sev],
-                          border: `1px solid ${SEVERITY_COLORS[sev]}44`,
-                        }}
-                      >
-                        {sev}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <UnifiedFacilityPopup
+                  name={facility.name}
+                  category={facility.category}
+                  address={facility.address}
+                />
               </Popup>
             </Marker>
           ))
@@ -496,10 +513,44 @@ export function MapPanel({ facilities, facilitiesLoading, triage }: MapPanelProp
         </div>
       </div>
 
+      {/* Clear map — pill, top-right below the facilities badge, only when triage is active */}
+      {onClear && activeTriage.active && (
+        <button
+          onClick={onClear}
+          aria-label="Clear map"
+          style={{
+            position: 'absolute',
+            top: 58,
+            right: 12,
+            zIndex: 20,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+            background: 'white',
+            border: '0.5px solid rgba(0,0,0,0.15)',
+            borderRadius: 20,
+            padding: '0 12px',
+            height: 36,
+            fontSize: 11,
+            fontWeight: 500,
+            color: '#1a3a5c',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M15 9l-6 6M9 9l6 6" />
+          </svg>
+          Clear map
+        </button>
+      )}
+
       {/* Legend — bottom left */}
       <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
         <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
-        <div className="flex items-center gap-3">
+        <div className={verticalLegend ? "flex flex-col gap-1.5" : "flex items-center gap-3"}>
           {LEGEND_ITEMS.map(item => (
             <div key={item.label} className="flex items-center gap-1.5">
               {'isPin' in item ? (

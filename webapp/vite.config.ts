@@ -6,6 +6,9 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig(() => {
   return {
+    server: {
+      allowedHosts: ['still-emu-worthy.ngrok-free.app']
+    },
     plugins: [
       react(),
       tailwindcss(),
