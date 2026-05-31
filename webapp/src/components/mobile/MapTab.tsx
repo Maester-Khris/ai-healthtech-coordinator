@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import type { Facility, TriageUIState } from '@shared/types'
-import { MapPanel } from '../../Menucomponents/subcomponent/MapPanel'
+import { MapPanel } from '../map'
 import { BottomSheet } from './BottomSheet'
 import { FacilityCard } from './FacilityCard'
 import { SymptomInput } from './SymptomInput'

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Facility, Message, Session, ConversationsCache, ChatMessageResponse } from '@shared/types'
-import { MapPanel } from './subcomponent/MapPanel'
+import { MapPanel } from '../components/map'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
