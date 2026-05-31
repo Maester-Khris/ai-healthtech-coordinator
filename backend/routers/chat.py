@@ -31,9 +31,12 @@ router = APIRouter(prefix="/chat", tags=["chat"])
 logger = logging.getLogger(__name__)
 
 
+def _trunc_uid(uid: str) -> str:
+    return uid[:8] + "..."
+
+
 @router.get("/sessions")
 async def past_conversations(
-    request: Request,
     if_none_match: str = Header(default=""),
     current_user: object = Depends(get_current_user),
 ) -> Response:
@@ -42,10 +45,6 @@ async def past_conversations(
     Supports ETag conditional requests — returns 304 if data unchanged.
     """
     user_id = str(current_user.id)  # type: ignore[attr-defined]
-    logger.info(
-        "past_conversations requested",
-        extra={"request_id": getattr(request.state, "request_id", None), "user_id": user_id},
-    )
 
     cached, cached_etag = get_user_cache(user_id)
 
@@ -55,10 +54,10 @@ async def past_conversations(
         cached = {"sessions": sessions, "messages": messages}
         logger.info(
             "chat cache miss — fetched from Supabase",
-            extra={"user_id": user_id, "session_count": len(sessions)},
+            extra={"user_id": _trunc_uid(user_id), "session_count": len(sessions)},
         )
     else:
-        logger.info("chat cache hit", extra={"user_id": user_id})
+        logger.info("chat cache hit", extra={"user_id": _trunc_uid(user_id)})
 
     if if_none_match == cached_etag:
         return Response(status_code=304)
@@ -86,9 +85,8 @@ async def create_new_session(
         "session created",
         extra={
             "request_id": getattr(request.state, "request_id", None),
-            "user_id": user_id,
+            "user_id": _trunc_uid(user_id),
             "session_id": session["id"],
-            "title": title,
         },
     )
     return _ser(session)
@@ -193,7 +191,7 @@ async def load_older_messages(
         "older messages loaded",
         extra={
             "request_id": getattr(request.state, "request_id", None),
-            "user_id": user_id,
+            "user_id": _trunc_uid(user_id),
             "session_id": session_id,
             "count": len(messages),
         },
@@ -211,6 +209,6 @@ async def invalidate_cache(
     invalidate_user_cache(user_id)
     logger.info(
         "chat cache invalidated",
-        extra={"request_id": getattr(request.state, "request_id", None), "user_id": user_id},
+        extra={"request_id": getattr(request.state, "request_id", None), "user_id": _trunc_uid(user_id)},
     )
     return {"status": "cache cleared"}
