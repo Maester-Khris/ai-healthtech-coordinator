@@ -38,7 +38,7 @@ class LLMAgent:
     def __init__(self, client: BaseLLMClient | None = None) -> None:
         self._client = client or get_llm_client()
         self._max_followups = int(os.environ.get("TRIAGE_MAX_FOLLOWUPS", "4"))
-        self._min_turns_before_triage = int(os.environ.get("TRIAGE_MIN_TURNS", "2"))
+        self._min_turns_before_triage = int(os.environ.get("TRIAGE_MIN_TURNS", "3"))
         self._context_window = int(os.environ.get("TRIAGE_CONTEXT_WINDOW", "10"))
         self._temperature = 0.2
         self._response_temperature = 0.3
@@ -113,8 +113,8 @@ class LLMAgent:
                     is_emergency = args.get("severity") == "emergent"
                     below_min_turns = user_turns < self._min_turns_before_triage
 
-                    # Emergency always bypasses the minimum turn gate
-                    if below_min_turns and not is_emergency:
+                    # Emergency and ceiling-force both bypass the minimum turn gate
+                    if below_min_turns and not is_emergency and not force:
                         logger.warning(
                             "triage_suppressed_below_min_turns",
                             extra={
@@ -133,7 +133,7 @@ class LLMAgent:
                         }
 
                     return self._handle_triage(tool_call, messages, lat, lng)
-            logger.warning("unexpected_tool_call", extra={"tool_calls": resp.tool_calls})
+            logger.warning("unexpected_tool_call")
             return {
                 "response": "I need a bit more information. Can you describe your symptoms?",
                 "severity": None,
@@ -163,6 +163,13 @@ class LLMAgent:
         args = json.loads(tool_call["arguments"])
         severity = args["severity"]
         reasoning = args["reasoning"]
+        logger.info(
+            "triage_called",
+            extra={
+                "severity": severity,
+                "information_sufficient": args.get("information_sufficient"),
+            },
+        )
         # Location is used whenever coordinates were provided by the client.
         # The LLM does not decide this — the backend knows from the request.
         needs_location = (lat is not None and lng is not None)
@@ -175,15 +182,6 @@ class LLMAgent:
             if facilities:
                 recommended_facility = facilities[0]
                 nearby_facilities = facilities[1:]
-                logger.info(
-                    "proximity resolved",
-                    extra={
-                        "severity": severity,
-                        "recommended": recommended_facility["name"],
-                        "distanceKm": recommended_facility["distanceKm"],
-                        "candidates": len(nearby_facilities),
-                    },
-                )
 
         response_text = self._generate_grounded_response(
             messages=messages,

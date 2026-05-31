@@ -22,8 +22,16 @@ TRIAGE_RESPONSE = ToolDefinition(
                 "1-2 sentences, internal use only, not shown to the patient"
             ),
         },
+        "information_sufficient": {
+            "type": "boolean",
+            "description": (
+                "True if all four sufficiency criteria are met "
+                "(nature, duration, severity, associated symptoms). "
+                "False if triage is being called due to max turn limit."
+            ),
+        },
     },
-    required=["severity", "reasoning"],
+    required=["severity", "reasoning", "information_sufficient"],
 )
 
 ALL_TOOLS = [TRIAGE_RESPONSE]
