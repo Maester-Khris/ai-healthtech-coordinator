@@ -373,7 +373,7 @@ export function AiAssistantTab({
       <ToolCallProgress stage={progressStage} />
 
       {/* Pinned input */}
-      <div className="flex-none px-4 py-3 bg-white border-t border-gray-100">
+      <div className="flex-none px-4 pt-3 pb-5 bg-white border-t border-gray-100">
         <SymptomInput
           value={symptomValue}
           onChange={onSymptomChange}

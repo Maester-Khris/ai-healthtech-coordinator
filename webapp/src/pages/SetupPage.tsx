@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useProfile } from '../hooks/useProfile'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import { MobileNavBar } from '../components/mobile/MobileNavBar'
+import { WebNavBar } from '../components/WebNavBar'
 import { UserMenu } from '../components/auth/UserMenu'
 
 export default function SetupPage() {
@@ -42,26 +43,11 @@ export default function SetupPage() {
   return (
     <div className={`min-h-screen flex flex-col ${isMobile ? 'bg-gray-50' : 'bg-slate-100'}`}>
 
-      {/* Navbar — desktop is taller with UserMenu, mobile uses MobileNavBar */}
+      {/* Navbar */}
       {isMobile ? (
         <MobileNavBar />
       ) : (
-        <header className="flex-none flex items-center justify-between px-8 bg-white border-b border-gray-200 shadow-sm z-10" style={{ height: 72 }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md flex-none">
-              <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
-            </div>
-            <div className="leading-tight flex flex-col">
-              <span className="text-lg font-bold text-gray-900 tracking-tight">
-                MediCoord<span className="text-blue-600">AI</span>
-              </span>
-              <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                Health Tech Platform
-              </span>
-            </div>
-          </div>
-          <UserMenu />
-        </header>
+        <WebNavBar rightContent={<UserMenu />} />
       )}
 
       {/* Body — on desktop: scrollable area with centered card */}

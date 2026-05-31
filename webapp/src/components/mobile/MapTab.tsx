@@ -9,9 +9,10 @@ import { SymptomInput } from './SymptomInput'
 /* DRAG DISABLED — revisit later */
 import { useNextActions } from '../../hooks/useNextActions'
 
-const NAV_H = 44
-const TAB_H = 36
+const NAV_H = 56
+const TAB_H = 46
 const MIN_SHEET_H = 70
+const INPUT_BAR_H = 72  // height of the slim input-only sheet when triage is inactive
 
 interface MapTabProps {
   facilities: Facility[]
@@ -53,12 +54,16 @@ export function MapTab({
     }
   }, [])
 
-  const initialMapH = Math.round(availH * 0.70)
-
   const mapRef = useRef<HTMLDivElement>(null)
   const sheetRef = useRef<HTMLDivElement>(null)
   const mapExpandedRef = useRef(false)
   const isFirstVisibleRender = useRef(true)
+  const prevTriageActiveRef = useRef(triage.active)
+
+  const getTargetMapH = (h: number, expanded: boolean, active: boolean) => {
+    if (expanded) return h - MIN_SHEET_H
+    return active ? Math.round(h * 0.70) : h - INPUT_BAR_H
+  }
 
   // Fix C — invalidate Leaflet size when this tab becomes visible after a tab switch.
   // Skip the very first render (initial mount handled by MapSizeGuard inside MapPanel).
@@ -81,19 +86,34 @@ export function MapTab({
   })
   DRAG DISABLED — revisit later */
 
-  // Set heights synchronously before paint on resize/dimension changes
+  // Set heights synchronously before paint on window resize
   useLayoutEffect(() => {
     const mapEl = mapRef.current
     const sheetEl = sheetRef.current
     if (!mapEl || !sheetEl) return
-    if (mapExpandedRef.current) {
-      mapEl.style.height = (availH - MIN_SHEET_H) + 'px'
-      sheetEl.style.height = MIN_SHEET_H + 'px'
-    } else {
-      mapEl.style.height = initialMapH + 'px'
-      sheetEl.style.height = (availH - initialMapH) + 'px'
-    }
-  }, [availH, initialMapH])
+    const mapH = getTargetMapH(availH, mapExpandedRef.current, triage.active)
+    mapEl.style.height = mapH + 'px'
+    sheetEl.style.height = (availH - mapH) + 'px'
+  }, [availH]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Animate map/sheet resize when triage becomes active or is cleared
+  useEffect(() => {
+    if (prevTriageActiveRef.current === triage.active) return
+    prevTriageActiveRef.current = triage.active
+    const mapEl = mapRef.current
+    const sheetEl = sheetRef.current
+    if (!mapEl || !sheetEl || mapExpandedRef.current) return
+    const targetMapH = getTargetMapH(availH, false, triage.active)
+    mapEl.style.transition = 'height 0.35s ease'
+    sheetEl.style.transition = 'height 0.35s ease'
+    mapEl.style.height = targetMapH + 'px'
+    sheetEl.style.height = (availH - targetMapH) + 'px'
+    setTimeout(() => {
+      if (mapRef.current) mapRef.current.style.transition = ''
+      if (sheetRef.current) sheetRef.current.style.transition = ''
+    }, 380)
+    setTimeout(() => setSizeVersion(v => v + 1), 150)
+  }, [triage.active]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleExpand = () => {
     const mapEl = mapRef.current
@@ -103,13 +123,9 @@ export function MapTab({
     mapExpandedRef.current = next
     mapEl.style.transition = 'height 0.3s ease'
     sheetEl.style.transition = 'height 0.3s ease'
-    if (next) {
-      mapEl.style.height = (availH - MIN_SHEET_H) + 'px'
-      sheetEl.style.height = MIN_SHEET_H + 'px'
-    } else {
-      mapEl.style.height = initialMapH + 'px'
-      sheetEl.style.height = (availH - initialMapH) + 'px'
-    }
+    const targetMapH = getTargetMapH(availH, next, triage.active)
+    mapEl.style.height = targetMapH + 'px'
+    sheetEl.style.height = (availH - targetMapH) + 'px'
     setTimeout(() => {
       if (mapRef.current) mapRef.current.style.transition = ''
       if (sheetRef.current) sheetRef.current.style.transition = ''
@@ -209,18 +225,10 @@ export function MapTab({
             />
           </div>
         ) : (
-          // Collapsed — facility card + symptom input
+          // Collapsed — facility card (when active) + symptom input
           <div className="flex flex-col flex-1 overflow-y-auto min-h-0">
-            {triage.active ? (
-              <FacilityCard triage={triage} />
-            ) : (
-              <div className="flex flex-1 items-center justify-center px-4 py-4">
-                <p className="text-[11px] text-gray-400 text-center">
-                  Describe your symptoms to get a recommendation
-                </p>
-              </div>
-            )}
-            <div className="flex-none px-3 pb-3 mt-auto">
+            {triage.active && <FacilityCard triage={triage} />}
+            <div className="flex-none px-3 py-2 mt-auto">
               <SymptomInput
                 value={symptomValue}
                 onChange={onSymptomChange}
