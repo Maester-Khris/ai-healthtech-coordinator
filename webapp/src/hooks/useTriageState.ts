@@ -11,6 +11,7 @@ const DEFAULT_STATE: TriageUIState = {
   userCoords: null,
   routes: [],
   recommendedFacilityId: null,
+  roadGeometry: null,
 }
 
 export function useTriageState() {
@@ -30,6 +31,7 @@ export function useTriageState() {
         reasoning: result.reasoning,
         nearbyFacilities: result.nearby_facilities,
         userCoords,
+        roadGeometry: null,
       })
       return
     }
@@ -48,16 +50,25 @@ export function useTriageState() {
       userCoords,
       routes: [],
       recommendedFacilityId: result.recommended_facility.id,
+      roadGeometry: null,
     })
 
     if (userCoords && GEOAPIFY_KEY) {
       const routes = await fetchRouteMatrix(userCoords, allFacilities)
       if (routes.length > 0) {
         const sorted = [...routes].sort((a, b) => a.etaMinutes - b.etaMinutes)
+        const bestFacility = allFacilities.find(f => f.id === sorted[0].facilityId)
+        let roadGeometry: [number, number][] | null = null
+
+        if (bestFacility && userCoords) {
+          roadGeometry = await fetchRoadGeometry(userCoords, bestFacility)
+        }
+
         setTriage(prev => ({
           ...prev,
           routes,
           recommendedFacilityId: sorted[0].facilityId,
+          roadGeometry,
         }))
       }
     }
@@ -100,5 +111,47 @@ async function fetchRouteMatrix(
   } catch (err) {
     console.error("[RouteMatrix] fetch failed:", err)
     return []
+  }
+}
+async function fetchRoadGeometry(
+  from: { lat: number; lng: number },
+  to: { lat: number; lng: number },
+): Promise<[number, number][] | null> {
+  if (!GEOAPIFY_KEY) return null
+  try {
+    const url =
+      `https://api.geoapify.com/v1/routing` +
+      `?waypoints=${from.lat},${from.lng}|${to.lat},${to.lng}` +
+      `&mode=drive` +
+      `&apiKey=${GEOAPIFY_KEY}`
+
+    const resp = await fetch(url)
+    if (!resp.ok) {
+      console.warn("[RoadGeometry] Geoapify routing failed:", resp.status)
+      return null
+    }
+
+    const data = await resp.json()
+    const geom = data.features?.[0]?.geometry
+    if (!geom) {
+      console.warn("[RoadGeometry] no geometry in response")
+      return null
+    }
+
+    // Geoapify returns MultiLineString (array of legs); LineString handled defensively.
+    const rings: [number, number][][] =
+      geom.type === "MultiLineString" ? geom.coordinates :
+        geom.type === "LineString" ? [geom.coordinates] :
+          []
+
+    const coords: [number, number][] = rings
+      .flat()
+      .map(([lng, lat]: [number, number]) => [lat, lng])
+
+    console.log("[RoadGeometry] points received:", coords.length)
+    return coords.length > 0 ? coords : null
+  } catch (err) {
+    console.error("[RoadGeometry] fetch error:", err)
+    return null
   }
 }

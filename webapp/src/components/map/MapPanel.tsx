@@ -9,7 +9,7 @@ import { type CategoryFilter } from './config/categories'
 import { MapProvider } from './context/MapContext'
 import { MapFitBounds } from './layers/MapFitBounds'
 import { MapSizeGuard } from './layers/MapSizeGuard'
-import { OsrmRouteLayer } from './layers/OsrmRouteLayer'
+import { RoadRouteLayer } from './layers/RoadRouteLayer'
 import { FacilityMarkerLayer } from './components/FacilityMarkerLayer'
 import { FacilityLegend } from './components/FacilityLegend'
 import { CategoryFilterDropdown } from './components/CategoryFilterDropdown'
@@ -69,7 +69,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
               <Tooltip direction="top">Your location</Tooltip>
             </Marker>
           )}
-          <OsrmRouteLayer />
+          <RoadRouteLayer />
           <FacilityMarkerLayer
             displayedFacilities={displayedFacilities}
             triageCandidates={triageCandidates}
