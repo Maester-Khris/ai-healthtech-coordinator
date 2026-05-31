@@ -17,7 +17,7 @@ export function MapFitBounds() {
       [activeTriage.userCoords.lat, activeTriage.userCoords.lng],
       ...candidates.map(f => [f.lat, f.lng] as [number, number]),
     ])
-    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 })
+    map.fitBounds(bounds, { paddingTopLeft: [60, 80], paddingBottomRight: [100, 60], maxZoom: 14 })
   }, [activeTriage.active, map])
 
   useEffect(() => {
