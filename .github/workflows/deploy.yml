@@ -23,20 +23,20 @@ jobs:
             backend:
               - 'backend/**'
 
-  deploy-backend:
-    name: Deploy backend → Render
-    runs-on: ubuntu-latest
-    needs: detect-changes
-    if: needs.detect-changes.outputs.backend == 'true'
-
-    steps:
-      - name: Trigger Render deploy webhook
-        run: |
-          echo "Backend changes detected — triggering Render deploy"
-          curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK_MEDICOORD }}"
-
-      - name: Confirm webhook accepted
-        run: echo "Render deploy webhook triggered successfully"
+  # deploy-backend:
+  #   name: Deploy backend → Render
+  #   runs-on: ubuntu-latest
+  #   needs: detect-changes
+  #   if: needs.detect-changes.outputs.backend == 'true'
+  #
+  #   steps:
+  #     - name: Trigger Render deploy webhook
+  #       run: |
+  #         echo "Backend changes detected — triggering Render deploy"
+  #         curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK_MEDICOORD }}"
+  #
+  #     - name: Confirm webhook accepted
+  #       run: echo "Render deploy webhook triggered successfully"
 
   skip-backend:
     name: No backend changes — skip Render deploy

@@ -4,12 +4,12 @@ import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
 import type { Facility, TriageUIState } from '../../../../shared/types'
 import { useBreakpoint } from '../../hooks/useBreakpoint'
 import { cnTowerPos, INACTIVE_TRIAGE, buildTriageCandidates } from './config/constants'
-import { cnTowerIcon, userIcon } from './config/icons'
+import { cnTowerIcon } from './config/icons'
 import { type CategoryFilter } from './config/categories'
 import { MapProvider } from './context/MapContext'
 import { MapFitBounds } from './layers/MapFitBounds'
 import { MapSizeGuard } from './layers/MapSizeGuard'
-import { OsrmRouteLayer } from './layers/OsrmRouteLayer'
+import { RoadRouteLayer } from './layers/RoadRouteLayer'
 import { FacilityMarkerLayer } from './components/FacilityMarkerLayer'
 import { FacilityLegend } from './components/FacilityLegend'
 import { CategoryFilterDropdown } from './components/CategoryFilterDropdown'
@@ -64,12 +64,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
           <Marker position={cnTowerPos} icon={cnTowerIcon}>
             <Tooltip className="text-[13px] font-semibold" direction="top">CN Tower Area</Tooltip>
           </Marker>
-          {activeTriage.userCoords && (
-            <Marker position={[activeTriage.userCoords.lat, activeTriage.userCoords.lng]} icon={userIcon}>
-              <Tooltip direction="top">Your location</Tooltip>
-            </Marker>
-          )}
-          <OsrmRouteLayer />
+          <RoadRouteLayer />
           <FacilityMarkerLayer
             displayedFacilities={displayedFacilities}
             triageCandidates={triageCandidates}

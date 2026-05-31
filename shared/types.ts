@@ -93,4 +93,5 @@ export interface TriageUIState {
   userCoords:            { lat: number; lng: number } | null
   routes:                RouteResult[]
   recommendedFacilityId: string | null
+  roadGeometry:          [number, number][] | null
 }
