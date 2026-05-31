@@ -1,7 +1,7 @@
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useState, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Tooltip, Popup, Polyline, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Tooltip, Popup, useMap } from 'react-leaflet'
 import type { Facility, FacilityCandidate, TriageUIState } from '../../../../shared/types'
 import cnTowerSvg from '../../assets/cntower.svg'
 import { useBreakpoint } from '../../hooks/useBreakpoint'
@@ -237,7 +237,7 @@ function MapFitBounds({ triage }: { triage: TriageUIState }) {
       ...candidates.map(f => [f.lat, f.lng] as [number, number]),
     ])
     map.fitBounds(bounds, { padding: [40, 40] })
-  }, [triage.active, triage.routes, map]) // re-fit when routes arrive
+  }, [triage.active, map])
 
   useEffect(() => {
     if (!triage.active) {
@@ -264,6 +264,95 @@ function MapSizeGuard({ sizeVersion }: { sizeVersion: number }) {
     // The 150ms delay is already held by the caller; call immediately here.
     map.invalidateSize()
   }, [map, sizeVersion])
+
+  return null
+}
+
+function OsrmRouteLayer({
+  userCoords,
+  facilityLat,
+  facilityLng,
+}: {
+  userCoords: { lat: number; lng: number }
+  facilityLat: number
+  facilityLng: number
+}) {
+  const map = useMap()
+  const layerRef = useRef<L.Layer | null>(null)
+
+  useEffect(() => {
+    if (layerRef.current) {
+      layerRef.current.remove()
+      layerRef.current = null
+    }
+
+    const { lat: userLat, lng: userLng } = userCoords
+    let cancelled = false
+
+    const drawFallback = () => {
+      const line = L.polyline(
+        [[userLat, userLng], [facilityLat, facilityLng]],
+        { color: '#185FA5', weight: 3, dashArray: '10, 7', opacity: 0.85 },
+      ).addTo(map)
+      layerRef.current = line
+      map.fitBounds(line.getBounds(), { padding: [40, 40] })
+      setTimeout(() => map.invalidateSize(), 150)
+    }
+
+    // TODO: replace with self-hosted OSRM instance before production deployment
+    // Public demo server: https://router.project-osrm.org — dev/staging only
+    const url =
+      `https://router.project-osrm.org/route/v1/driving/` +
+      `${userLng},${userLat};${facilityLng},${facilityLat}` +
+      `?overview=full&geometries=geojson`
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (cancelled) return
+        if (!data.routes || data.routes.length === 0) {
+          drawFallback()
+          return
+        }
+        const routeGeometry = data.routes[0].geometry
+        // Layer 1 — shadow/outline stroke (drawn first, sits underneath)
+        const routeShadow = L.geoJSON(routeGeometry, {
+          style: {
+            color: 'rgba(0, 0, 0, 0.15)',
+            weight: 8,
+            opacity: 1,
+            lineJoin: 'round' as CanvasLineJoin,
+            lineCap: 'round' as CanvasLineCap,
+          },
+        }).addTo(map)
+        // Layer 2 — main route stroke (drawn on top)
+        const routeLine = L.geoJSON(routeGeometry, {
+          style: {
+            color: '#2563eb',
+            weight: 5,
+            opacity: 0.9,
+            lineJoin: 'round' as CanvasLineJoin,
+            lineCap: 'round' as CanvasLineCap,
+          },
+        }).addTo(map)
+        const routeLayer = L.layerGroup([routeShadow, routeLine]).addTo(map)
+        layerRef.current = routeLayer
+        map.fitBounds(routeLine.getBounds(), { padding: [48, 48] })
+        setTimeout(() => map.invalidateSize(), 150)
+      })
+      .catch(() => {
+        if (cancelled) return
+        drawFallback()
+      })
+
+    return () => {
+      cancelled = true
+      if (layerRef.current) {
+        layerRef.current.remove()
+        layerRef.current = null
+      }
+    }
+  }, [map, userCoords.lat, userCoords.lng, facilityLat, facilityLng])
 
   return null
 }
@@ -347,10 +436,6 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
     ? facilities
     : facilities.filter(f => f.category === categoryFilter)
 
-  // Single recommended route — find the one route that matters
-  const recommendedRoute = activeTriage.routes.find(
-    r => r.facilityId === recommendedId
-  )
   const recommendedFacility = triageCandidates.find(
     f => f.id === recommendedId
   )
@@ -391,27 +476,13 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
           </Marker>
         )}
 
-        {/* Single route line — recommended facility only */}
-        {activeTriage.active && activeTriage.userCoords && recommendedRoute && recommendedFacility && (
-          <Polyline
-            key="recommended-route"
-            positions={[
-              [activeTriage.userCoords.lat, activeTriage.userCoords.lng],
-              [recommendedFacility.lat, recommendedFacility.lng],
-            ]}
-            pathOptions={{
-              color: "#185FA5",
-              weight: 3,
-              dashArray: "10, 7",
-              opacity: 0.85,
-            }}
-          >
-            <Tooltip permanent className="eta-tooltip-permanent">
-              <span style={{ fontSize: 12, fontWeight: 500 }}>
-                {recommendedFacility.name} · {recommendedRoute.etaMinutes} min
-              </span>
-            </Tooltip>
-          </Polyline>
+        {/* Road-following route — OSRM path with straight-line fallback */}
+        {activeTriage.active && activeTriage.userCoords && recommendedFacility && (
+          <OsrmRouteLayer
+            userCoords={activeTriage.userCoords}
+            facilityLat={recommendedFacility.lat}
+            facilityLng={recommendedFacility.lng}
+          />
         )}
 
         {/* Facility markers — triage state */}
