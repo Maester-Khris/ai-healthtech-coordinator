@@ -27,7 +27,7 @@ interface ProfileProps {
   emergency_contact_phone?: string | null
 }
 
-type ProgressStage = 'idle' | 'analyzing' | 'locating' | 'complete'
+type ProgressStage = 'idle' | 'typing' | 'analyzing' | 'locating' | 'complete'
 
 interface AiAssistantTabProps {
   user: AuthUser | null
@@ -53,6 +53,12 @@ interface AiAssistantTabProps {
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })
+}
+
+function stripToolNarration(content: string): string {
+  return content
+    .replace(/I'm going to call[\s\S]*?triage_response\([^)]*\)\s*/gi, '')
+    .trim()
 }
 
 export function AiAssistantTab({
@@ -126,25 +132,30 @@ export function AiAssistantTab({
     }
     setLocalMessages(prev => [...prev, optimisticMsg])
 
-    setProgressStage('analyzing')
+    setProgressStage('typing')
     const response = await sendMessage(sid, text, coords)
 
-    setProgressStage('locating')
-    await new Promise(r => setTimeout(r, 500))
-    setProgressStage('complete')
-
     if (response) {
+      const cleanedAssistant = {
+        ...response.assistant_message,
+        content: stripToolNarration(response.assistant_message.content),
+      }
       setLocalMessages(prev => [
         ...prev.filter(m => m.id !== optimisticMsg.id),
         optimisticMsg,
-        response.assistant_message,
+        cleanedAssistant,
       ])
       if (response.triage) {
+        setProgressStage('analyzing')
         await onTriageResult(response.triage, coords)
+        setProgressStage('complete')
+        setTimeout(() => setProgressStage('idle'), 800)
+      } else {
+        setProgressStage('idle')
       }
+    } else {
+      setProgressStage('idle')
     }
-
-    setTimeout(() => setProgressStage('idle'), 800)
   }
 
   const handleScroll = useCallback(async () => {
@@ -264,7 +275,7 @@ export function AiAssistantTab({
                 <div key={msg.id}>
                   <div className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div
-                      className={`max-w-[80%] px-3 py-2 text-[13px] leading-snug ${
+                      className={`max-w-[80%] min-w-0 px-3 py-2 text-[13px] leading-snug break-words overflow-hidden ${
                         msg.role === 'user'
                           ? 'bg-blue-600 text-white'
                           : 'bg-white border border-gray-200 text-gray-800 shadow-sm'
@@ -362,7 +373,7 @@ export function AiAssistantTab({
       <ToolCallProgress stage={progressStage} />
 
       {/* Pinned input */}
-      <div className="flex-none px-4 py-3 bg-white border-t border-gray-100">
+      <div className="flex-none px-4 pt-3 pb-5 bg-white border-t border-gray-100">
         <SymptomInput
           value={symptomValue}
           onChange={onSymptomChange}

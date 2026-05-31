@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
 import { DrawerMenu } from './DrawerMenu'
 import { LoginModal } from '../auth/LoginModal'
@@ -17,7 +18,7 @@ function HamburgerIcon() {
   )
 }
 
-/** Shared mobile nav bar — 44px tall. Manages its own drawer and login modal state. */
+/** Shared mobile nav bar — 56px tall. Manages its own drawer and login modal state. */
 export function MobileNavBar() {
   const { user } = useAuth()
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -32,17 +33,17 @@ export function MobileNavBar() {
 
       <header
         className="flex-none flex items-center justify-between px-4 bg-white border-b border-gray-200 z-10 shadow-sm"
-        style={{ height: 44 }}
+        style={{ height: 56 }}
       >
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2 no-underline">
           <div className="w-7 h-7 rounded-lg overflow-hidden shadow-sm flex-none">
             <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
           </div>
           <span className="text-[15px] font-bold text-gray-900 tracking-tight">
             MediCoord<span className="text-blue-600">AI</span>
           </span>
-        </div>
+        </Link>
 
         {/* Right side */}
         {user ? (

@@ -2,7 +2,6 @@ import { useState, useCallback } from "react"
 import type { TriageUIState, TriageResult, RouteResult, FacilityCandidate } from "../../../shared/types"
 
 const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY as string | undefined
-console.log("[RouteMatrix] API key present:", !!GEOAPIFY_KEY)
 const DEFAULT_STATE: TriageUIState = {
   active: false,
   severity: null,
@@ -71,9 +70,6 @@ async function fetchRouteMatrix(
   userCoords: { lat: number; lng: number },
   facilities: FacilityCandidate[],
 ): Promise<RouteResult[]> {
-  console.log("[RouteMatrix] calling Geoapify with", facilities.length, "targets")
-  console.log("[RouteMatrix] API key present:", !!GEOAPIFY_KEY)
-
   if (!GEOAPIFY_KEY) {
     console.error("[RouteMatrix] VITE_GEOAPIFY_API_KEY is not set — check Doppler config and restart with doppler run -- npm run dev")
     return []
@@ -91,10 +87,8 @@ async function fetchRouteMatrix(
         body: JSON.stringify({ mode: "drive", sources, targets }),
       }
     )
-    console.log("[RouteMatrix] response status:", resp.status)
     if (!resp.ok) return []
     const data = await resp.json()
-    console.log("[RouteMatrix] raw response:", data)
 
     return (data.sources_to_targets?.[0] ?? []).map(
       (entry: { time: number; distance: number }, idx: number) => ({

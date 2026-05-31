@@ -31,13 +31,12 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
     r => r.facilityId === triage.recommendedFacilityId
   )
 
-  const otherRoutes = triage.routes
-    .filter(r => r.facilityId !== triage.recommendedFacilityId)
-    .map(r => ({
-      route: r,
-      facility: allFacilities.find(f => f.id === r.facilityId),
-    }))
-    .filter((x): x is typeof x & { facility: NonNullable<typeof x.facility> } => x.facility !== undefined)
+  // Drive the secondary list from nearbyFacilities (always populated by the backend).
+  // Attach route ETA when Geoapify data is available; fall back to straight-line distance.
+  const otherFacilities = triage.nearbyFacilities.map(f => ({
+    facility: f,
+    route: triage.routes.find(r => r.facilityId === f.id),
+  }))
 
   const sev = SEVERITY_COLORS[triage.severity] ?? { bg: "#888", text: "#fff" }
 
@@ -99,8 +98,8 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
           </div>
         )}
 
-        {/* Other nearby options with ETAs */}
-        {otherRoutes.length > 0 && (
+        {/* Other nearby options */}
+        {otherFacilities.length > 0 && (
           <div style={{ marginBottom: 10 }}>
             <div style={{
               fontSize: 10, color: "var(--color-text-tertiary, #9ca3af)",
@@ -108,16 +107,35 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
             }}>
               Other nearby options
             </div>
-            {otherRoutes.map(({ route, facility }) => (
-              <div key={route.facilityId} style={{
-                display: "flex", justifyContent: "space-between",
+            {otherFacilities.map(({ facility, route }) => (
+              <div key={facility.id ?? facility.name} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
                 fontSize: 12, color: "var(--color-text-secondary, #6b7280)",
-                padding: "3px 0",
+                padding: "4px 0",
+                borderTop: "0.5px solid var(--color-border-tertiary, #f3f4f6)",
               }}>
-                <span>{facility.name}</span>
-                <span style={{ color: "var(--color-text-tertiary, #9ca3af)", flexShrink: 0, marginLeft: 8 }}>
-                  {route.etaMinutes} min
+                <span style={{
+                  flex: 1, minWidth: 0,
+                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                }}>
+                  {facility.name}
                 </span>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, marginLeft: 8 }}>
+                  <span style={{ color: "var(--color-text-tertiary, #9ca3af)" }}>
+                    {route
+                      ? `${route.etaMinutes} min · ${route.distanceKm} km`
+                      : `~${facility.distanceKm} km`}
+                  </span>
+                  <span style={{
+                    fontSize: 9, fontWeight: 600, color: "#6b7280",
+                    background: "#f3f4f6", padding: "1px 5px",
+                    borderRadius: 8, letterSpacing: "0.04em", textTransform: "uppercase" as const,
+                  }}>
+                    {facility.category === "hospital" ? "Hospital"
+                      : facility.category === "ambulatory" ? "Walk-in"
+                      : "Care"}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -230,24 +248,10 @@ function PrimaryButton({ onClick, icon, label, color }: {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        padding: "11px 16px",
-        borderRadius: 10,
-        border: "none",
-        background: color,
-        color: "#fff",
-        fontSize: 14,
-        fontWeight: 600,
-        cursor: "pointer",
-        letterSpacing: "0.01em",
-      }}
+      style={{ backgroundColor: color }}
+      className="group w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white text-[14px] font-bold tracking-wide shadow-sm hover:shadow hover:-translate-y-[1px] hover:brightness-110 active:scale-[0.98] active:translate-y-0 transition-all duration-200 outline-none focus:ring-4 focus:ring-black/10 cursor-pointer"
     >
-      <i className={`ti ${icon}`} style={{ fontSize: 18 }} />
+      <i className={`ti ${icon} text-[18px] transition-transform group-hover:scale-110`} />
       {label}
     </button>
   )
@@ -261,23 +265,9 @@ function SecondaryButton({ onClick, icon, label }: {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 6,
-        padding: "9px 12px",
-        borderRadius: 10,
-        border: "1px solid var(--color-border-secondary, #d1d5db)",
-        background: "var(--color-background-primary, #fff)",
-        color: "var(--color-text-primary, #111827)",
-        fontSize: 13,
-        fontWeight: 500,
-        cursor: "pointer",
-      }}
+      className="group w-full flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl border border-gray-200/80 bg-white text-gray-700 text-[13px] font-bold shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 hover:-translate-y-[1px] hover:shadow transition-all duration-200 outline-none focus:ring-4 focus:ring-gray-100 active:scale-[0.98] active:translate-y-0 cursor-pointer"
     >
-      <i className={`ti ${icon}`} style={{ fontSize: 16, opacity: 0.7 }} />
+      <i className={`ti ${icon} text-[16px] text-gray-400 group-hover:text-gray-600 transition-colors`} />
       {label}
     </button>
   )

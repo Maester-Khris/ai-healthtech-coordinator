@@ -25,7 +25,7 @@ export function SymptomInput({
   return (
     <div
       className={`flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-2 ${className}`}
-      style={{ borderRadius: 20 }}
+      style={{ borderRadius: 14 }}
     >
       <textarea
         value={value}
@@ -40,11 +40,10 @@ export function SymptomInput({
       <button
         onClick={onSend}
         disabled={disabled || !value.trim()}
-        className={`w-8 h-8 rounded-full flex items-center justify-center flex-none transition-all ${
-          !disabled && value.trim()
+        className={`w-8 h-8 rounded-full flex items-center justify-center flex-none transition-all ${!disabled && value.trim()
             ? 'bg-blue-600 text-white'
             : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-        }`}
+          }`}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
           <path

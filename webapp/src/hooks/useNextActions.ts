@@ -13,29 +13,25 @@ export function useNextActions(severity: Severity | null): NextActionHandlers {
     // LEGAL NOTE: This action is always user-initiated via a tap/click.
     // The app never dials autonomously. This opens the native phone dialer only.
     // TODO (separate task): implement tel:911 deep link
-    console.log("[NextAction] call911 triggered — severity:", severity)
   }, [severity])
 
-  const messageEmergencyContact = useCallback((contactPhone: string | null) => {
+  const messageEmergencyContact = useCallback((_contactPhone: string | null) => {
     // LEGAL NOTE: This opens the native SMS composer pre-filled with a template.
     // No server-side message sending. User must tap Send in their SMS app.
     // TODO (separate task): implement sms: deep link with pre-filled body
-    console.log("[NextAction] messageEmergencyContact — phone:", contactPhone)
   }, [])
 
   const getDirections = useCallback((
-    facilityName: string,
-    lat: number,
-    lng: number,
+    _facilityName: string,
+    _lat: number,
+    _lng: number,
   ) => {
     // TODO (separate task): open Google Maps deep link
     // https://www.google.com/maps/dir/?api=1&destination={lat},{lng}
-    console.log("[NextAction] getDirections —", facilityName, lat, lng)
   }, [])
 
   const saveRecommendation = useCallback(() => {
     // TODO (separate task): persist recommendation to user profile or clipboard
-    console.log("[NextAction] saveRecommendation — severity:", severity)
   }, [severity])
 
   return { call911, messageEmergencyContact, getDirections, saveRecommendation }

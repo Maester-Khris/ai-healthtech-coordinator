@@ -1,8 +1,12 @@
+import logging
+
 from fastapi import Header, HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
 from services.auth import verify_token
+
+logger = logging.getLogger(__name__)
 
 
 async def get_current_user(authorization: str = Header(...)) -> object:
@@ -22,5 +26,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
                 user = verify_token(token)
                 request.state.user_id = user.id
             except Exception:
-                pass  # unauthenticated — state.user_id stays None
+                logger.warning(
+                    "auth_token_invalid",
+                    extra={"path": request.url.path},
+                )
         return await call_next(request)

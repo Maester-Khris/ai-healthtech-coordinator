@@ -25,5 +25,5 @@ def get_all_facilities(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error("Failed to query facilities: %s", e)
+        logger.error("supabase_query_failed", extra={"error_type": type(e).__name__})
         raise HTTPException(status_code=503, detail="Database unavailable")

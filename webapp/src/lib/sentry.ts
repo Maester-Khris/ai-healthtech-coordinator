@@ -2,10 +2,7 @@ import * as Sentry from "@sentry/react"
 
 export function initSentry(): void {
   const dsn = import.meta.env.VITE_SENTRY_DSN_FRONTEND
-  if (!dsn) {
-    console.warn("VITE_SENTRY_DSN_FRONTEND not set — Sentry disabled")
-    return
-  }
+  if (!dsn) return
 
   Sentry.init({
     dsn,
