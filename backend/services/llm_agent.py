@@ -38,6 +38,7 @@ class LLMAgent:
     def __init__(self, client: BaseLLMClient | None = None) -> None:
         self._client = client or get_llm_client()
         self._max_followups = int(os.environ.get("TRIAGE_MAX_FOLLOWUPS", "4"))
+        self._min_turns_before_triage = int(os.environ.get("TRIAGE_MIN_TURNS", "2"))
         self._context_window = int(os.environ.get("TRIAGE_CONTEXT_WINDOW", "10"))
         self._temperature = 0.2
         self._response_temperature = 0.3
@@ -65,7 +66,11 @@ class LLMAgent:
         user_turns = sum(1 for m in history if m.get("role") == "user")
         force_classify = user_turns >= self._max_followups
 
-        return self._run(messages, lat, lng, force=force_classify)
+        return self._run(
+            messages, lat, lng,
+            force=force_classify,
+            user_turns=user_turns,
+        )
 
     def _build_messages(
         self, user_message: str, history: list[dict]
@@ -85,6 +90,7 @@ class LLMAgent:
         lat: float | None,
         lng: float | None,
         force: bool,
+        user_turns: int = 0,
     ) -> dict:
         force_tool = TRIAGE_RESPONSE.name if force else None
 
@@ -102,6 +108,30 @@ class LLMAgent:
         if resp.tool_calls:
             for tool_call in resp.tool_calls:
                 if tool_call["name"] == TRIAGE_RESPONSE.name:
+
+                    args = json.loads(tool_call["arguments"])
+                    is_emergency = args.get("severity") == "emergent"
+                    below_min_turns = user_turns < self._min_turns_before_triage
+
+                    # Emergency always bypasses the minimum turn gate
+                    if below_min_turns and not is_emergency:
+                        logger.warning(
+                            "triage_suppressed_below_min_turns",
+                            extra={
+                                "user_turns": user_turns,
+                                "min_turns": self._min_turns_before_triage,
+                                "severity": args.get("severity"),
+                            },
+                        )
+                        return {
+                            "response": resp.content or "Could you tell me more about your symptoms?",
+                            "severity": None,
+                            "reasoning": None,
+                            "recommended_facility": None,
+                            "nearby_facilities": [],
+                            "turn_type": "followup",
+                        }
+
                     return self._handle_triage(tool_call, messages, lat, lng)
             logger.warning("unexpected_tool_call", extra={"tool_calls": resp.tool_calls})
             return {
@@ -199,7 +229,9 @@ class LLMAgent:
                 f"Write a warm, concise response to the patient (2-4 sentences). "
                 f"Mention the severity level and the facility name. "
                 f"Do not recommend treatments or medications. "
-                f"Do not repeat the internal reasoning."
+                f"Do not repeat the internal reasoning. "
+                f"Do not ask follow-up questions — triage is complete. "
+                f"Provide only the recommendation and next steps."
             ),
         )
 
