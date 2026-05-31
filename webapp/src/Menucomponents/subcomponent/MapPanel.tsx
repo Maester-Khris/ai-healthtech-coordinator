@@ -518,32 +518,12 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
         <button
           onClick={onClear}
           aria-label="Clear map"
-          style={{
-            position: 'absolute',
-            top: 58,
-            right: 12,
-            zIndex: 20,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 5,
-            background: 'white',
-            border: '0.5px solid rgba(0,0,0,0.15)',
-            borderRadius: 20,
-            padding: '0 12px',
-            height: 36,
-            fontSize: 11,
-            fontWeight: 500,
-            color: '#1a3a5c',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-          }}
+          className="absolute top-[58px] right-3 z-20 group flex items-center gap-2 bg-white/80 hover:bg-rose-50/90 active:bg-rose-100/90 backdrop-blur-md border border-gray-200/60 hover:border-rose-200/80 rounded-full px-4 py-2 text-xs font-bold text-gray-600 hover:text-rose-500 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out cursor-pointer outline-none focus:ring-4 focus:ring-rose-500/10 active:scale-95 whitespace-nowrap"
         >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M15 9l-6 6M9 9l6 6" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:rotate-90 duration-300">
+            <path d="M18 6L6 18M6 6l12 12" />
           </svg>
-          Clear map
+          <span>Clear map</span>
         </button>
       )}
 

@@ -31,13 +31,12 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
     r => r.facilityId === triage.recommendedFacilityId
   )
 
-  const otherRoutes = triage.routes
-    .filter(r => r.facilityId !== triage.recommendedFacilityId)
-    .map(r => ({
-      route: r,
-      facility: allFacilities.find(f => f.id === r.facilityId),
-    }))
-    .filter((x): x is typeof x & { facility: NonNullable<typeof x.facility> } => x.facility !== undefined)
+  // Drive the secondary list from nearbyFacilities (always populated by the backend).
+  // Attach route ETA when Geoapify data is available; fall back to straight-line distance.
+  const otherFacilities = triage.nearbyFacilities.map(f => ({
+    facility: f,
+    route: triage.routes.find(r => r.facilityId === f.id),
+  }))
 
   const sev = SEVERITY_COLORS[triage.severity] ?? { bg: "#888", text: "#fff" }
 
@@ -99,8 +98,8 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
           </div>
         )}
 
-        {/* Other nearby options with ETAs */}
-        {otherRoutes.length > 0 && (
+        {/* Other nearby options */}
+        {otherFacilities.length > 0 && (
           <div style={{ marginBottom: 10 }}>
             <div style={{
               fontSize: 10, color: "var(--color-text-tertiary, #9ca3af)",
@@ -108,16 +107,35 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
             }}>
               Other nearby options
             </div>
-            {otherRoutes.map(({ route, facility }) => (
-              <div key={route.facilityId} style={{
-                display: "flex", justifyContent: "space-between",
+            {otherFacilities.map(({ facility, route }) => (
+              <div key={facility.id} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
                 fontSize: 12, color: "var(--color-text-secondary, #6b7280)",
-                padding: "3px 0",
+                padding: "4px 0",
+                borderTop: "0.5px solid var(--color-border-tertiary, #f3f4f6)",
               }}>
-                <span>{facility.name}</span>
-                <span style={{ color: "var(--color-text-tertiary, #9ca3af)", flexShrink: 0, marginLeft: 8 }}>
-                  {route.etaMinutes} min
+                <span style={{
+                  flex: 1, minWidth: 0,
+                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                }}>
+                  {facility.name}
                 </span>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0, marginLeft: 8 }}>
+                  <span style={{ color: "var(--color-text-tertiary, #9ca3af)" }}>
+                    {route
+                      ? `${route.etaMinutes} min · ${route.distanceKm} km`
+                      : `~${facility.distanceKm} km`}
+                  </span>
+                  <span style={{
+                    fontSize: 9, fontWeight: 600, color: "#6b7280",
+                    background: "#f3f4f6", padding: "1px 5px",
+                    borderRadius: 8, letterSpacing: "0.04em", textTransform: "uppercase" as const,
+                  }}>
+                    {facility.category === "hospital" ? "Hospital"
+                      : facility.category === "ambulatory" ? "Walk-in"
+                      : "Care"}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
