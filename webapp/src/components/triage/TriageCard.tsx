@@ -108,7 +108,7 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
               Other nearby options
             </div>
             {otherFacilities.map(({ facility, route }) => (
-              <div key={facility.id} style={{
+              <div key={facility.id ?? facility.name} style={{
                 display: "flex", justifyContent: "space-between", alignItems: "center",
                 fontSize: 12, color: "var(--color-text-secondary, #6b7280)",
                 padding: "4px 0",

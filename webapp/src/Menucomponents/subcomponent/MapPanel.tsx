@@ -179,8 +179,8 @@ function CategoryFilterDropdown({
         onClick={() => setIsOpen(!isOpen)}
         className='map-category-filter appearance-none bg-white/80 hover:bg-white/95 backdrop-blur-md border border-gray-200/60 hover:border-gray-300/80 rounded-full py-2.5 pl-10 pr-11 text-xs font-bold text-gray-800 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out cursor-pointer outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 flex items-center justify-between min-w-[180px] relative'
       >
-        <div 
-          className="absolute left-4 w-2.5 h-2.5 rounded-full shadow-sm transition-colors duration-300 pointer-events-none" 
+        <div
+          className="absolute left-4 w-2.5 h-2.5 rounded-full shadow-sm transition-colors duration-300 pointer-events-none"
           style={{ backgroundColor: selected.color }}
         />
         <span className="truncate flex-1 text-left">
@@ -206,8 +206,8 @@ function CategoryFilterDropdown({
               }}
               className="flex items-center gap-3.5 px-5 py-3 hover:bg-gray-100/80 text-left transition-colors w-full"
             >
-              <div 
-                className="w-2.5 h-2.5 rounded-full shadow-sm flex-shrink-0" 
+              <div
+                className="w-2.5 h-2.5 rounded-full shadow-sm flex-shrink-0"
                 style={{ backgroundColor: opt.color }}
               />
               <span className="text-xs font-bold text-gray-800">
@@ -236,7 +236,7 @@ function MapFitBounds({ triage }: { triage: TriageUIState }) {
       [triage.userCoords.lat, triage.userCoords.lng],
       ...candidates.map(f => [f.lat, f.lng] as [number, number]),
     ])
-    map.fitBounds(bounds, { padding: [40, 40] })
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 })
   }, [triage.active, map])
 
   useEffect(() => {
@@ -290,17 +290,20 @@ function OsrmRouteLayer({
     let cancelled = false
 
     const drawFallback = () => {
-      const line = L.polyline(
+      const lineCasing = L.polyline(
         [[userLat, userLng], [facilityLat, facilityLng]],
-        { color: '#185FA5', weight: 3, dashArray: '10, 7', opacity: 0.85 },
+        { color: '#185FA5', weight: 6, dashArray: '8, 12', opacity: 0.8, lineJoin: 'round', lineCap: 'round' }
       ).addTo(map)
-      layerRef.current = line
-      map.fitBounds(line.getBounds(), { padding: [40, 40] })
-      setTimeout(() => map.invalidateSize(), 150)
+      const lineCore = L.polyline(
+        [[userLat, userLng], [facilityLat, facilityLng]],
+        { color: '#38BDF8', weight: 3, dashArray: '8, 12', opacity: 1, lineJoin: 'round', lineCap: 'round' }
+      ).addTo(map)
+
+      const fallbackLayer = L.layerGroup([lineCasing, lineCore]).addTo(map)
+      layerRef.current = fallbackLayer
+      map.fitBounds(lineCasing.getBounds(), { padding: [48, 48], maxZoom: 14 })
     }
 
-    // TODO: replace with self-hosted OSRM instance before production deployment
-    // Public demo server: https://router.project-osrm.org — dev/staging only
     const url =
       `https://router.project-osrm.org/route/v1/driving/` +
       `${userLng},${userLat};${facilityLng},${facilityLat}` +
@@ -315,30 +318,57 @@ function OsrmRouteLayer({
           return
         }
         const routeGeometry = data.routes[0].geometry
-        // Layer 1 — shadow/outline stroke (drawn first, sits underneath)
+
+        // Layer 1: Ambient Drop Shadow for depth
         const routeShadow = L.geoJSON(routeGeometry, {
           style: {
-            color: 'rgba(0, 0, 0, 0.15)',
-            weight: 8,
-            opacity: 1,
-            lineJoin: 'round' as CanvasLineJoin,
-            lineCap: 'round' as CanvasLineCap,
+            color: '#0f172a',
+            weight: 14,
+            opacity: 0.2,
+            lineJoin: 'round',
+            lineCap: 'round',
           },
         }).addTo(map)
-        // Layer 2 — main route stroke (drawn on top)
-        const routeLine = L.geoJSON(routeGeometry, {
+
+        // Layer 2: High Contrast Casing / Border matching app theme
+        const routeCasing = L.geoJSON(routeGeometry, {
           style: {
-            color: '#2563eb',
-            weight: 5,
-            opacity: 0.9,
-            lineJoin: 'round' as CanvasLineJoin,
-            lineCap: 'round' as CanvasLineCap,
+            color: '#185FA5',
+            weight: 8,
+            opacity: 0.95,
+            lineJoin: 'round',
+            lineCap: 'round',
           },
         }).addTo(map)
-        const routeLayer = L.layerGroup([routeShadow, routeLine]).addTo(map)
+
+        // Layer 3: Vibrant Active Core
+        const routeCore = L.geoJSON(routeGeometry, {
+          style: {
+            color: '#38BDF8',
+            weight: 4,
+            opacity: 1,
+            lineJoin: 'round',
+            lineCap: 'round',
+          },
+        }).addTo(map)
+
+        // Layer 4: Inner Navigation Dashes
+        const routeDashes = L.geoJSON(routeGeometry, {
+          style: {
+            color: '#ffffff',
+            weight: 1.5,
+            opacity: 0.8,
+            dashArray: '6, 8',
+            lineJoin: 'round',
+            lineCap: 'round',
+          },
+        }).addTo(map)
+
+        const routeLayer = L.layerGroup([routeShadow, routeCasing, routeCore, routeDashes]).addTo(map)
         layerRef.current = routeLayer
-        map.fitBounds(routeLine.getBounds(), { padding: [48, 48] })
-        setTimeout(() => map.invalidateSize(), 150)
+
+        map.fitBounds(routeCore.getBounds(), { padding: [52, 52], maxZoom: 14 })
+        setTimeout(() => map.invalidateSize(), 100)
       })
       .catch(() => {
         if (cancelled) return
@@ -489,10 +519,10 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
         {activeTriage.active
           ? triageCandidates.map(facility => (
             <Marker
-              key={facility.id}
+              key={facility.id ?? facility.name}
               position={[facility.lat, facility.lng]}
               icon={getFacilityIcon(facility, recommendedId, activeTriage.active)}
-              eventHandlers={facilityHandlers(facility.id)}
+              eventHandlers={facilityHandlers(facility.id ?? facility.name)}
             >
               <Popup>
                 <UnifiedFacilityPopup
