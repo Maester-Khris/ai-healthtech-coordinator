@@ -272,8 +272,17 @@ class TestTriageResultShape:
             ),
         ]
 
+        # Three prior user turns so user_turns >= TRIAGE_MIN_TURNS (default 3)
+        history = [
+            {"role": "user",      "content": "I feel unwell"},
+            {"role": "assistant", "content": "Can you describe your symptoms?"},
+            {"role": "user",      "content": "I have a headache and fever"},
+            {"role": "assistant", "content": "How long have you had these symptoms?"},
+            {"role": "user",      "content": "Since this morning"},
+            {"role": "assistant", "content": "Any chills or nausea alongside the fever?"},
+        ]
         agent = LLMAgent(client=mock_client)
-        result = agent.respond("I have a high fever", [], lat=43.660, lng=-79.385)
+        result = agent.respond("I have a high fever", history, lat=43.660, lng=-79.385)
 
         assert result["turn_type"] == "triage"
         assert result["severity"] == "urgent"

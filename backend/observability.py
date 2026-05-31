@@ -4,6 +4,8 @@ import threading
 import time
 import uuid
 
+logger = logging.getLogger(__name__)
+
 import sentry_sdk
 from fastapi import Header, HTTPException
 from prometheus_client import CollectorRegistry, push_to_gateway
@@ -35,7 +37,7 @@ def init_logging() -> None:
 def init_sentry() -> None:
     dsn = os.environ.get("SENTRY_DSN_BACKEND")
     if not dsn:
-        print("WARN: SENTRY_DSN_BACKEND not set — Sentry disabled")
+        logger.warning("sentry_disabled", extra={"reason": "SENTRY_DSN_BACKEND not set"})
         return
     sentry_sdk.init(
         dsn=dsn,
@@ -66,7 +68,7 @@ def init_metrics(app) -> Instrumentator:  # type: ignore[type-arg]
     api_token = os.environ.get("GRAFANA_API_TOKEN")
 
     if not all([remote_write_url, instance_id, api_token]):
-        print("WARN: Grafana Prometheus vars not set — metrics push disabled")
+        logger.warning("metrics_push_disabled", extra={"reason": "Grafana Prometheus vars not set"})
         return instrumentator
 
     def push_loop() -> None:

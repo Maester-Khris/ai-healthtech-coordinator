@@ -18,7 +18,7 @@ interface ProfileProps {
   emergency_contact_phone?: string | null
 }
 
-type ProgressStage = "idle" | "analyzing" | "locating" | "complete"
+type ProgressStage = "idle" | "typing" | "analyzing" | "locating" | "complete"
 
 interface ChatPanelProps {
   user: AuthUser | null
@@ -42,6 +42,12 @@ const SUGGESTIONS = [
 function formatDate(iso: string): string {
   const d = new Date(iso)
   return d.toLocaleDateString("en-CA", { month: "short", day: "numeric" })
+}
+
+function stripToolNarration(content: string): string {
+  return content
+    .replace(/I'm going to call[\s\S]*?triage_response\([^)]*\)\s*/gi, "")
+    .trim()
 }
 
 export function ChatPanel({
@@ -118,26 +124,30 @@ export function ChatPanel({
     }
     setLocalMessages(prev => [...prev, optimisticUserMsg])
 
-    setProgressStage("analyzing")
+    setProgressStage("typing")
     const response = await sendMessage(sid, text, coords)
 
-    // Brief locating flash before complete
-    setProgressStage("locating")
-    await new Promise(r => setTimeout(r, 500))
-    setProgressStage("complete")
-
     if (response) {
+      const cleanedAssistant = {
+        ...response.assistant_message,
+        content: stripToolNarration(response.assistant_message.content),
+      }
       setLocalMessages(prev => [
         ...prev.filter(m => m.id !== optimisticUserMsg.id),
         optimisticUserMsg,
-        response.assistant_message,
+        cleanedAssistant,
       ])
       if (response.triage) {
+        setProgressStage("analyzing")
         await onTriageResult(response.triage, coords)
+        setProgressStage("complete")
+        setTimeout(() => setProgressStage("idle"), 800)
+      } else {
+        setProgressStage("idle")
       }
+    } else {
+      setProgressStage("idle")
     }
-
-    setTimeout(() => setProgressStage("idle"), 800)
   }
 
   const handleScroll = useCallback(async () => {
@@ -266,7 +276,7 @@ export function ChatPanel({
                 <div key={msg.id}>
                   <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+                      className={`max-w-[80%] min-w-0 rounded-2xl px-4 py-2.5 text-sm break-words overflow-hidden ${
                         msg.role === "user"
                           ? "bg-blue-600 text-white rounded-br-sm"
                           : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"

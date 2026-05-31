@@ -1,3 +1,4 @@
+import logging
 import os
 import hashlib
 import json
@@ -12,15 +13,17 @@ from cache import get_cached_facilities, set_cached_facilities
 from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
 from routers.chat import router as chat_router
 
+logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     try:
         data = get_all_facilities()
         set_cached_facilities(data)
-        print(f"Cache warm: {len(data)} facilities loaded")
+        logger.info("cache_warm", extra={"facility_count": len(data)})
     except Exception as exc:
-        print(f"WARN: Cache warm failed — {exc}. First request will hit Supabase.")
+        logger.warning("cache_warm_failed", extra={"error_type": type(exc).__name__})
     yield
 
 
