@@ -248,24 +248,10 @@ function PrimaryButton({ onClick, icon, label, color }: {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 8,
-        padding: "11px 16px",
-        borderRadius: 10,
-        border: "none",
-        background: color,
-        color: "#fff",
-        fontSize: 14,
-        fontWeight: 600,
-        cursor: "pointer",
-        letterSpacing: "0.01em",
-      }}
+      style={{ backgroundColor: color }}
+      className="group w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white text-[14px] font-bold tracking-wide shadow-sm hover:shadow hover:-translate-y-[1px] hover:brightness-110 active:scale-[0.98] active:translate-y-0 transition-all duration-200 outline-none focus:ring-4 focus:ring-black/10 cursor-pointer"
     >
-      <i className={`ti ${icon}`} style={{ fontSize: 18 }} />
+      <i className={`ti ${icon} text-[18px] transition-transform group-hover:scale-110`} />
       {label}
     </button>
   )
@@ -279,23 +265,9 @@ function SecondaryButton({ onClick, icon, label }: {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 6,
-        padding: "9px 12px",
-        borderRadius: 10,
-        border: "1px solid var(--color-border-secondary, #d1d5db)",
-        background: "var(--color-background-primary, #fff)",
-        color: "var(--color-text-primary, #111827)",
-        fontSize: 13,
-        fontWeight: 500,
-        cursor: "pointer",
-      }}
+      className="group w-full flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl border border-gray-200/80 bg-white text-gray-700 text-[13px] font-bold shadow-sm hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 hover:-translate-y-[1px] hover:shadow transition-all duration-200 outline-none focus:ring-4 focus:ring-gray-100 active:scale-[0.98] active:translate-y-0 cursor-pointer"
     >
-      <i className={`ti ${icon}`} style={{ fontSize: 16, opacity: 0.7 }} />
+      <i className={`ti ${icon} text-[16px] text-gray-400 group-hover:text-gray-600 transition-colors`} />
       {label}
     </button>
   )
