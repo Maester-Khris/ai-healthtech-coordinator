@@ -34,6 +34,8 @@ function AppInner() {
   )
 }
 
+import TestLocationPage from './pages/TestLocationPage'
+
 function App() {
   return (
     <Sentry.ErrorBoundary
@@ -48,6 +50,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/setup" element={<SetupPage />} />
+            <Route path="/testlocation" element={<TestLocationPage />} />
             <Route path="*" element={<AppInner />} />
           </Routes>
         </BrowserRouter>
