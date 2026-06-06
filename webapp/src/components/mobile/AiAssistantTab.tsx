@@ -11,6 +11,7 @@ import { TriageCard } from '../triage/TriageCard'
 import { ToolCallProgress } from '../triage/ToolCallProgress'
 import { SymptomInput } from './SymptomInput'
 import { QuickChips } from './QuickChips'
+import type { GeolocationPermission } from '../../hooks/useGeolocation'
 
 interface AuthUser {
   id: string
@@ -20,6 +21,7 @@ interface AuthUser {
 interface GeoProps {
   coords: { lat: number; lng: number } | null
   requestOnce: () => Promise<{ lat: number; lng: number } | null>
+  permission: GeolocationPermission
 }
 
 interface ProfileProps {
@@ -381,18 +383,24 @@ export function AiAssistantTab({
           disabled={!user}
           className="bg-gray-50"
         />
-        <p className="text-[10px] font-semibold text-center text-gray-400 mt-2 flex items-center justify-center gap-1">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Secure &amp; confidential
-        </p>
+        {geo.permission === 'denied' ? (
+          <p className="text-[10px] font-semibold text-center mt-2">
+            <span style={{ color: '#E8813A' }}>⚠ Location blocked — facility map routing unavailable</span>
+          </p>
+        ) : (
+          <p className="text-[10px] font-semibold text-center text-gray-400 mt-2 flex items-center justify-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Secure &amp; confidential
+          </p>
+        )}
       </div>
     </div>
   )
