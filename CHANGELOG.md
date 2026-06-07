@@ -245,17 +245,6 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 
 ---
 
-## [Sprint 10 — Active] · Sandbox v2 — Static Control Room Page
-
-**Started — 2026-06-07 · branch: `feat/sandbox-v2`**
-
-### Scope
-- Static "Control Room" page (desktop-only layout)
-- Nav link wired to the new page
-- No dynamic data — purely structural/UI sprint
-
----
-
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**
