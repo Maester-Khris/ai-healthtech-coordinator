@@ -56,6 +56,11 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
 
   const requestPermission = async () => {
     if (initialized.current) return
+    if (!window.OneSignal) {
+      console.warn("[OneSignal] SDK not loaded")
+      return
+    }
+    initialized.current = true
     setRequesting(true)
     try {
       await new Promise<void>((resolve) => {
@@ -68,8 +73,6 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
           resolve()
         })
       })
-
-      initialized.current = true
 
       const userId = await new Promise<string | null>((resolve) => {
         window.OneSignal.push(() => {
