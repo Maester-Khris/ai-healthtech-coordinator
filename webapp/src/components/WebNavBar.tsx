@@ -21,11 +21,17 @@ export function WebNavBar({ rightContent }: WebNavBarProps) {
         </div>
       </Link>
 
-      {rightContent && (
-        <div className="flex items-center gap-4">
-          {rightContent}
-        </div>
-      )}
+      <div className="flex items-center gap-4 ml-auto">
+        <Link
+          to="/sandbox"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-semibold text-gray-500 hover:text-gray-800 rounded-md transition-colors no-underline"
+          style={{ border: "0.5px solid #e2e8f0" }}
+        >
+          <i className="ti ti-flask" style={{ fontSize: 13, color: "#EF9F27" }} />
+          Sandbox
+        </Link>
+        {rightContent && <div className="flex items-center gap-4">{rightContent}</div>}
+      </div>
     </header>
   )
 }
