@@ -2,7 +2,7 @@ import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import { useState } from "react"
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet"
-import type { Facility } from "@shared/types"
+import type { Facility, FacilityCategory } from "@shared/types"
 import { cnTowerPos } from "../map/config/constants"
 import { cnTowerIcon } from "../map/config/icons"
 
@@ -38,7 +38,7 @@ function getSandboxFacilityIcon(category: string): L.DivIcon {
   })
 }
 
-type CategoryFilter = "all" | "hospital" | "ambulatory" | "residential"
+type CategoryFilter = "all" | FacilityCategory
 
 const FILTER_OPTIONS: Array<{ value: CategoryFilter; label: string }> = [
   { value: "all",         label: "All types" },
@@ -87,9 +87,9 @@ export function SandboxMap({ facilities, facilitiesLoading }: SandboxMapProps) {
             CN Tower Area
           </Tooltip>
         </Marker>
-        {displayed.map(facility => (
+        {displayed.map((facility, i) => (
           <Marker
-            key={facility.id ?? facility.name}
+            key={facility.id ?? `${facility.name}-${i}`}
             position={[facility.lat, facility.lng]}
             icon={getSandboxFacilityIcon(facility.category)}
           />

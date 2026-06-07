@@ -22,16 +22,16 @@ const MOCK_CHAT = [
 ] as const
 
 const STATIC_LOGS = [
-  { time: "14:42:81", type: "INFO",      msg: "Sandbox session initialized" },
-  { time: "14:42:83", type: "INFO",      msg: "Mock patient generated at [43.6, -79.3]" },
-  { time: "14:42:85", type: "ALGORITHM", msg: "Evaluating nearest facilities — severity: urgent" },
-  { time: "14:42:86", type: "ALGORITHM", msg: "Candidate: Richview Community Care — ETA 4min" },
-  { time: "14:42:87", type: "ALGORITHM", msg: "Candidate: Etobicoke Medical Centre — ETA 6min" },
-  { time: "14:42:88", type: "ALGORITHM", msg: "Scoring candidates by ETA + busyness weight" },
-  { time: "14:42:89", type: "ALGORITHM", msg: "Richview score: 3.6 | Etobicoke score: 5.2" },
-  { time: "14:42:90", type: "SUCCESS",   msg: "Route locked → Richview Community Care" },
-  { time: "14:42:91", type: "INFO",      msg: "Redis busyness data age: 4min 32sec" },
-  { time: "14:42:92", type: "SUCCESS",   msg: "Patient routed successfully" },
+  { time: "14:42:01", type: "INFO",      msg: "Sandbox session initialized" },
+  { time: "14:42:03", type: "INFO",      msg: "Mock patient generated at [43.6, -79.3]" },
+  { time: "14:42:05", type: "ALGORITHM", msg: "Evaluating nearest facilities — severity: urgent" },
+  { time: "14:42:06", type: "ALGORITHM", msg: "Candidate: Richview Community Care — ETA 4min" },
+  { time: "14:42:07", type: "ALGORITHM", msg: "Candidate: Etobicoke Medical Centre — ETA 6min" },
+  { time: "14:42:08", type: "ALGORITHM", msg: "Scoring candidates by ETA + busyness weight" },
+  { time: "14:42:09", type: "ALGORITHM", msg: "Richview score: 3.6 | Etobicoke score: 5.2" },
+  { time: "14:42:10", type: "SUCCESS",   msg: "Route locked → Richview Community Care" },
+  { time: "14:42:11", type: "INFO",      msg: "Redis busyness data age: 4min 32sec" },
+  { time: "14:42:12", type: "SUCCESS",   msg: "Patient routed successfully" },
 ] as const
 
 const LOG_COLORS: Record<string, string> = {
