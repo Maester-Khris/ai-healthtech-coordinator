@@ -32,24 +32,34 @@ const DISMISS_KEY = "medicoord_install_modal_dismissed"
 
 function detectPlatform(): Platform {
   const ua = navigator.userAgent
-  const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream
+  const MSStream = (window as unknown as { MSStream?: unknown }).MSStream
+  const isIOS =
+    (/iPad|iPhone|iPod/.test(ua) && !MSStream) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
   if (isIOS) {
     const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS/.test(ua)
     return isSafari ? "ios_safari" : "unsupported"
   }
-  if (/Android/.test(ua)) return "android_chrome"
+  if (/Android/.test(ua)) {
+    const isChrome = /Chrome/.test(ua) && !/Chromium/.test(ua)
+    return isChrome ? "android_chrome" : "unsupported"
+  }
   if (/Chrome/.test(ua) && !/Chromium|OPR|Edge/.test(ua)) return "desktop_chrome"
   return "desktop_other"
 }
 
-function detectiOSVersion(): number | null {
-  const match = navigator.userAgent.match(/OS (\d+)_/)
-  return match ? parseInt(match[1], 10) : null
+function detectiOSVersion(): { major: number; minor: number } | null {
+  const match = navigator.userAgent.match(/OS (\d+)_(\d+)/)
+  return match
+    ? { major: parseInt(match[1], 10), minor: parseInt(match[2], 10) }
+    : null
 }
 
 export function usePWAInstall(): UsePWAInstallResult {
   const [capturedPrompt, setCapturedPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [dismissed, setDismissed] = useState(false)
+  const [dismissed, setDismissed] = useState(
+    () => localStorage.getItem(DISMISS_KEY) === "true"
+  )
 
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
@@ -62,7 +72,9 @@ export function usePWAInstall(): UsePWAInstallResult {
     "Notification" in window &&
     "serviceWorker" in navigator &&
     "PushManager" in window &&
-    (platform !== "ios_safari" || (iOSVersion !== null && iOSVersion >= 16))
+    (platform !== "ios_safari" ||
+      (iOSVersion !== null &&
+        (iOSVersion.major > 16 || (iOSVersion.major === 16 && iOSVersion.minor >= 4))))
 
   const installState: InstallState = isStandalone
     ? "standalone"
@@ -71,10 +83,6 @@ export function usePWAInstall(): UsePWAInstallResult {
       : platform === "ios_safari"
         ? "manual_install"
         : "not_applicable"
-
-  useEffect(() => {
-    setDismissed(localStorage.getItem(DISMISS_KEY) === "true")
-  }, [])
 
   useEffect(() => {
     const handler = (e: Event) => {
