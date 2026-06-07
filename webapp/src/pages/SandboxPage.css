@@ -1,0 +1,46 @@
+/* Sandbox CSS vars — scoped to .sandbox-layout only, no global bleed */
+.sandbox-layout {
+  --sb-bg-primary:     #0f1117;
+  --sb-bg-secondary:   #161b27;
+  --sb-bg-tertiary:    #1e2536;
+  --sb-border:         rgba(255, 255, 255, 0.08);
+  --sb-text-primary:   #e8eaf0;
+  --sb-text-secondary: #8b91a8;
+  --sb-text-muted:     #4a5068;
+  --sb-accent:         #EF9F27;
+  --sb-accent-dim:     rgba(239, 159, 39, 0.15);
+  --sb-teal:           #1D9E75;
+  --sb-blue:           #185FA5;
+  --sb-red:            #C0392B;
+}
+
+/* Desktop-first defaults */
+.sandbox-desktop-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sandbox-mobile-guard {
+  display: none;
+}
+
+/* Below 1024px: show guard, hide panels */
+@media (max-width: 1023px) {
+  .sandbox-desktop-layout {
+    display: none;
+  }
+
+  .sandbox-mobile-guard {
+    display: flex;
+    flex: 1;
+  }
+}
+
+/* Amber pulse animation for the facilities-active dot */
+@keyframes sb-ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

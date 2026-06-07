@@ -45,6 +45,7 @@ function AppInner() {
 }
 
 import TestLocationPage from './pages/TestLocationPage'
+import SandboxPage from './pages/SandboxPage'
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Routes>
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/testlocation" element={<TestLocationPage />} />
+            <Route path="/sandbox" element={<SandboxPage />} />
             <Route path="*" element={<AppInner />} />
           </Routes>
         </BrowserRouter>
