@@ -52,11 +52,12 @@ async def send_notification(
         raise HTTPException(502, "Failed to reach OneSignal")
 
     if response.status_code != 200:
+        error_body = response.json()
         logger.warning(
             "onesignal_error",
-            extra={"status": response.status_code, "body": response.json()},
+            extra={"status": response.status_code, "body": error_body},
         )
-        raise HTTPException(502, f"OneSignal error: {response.json()}")
+        raise HTTPException(502, f"OneSignal error: {error_body}")
 
     data = response.json()
     return {"notification_id": data.get("id")}
