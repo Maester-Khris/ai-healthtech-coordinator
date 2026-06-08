@@ -12,6 +12,7 @@ from middleware.auth import AuthMiddleware, get_current_user
 from cache import get_cached_facilities, set_cached_facilities
 from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
 from routers.chat import router as chat_router
+from routers.notifications import router as notifications_router
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,7 @@ app.add_middleware(RequestIDMiddleware)
 
 init_observability(app)
 app.include_router(chat_router)
+app.include_router(notifications_router)
 
 
 @app.get("/metrics")
