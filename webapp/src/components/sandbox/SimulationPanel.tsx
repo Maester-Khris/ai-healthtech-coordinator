@@ -1,63 +1,65 @@
-import type { CSSProperties } from "react"
+import { useState, type CSSProperties } from "react"
 
 const SECTION_LABEL: CSSProperties = {
-  fontSize: 10,
+  fontSize: 12,
   fontWeight: 700,
-  letterSpacing: "0.10em",
+  letterSpacing: "0.12em",
   textTransform: "uppercase",
-  color: "var(--sb-text-muted)",
-  margin: "0 0 8px",
+  color: "var(--sb-text-secondary)",
+  margin: "0 0 12px",
+  borderLeft: "2px solid var(--sb-accent)",
+  paddingLeft: 8,
 }
 
 const DIVIDER: CSSProperties = {
   height: "0.5px",
   background: "var(--sb-border)",
-  margin: "16px 0",
+  margin: "24px 0",
 }
 
 const STATIC_BTN: CSSProperties = {
   display: "flex",
   alignItems: "center",
-  gap: 8,
+  gap: 10,
   width: "100%",
-  background: "var(--sb-bg-tertiary)",
-  border: "0.5px solid var(--sb-border)",
-  borderRadius: 6,
-  color: "var(--sb-text-secondary)",
-  fontSize: 12,
-  padding: "8px 10px",
-  cursor: "default",
-  opacity: 0.6,
+  borderRadius: 8,
+  fontSize: 14,
+  padding: "10px 12px",
+  cursor: "pointer",
   textAlign: "left",
 }
 
 const DARK_SELECT: CSSProperties = {
   width: "100%",
-  background: "var(--sb-bg-tertiary)",
+  background: "var(--sb-bg-tertiary) url('data:image/svg+xml;utf8,<svg fill=\"%2364748B\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>') no-repeat right 8px center",
   border: "0.5px solid var(--sb-border)",
   borderRadius: 6,
   color: "var(--sb-text-primary)",
-  fontSize: 12,
-  padding: "7px 10px",
-  cursor: "default",
+  fontSize: 14,
+  padding: "8px 32px 8px 10px",
+  cursor: "pointer",
   outline: "none",
+  appearance: "none",
+  WebkitAppearance: "none",
+  MozAppearance: "none",
 }
 
-export function SimulationPanel() {
+export function SimulationPanel({ defaultSystemCapacity = 72 }: { defaultSystemCapacity?: number } = {}) {
+  const [capacity, setCapacity] = useState(defaultSystemCapacity)
   return (
     <div
       style={{
-        width: 240,
+        width: 320,
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
         background: "var(--sb-bg-secondary)",
-        borderRight: "0.5px solid var(--sb-border)",
+        borderRight: "1px solid var(--sb-border)",
         overflowY: "auto",
-        padding: "16px 14px",
+        padding: "24px 20px 40px",
       }}
     >
-      <p style={{ fontSize: 12, fontWeight: 600, color: "var(--sb-text-secondary)", margin: "0 0 16px" }}>
+      <p style={{ fontSize: 14, fontWeight: 600, color: "var(--sb-text-secondary)", margin: "0 0 16px" }}>
         Simulation Configuration
       </p>
 
@@ -76,11 +78,15 @@ export function SimulationPanel() {
       <p style={SECTION_LABEL}>System Shock Toggles</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {/* TODO: wire simulation engine */}
-        {(["Spawn simulated patient", "Force facility outage", "Restore all facilities"] as const).map(
-          label => (
-            <button key={label} style={STATIC_BTN}>
-              <i className="ti ti-plus" style={{ fontSize: 12, flexShrink: 0 }} />
-              {label}
+        {[
+          { label: "Spawn simulated patient", className: "sandbox-shock-btn-neutral" },
+          { label: "Force facility outage", className: "sandbox-shock-btn-warning" },
+          { label: "Restore all facilities", className: "sandbox-shock-btn-success" }
+        ].map(
+          item => (
+            <button key={item.label} className={item.className} style={STATIC_BTN}>
+              <i className="ti ti-plus" style={{ fontSize: 16, flexShrink: 0 }} />
+              {item.label}
             </button>
           ),
         )}
@@ -90,71 +96,95 @@ export function SimulationPanel() {
 
       {/* Section 3 — Emergency Load */}
       <p style={SECTION_LABEL}>Emergency Load</p>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-        <span style={{ fontSize: 11, color: "var(--sb-text-secondary)" }}>System capacity</span>
-        <span style={{ fontSize: 11, fontWeight: 700, color: "#E87070" }}>72%</span>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+        <span style={{ fontSize: 13, color: "var(--sb-text-secondary)" }}>System capacity</span>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "#E87070" }}>{capacity}%</span>
       </div>
       <div
         style={{
           height: 8,
           borderRadius: 4,
           background: "var(--sb-bg-tertiary)",
+          position: "relative",
           overflow: "hidden",
         }}
       >
         <div
           style={{
-            height: "100%",
-            width: "72%",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             borderRadius: 4,
-            background: "linear-gradient(90deg, #1D9E75 0%, #EF9F27 60%, #C0392B 100%)",
+            background: "linear-gradient(90deg, #1D9E75 0%, #EF9F27 60%, #C0392B 90%)",
+            clipPath: `inset(0 ${100 - capacity}% 0 0)`,
+            transition: "clip-path 0.1s ease-out",
           }}
         />
       </div>
-
-      <div style={DIVIDER} />
+      <input 
+        type="range" 
+        min={0} 
+        max={100} 
+        value={capacity}
+        onChange={(e) => setCapacity(Number(e.target.value))}
+        style={{ width: "100%", marginTop: 12, cursor: "pointer", accentColor: "var(--sb-accent)" }}
+      />
 
       {/* Section 4 — Simulation Controls */}
-      <p style={SECTION_LABEL}>Simulation Controls</p>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "32px 0 16px" }}>
+        <div style={{ flex: 1, height: "1px", background: "var(--sb-border)" }} />
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: "var(--sb-text-muted)", textTransform: "uppercase" }}>
+          Simulation Controls
+        </span>
+        <div style={{ flex: 1, height: "1px", background: "var(--sb-border)" }} />
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {(["player-play", "player-pause", "player-stop"] as const).map(icon => (
           <button
             key={icon}
+            className="sandbox-playback-btn"
             style={{
-              width: 32,
-              height: 32,
+              width: 38,
+              height: 38,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               background: "var(--sb-bg-tertiary)",
-              border: "0.5px solid var(--sb-border)",
-              borderRadius: 6,
+              border: "1px solid var(--sb-border)",
+              borderRadius: 8,
               color: "var(--sb-text-secondary)",
-              cursor: "default",
-              opacity: 0.6,
+              cursor: "pointer",
               flexShrink: 0,
             }}
           >
-            <i className={`ti ti-${icon}`} style={{ fontSize: 14 }} />
+            <i className={`ti ti-${icon}`} style={{ fontSize: 20 }} />
           </button>
         ))}
         <div style={{ flex: 1 }} />
-        <select
-          style={{
-            background: "var(--sb-bg-tertiary)",
-            border: "0.5px solid var(--sb-border)",
-            borderRadius: 6,
-            color: "var(--sb-text-secondary)",
-            fontSize: 11,
-            padding: "5px 8px",
-            cursor: "default",
-            outline: "none",
-          }}
-        >
-          <option>1×</option>
-          <option>2×</option>
-          <option>5×</option>
-        </select>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 13, color: "var(--sb-text-secondary)", fontWeight: 500 }}>Speed:</span>
+          <select
+            style={{
+              background: "var(--sb-bg-tertiary) url('data:image/svg+xml;utf8,<svg fill=\"%2364748B\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>') no-repeat right 6px center",
+              border: "0.5px solid var(--sb-border)",
+              borderRadius: 6,
+              color: "var(--sb-text-secondary)",
+              fontSize: 13,
+              padding: "8px 26px 8px 10px",
+              cursor: "pointer",
+              outline: "none",
+              appearance: "none",
+              WebkitAppearance: "none",
+              MozAppearance: "none",
+            }}
+          >
+            <option>1×</option>
+            <option>2×</option>
+            <option>5×</option>
+          </select>
+        </div>
       </div>
     </div>
   )

@@ -1,131 +1,121 @@
 import { useState } from "react"
 
-const MOCK_CHAT = [
-  {
-    role: "user",
-    content: "I have a fever of 38.9°C and a sore throat since this morning.",
-  },
-  {
-    role: "assistant",
-    content:
-      "Based on your symptoms, I'm classifying this as moderate severity. I've located Richview Community Care (4 min away) as the best match for walk-in care.",
-  },
-  {
-    role: "user",
-    content: "What should I bring with me?",
-  },
-  {
-    role: "assistant",
-    content:
-      "Bring your health card (OHIP), a list of any current medications, and a mask. Walk-in wait time is approximately 25 minutes.",
-  },
-] as const
+// Removing static mock chat array
 
 const STATIC_LOGS = [
-  { time: "14:42:01", type: "INFO",      msg: "Sandbox session initialized" },
-  { time: "14:42:03", type: "INFO",      msg: "Mock patient generated at [43.6, -79.3]" },
-  { time: "14:42:05", type: "ALGORITHM", msg: "Evaluating nearest facilities — severity: urgent" },
-  { time: "14:42:06", type: "ALGORITHM", msg: "Candidate: Richview Community Care — ETA 4min" },
-  { time: "14:42:07", type: "ALGORITHM", msg: "Candidate: Etobicoke Medical Centre — ETA 6min" },
-  { time: "14:42:08", type: "ALGORITHM", msg: "Scoring candidates by ETA + busyness weight" },
-  { time: "14:42:09", type: "ALGORITHM", msg: "Richview score: 3.6 | Etobicoke score: 5.2" },
-  { time: "14:42:10", type: "SUCCESS",   msg: "Route locked → Richview Community Care" },
-  { time: "14:42:11", type: "INFO",      msg: "Redis busyness data age: 4min 32sec" },
-  { time: "14:42:12", type: "SUCCESS",   msg: "Patient routed successfully" },
+  { time: "42:01", type: "INFO", msg: "Sandbox session initialized" },
+  { time: "42:03", type: "INFO", msg: "Mock patient generated at [43.6, -79.3]" },
+  { time: "42:05", type: "ALGO", msg: "Evaluating nearest facilities — severity: urgent" },
+  { time: "42:06", type: "ALGO", msg: "Candidate: Richview Community Care — ETA 4min" },
+  { time: "42:07", type: "ALGO", msg: "Candidate: Etobicoke Medical Centre — ETA 6min" },
+  { time: "42:08", type: "ALGO", msg: "Scoring candidates by ETA + busyness weight" },
+  { time: "42:09", type: "ALGO", msg: "Richview score: 3.6 | Etobicoke score: 5.2" },
+  { time: "42:10", type: "OK",   msg: "Route locked → Richview Community Care" },
+  { time: "42:11", type: "INFO", msg: "Redis busyness data age: 4min 32sec" },
+  { time: "42:12", type: "OK",   msg: "Patient routed successfully" },
 ] as const
 
 const LOG_COLORS: Record<string, string> = {
-  INFO:      "#185FA5",
-  ALGORITHM: "#1D9E75",
-  SUCCESS:   "#1D9E75",
-  ERROR:     "#C0392B",
+  INFO: "#185FA5",
+  ALGO: "#1D9E75",
+  OK:   "#1D9E75",
+  ERR:  "#C0392B",
 }
 
 function MockChatTab() {
+  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([])
+  const [input, setInput] = useState("")
+
+  const handleSend = () => {
+    if (!input.trim()) return
+    const userMsg = { role: "user", content: input }
+    setMessages(prev => [...prev, userMsg])
+    setInput("")
+
+    setTimeout(() => {
+      const lower = input.toLowerCase()
+      let mockRes = "Based on your symptoms, I'm classifying this as moderate severity. I've located Richview Community Care (4 min away) as the best match for walk-in care."
+      
+      if (lower.includes("chest") || lower.includes("heart") || lower.includes("pain") || lower.includes("breath")) {
+        mockRes = "This sounds like a severe emergency. Activating rapid routing to Toronto General Hospital ER. Please hold while we confirm capacity."
+      } else if (lower.includes("bring") || lower.includes("what")) {
+        mockRes = "Bring your health card (OHIP), a list of any current medications, and a mask. Walk-in wait time is approximately 25 minutes."
+      } else if (lower.includes("fever") || lower.includes("cough")) {
+        mockRes = "A fever and cough could indicate a minor infection. Directing you to Etobicoke Walk-in Clinic. Current estimated wait is 15 minutes."
+      } else if (!input.trim() || input.length < 10) {
+        mockRes = "Could you provide a few more details about how you're feeling?"
+      }
+
+      setMessages(prev => [
+        ...prev,
+        {
+          role: "assistant",
+          content: mockRes
+        }
+      ])
+    }, 600)
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "hidden" }}>
-      {/* Sub-header */}
-      <div
-        style={{
-          padding: "8px 14px",
-          borderBottom: "0.5px solid var(--sb-border)",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          flexShrink: 0,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            color: "var(--sb-text-secondary)",
-            textTransform: "uppercase",
-          }}
-        >
-          AI Preview Assistant
-        </span>
-        <span
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            background: "var(--sb-accent-dim)",
-            color: "var(--sb-accent)",
-            padding: "2px 6px",
-            borderRadius: 4,
-            letterSpacing: "0.06em",
-          }}
-        >
-          MOCK
-        </span>
-      </div>
-
-      {/* Hardcoded messages */}
+      {/* Messages or Empty State */}
       <div
         style={{
           flex: 1,
           overflowY: "auto",
-          padding: "12px 14px",
+          padding: "16px",
           display: "flex",
           flexDirection: "column",
-          gap: 10,
+          gap: 12,
         }}
       >
-        {MOCK_CHAT.map((msg, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-            }}
-          >
+        {messages.length === 0 ? (
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: 0.8 }}>
+            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--sb-accent)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
+              <i className="ti ti-message-circle-2" style={{ fontSize: 28, color: "#0F172A" }}></i>
+            </div>
+            <span style={{ fontSize: 16, fontWeight: 700, color: "var(--sb-text-primary)" }}>How are you feeling?</span>
+            <span style={{ fontSize: 13, color: "var(--sb-text-muted)", marginTop: 6 }}>Describe your simulated patient symptoms</span>
+          </div>
+        ) : (
+          messages.map((msg, i) => (
             <div
+              key={i}
               style={{
-                maxWidth: "82%",
-                borderRadius: 12,
-                padding: "8px 12px",
-                fontSize: 12,
-                lineHeight: 1.5,
-                background:
-                  msg.role === "user" ? "var(--sb-accent)" : "var(--sb-bg-tertiary)",
-                color:
-                  msg.role === "user" ? "#0f1117" : "var(--sb-text-primary)",
-                borderBottomRightRadius: msg.role === "user" ? 4 : 12,
-                borderBottomLeftRadius: msg.role === "assistant" ? 4 : 12,
+                display: "flex",
+                justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
               }}
             >
-              {msg.content}
+              <div
+                style={{
+                  maxWidth: "85%",
+                  borderRadius: 12,
+                  padding: "12px 16px",
+                  fontSize: 15,
+                  lineHeight: 1.5,
+                  background:
+                    msg.role === "user" ? "var(--sb-accent)" : "var(--sb-bg-tertiary)",
+                  border:
+                    msg.role === "assistant" ? "1px solid rgba(245, 158, 11, 0.3)" : "1px solid transparent",
+                  color:
+                    msg.role === "user" ? "#0F172A" : "var(--sb-text-primary)",
+                  borderBottomRightRadius: msg.role === "user" ? 4 : 12,
+                  borderBottomLeftRadius: msg.role === "assistant" ? 4 : 12,
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                }}
+              >
+                {msg.content}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
-      {/* Disabled input */}
+      {/* Input area */}
       <div
         style={{
-          padding: "10px 14px",
-          borderTop: "0.5px solid var(--sb-border)",
+          padding: "12px 16px",
+          borderTop: "1px solid var(--sb-border)",
           flexShrink: 0,
         }}
       >
@@ -134,18 +124,30 @@ function MockChatTab() {
             display: "flex",
             alignItems: "center",
             background: "var(--sb-bg-tertiary)",
-            border: "0.5px solid var(--sb-border)",
+            border: "1px solid var(--sb-border)",
             borderRadius: 8,
-            padding: "8px 10px",
+            padding: "8px 12px",
             gap: 8,
-            opacity: 0.45,
-            cursor: "not-allowed",
           }}
         >
-          <span style={{ flex: 1, fontSize: 12, color: "var(--sb-text-muted)" }}>
-            AI assistant (preview only)
-          </span>
-          <i className="ti ti-send" style={{ fontSize: 14, color: "var(--sb-text-muted)" }} />
+          <input
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && handleSend()}
+            placeholder="Type patient symptoms..."
+            style={{
+              flex: 1,
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              color: "var(--sb-text-primary)",
+              fontSize: 14,
+            }}
+          />
+          <button onClick={handleSend} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: 0 }}>
+            <i className="ti ti-send" style={{ fontSize: 18, color: input.trim() ? "var(--sb-accent)" : "var(--sb-text-muted)", transition: "color 0.2s" }} />
+          </button>
         </div>
       </div>
     </div>
@@ -158,41 +160,54 @@ function LogsTab() {
       style={{
         flex: 1,
         overflowY: "auto",
-        padding: "10px 0",
-        fontFamily: "'Ubuntu Mono', monospace",
+        padding: "16px 0",
+        fontFamily: '"Fira Code", "JetBrains Mono", "SF Mono", monospace',
       }}
     >
       {STATIC_LOGS.map((entry, i) => (
         <div
           key={i}
           style={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns: "44px 44px 1fr",
             alignItems: "flex-start",
             gap: 8,
             padding: "4px 14px",
-            fontSize: 11,
+            fontSize: 13,
             lineHeight: 1.6,
           }}
         >
-          <span style={{ color: "var(--sb-text-muted)", flexShrink: 0 }}>
+          <span style={{ color: "#64748B", opacity: 0.85, paddingTop: 2 }}>
             {entry.time}
           </span>
-          <span
-            style={{
-              fontSize: 9,
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              padding: "2px 5px",
-              borderRadius: 3,
-              background: (LOG_COLORS[entry.type] ?? "#888") + "22",
-              color: LOG_COLORS[entry.type] ?? "#888",
-              flexShrink: 0,
-              marginTop: 2,
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                padding: "2px 5px",
+                borderRadius: 3,
+                background: (LOG_COLORS[entry.type] ?? "#888") + "22",
+                color: LOG_COLORS[entry.type] ?? "#888",
+                marginTop: 2,
+              }}
+            >
+              {entry.type}
+            </span>
+          </div>
+          <span 
+            title={entry.msg}
+            style={{ 
+              color: "var(--sb-text-secondary)", 
+              paddingTop: 2, 
+              whiteSpace: "nowrap", 
+              overflow: "hidden", 
+              textOverflow: "ellipsis" 
             }}
           >
-            {entry.type}
+            {entry.msg}
           </span>
-          <span style={{ color: "var(--sb-text-secondary)" }}>{entry.msg}</span>
         </div>
       ))}
     </div>
@@ -205,7 +220,7 @@ export function InspectorPanel() {
   return (
     <div
       style={{
-        width: 340,
+        width: 400,
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
@@ -217,7 +232,7 @@ export function InspectorPanel() {
       <div
         style={{
           display: "flex",
-          borderBottom: "0.5px solid var(--sb-border)",
+          borderBottom: "1px solid var(--sb-border)",
           flexShrink: 0,
         }}
       >
@@ -227,20 +242,43 @@ export function InspectorPanel() {
             onClick={() => setTab(t)}
             style={{
               flex: 1,
-              height: 40,
-              background: "none",
+              height: 48,
+              background: tab === t ? "rgba(255, 255, 255, 0.02)" : "none",
               border: "none",
               borderBottom:
                 tab === t ? "2px solid var(--sb-accent)" : "2px solid transparent",
               color:
                 tab === t ? "var(--sb-text-primary)" : "var(--sb-text-muted)",
-              fontSize: 12,
-              fontWeight: 600,
+              fontSize: 14,
+              fontWeight: tab === t ? 700 : 500,
               cursor: "pointer",
-              transition: "color 0.15s",
+              transition: "all 0.2s ease",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
             }}
           >
-            {t === "chat" ? "AI Preview Assistant" : "Live System Logs"}
+            {t === "chat" ? (
+              <>
+                AI Preview Assistant
+                <span
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 800,
+                    background: "var(--sb-accent-dim)",
+                    color: "var(--sb-accent)",
+                    padding: "2px 5px",
+                    borderRadius: 4,
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  MOCK
+                </span>
+              </>
+            ) : (
+              "Live System Logs"
+            )}
           </button>
         ))}
       </div>
