@@ -1,17 +1,17 @@
 /* Sandbox CSS vars — scoped to .sandbox-layout only, no global bleed */
 .sandbox-layout {
-  --sb-bg-primary:     #0f1117;
-  --sb-bg-secondary:   #161b27;
-  --sb-bg-tertiary:    #1e2536;
-  --sb-border:         rgba(255, 255, 255, 0.08);
-  --sb-text-primary:   #e8eaf0;
-  --sb-text-secondary: #8b91a8;
-  --sb-text-muted:     #4a5068;
-  --sb-accent:         #EF9F27;
-  --sb-accent-dim:     rgba(239, 159, 39, 0.15);
+  --sb-bg-primary:     #0B0F19; /* Deep night blue */
+  --sb-bg-secondary:   #1E293B; /* Slate blue */
+  --sb-bg-tertiary:    #0F172A; /* Darker slate for contrast elements */
+  --sb-border:         rgba(255, 255, 255, 0.08); /* 1px solid crisp border */
+  --sb-text-primary:   #F1F5F9;
+  --sb-text-secondary: #94A3B8; /* Faint grey text */
+  --sb-text-muted:     #64748B;
+  --sb-accent:         #F59E0B; /* Vibrant amber yellow */
+  --sb-accent-dim:     rgba(245, 158, 11, 0.15);
   --sb-teal:           #1D9E75;
-  --sb-blue:           #185FA5;
-  --sb-red:            #C0392B;
+  --sb-blue:           #3B82F6;
+  --sb-red:            #EF4444;
 }
 
 /* Desktop-first defaults */
@@ -43,4 +43,85 @@
     transform: scale(2);
     opacity: 0;
   }
+}
+
+/* Leaflet Zoom Control Styling overrides */
+.sandbox-layout .leaflet-bar {
+  border: 1px solid var(--sb-border) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+
+.sandbox-layout .leaflet-bar a {
+  background-color: rgba(15, 23, 42, 0.75) !important;
+  color: var(--sb-text-secondary) !important;
+  border-bottom: 1px solid var(--sb-border) !important;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.sandbox-layout .leaflet-bar a:hover {
+  background-color: var(--sb-bg-secondary) !important;
+  color: var(--sb-accent) !important;
+}
+
+.sandbox-layout .leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+/* System shock buttons hover effects */
+.sandbox-shock-btn-neutral {
+  background-color: var(--sb-bg-tertiary);
+  border-color: var(--sb-border);
+  color: var(--sb-text-secondary);
+  transition: all 0.2s ease;
+}
+.sandbox-shock-btn-neutral:hover {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--sb-text-primary) !important;
+}
+
+.sandbox-shock-btn-warning {
+  background-color: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.15);
+  color: var(--sb-text-secondary);
+  transition: all 0.2s ease;
+}
+.sandbox-shock-btn-warning:hover {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: var(--sb-accent) !important;
+  color: var(--sb-accent) !important;
+}
+
+.sandbox-shock-btn-success {
+  background-color: rgba(29, 158, 117, 0.05);
+  border-color: rgba(29, 158, 117, 0.15);
+  color: var(--sb-text-secondary);
+  transition: all 0.2s ease;
+}
+.sandbox-shock-btn-success:hover {
+  background-color: rgba(29, 158, 117, 0.15) !important;
+  border-color: var(--sb-teal) !important;
+  color: var(--sb-teal) !important;
+}
+.sandbox-playback-btn {
+  transition: all 0.2s ease;
+}
+.sandbox-playback-btn:hover {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--sb-accent) !important;
+}
+
+@keyframes sandbox-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.sandbox-cursor::after {
+  content: "▋";
+  color: var(--sb-accent);
+  animation: sandbox-blink 1s step-start infinite;
 }
