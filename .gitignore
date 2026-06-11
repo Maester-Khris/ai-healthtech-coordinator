@@ -51,6 +51,7 @@ Thumbs.db               # Windows
 
 # Local-only scripts
 personal.cmd.sh
+pipeline/perso-cmd.sh
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

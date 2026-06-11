@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 300 # 5 min max per function
+    Environment:
+      Variables:
+        S3_BUCKET: medicoord-raw-ingestion
+        SUPABASE_URL: !Sub "{{resolve:ssm:/medicoord/supabase_url}}"
+        SUPABASE_KEY: !Sub "{{resolve:ssm:/medicoord/supabase_key}}"
+
+Resources:
+  # ── INGESTION ──────────────────────────────────────────
+  ErWaitScraperFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/er-wait-scraper/
+      Handler: handler.lambda_handler
+      Events:
+        Schedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(15 minutes)
+      Policies:
+        - S3WritePolicy:
+            BucketName: medicoord-raw-ingestion
+
+  # ── PROCESSING ─────────────────────────────────────────
+  ErWaitNormalizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/er-wait-normalizer/
+      Handler: handler.lambda_handler
+      Events:
+        S3Trigger:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source: [aws.s3]
+              detail:
+                bucket:
+                  name: [medicoord-raw-ingestion]
+                object:
+                  key:
+                    prefix: [raw/er-wait/] # only fires for this prefix
+      Policies:
+        - S3ReadPolicy:
+            BucketName: medicoord-raw-ingestion
