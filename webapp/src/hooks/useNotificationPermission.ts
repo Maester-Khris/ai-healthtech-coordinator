@@ -10,25 +10,33 @@ export interface UseNotificationPermissionResult {
   clearToken: () => void
 }
 
-const PLAYER_ID_KEY = "medicoord_onesignal_player_id"
+export const PLAYER_ID_KEY_PREFIX = "medicoord_onesignal_player_id_"
 const PLATFORM_KEY  = "medicoord_onesignal_platform"
 const GRANTED_KEY   = "medicoord_push_granted"
 
 declare global {
   interface Window {
+    OneSignalDeferred: Array<(oneSignal: Window["OneSignal"]) => Promise<void>>
     OneSignal: {
-      push: (fn: () => void) => void
       init: (config: {
         appId: string
-        notifyButton: { enable: boolean }
+        notifyButton?: { enable: boolean }
         allowLocalhostAsSecureOrigin?: boolean
-      }) => void
-      getUserId: (callback: (userId: string | null) => void) => void
+      }) => Promise<void>
+      Notifications: {
+        requestPermission: () => Promise<boolean>
+      }
+      User: {
+        PushSubscription: {
+          id: string | null | undefined
+          optedIn: boolean
+        }
+      }
     }
   }
 }
 
-function detectPlatformLabel(): string {
+export function detectPlatformLabel(): string {
   const ua = navigator.userAgent
   if (/iPad|iPhone|iPod/.test(ua)) return "ios_safari"
   if (/Android/.test(ua)) return "android_chrome"
@@ -43,7 +51,7 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
   const initialized = useRef(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem(PLAYER_ID_KEY)
+    const stored = localStorage.getItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel())
     if (stored) setPlayerId(stored)
 
     if (!("Notification" in window)) {
@@ -56,39 +64,31 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
 
   const requestPermission = async () => {
     if (initialized.current) return
-    if (!window.OneSignal) {
-      console.warn("[OneSignal] SDK not loaded")
+    if (!window.OneSignal?.Notifications) {
+      console.warn("[OneSignal] SDK not ready")
+      return
+    }
+    if (!("Notification" in window)) {
+      return
+    }
+    if (Notification.permission === "denied") {
+      setPermissionState("denied")
       return
     }
     initialized.current = true
     setRequesting(true)
     try {
-      await new Promise<void>((resolve) => {
-        window.OneSignal.push(() => {
-          window.OneSignal.init({
-            appId: import.meta.env.VITE_ONESIGNAL_APP_ID as string,
-            notifyButton: { enable: false },
-            allowLocalhostAsSecureOrigin: true,
-          })
-          resolve()
-        })
-      })
-
-      const userId = await new Promise<string | null>((resolve) => {
-        window.OneSignal.push(() => {
-          window.OneSignal.getUserId((id: string | null) => resolve(id))
-        })
-      })
+      await window.OneSignal.Notifications.requestPermission()
+      const userId = window.OneSignal.User.PushSubscription.id ?? null
 
       if (userId) {
-        localStorage.setItem(PLAYER_ID_KEY, userId)
+        localStorage.setItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel(), userId)
         localStorage.setItem(PLATFORM_KEY, detectPlatformLabel())
         localStorage.setItem(GRANTED_KEY, "true")
         setPlayerId(userId)
         setPermissionState("granted")
       } else {
-        const perm = Notification.permission
-        setPermissionState(perm as PermissionState)
+        setPermissionState(Notification.permission as PermissionState)
       }
     } catch (err) {
       console.error("[OneSignal] init failed:", err)
@@ -98,7 +98,7 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
   }
 
   const clearToken = () => {
-    localStorage.removeItem(PLAYER_ID_KEY)
+    localStorage.removeItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel())
     localStorage.removeItem(PLATFORM_KEY)
     localStorage.removeItem(GRANTED_KEY)
     setPlayerId(null)
