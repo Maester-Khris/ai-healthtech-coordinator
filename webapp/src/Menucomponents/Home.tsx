@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import type { Facility, Message, Session, ConversationsCache, ChatMessageResponse } from '@shared/types'
 import { MapPanel } from '../components/map'
 import { ChatPanel } from './subcomponent/ChatPanel'
@@ -114,6 +115,27 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
             onNewConversation={handleNewConversation}
           />
         </div>
+      </div>
+
+      {/* Footer */}
+      <div
+        className="flex-none flex items-center justify-between px-8"
+        style={{
+          height: 28,
+          borderTop: "0.5px solid #e2e8f0",
+          fontSize: 11,
+          color: "#94a3b8",
+        }}
+      >
+        <span>MediCoord AI · Health Tech Platform</span>
+        <Link
+          to="/sandbox"
+          className="flex items-center gap-1 no-underline"
+          style={{ color: "#94a3b8", fontWeight: 600 }}
+        >
+          <i className="ti ti-flask" style={{ fontSize: 12, color: "#EF9F27" }} />
+          Open Sandbox →
+        </Link>
       </div>
     </div>
   )
