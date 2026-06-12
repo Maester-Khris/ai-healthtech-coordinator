@@ -60,3 +60,6 @@ build/
 
 # Local development automation
 Makefile
+
+# fcm assets
+assets/

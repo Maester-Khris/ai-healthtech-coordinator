@@ -256,6 +256,17 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 
 ---
 
+## [Sprint 11 — Active] · Push Notifications
+
+**Started — 2026-06-07 · branch: `feat/push-notifications`**
+
+### Scope
+- PWA install gate — prompt user to install before enabling notifications
+- OneSignal token capture — register device token on install/permission grant
+- Test page — manual trigger UI to send a test push notification
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**

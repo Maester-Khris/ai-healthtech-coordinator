@@ -76,6 +76,18 @@ export interface ChatMessageResponse {
   triage:            TriageResult | null
 }
 
+// ── Notifications ─────────────────────────────────────────────────────────────
+
+export interface SendNotificationRequest {
+  player_id: string
+  title: string
+  body: string
+}
+
+export interface SendNotificationResponse {
+  notification_id: string | null
+}
+
 // ── Triage UI ─────────────────────────────────────────────────────────────────
 
 export interface RouteResult {
