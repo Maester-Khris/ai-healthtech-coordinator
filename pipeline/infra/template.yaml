@@ -1,50 +1,331 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
+Description: >
+  Medicoord pipeline — Lambda ingestion + processing functions.
+  Depends on medicoord-ingestion-bucket stack for S3 bucket name/ARN.
 
+# ── GLOBALS ────────────────────────────────────────────────────────────────
+# Applied to every AWS::Serverless::Function in this template.
+# SSM resolve happens at deploy time — values baked into Lambda env vars.
 Globals:
   Function:
     Runtime: python3.12
-    Timeout: 300 # 5 min max per function
+    Timeout: 300
+    MemorySize: 256
     Environment:
       Variables:
-        S3_BUCKET: medicoord-raw-ingestion
-        SUPABASE_URL: !Sub "{{resolve:ssm:/medicoord/supabase_url}}"
-        SUPABASE_KEY: !Sub "{{resolve:ssm:/medicoord/supabase_key}}"
+        S3_BUCKET: !ImportValue medicoord-ingestion-bucket-name
+        SUPABASE_URL: '{{resolve:ssm:/medicoord/prod/supabase_url}}'
+        SUPABASE_KEY: '{{resolve:ssm:/medicoord/prod/supabase_key}}'
+        AWS_REGION_NAME: us-east-1
 
+# ── RESOURCES ──────────────────────────────────────────────────────────────
 Resources:
-  # ── INGESTION ──────────────────────────────────────────
-  ErWaitScraperFunction:
+
+  # ── LAYER ────────────────────────────────────────────────────────────────
+  # requests + dependencies packaged under python/ prefix.
+  # layer_pkg/python/ already exists with correct manylinux2014 binaries.
+  # Referenced by ingestion functions that make external HTTP calls.
+  RequestsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: medicoord-requests-layer
+      ContentUri: ../layer_pkg/
+      CompatibleRuntimes:
+        - python3.12
+      RetentionPolicy: Delete  # layer versions cleaned up on stack delete
+
+  # ── IAM ROLE: INGESTION ──────────────────────────────────────────────────
+  # Permissions: SSM read (API keys) + S3 write (raw files) + CloudWatch logs
+  # Explicitly cannot read S3 or access Supabase directly.
+  IngestionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: medicoord-ingestion-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SSMRead
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ssm:GetParameter
+                Resource: !Sub 'arn:aws:ssm:us-east-1:${AWS::AccountId}:parameter/medicoord/prod/*'
+
+        - PolicyName: S3Write
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:PutObject
+                Resource: !Sub
+                  - '${BucketArn}/*'
+                  - BucketArn: !ImportValue medicoord-ingestion-bucket-arn
+
+        - PolicyName: CloudWatchLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:aws:logs:us-east-1:${AWS::AccountId}:*'
+
+  # ── IAM ROLE: PROCESSOR ──────────────────────────────────────────────────
+  # Permissions: S3 read (raw files) + CloudWatch logs
+  # Supabase is accessed via HTTPS using env var key — no AWS resource needed.
+  # Explicitly cannot write S3 or read SSM.
+  ProcessorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: medicoord-processor-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3Read
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub
+                  - '${BucketArn}/*'
+                  - BucketArn: !ImportValue medicoord-ingestion-bucket-arn
+
+        - PolicyName: CloudWatchLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:aws:logs:us-east-1:${AWS::AccountId}:*'
+
+  # ── INGESTION FUNCTIONS ───────────────────────────────────────────────────
+
+  PlacesEnricher:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/er-wait-scraper/
+      FunctionName: medicoord-places-enricher
+      CodeUri: ../functions/places-enricher/
       Handler: handler.lambda_handler
+      Role: !GetAtt IngestionRole.Arn
+      Layers:
+        - !Ref RequestsLayer
+      Environment:
+        Variables:
+          GOOGLE_PLACES_KEY: '{{resolve:ssm:/medicoord/prod/google_places_key}}'
+          S3_PREFIX: raw/places/
       Events:
         Schedule:
           Type: Schedule
           Properties:
-            Schedule: rate(15 minutes)
-      Policies:
-        - S3WritePolicy:
-            BucketName: medicoord-raw-ingestion
+            Schedule: rate(7 days)
+            Name: medicoord-places-enricher-schedule
+            Enabled: true
 
-  # ── PROCESSING ─────────────────────────────────────────
-  ErWaitNormalizerFunction:
+  ErWaitScraper:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/er-wait-normalizer/
+      FunctionName: medicoord-er-wait-scraper
+      CodeUri: ../functions/er-wait-scraper/
       Handler: handler.lambda_handler
+      Role: !GetAtt IngestionRole.Arn
+      Layers:
+        - !Ref RequestsLayer
+      Environment:
+        Variables:
+          S3_PREFIX: raw/er-wait/
       Events:
-        S3Trigger:
-          Type: EventBridgeRule
+        Schedule:
+          Type: Schedule
           Properties:
-            Pattern:
-              source: [aws.s3]
-              detail:
-                bucket:
-                  name: [medicoord-raw-ingestion]
-                object:
-                  key:
-                    prefix: [raw/er-wait/] # only fires for this prefix
-      Policies:
-        - S3ReadPolicy:
-            BucketName: medicoord-raw-ingestion
+            Schedule: rate(7 days)
+            Name: medicoord-er-wait-scraper-schedule
+            Enabled: false  # disabled until scraper logic is implemented
+
+  OpenDataSync:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: medicoord-open-data-sync
+      CodeUri: ../functions/open-data-sync/
+      Handler: handler.lambda_handler
+      Role: !GetAtt IngestionRole.Arn
+      Layers:
+        - !Ref RequestsLayer
+      Environment:
+        Variables:
+          S3_PREFIX: raw/open-data/
+      Events:
+        Schedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(7 days)
+            Name: medicoord-open-data-sync-schedule
+            Enabled: false  # disabled until sync logic is implemented
+
+  # ── PROCESSOR FUNCTIONS ───────────────────────────────────────────────────
+
+  PlacesProcessor:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: medicoord-places-processor
+      CodeUri: ../functions/places-processor/
+      Handler: handler.lambda_handler
+      Role: !GetAtt ProcessorRole.Arn
+
+  ErWaitProcessor:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: medicoord-er-wait-processor
+      CodeUri: ../functions/er-wait-processor/
+      Handler: handler.lambda_handler
+      Role: !GetAtt ProcessorRole.Arn
+
+  OpenDataProcessor:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: medicoord-open-data-processor
+      CodeUri: ../functions/open-data-processor/
+      Handler: handler.lambda_handler
+      Role: !GetAtt ProcessorRole.Arn
+
+  # ── LAMBDA PERMISSIONS ────────────────────────────────────────────────────
+  # Explicit resource-based policies allowing EventBridge to invoke each
+  # processor. Without these, EventBridge fires silently and Lambda never
+  # receives the event — the exact failure mode from the manual test.
+  # One permission resource required per processor function.
+
+  PlacesProcessorPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt PlacesProcessor.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt PlacesProcessorRule.Arn
+
+  ErWaitProcessorPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt ErWaitProcessor.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt ErWaitProcessorRule.Arn
+
+  OpenDataProcessorPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt OpenDataProcessor.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt OpenDataProcessorRule.Arn
+
+  # ── EVENTBRIDGE RULES ─────────────────────────────────────────────────────
+  # One rule per processor, each filtering on its S3 prefix.
+  # Bucket name imported from s3-buckets stack — no hardcoded strings.
+  # Pattern: source=aws.s3, detail-type=Object Created, prefix filter.
+
+  PlacesProcessorRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: medicoord-places-processor-rule
+      EventPattern:
+        source:
+          - aws.s3
+        detail-type:
+          - Object Created
+        detail:
+          bucket:
+            name:
+              - !ImportValue medicoord-ingestion-bucket-name
+          object:
+            key:
+              - prefix: raw/places/
+      State: ENABLED
+      Targets:
+        - Id: PlacesProcessorTarget
+          Arn: !GetAtt PlacesProcessor.Arn
+
+  ErWaitProcessorRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: medicoord-er-wait-processor-rule
+      EventPattern:
+        source:
+          - aws.s3
+        detail-type:
+          - Object Created
+        detail:
+          bucket:
+            name:
+              - !ImportValue medicoord-ingestion-bucket-name
+          object:
+            key:
+              - prefix: raw/er-wait/
+      State: ENABLED
+      Targets:
+        - Id: ErWaitProcessorTarget
+          Arn: !GetAtt ErWaitProcessor.Arn
+
+  OpenDataProcessorRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: medicoord-open-data-processor-rule
+      EventPattern:
+        source:
+          - aws.s3
+        detail-type:
+          - Object Created
+        detail:
+          bucket:
+            name:
+              - !ImportValue medicoord-ingestion-bucket-name
+          object:
+            key:
+              - prefix: raw/open-data/
+      State: ENABLED
+      Targets:
+        - Id: OpenDataProcessorTarget
+          Arn: !GetAtt OpenDataProcessor.Arn
+
+# ── OUTPUTS ────────────────────────────────────────────────────────────────
+Outputs:
+
+  PlacesEnricherArn:
+    Description: Places enricher ingestion function ARN
+    Value: !GetAtt PlacesEnricher.Arn
+
+  PlacesProcessorArn:
+    Description: Places processor function ARN
+    Value: !GetAtt PlacesProcessor.Arn
+
+  ErWaitScraperArn:
+    Description: ER wait scraper ingestion function ARN
+    Value: !GetAtt ErWaitScraper.Arn
+
+  ErWaitProcessorArn:
+    Description: ER wait processor function ARN
+    Value: !GetAtt ErWaitProcessor.Arn
+
+  OpenDataSyncArn:
+    Description: Open data sync ingestion function ARN
+    Value: !GetAtt OpenDataSync.Arn
+
+  OpenDataProcessorArn:
+    Description: Open data processor function ARN
+    Value: !GetAtt OpenDataProcessor.Arn

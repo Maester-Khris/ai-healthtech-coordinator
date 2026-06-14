@@ -1,13 +1,3 @@
-# from tenacity import retry, wait_exponential, stop_after_attempt
-
-# @retry(
-#     wait=wait_exponential(multiplier=1, min=2, max=30),
-#     stop=stop_after_attempt(4)
-# )
-# def fetch_er_data(url):
-#     response = requests.get(url, timeout=10)
-#     response.raise_for_status()
-#     return response.text
 
 import json
 import boto3
@@ -20,8 +10,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # ── clients ────────────────────────────────────────────────────────────────
-ssm    = boto3.client('ssm',  region_name='ca-central-1')
-s3     = boto3.client('s3',   region_name='ca-central-1')
+ssm    = boto3.client('ssm')
+s3     = boto3.client('s3')
 
 # ── config ─────────────────────────────────────────────────────────────────
 S3_BUCKET   = os.environ['S3_BUCKET']          # medicoord-ingestion-test

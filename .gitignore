@@ -61,3 +61,5 @@ build/
 
 # Local development automation
 Makefile
+layer_pkg/
+.aws-sam/
