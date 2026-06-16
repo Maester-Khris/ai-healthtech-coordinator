@@ -41,7 +41,7 @@ pip-delete-this-arg.txt
 *.mfpak
 .DS_Store               # macOS
 Thumbs.db               # Windows
-
+``
 # React with Vite
 /node_modules
 /dist
@@ -62,4 +62,6 @@ build/
 # Local development automation
 Makefile
 layer_pkg/
+dbt_layer_pkg/
+pipeline/functions/dbt-runner/logs/
 .aws-sam/

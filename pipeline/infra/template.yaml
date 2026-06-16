@@ -5,8 +5,6 @@ Description: >
   Depends on medicoord-ingestion-bucket stack for S3 bucket name/ARN.
 
 # ── GLOBALS ────────────────────────────────────────────────────────────────
-# Applied to every AWS::Serverless::Function in this template.
-# SSM resolve happens at deploy time — values baked into Lambda env vars.
 Globals:
   Function:
     Runtime: python3.12
@@ -17,15 +15,16 @@ Globals:
         S3_BUCKET: !ImportValue medicoord-ingestion-bucket-name
         SUPABASE_URL: '{{resolve:ssm:/medicoord/prod/supabase_url}}'
         SUPABASE_KEY: '{{resolve:ssm:/medicoord/prod/supabase_key}}'
+        SUPABASE_HOST:        '{{resolve:ssm:/medicoord/prod/supabase_host}}'
+        SUPABASE_DB_USER:     '{{resolve:ssm:/medicoord/prod/supabase_db_user}}'
+        SUPABASE_DB_PASSWORD: '{{resolve:ssm:/medicoord/prod/supabase_db_password}}'
         AWS_REGION_NAME: us-east-1
 
 # ── RESOURCES ──────────────────────────────────────────────────────────────
 Resources:
 
-  # ── LAYER ────────────────────────────────────────────────────────────────
-  # requests + dependencies packaged under python/ prefix.
-  # layer_pkg/python/ already exists with correct manylinux2014 binaries.
-  # Referenced by ingestion functions that make external HTTP calls.
+  # ── LAYERS ───────────────────────────────────────────────────────────────
+
   RequestsLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
@@ -33,11 +32,31 @@ Resources:
       ContentUri: ../layer_pkg/
       CompatibleRuntimes:
         - python3.12
-      RetentionPolicy: Delete  # layer versions cleaned up on stack delete
+      RetentionPolicy: Delete
+
+  # ── NEW: dbt layer ───────────────────────────────────────────────────────
+  # dbt-core + dbt-postgres + psycopg2 packaged under python/ prefix.
+  # Built separately from requests layer — different dependency set,
+  # heavier (~40MB), only needed by dbt-runner not by ingestion functions.
+  # Build command:
+  #   pip install dbt-core dbt-postgres psycopg2-binary \
+  #     -t dbt_layer_pkg/python \
+  #     --platform manylinux2014_x86_64 \
+  #     --implementation cp --python-version 3.12 --only-binary=:all:
+  DbtLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: medicoord-dbt-layer
+      ContentUri: ../dbt_layer_pkg/
+      CompatibleRuntimes:
+        - python3.12
+      RetentionPolicy: Delete
 
   # ── IAM ROLE: INGESTION ──────────────────────────────────────────────────
-  # Permissions: SSM read (API keys) + S3 write (raw files) + CloudWatch logs
-  # Explicitly cannot read S3 or access Supabase directly.
+  # Permissions: SSM read + S3 write + CloudWatch logs + EventBridge publish
+  # Added EventBridge PutEvents so processors can signal completion.
+  # NOTE: PutEvents added here too since ingestion role is parent template —
+  # actual PutEvents usage is in ProcessorRole below.
   IngestionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -80,9 +99,9 @@ Resources:
                 Resource: !Sub 'arn:aws:logs:us-east-1:${AWS::AccountId}:*'
 
   # ── IAM ROLE: PROCESSOR ──────────────────────────────────────────────────
-  # Permissions: S3 read (raw files) + CloudWatch logs
-  # Supabase is accessed via HTTPS using env var key — no AWS resource needed.
-  # Explicitly cannot write S3 or read SSM.
+  # NEW: added EventBridge PutEvents so each processor can publish
+  # a ProcessorComplete event after successful Supabase upsert.
+  # This is what triggers the dbt runner downstream.
   ProcessorRole:
     Type: AWS::IAM::Role
     Properties:
@@ -105,6 +124,45 @@ Resources:
                   - '${BucketArn}/*'
                   - BucketArn: !ImportValue medicoord-ingestion-bucket-arn
 
+        - PolicyName: CloudWatchLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:aws:logs:us-east-1:${AWS::AccountId}:*'
+
+        # ── NEW ──────────────────────────────────────────────────────────
+        # Allows processors to publish completion events to EventBridge
+        # default bus. Source will be 'medicoord.pipeline'.
+        - PolicyName: EventBridgePublish
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: events:PutEvents
+                Resource: !Sub 'arn:aws:events:us-east-1:${AWS::AccountId}:event-bus/default'
+
+  # ── NEW: IAM ROLE: DBT RUNNER ─────────────────────────────────────────────
+  # Permissions: CloudWatch logs only.
+  # Supabase accessed via HTTPS using SUPABASE_URL + SUPABASE_KEY env vars.
+  # No S3 access needed — dbt connects directly to Supabase Postgres.
+  # No SSM access needed — credentials injected via Globals env vars.
+  DbtRunnerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: medicoord-dbt-runner-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
         - PolicyName: CloudWatchLogs
           PolicyDocument:
             Version: '2012-10-17'
@@ -157,7 +215,7 @@ Resources:
           Properties:
             Schedule: rate(7 days)
             Name: medicoord-er-wait-scraper-schedule
-            Enabled: false  # disabled until scraper logic is implemented
+            Enabled: false
 
   OpenDataSync:
     Type: AWS::Serverless::Function
@@ -177,7 +235,7 @@ Resources:
           Properties:
             Schedule: rate(7 days)
             Name: medicoord-open-data-sync-schedule
-            Enabled: false  # disabled until sync logic is implemented
+            Enabled: false
 
   # ── PROCESSOR FUNCTIONS ───────────────────────────────────────────────────
 
@@ -205,11 +263,28 @@ Resources:
       Handler: handler.lambda_handler
       Role: !GetAtt ProcessorRole.Arn
 
+  # ── NEW: DBT RUNNER FUNCTION ──────────────────────────────────────────────
+  # Triggered by ProcessorComplete events from any processor.
+  # Runs dbt Core models against Supabase Postgres.
+  # Timeout 600s — dbt runs can be slow on cold start with large models.
+  # Uses DbtLayer for dbt-core + dbt-postgres + psycopg2.
+  DbtRunner:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: medicoord-dbt-runner
+      CodeUri: ../functions/dbt-runner/
+      Handler: handler.lambda_handler
+      Role: !GetAtt DbtRunnerRole.Arn
+      Timeout: 600
+      MemorySize: 512
+      Layers:
+        - !Ref DbtLayer
+      Environment:
+        Variables:
+          DBT_PROJECT_DIR: /var/task/dbt
+          DBT_PROFILES_DIR: /var/task/dbt
+
   # ── LAMBDA PERMISSIONS ────────────────────────────────────────────────────
-  # Explicit resource-based policies allowing EventBridge to invoke each
-  # processor. Without these, EventBridge fires silently and Lambda never
-  # receives the event — the exact failure mode from the manual test.
-  # One permission resource required per processor function.
 
   PlacesProcessorPermission:
     Type: AWS::Lambda::Permission
@@ -235,10 +310,18 @@ Resources:
       Principal: events.amazonaws.com
       SourceArn: !GetAtt OpenDataProcessorRule.Arn
 
+  # ── NEW: dbt runner permission ────────────────────────────────────────────
+  # Single permission — one rule covers all three processors via
+  # source filter 'medicoord.pipeline' + detail-type 'ProcessorComplete'.
+  DbtRunnerPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt DbtRunner.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt DbtRunnerRule.Arn
+
   # ── EVENTBRIDGE RULES ─────────────────────────────────────────────────────
-  # One rule per processor, each filtering on its S3 prefix.
-  # Bucket name imported from s3-buckets stack — no hardcoded strings.
-  # Pattern: source=aws.s3, detail-type=Object Created, prefix filter.
 
   PlacesProcessorRule:
     Type: AWS::Events::Rule
@@ -303,6 +386,29 @@ Resources:
         - Id: OpenDataProcessorTarget
           Arn: !GetAtt OpenDataProcessor.Arn
 
+  # ── NEW: dbt runner rule ──────────────────────────────────────────────────
+  # Single rule covering all three processors.
+  # Fires when any processor publishes ProcessorComplete with status SUCCESS.
+  # Source 'medicoord.pipeline' is a custom source — not aws.s3.
+  # This means it only fires on explicit put_events() calls from processors,
+  # never on accidental S3 or other AWS events.
+  DbtRunnerRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: medicoord-dbt-runner-rule
+      EventPattern:
+        source:
+          - medicoord.pipeline
+        detail-type:
+          - ProcessorComplete
+        detail:
+          status:
+            - SUCCESS
+      State: ENABLED
+      Targets:
+        - Id: DbtRunnerTarget
+          Arn: !GetAtt DbtRunner.Arn
+
 # ── OUTPUTS ────────────────────────────────────────────────────────────────
 Outputs:
 
@@ -329,3 +435,8 @@ Outputs:
   OpenDataProcessorArn:
     Description: Open data processor function ARN
     Value: !GetAtt OpenDataProcessor.Arn
+
+  # ── NEW ──────────────────────────────────────────────────────────────────
+  DbtRunnerArn:
+    Description: dbt runner function ARN
+    Value: !GetAtt DbtRunner.Arn
