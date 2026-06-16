@@ -284,8 +284,8 @@ Resources:
         - !Ref DbtLayer
       Environment:
         Variables:
-          DBT_PROJECT_DIR: /var/task/dbt
-          DBT_PROFILES_DIR: /var/task/dbt
+          DBT_PROJECT_DIR: /var/task/medicoord_dbt
+          DBT_PROFILES_DIR: /var/task/medicoord_dbt
 
   # ── LAMBDA PERMISSIONS ────────────────────────────────────────────────────
 
