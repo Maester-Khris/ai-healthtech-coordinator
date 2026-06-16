@@ -39,21 +39,23 @@ models:
           - not_null
 
       - name: business_status
-        description: Normalised Google Places business status (uppercase)
+        description: Normalised Google Places business status (uppercase). Nullable — some place types return no status.
         tests:
           - not_null
           - accepted_values:
-              values:
-                - OPERATIONAL
-                - CLOSED_PERMANENTLY
-                - CLOSED_TEMPORARILY
+              arguments:
+                values:
+                  - OPERATIONAL
+                  - CLOSED_PERMANENTLY
+                  - CLOSED_TEMPORARILY
 
       - name: is_operational
         description: True when business_status = OPERATIONAL
         tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments:
+                values: [true, false]
 
       - name: last_enriched_at
         description: Timestamp of last successful places-processor write

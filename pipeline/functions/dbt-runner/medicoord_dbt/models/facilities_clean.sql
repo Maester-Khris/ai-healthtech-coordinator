@@ -34,5 +34,7 @@ select
 from public.facilities f
 
 where
-    -- only include facilities that completed Google Places enrichment
-    f.google_place_id is not null
+    -- only include fully-enriched facilities: partial enrichment (NULL business_status)
+    -- stays in facilities but is excluded from the clean routing dataset
+    f.google_place_id    is not null
+    and f.business_status is not null
