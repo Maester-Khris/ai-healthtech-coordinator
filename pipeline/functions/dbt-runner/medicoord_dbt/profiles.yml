@@ -1,0 +1,14 @@
+medicoord_dbt:
+  target: prod
+  outputs:
+    prod:
+      type: postgres
+      host: "{{ env_var('SUPABASE_HOST') }}"
+      port: 5432
+      dbname: postgres
+      user: "{{ env_var('SUPABASE_DB_USER') }}"
+      password: "{{ env_var('SUPABASE_DB_PASSWORD') }}"
+      schema: public
+      threads: 1
+      connect_timeout: 30
+      keepalives_idle: 0

@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: facilities_clean
+    description: >
+      Cleaned and enriched hospital facilities.
+      Rebuilt after every places-processor run via dbt-runner Lambda.
+    columns:
+      - name: facility_id
+        description: UUID from facilities table
+        tests:
+          - not_null
+          - unique
+
+      - name: facility_name
+        tests:
+          - not_null
+
+      - name: lat
+        tests:
+          - not_null
+
+      - name: lng
+        tests:
+          - not_null
+
+      # - name: is_operational
+      #   tests:
+      #     - not_null
+      #     - accepted_values:
+      #         values: [true, false]
+      #         arguments:            # ← add this nesting
+      #           values: [true, false] 
