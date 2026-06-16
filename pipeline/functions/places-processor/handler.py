@@ -1,8 +1,8 @@
 import json
 import boto3
+import requests
 import logging
 import os
-import urllib.request
 from datetime import datetime, timezone
 
 logger = logging.getLogger()
@@ -14,16 +14,18 @@ events_client = boto3.client('events')
 SUPABASE_URL = os.environ['SUPABASE_URL']
 SUPABASE_KEY = os.environ['SUPABASE_KEY']
 
+BATCH_SIZE        = 50
+FAILURE_THRESHOLD = 0.10  # publish FAILURE and skip dbt if >10% of records fail
 
-def get_supabase_headers(prefer: str = None) -> dict:
-    headers = {
+
+# ── helpers ────────────────────────────────────────────────────────────────
+
+def _headers() -> dict:
+    return {
         'apikey':        SUPABASE_KEY,
         'Authorization': f'Bearer {SUPABASE_KEY}',
         'Content-Type':  'application/json',
     }
-    if prefer:
-        headers['Prefer'] = prefer
-    return headers
 
 
 def read_s3_payload(bucket: str, key: str) -> dict:
@@ -31,112 +33,73 @@ def read_s3_payload(bucket: str, key: str) -> dict:
     return json.loads(obj['Body'].read())
 
 
-# def upsert_facilities(records: list) -> int:
-#     """
-#     Update business fields on existing facilities rows.
-#     Matches on UUID facility_id — set by ingestion handler.
-#     Only updates nullable business columns — never touches
-#     name, category, lat, lng, source seeded data.
-#     """
-#     rows = []
-#     for r in records:
-#         if not r.get('facility_id'):
-#             logger.warning(f"No facility_id on record: {r.get('name')} — skipping")
-#             continue
-#         rows.append({
-#             'id':              r['facility_id'],   # UUID — must match existing row
-#             'phone':           r.get('phone'),
-#             'business_status': r.get('business_status'),
-#             'open_now':        r.get('open_now'),
-#             'weekday_hours':   json.dumps(r.get('weekday_hours', [])),
-#             'updated_at':      datetime.now(timezone.utc).isoformat()
-#         })
+# ── patch ──────────────────────────────────────────────────────────────────
 
-#     if not rows:
-#         logger.warning("No rows to upsert")
-#         return 0
-
-#     url     = f"{SUPABASE_URL}/rest/v1/facilities"
-#     payload = json.dumps(rows).encode('utf-8')
-#     req     = urllib.request.Request(
-#         url,
-#         data    = payload,
-#         headers = get_supabase_headers(
-#             prefer='resolution=merge-duplicates,return=minimal'
-#         ),
-#         method  = 'POST'
-#     )
-#     with urllib.request.urlopen(req) as resp:
-#         logger.info(f"Supabase upsert status: {resp.status}")
-
-#     return len(rows)
+def patch_facility(session: requests.Session, record: dict) -> None:
+    """
+    UPDATE-only PATCH — touches only business columns.
+    last_enriched_at is set from scraped_at so the enricher's
+    stale filter advances correctly after a successful DB write.
+    """
+    base = SUPABASE_URL.rstrip('/')
+    url  = f"{base}/rest/v1/facilities?id=eq.{record['facility_id']}"
+    body = {
+        'phone':            record.get('phone'),
+        'business_status':  record.get('business_status'),
+        'weekday_hours':    record.get('weekday_hours'),
+        'last_enriched_at': record.get('scraped_at'),
+        'updated_at':       datetime.now(timezone.utc).isoformat(),
+    }
+    resp = session.patch(url, json=body, headers=_headers())
+    resp.raise_for_status()
 
 
-def upsert_facilities(records: list) -> int:
-    rows = []
-    for r in records:
-        if not r.get('facility_id'):
-            logger.warning(f"No facility_id — skipping")
-            continue
-        rows.append({
-            'id':              r['facility_id'],
-            'phone':           r.get('phone'),
-            'business_status': r.get('business_status'),
-            'open_now':        r.get('open_now'),
-            'weekday_hours':   r.get('weekday_hours'),
-            'updated_at':      datetime.now(timezone.utc).isoformat()
-        })
-
-    if not rows:
-        logger.warning("No rows to upsert")
-        return 0
-
-    # strip trailing slash to avoid double slash in path
-    base_url = SUPABASE_URL.rstrip('/')
-    url      = f"{base_url}/rest/v1/facilities?on_conflict=id"
-
-    # log the exact URL for debugging
-    logger.info(f"Posting to: {url}")
-    logger.info(f"Row count: {len(rows)}")
-    logger.info(f"First row keys: {list(rows[0].keys())}")
-
-    payload = json.dumps(rows).encode('utf-8')
-    req     = urllib.request.Request(
-        url,
-        data    = payload,
-        headers = get_supabase_headers(
-            prefer='resolution=merge-duplicates,return=minimal'
-        ),
-        method  = 'POST'
-    )
-
-    try:
-        with urllib.request.urlopen(req) as resp:
-            logger.info(f"Supabase upsert status: {resp.status}")
-    except urllib.error.HTTPError as e:
-        body = e.read().decode('utf-8')
-        logger.error(f"Supabase error {e.code}: {body}")
-        raise
-
-    return len(rows)
+def patch_batch(
+    session: requests.Session,
+    batch: list[dict],
+) -> tuple[int, list[dict]]:
+    """Patch one batch. Returns (success_count, failures)."""
+    successes = 0
+    failures  = []
+    for record in batch:
+        try:
+            patch_facility(session, record)
+            successes += 1
+        except Exception as e:
+            logger.error(f"PATCH failed for {record['facility_id']}: {e}")
+            failures.append({'facility_id': record['facility_id'], 'reason': str(e)})
+    return successes, failures
 
 
-def publish_completion(processor: str, record_count: int) -> None:
+# ── eventbridge ────────────────────────────────────────────────────────────
+
+def publish_completion(
+    processor: str,
+    record_count: int,
+    status: str,
+    failures: list[dict],
+) -> None:
+    detail = {
+        'processor':    processor,
+        'status':       status,
+        'record_count': record_count,
+        'completed_at': datetime.now(timezone.utc).isoformat(),
+    }
+    if failures:
+        detail['failed_ids'] = [f['facility_id'] for f in failures]
+
     events_client.put_events(
         Entries=[{
             'Source':       'medicoord.pipeline',
             'DetailType':   'ProcessorComplete',
-            'Detail':       json.dumps({
-                'processor':    processor,
-                'status':       'SUCCESS',
-                'record_count': record_count,
-                'completed_at': datetime.now(timezone.utc).isoformat()
-            }),
-            'EventBusName': 'default'
+            'Detail':       json.dumps(detail),
+            'EventBusName': 'default',
         }]
     )
-    logger.info(f"Published ProcessorComplete for {processor}")
+    logger.info(f"Published ProcessorComplete status={status} for {processor}")
 
+
+# ── handler ────────────────────────────────────────────────────────────────
 
 def lambda_handler(event, context):
     logger.info(f"Received event: {json.dumps(event)}")
@@ -152,23 +115,43 @@ def lambda_handler(event, context):
     logger.info(
         f"Source: {meta['source']} | "
         f"Records: {meta['record_count']} | "
-        f"Errors: {meta['error_count']}"
+        f"Enricher errors: {meta['error_count']}"
     )
 
     if not records:
         logger.warning("No records to process — skipping upsert")
-        return {"statusCode": 200, "body": "no records"}
+        return {'statusCode': 200, 'body': 'no records'}
 
-    upserted = upsert_facilities(records)
-    logger.info(f"Updated {upserted} facility records in Supabase")
+    batches       = [records[i:i + BATCH_SIZE] for i in range(0, len(records), BATCH_SIZE)]
+    total_success = 0
+    all_failures  = []
 
-    publish_completion('places-processor', upserted)
+    logger.info(f"Processing {len(records)} records in {len(batches)} batches of {BATCH_SIZE}")
+
+    with requests.Session() as session:
+        for i, batch in enumerate(batches):
+            ok, failures = patch_batch(session, batch)
+            total_success += ok
+            all_failures.extend(failures)
+            logger.info(f"Batch {i + 1}/{len(batches)}: {ok} ok, {len(failures)} failed")
+
+    failure_rate = len(all_failures) / len(records)
+    status       = 'FAILURE' if failure_rate > FAILURE_THRESHOLD else 'SUCCESS'
+
+    logger.info(
+        f"Done — {total_success} updated, {len(all_failures)} failed "
+        f"({failure_rate:.1%} failure rate) → {status}"
+    )
+
+    publish_completion('places-processor', total_success, status, all_failures)
 
     return {
-        "statusCode": 200,
-        "body": {
-            "processor": "places-processor",
-            "upserted":  upserted,
-            "s3_key":    key
-        }
+        'statusCode': 200,
+        'body': {
+            'processor':  'places-processor',
+            'upserted':   total_success,
+            'failed':     len(all_failures),
+            's3_key':     key,
+            'status':     status,
+        },
     }

@@ -65,3 +65,6 @@ layer_pkg/
 dbt_layer_pkg/
 pipeline/functions/dbt-runner/logs/
 .aws-sam/
+
+# Local audit / handoff notes
+HANDOFF.md

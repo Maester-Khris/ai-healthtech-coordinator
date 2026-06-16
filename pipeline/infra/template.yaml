@@ -183,6 +183,7 @@ Resources:
       CodeUri: ../functions/places-enricher/
       Handler: handler.lambda_handler
       Role: !GetAtt IngestionRole.Arn
+      MemorySize: 512
       Layers:
         - !Ref RequestsLayer
       Environment:
@@ -246,6 +247,8 @@ Resources:
       CodeUri: ../functions/places-processor/
       Handler: handler.lambda_handler
       Role: !GetAtt ProcessorRole.Arn
+      Layers:
+        - !Ref RequestsLayer
 
   ErWaitProcessor:
     Type: AWS::Serverless::Function
