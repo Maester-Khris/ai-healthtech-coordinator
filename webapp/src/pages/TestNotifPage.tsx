@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { apiFetch } from "../lib/apiClient"
 import { useNotificationPermission, PLAYER_ID_KEY_PREFIX } from "../hooks/useNotificationPermission"
-import { usePWAInstall, detectPlatform } from "../hooks/usePWAInstall"
+import { usePWAInstall, detectPlatform, type Platform } from "../hooks/usePWAInstall"
 
 const PLATFORM_KEY = "medicoord_onesignal_platform"
 
-const KNOWN_PLATFORMS: Array<{ id: string; label: string; icon: string }> = [
+const KNOWN_PLATFORMS: Array<{ id: Platform; label: string; icon: string }> = [
   { id: "desktop_chrome",  label: "Web (Chrome)",  icon: "ti-brand-chrome" },
   { id: "desktop_other",   label: "Web",            icon: "ti-world" },
   { id: "android_chrome",  label: "Android",        icon: "ti-brand-android" },
