@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { apiFetch } from "../lib/apiClient"
-import { useNotificationPermission, detectPlatformLabel, PLAYER_ID_KEY_PREFIX } from "../hooks/useNotificationPermission"
-import { usePWAInstall } from "../hooks/usePWAInstall"
+import { useNotificationPermission, PLAYER_ID_KEY_PREFIX } from "../hooks/useNotificationPermission"
+import { usePWAInstall, detectPlatform } from "../hooks/usePWAInstall"
 
 const PLATFORM_KEY = "medicoord_onesignal_platform"
 
@@ -21,7 +21,7 @@ interface SendResult {
 export default function TestNotifPage() {
   const { playerId, requesting, requestPermission, permissionState } = useNotificationPermission()
   const { platform, installState, isPushSupported, installModalDismissed, isStandalone } = usePWAInstall()
-  const currentPlatform = detectPlatformLabel()
+  const currentPlatform = detectPlatform()
   const isIosNotStandalone = platform === "ios_safari" && installState !== "standalone"
 
   // Resolve all registered platforms — current platform uses reactive hook state,

@@ -37,7 +37,7 @@ function isInstallModalDismissed(): boolean {
   return Date.now() - new Date(ts).getTime() < INSTALL_MODAL_REARM_MS
 }
 
-function detectPlatform(): Platform {
+export function detectPlatform(): Platform {
   const ua = navigator.userAgent
   const MSStream = (window as unknown as { MSStream?: unknown }).MSStream
   const isIOS =
