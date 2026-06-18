@@ -68,3 +68,7 @@ pipeline/functions/dbt-runner/logs/
 
 # Local audit / handoff notes
 HANDOFF.md
+
+# Local test/tooling artifacts
+pipeline/response.json
+skills-lock.json
