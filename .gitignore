@@ -41,7 +41,7 @@ pip-delete-this-arg.txt
 *.mfpak
 .DS_Store               # macOS
 Thumbs.db               # Windows
-
+``
 # React with Vite
 /node_modules
 /dist
@@ -51,6 +51,7 @@ Thumbs.db               # Windows
 
 # Local-only scripts
 personal.cmd.sh
+pipeline/perso-cmd.sh
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -60,6 +61,17 @@ build/
 
 # Local development automation
 Makefile
+layer_pkg/
+dbt_layer_pkg/
+pipeline/functions/dbt-runner/logs/
+.aws-sam/
+
+# Local audit / handoff notes
+HANDOFF.md
+
+# Local test/tooling artifacts
+pipeline/response.json
+skills-lock.json
 
 # fcm assets
 assets/

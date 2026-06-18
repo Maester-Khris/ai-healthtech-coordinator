@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Medicoord pipeline — S3 raw ingestion bucket.
+  Landing zone between ingestion Lambdas and processing Lambdas.
+  EventBridge notifications enabled so every PUT automatically
+  triggers the appropriate processor via EventBridge rules (defined
+  in template.yaml).
+
+Resources:
+
+  MedicoordRawBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: medicoord-raw-ingestion
+      
+      # ── EventBridge integration ──────────────────────────────────
+      # Publishes all object-level events (PUT, DELETE, etc.) to the
+      # default EventBridge bus. This replaces the manual console
+      # toggle we enabled during the test. Without this, no processor
+      # Lambda ever fires regardless of EventBridge rule config.
+      NotificationConfiguration:
+        EventBridgeConfiguration:
+          EventBridgeEnabled: true
+
+      # ── Lifecycle ────────────────────────────────────────────────
+      # Raw files are transient — processor reads them once then
+      # they're no longer needed. 30-day expiry prevents indefinite
+      # accumulation and unexpected S3 storage costs.
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-raw-files
+            Status: Enabled
+            ExpirationInDays: 30
+
+      # ── Security ─────────────────────────────────────────────────
+      # Block all public access — this bucket is internal to the
+      # pipeline only, never accessed from the internet.
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+# ── Outputs ──────────────────────────────────────────────────────────
+# Export bucket name and ARN so template.yaml can reference them
+# without hardcoding strings. Cross-stack reference pattern.
+Outputs:
+
+  BucketName:
+    Description: Name of the raw ingestion bucket
+    Value: !Ref MedicoordRawBucket
+    Export:
+      Name: medicoord-ingestion-bucket-name
+
+  BucketArn:
+    Description: ARN of the raw ingestion bucket
+    Value: !GetAtt MedicoordRawBucket.Arn
+    Export:
+      Name: medicoord-ingestion-bucket-arn
