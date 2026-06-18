@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { detectPlatform } from "./usePWAInstall"
 
 export type PermissionState = "unknown" | "default" | "granted" | "denied"
 
@@ -36,14 +37,6 @@ declare global {
   }
 }
 
-export function detectPlatformLabel(): string {
-  const ua = navigator.userAgent
-  if (/iPad|iPhone|iPod/.test(ua)) return "ios_safari"
-  if (/Android/.test(ua)) return "android_chrome"
-  if (/Chrome/.test(ua) && !/Chromium|OPR|Edge/.test(ua)) return "desktop_chrome"
-  return "desktop_other"
-}
-
 export function useNotificationPermission(): UseNotificationPermissionResult {
   const [permissionState, setPermissionState] = useState<PermissionState>("unknown")
   const [playerId, setPlayerId] = useState<string | null>(null)
@@ -51,7 +44,7 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
   const initialized = useRef(false)
 
   useEffect(() => {
-    const stored = localStorage.getItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel())
+    const stored = localStorage.getItem(PLAYER_ID_KEY_PREFIX + detectPlatform())
     if (stored) setPlayerId(stored)
 
     if (!("Notification" in window)) {
@@ -82,8 +75,8 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
       const userId = window.OneSignal.User.PushSubscription.id ?? null
 
       if (userId) {
-        localStorage.setItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel(), userId)
-        localStorage.setItem(PLATFORM_KEY, detectPlatformLabel())
+        localStorage.setItem(PLAYER_ID_KEY_PREFIX + detectPlatform(), userId)
+        localStorage.setItem(PLATFORM_KEY, detectPlatform())
         localStorage.setItem(GRANTED_KEY, "true")
         setPlayerId(userId)
         setPermissionState("granted")
@@ -98,7 +91,7 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
   }
 
   const clearToken = () => {
-    localStorage.removeItem(PLAYER_ID_KEY_PREFIX + detectPlatformLabel())
+    localStorage.removeItem(PLAYER_ID_KEY_PREFIX + detectPlatform())
     localStorage.removeItem(PLATFORM_KEY)
     localStorage.removeItem(GRANTED_KEY)
     setPlayerId(null)
