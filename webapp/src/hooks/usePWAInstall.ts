@@ -29,6 +29,13 @@ export interface UsePWAInstallResult {
 }
 
 const DISMISS_KEY = "medicoord_install_modal_dismissed"
+const INSTALL_MODAL_REARM_MS = 60 * 60 * 1000 // 1 hour
+
+function isInstallModalDismissed(): boolean {
+  const ts = localStorage.getItem(DISMISS_KEY)
+  if (!ts) return false
+  return Date.now() - new Date(ts).getTime() < INSTALL_MODAL_REARM_MS
+}
 
 function detectPlatform(): Platform {
   const ua = navigator.userAgent
@@ -57,9 +64,7 @@ function detectiOSVersion(): { major: number; minor: number } | null {
 
 export function usePWAInstall(): UsePWAInstallResult {
   const [capturedPrompt, setCapturedPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [dismissed, setDismissed] = useState(
-    () => localStorage.getItem(DISMISS_KEY) === "true"
-  )
+  const [dismissed, setDismissed] = useState(() => isInstallModalDismissed())
 
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
@@ -102,7 +107,7 @@ export function usePWAInstall(): UsePWAInstallResult {
   }
 
   const dismissInstallModal = () => {
-    localStorage.setItem(DISMISS_KEY, "true")
+    localStorage.setItem(DISMISS_KEY, new Date().toISOString())
     setDismissed(true)
   }
 
