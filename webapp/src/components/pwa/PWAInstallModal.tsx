@@ -5,6 +5,7 @@ interface PWAInstallModalProps {
   platform: Platform
   installState: InstallState
   isPushSupported: boolean
+  isIosNonSafari: boolean
   onInstalled: () => void
   onDismiss: () => void
   promptInstall: () => Promise<"accepted" | "dismissed" | "unavailable">
@@ -14,6 +15,7 @@ export function PWAInstallModal({
   platform,
   installState,
   isPushSupported,
+  isIosNonSafari,
   onInstalled,
   onDismiss,
   promptInstall,
@@ -64,6 +66,7 @@ export function PWAInstallModal({
         {platform === "ios_safari" && <IOSVariant isPushSupported={isPushSupported} onInstalled={onInstalled} onDismiss={onDismiss} />}
         {platform === "android_chrome" && <AndroidVariant onInstall={handleAndroidInstall} onDismiss={onDismiss} />}
         {(platform === "desktop_chrome" || platform === "desktop_other") && <DesktopVariant onEnable={onInstalled} onDismiss={onDismiss} />}
+        {platform === "unsupported" && isIosNonSafari && <WrongBrowserVariant onDismiss={onDismiss} />}
       </div>
     </div>
   )
@@ -132,6 +135,25 @@ function IOSVariant({ isPushSupported, onInstalled, onDismiss }: {
         </button>
         <button onClick={onDismiss} style={secondaryButtonStyle}>Maybe later</button>
       </div>
+    </>
+  )
+}
+
+function WrongBrowserVariant({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: "var(--color-warning-bg)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <i className="ti ti-brand-safari" style={{ fontSize: 22, color: "var(--color-warning)" }} />
+        </div>
+        <h2 style={{ fontSize: 17, fontWeight: 700, color: "var(--color-text-primary)", margin: 0 }}>
+          Open MediCoord in Safari
+        </h2>
+      </div>
+      <p style={{ fontSize: 14, color: "var(--color-text-secondary)", lineHeight: 1.5, marginBottom: 20 }}>
+        Push notifications on iOS only work in Safari. Copy this page's link and open it in Safari, then add it to your home screen to enable health alerts.
+      </p>
+      <button onClick={onDismiss} style={secondaryButtonStyle}>Close</button>
     </>
   )
 }

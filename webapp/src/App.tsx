@@ -30,6 +30,7 @@ function AppInner() {
     platform,
     installState,
     isPushSupported,
+    isIosNonSafari,
     promptInstall,
     installModalDismissed,
     dismissInstallModal,
@@ -49,7 +50,7 @@ function AppInner() {
   const showInstallModal =
     !installModalDismissed &&
     installState !== "standalone" &&
-    (isPushSupported || platform === "ios_safari") &&
+    (isPushSupported || platform === "ios_safari" || isIosNonSafari) &&
     !installConfirmed
 
   const showPermissionPrompt =
@@ -80,6 +81,7 @@ function AppInner() {
           platform={platform}
           installState={installState}
           isPushSupported={isPushSupported}
+          isIosNonSafari={isIosNonSafari}
           promptInstall={promptInstall}
           onInstalled={() => {
             dismissInstallModal()
