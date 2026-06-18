@@ -72,3 +72,6 @@ HANDOFF.md
 # Local test/tooling artifacts
 pipeline/response.json
 skills-lock.json
+
+# fcm assets
+assets/

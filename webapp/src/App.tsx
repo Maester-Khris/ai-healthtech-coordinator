@@ -3,14 +3,21 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Menucomponents/Home'
 import SetupPage from './pages/SetupPage'
+import TestLocationPage from './pages/TestLocationPage'
+import TestNotifPage from './pages/TestNotifPage'
+import SandboxPage from './pages/SandboxPage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
 import { GpsPermissionModal } from './components/GpsPermissionModal'
+import { PWAInstallModal } from './components/pwa/PWAInstallModal'
+import { NotificationPermissionPrompt, shouldShowPermissionPrompt } from './components/pwa/NotificationPermissionPrompt'
 import { useFacilities } from './hooks/useFacilities'
 import { useConversations } from './hooks/useConversations'
 import { useBreakpoint } from './hooks/useBreakpoint'
 import { useGeolocation } from './hooks/useGeolocation'
+import { usePWAInstall } from './hooks/usePWAInstall'
+import { useNotificationPermission } from './hooks/useNotificationPermission'
 
 function AppInner() {
   const isMobile = useBreakpoint()
@@ -19,7 +26,39 @@ function AppInner() {
   const geo = useGeolocation()
   const [gpsModalDismissed, setGpsModalDismissed] = useState(false)
 
+  const {
+    platform,
+    installState,
+    isPushSupported,
+    promptInstall,
+    installModalDismissed,
+    dismissInstallModal,
+  } = usePWAInstall()
+
+  const {
+    permissionState,
+    requesting,
+    requestPermission,
+  } = useNotificationPermission()
+
+  const [permissionPromptDismissed, setPermissionPromptDismissed] = useState(false)
+  const [installConfirmed, setInstallConfirmed] = useState(installState === "standalone")
+
   const showGpsModal = geo.permission === "denied" && !gpsModalDismissed
+
+  const showInstallModal =
+    !installModalDismissed &&
+    installState !== "standalone" &&
+    (isPushSupported || platform === "ios_safari") &&
+    !installConfirmed
+
+  const showPermissionPrompt =
+    !showInstallModal &&
+    isPushSupported &&
+    permissionState !== "granted" &&
+    permissionState !== "denied" &&
+    !permissionPromptDismissed &&
+    shouldShowPermissionPrompt()
 
   const sharedProps = {
     facilities,
@@ -36,6 +75,26 @@ function AppInner() {
       {showGpsModal && (
         <GpsPermissionModal onDismiss={() => setGpsModalDismissed(true)} />
       )}
+      {showInstallModal && (
+        <PWAInstallModal
+          platform={platform}
+          installState={installState}
+          isPushSupported={isPushSupported}
+          promptInstall={promptInstall}
+          onInstalled={() => {
+            dismissInstallModal()
+            setInstallConfirmed(true)
+          }}
+          onDismiss={dismissInstallModal}
+        />
+      )}
+      {showPermissionPrompt && (
+        <NotificationPermissionPrompt
+          requesting={requesting}
+          onEnable={requestPermission}
+          onDismiss={() => setPermissionPromptDismissed(true)}
+        />
+      )}
       {isMobile
         ? <MobileLayout {...sharedProps} />
         : <Home {...sharedProps} />
@@ -43,8 +102,6 @@ function AppInner() {
     </>
   )
 }
-
-import TestLocationPage from './pages/TestLocationPage'
 
 function App() {
   return (
@@ -61,6 +118,8 @@ function App() {
           <Routes>
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/testlocation" element={<TestLocationPage />} />
+            <Route path="/sandbox" element={<SandboxPage />} />
+            <Route path="/test-notif" element={<TestNotifPage />} />
             <Route path="*" element={<AppInner />} />
           </Routes>
         </BrowserRouter>
