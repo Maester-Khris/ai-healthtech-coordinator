@@ -110,3 +110,21 @@ body{
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+/* Push notification design system variables */
+:root {
+  --color-primary: #185FA5;
+  --color-primary-light: #EBF3FC;
+  --color-primary-dark: #0E3D6E;
+  --color-background-info: #EBF3FC;
+  --color-text-info: #185FA5;
+  --color-surface: #ffffff;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-border: #E5E7EB;
+  --color-step-bg: #F9FAFB;
+  --color-warning-bg: #FEF3E2;
+  --color-warning: #E8813A;
+  --color-success-bg: #ECFDF5;
+  --color-success: #059669;
+}

@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: facilities_clean
+    description: >
+      Cleaned and enriched facilities for all categories.
+      Rebuilt after every places-processor run via dbt-runner Lambda.
+      Only includes facilities that completed Google Places enrichment
+      (google_place_id IS NOT NULL).
+
+    columns:
+      # ── identity ──────────────────────────────────────────────────────────
+      - name: facility_id
+        description: UUID primary key from facilities table
+        tests:
+          - not_null
+          - unique
+
+      - name: facility_name
+        description: Trimmed facility name
+        tests:
+          - not_null
+
+      # ── location ──────────────────────────────────────────────────────────
+      - name: lat
+        description: Latitude — required for map routing
+        tests:
+          - not_null
+
+      - name: lng
+        description: Longitude — required for map routing
+        tests:
+          - not_null
+
+      # ── enrichment ────────────────────────────────────────────────────────
+      - name: google_place_id
+        description: Google Places ID — must be present (enrichment gate)
+        tests:
+          - not_null
+
+      - name: business_status
+        description: Normalised Google Places business status (uppercase). Nullable — some place types return no status.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - OPERATIONAL
+                  - CLOSED_PERMANENTLY
+                  - CLOSED_TEMPORARILY
+
+      - name: is_operational
+        description: True when business_status = OPERATIONAL
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: last_enriched_at
+        description: Timestamp of last successful places-processor write
+        tests:
+          - not_null
+
+      # ── triage ────────────────────────────────────────────────────────────
+      - name: category
+        description: Facility category (hospital, ambulatory, residential)
+        tests:
+          - not_null
+
+      - name: accepted_severity
+        description: Array of severity levels this facility accepts
+        tests:
+          - not_null

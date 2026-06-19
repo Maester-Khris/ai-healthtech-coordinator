@@ -42,6 +42,27 @@ function ProfileIcon() {
   )
 }
 
+function BellIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.73 21a2 2 0 01-3.46 0"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 function ChevronRightIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -99,6 +120,11 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
   const handleProfile = () => {
     onClose()
     navigate('/setup')
+  }
+
+  const handleTestNotifications = () => {
+    onClose()
+    navigate('/test-notif')
   }
 
   const handleSignOut = async () => {
@@ -218,6 +244,32 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
         >
           <ProfileIcon />
           <span style={{ flex: 1, fontSize: 14 }}>My profile</span>
+          <span style={{ color: '#9ca3af' }}>
+            <ChevronRightIcon />
+          </span>
+        </button>
+
+        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+
+        {/* Test notifications */}
+        <button
+          onClick={handleTestNotifications}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '0 20px',
+            minHeight: 44,
+            width: '100%',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            textAlign: 'left',
+            color: '#1f2937',
+          }}
+        >
+          <BellIcon />
+          <span style={{ flex: 1, fontSize: 14 }}>Test notifications</span>
           <span style={{ color: '#9ca3af' }}>
             <ChevronRightIcon />
           </span>

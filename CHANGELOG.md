@@ -245,6 +245,72 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 
 ---
 
+## [Sprint 10 — Closed] · Sandbox v2 — Static Control Room Page
+
+**2026-06-07 → 2026-06-11 · branch: `feat/sandbox-v2` · merged to `preview` via PR #19**
+
+### Delivered
+- `/sandbox` route — static three-panel desktop-only layout (`SimulationPanel`, `SandboxMap`, `InspectorPanel`), guarded below 1024px viewport width (`SandboxMobileGuard`)
+- `SandboxHeader` — flask icon, "MediCoordAI · SANDBOX" badge, environment switcher (back to Production)
+- `SandboxMap` — dark CartoDB DarkMatter tiles, category filter dropdown, facility markers from `useFacilities()` with hardcoded mock-facility/active-node fallback when live data is unavailable
+- `SandboxSplashScreen` — terminal-style boot animation (6 steps, progress bar, skip-after-1s link, fade-out transition) shown on every `/sandbox` visit
+- Nav links wired in both `WebNavBar` and the `Home` page footer
+- `InspectorPanel` — chat tab (free-text input, keyword-based mock responses) and logs tab (hardcoded entries)
+- Architecture matches the original plan: `SandboxPage` is the sole hook owner; all child components are presentational
+
+### Deferred / not wired
+- `SimulationPanel`'s System Shock toggles and playback (play/pause/stop, speed) controls are styled but not connected to any simulation engine (`TODO: wire simulation engine` in code)
+- Chat tab is still a mock (keyword-matched canned responses), not a real backend integration
+- No automated tests — verified via `tsc -b` only, per the original plan's explicit scope
+
+---
+
+## [Sprint 11 — Closed] · Push Notifications
+
+**2026-06-07 → 2026-06-19 · branch: `feat/push-notifications` · merged to `preview` via PR #20 (initial), #22, #23 (completion)**
+
+### Delivered — initial build (2026-06-07–12)
+- PWA install gate — `PWAInstallModal` with iOS manual-steps, Android native-prompt, and desktop soft-gate variants
+- OneSignal Web SDK v16 integration, `usePWAInstall` / `useNotificationPermission` hooks, platform-scoped player ID capture to localStorage
+- `/notifications/send` backend endpoint proxying to the OneSignal REST API
+- `/test-notif` manual trigger page
+
+### Delivered — completion pass (2026-06-18–19, see `docs/superpowers/plans/2026-06-18-pwa-push-notifications-completion.md`)
+- Fixed iOS Safari install never being proposed at all for non-Safari iOS browsers — added an "Open in Safari" guidance variant instead of silently showing nothing
+- Unified two diverging platform-detection implementations (`detectPlatform` vs `detectPlatformLabel`) that could mislabel Chrome-on-iOS as `ios_safari`
+- Fixed the install-modal dismiss flag being permanent with no expiry — now re-arms after 1 hour
+- Fixed a real iOS bug found during live device testing: the code conflated "OS version too old" with "push APIs not yet exposed because the PWA isn't installed yet" (Apple only exposes `Notification`/`PushManager`/`serviceWorker` to installed iOS PWAs) — split into separate `isIosVersionSupported` and `isPushSupported` flags
+- Fixed favicon MIME type and added a proper 512×512 manifest icon
+- Added a "Test notifications" entry to the mobile drawer menu
+- Discovered `npx tsc --noEmit` is a false-negative in this repo — `webapp/tsconfig.json` has `"files": []` with only `"references"`, so it checks an empty file set; must use `tsc -b` or `npm run build`
+
+### Confirmed working end-to-end
+Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.4 — install → permission grant → notification delivery all succeeded), desktop Chrome, and correct fallback guidance on unsupported browsers. OneSignal dashboard shows active registered users across platforms.
+
+### Deferred
+- A follow-on onboarding-flow feature (GPS preference + push opt-in as a 3rd step in `GettingStartedModal`, persisted to the `profile` table) was scoped but paused mid-design — picking up later, not yet a committed sprint
+
+---
+
+## [Sprint 12 — Closed] · Data Pipeline
+
+**2026-06-10 → 2026-06-16 · branch: `feat/data-pipeline` · merged to `preview` via PR #21**
+
+### Delivered
+- AWS SAM infrastructure: dedicated S3 stack, EventBridge rules, IAM roles (`pipeline/infra/`)
+- `places-enricher` Lambda — migrated from a static 11-facility list to a full DB fetch across all 404 facilities, with concurrent Google Places API calls via `ThreadPoolExecutor`
+- `places-processor` Lambda — fixed a Supabase upsert SQL error (not-null constraint on `name`), added Unicode normalization for `weekday_hours` (U+202F, U+2009, U+2013) at source
+- `dbt-runner` Lambda — in-process `dbtRunner`, multiprocessing patch, `facilities_clean` dbt model with 13 automated data quality tests (13/13 passing)
+- `medi_db_health_check` Supabase RPC — dead tuples, long-running queries, deadlocks, called automatically after each dbt test run
+- Migrations 004–008: facility place-info columns (phone, business_status, open_now, weekday_hours), `wait_times` table schema, `google_place_id` + `last_enriched_at` columns, and the health-check RPC (plus an `ORDER BY` alias bugfix)
+- Full pipeline verified end-to-end in production as of 2026-06-16: enricher → S3 → processor → EventBridge → dbt runner
+
+### Deferred
+- ER wait-time ingestion (ERstat + howlongwilliwait.com) — Lambda scaffolding exists (`pipeline/functions/er-wait-scraper`, `er-wait-processor`) but the team decided to move this specific piece to a Railway background worker (cron + scraper + Supabase + Upstash cache update) instead of AWS Lambda, to avoid near-real-time cost overhead. The `wait_times` table schema (migration 005) already exists ahead of this.
+- Redis/Upstash cache integration — deferred alongside the ER wait-time worker
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**
