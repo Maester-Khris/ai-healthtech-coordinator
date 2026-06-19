@@ -30,6 +30,7 @@ function AppInner() {
     platform,
     installState,
     isPushSupported,
+    isIosVersionSupported,
     isIosNonSafari,
     promptInstall,
     installModalDismissed,
@@ -80,7 +81,7 @@ function AppInner() {
         <PWAInstallModal
           platform={platform}
           installState={installState}
-          isPushSupported={isPushSupported}
+          isIosVersionSupported={isIosVersionSupported}
           isIosNonSafari={isIosNonSafari}
           promptInstall={promptInstall}
           onInstalled={() => {

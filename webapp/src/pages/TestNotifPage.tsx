@@ -20,7 +20,7 @@ interface SendResult {
 
 export default function TestNotifPage() {
   const { playerId, requesting, requestPermission, permissionState } = useNotificationPermission()
-  const { platform, installState, isPushSupported, installModalDismissed, isStandalone } = usePWAInstall()
+  const { platform, installState, isPushSupported, isIosVersionSupported, installModalDismissed, isStandalone } = usePWAInstall()
   const currentPlatform = detectPlatform()
   const isIosNotStandalone = platform === "ios_safari" && installState !== "standalone"
 
@@ -373,6 +373,7 @@ export default function TestNotifPage() {
         <StatusRow label="platform"        value={platform}                   ok={platform !== "unsupported"} />
         <StatusRow label="install_state"   value={installState}               ok={installState === "standalone" || installState === "installable"} />
         <StatusRow label="push_supported"  value={String(isPushSupported)}    ok={isPushSupported} />
+        <StatusRow label="ios_version_ok"  value={String(isIosVersionSupported)} ok={isIosVersionSupported} />
         <StatusRow label="standalone"      value={String(isStandalone)}       ok={isStandalone} />
         <StatusRow label="modal_dismissed" value={String(installModalDismissed)} ok={!installModalDismissed} />
         {installModalDismissed && (

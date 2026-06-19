@@ -4,7 +4,7 @@ import type { Platform, InstallState } from "../../hooks/usePWAInstall"
 interface PWAInstallModalProps {
   platform: Platform
   installState: InstallState
-  isPushSupported: boolean
+  isIosVersionSupported: boolean
   isIosNonSafari: boolean
   onInstalled: () => void
   onDismiss: () => void
@@ -14,7 +14,7 @@ interface PWAInstallModalProps {
 export function PWAInstallModal({
   platform,
   installState,
-  isPushSupported,
+  isIosVersionSupported,
   isIosNonSafari,
   onInstalled,
   onDismiss,
@@ -63,7 +63,7 @@ export function PWAInstallModal({
           margin: "0 auto 20px",
         }} />
 
-        {platform === "ios_safari" && <IOSVariant isPushSupported={isPushSupported} onInstalled={onInstalled} onDismiss={onDismiss} />}
+        {platform === "ios_safari" && <IOSVariant isIosVersionSupported={isIosVersionSupported} onInstalled={onInstalled} onDismiss={onDismiss} />}
         {platform === "android_chrome" && <AndroidVariant onInstall={handleAndroidInstall} onDismiss={onDismiss} />}
         {(platform === "desktop_chrome" || platform === "desktop_other") && <DesktopVariant onEnable={onInstalled} onDismiss={onDismiss} />}
         {platform === "unsupported" && isIosNonSafari && <WrongBrowserVariant onDismiss={onDismiss} />}
@@ -72,12 +72,12 @@ export function PWAInstallModal({
   )
 }
 
-function IOSVariant({ isPushSupported, onInstalled, onDismiss }: {
-  isPushSupported: boolean
+function IOSVariant({ isIosVersionSupported, onInstalled, onDismiss }: {
+  isIosVersionSupported: boolean
   onInstalled: () => void
   onDismiss: () => void
 }) {
-  if (!isPushSupported) {
+  if (!isIosVersionSupported) {
     return (
       <>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
