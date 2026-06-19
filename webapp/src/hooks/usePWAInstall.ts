@@ -23,6 +23,7 @@ export interface UsePWAInstallResult {
   installState: InstallState
   isStandalone: boolean
   isPushSupported: boolean
+  isIosVersionSupported: boolean
   isIosNonSafari: boolean
   promptInstall: () => Promise<"accepted" | "dismissed" | "unavailable">
   installModalDismissed: boolean
@@ -80,13 +81,16 @@ export function usePWAInstall(): UsePWAInstallResult {
   const isIosNonSafari = isIosDevice() && platform === "unsupported"
   const iOSVersion = platform === "ios_safari" ? detectiOSVersion() : null
 
+  const isIosVersionSupported =
+    platform !== "ios_safari" ||
+    (iOSVersion !== null &&
+      (iOSVersion.major > 16 || (iOSVersion.major === 16 && iOSVersion.minor >= 4)))
+
   const isPushSupported =
     "Notification" in window &&
     "serviceWorker" in navigator &&
     "PushManager" in window &&
-    (platform !== "ios_safari" ||
-      (iOSVersion !== null &&
-        (iOSVersion.major > 16 || (iOSVersion.major === 16 && iOSVersion.minor >= 4))))
+    isIosVersionSupported
 
   const installState: InstallState = isStandalone
     ? "standalone"
@@ -123,6 +127,7 @@ export function usePWAInstall(): UsePWAInstallResult {
     installState,
     isStandalone,
     isPushSupported,
+    isIosVersionSupported,
     isIosNonSafari,
     promptInstall,
     installModalDismissed: dismissed,
