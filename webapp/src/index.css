@@ -1,33 +1,69 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================================
+   MediCoord AI — Design System tokens
+   Source of truth: ui-design/DESIGN-SYSTEM.md
+   Stratum (light, warm, "calculated skeuomorphism") is the base
+   palette/material everywhere except Sandbox, which uses Aura's
+   dark palette (see --color-sandbox-* below).
+   ============================================================ */
+@theme {
+  /* Stratum base palette */
+  --color-stratum-bg: #EAE5DF;
+  --color-stratum-surface: #A3907A;
+  --color-stratum-accent: #A3907A;
+  --color-stratum-accent-2: #8C8273;
+  --color-stratum-accent-3: #A1AE7A;
+  --color-stratum-neutral: #7A756D;
+  --color-stratum-text: #3D3A35;
+  --color-stratum-text-muted: #7A756D;
+  --color-stratum-border: #DCD6CC;
+
+  /* Severity ramp — reserved for severity states only (markers, badges, triage cards) */
+  --color-severity-routine: #6B8F71;
+  --color-severity-moderate: #C9A227;
+  --color-severity-urgent: #D17A3D;
+  --color-severity-emergent: #B6453E;
+
+  /* Sandbox dark palette (Aura) — /sandbox only */
+  --color-sandbox-bg: #050505;
+  --color-sandbox-surface: #18181B;
+  --color-sandbox-text: #FFFFFF;
+  --color-sandbox-text-muted: #A1A1AA;
+  --color-sandbox-border: #27272A;
+
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Radius family — prefixed to avoid colliding with Tailwind's built-in
+     default radius scale keys (sm/md/lg/xl/2xl/3xl/full). Bare names here
+     would silently change every existing rounded-sm/md/lg/xl usage across
+     the app (39 usages, 14 files) before those components are re-skinned. */
+  --radius-stratum-xs: 2px;
+  --radius-stratum-sm: 3px;
+  --radius-stratum-md: 4px;
+  --radius-stratum-control: 5px;
+  --radius-stratum-lg: 6px;
+  --radius-stratum-xl: 8px;
+  --radius-stratum-bezel: 15px;
+
+  /* Named spacing additions */
+  --spacing-card-padding: 16px;
+  --spacing-section-padding-sm: 24px;
+  --spacing-section-padding-lg: 56px;
+}
 
 html, body, #root {
   height: 100%;
   margin: 0;
-  background-color: #ddd
 }
-.quicksand {
-  font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-.fredoka {
-  font-family: "Fredoka", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 700;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
-}
-body{
-  font-family: "Quicksand", Arial, Helvetica, sans-serif;
-  font-size: 17px;
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  background-color: var(--color-stratum-bg);
+  color: var(--color-stratum-text);
 }
 
 .contact-form input, .contact-form textarea, .contact-form select{
@@ -36,7 +72,7 @@ body{
 }
 
 /* =========== Helper =================
-  Hide scrollbar for Chrome, Safari and Opera 
+  Hide scrollbar for Chrome, Safari and Opera
   Media query
 */
 .no-scrollbar::-webkit-scrollbar {
@@ -62,8 +98,6 @@ body{
 .eta-tooltip-permanent {
   font-weight: 500;
 }
-
-
 
 /* =========== Animation =================
 */
@@ -111,7 +145,9 @@ body{
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* Push notification design system variables */
+/* Push notification design system variables — legacy, migrates to the
+   design-system tokens above when components in sub-project 3
+   (web re-skin) are re-skinned. Intentionally left untouched here. */
 :root {
   --color-primary: #185FA5;
   --color-primary-light: #EBF3FC;
