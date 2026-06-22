@@ -311,6 +311,43 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
+## [Sprint 13 — Active] · UI / Product Reframe
+
+**Started — 2026-06-22 · branch: `ui/redesign`**
+
+### Scope
+Current state: features work, but reads as a project, not a product. Goal: make Medicoord (and Commitr) look like something someone would pay for.
+
+- Landing page presenting product value — not a straight redirect to auth/app
+- Privacy policy page
+- Cookie management
+- User data collection disclosure
+- Design system selection (evaluating aura.build systems) — TBD for Medicoord
+
+---
+
+## [Sprint 14 — Planned] · Backend Update — DB Migration + Filtering
+
+**Not started. Planned starting week of 2026-06-22, per weekly plan.**
+
+### Chores
+- DB migration: switch backend queries from `facilities` to `facilities_clean` (dbt model from Sprint 12)
+- Column rename alignment: `facility_id`, `facility_name`
+
+### Feature — Augmented Filtering (business hours)
+- Integrate business hours + business data into facility popup/hover card
+- New filter options: open Mon–Fri, open after 5PM, open after 9AM, open weekends
+- Brainstorm session on full filter set before building
+
+### Low priority — ER Wait Time Background Worker (carried over from Sprint 12)
+- Railway worker service: APScheduler cron scraping ERstat + howlongwilliwait.com every 5 min
+- Upsert `wait_times` table in Supabase
+- Invalidate/update Upstash Redis cache on each run
+- Backend reads from Redis cache with DB fallback
+- Rationale for low priority: feeds the same filtering feature above but adds external scraping dependency — DB migration + business-hours filtering ship value sooner on their own
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**
