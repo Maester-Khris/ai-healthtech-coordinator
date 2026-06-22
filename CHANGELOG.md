@@ -311,9 +311,9 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
-## [Sprint 13 — Planned] · UI / Product Reframe
+## [Sprint 13 — Active] · UI / Product Reframe
 
-**Not started. Planned starting week of 2026-06-22, per weekly plan.**
+**Started — 2026-06-22 · branch: `ui/redesign`**
 
 ### Scope
 Current state: features work, but reads as a project, not a product. Goal: make Medicoord (and Commitr) look like something someone would pay for.
