@@ -75,3 +75,6 @@ skills-lock.json
 
 # fcm assets
 assets/
+
+# playwright-cli skill scratch output
+.playwright-cli/
