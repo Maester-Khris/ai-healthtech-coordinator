@@ -93,6 +93,27 @@ Moderate intensity, per Stratum.
 - List/message entrance: gentle opacity fade + slide-in
 - Use plain CSS transitions for hover/load states. Reach for the `motion` library only for gesture/spring-physics interactions explicitly needed (e.g. bottom sheet drag) — not routine hover states.
 
+## Sandbox exception
+
+`/sandbox` is a deliberately distinct dark "control room" environment — not
+patient-facing, narratively justified as a testing/ops zone. It is the one
+place in the app that uses **Aura's dark palette** directly instead of the
+Stratum base:
+
+| Role | Value |
+|---|---|
+| Background | `#050505` |
+| Surface | `#18181B` |
+| Text primary | `#FFFFFF` |
+| Text secondary | `#A1A1AA` |
+| Border | `#27272A` |
+| Label/mono | JetBrains Mono, 12px/600 |
+
+Sandbox still uses the same spacing/radius/motion tokens and the same
+severity ramp as the rest of the app — only the background/surface/text
+palette differs. `InspectorPanel`/`SimulationPanel` adopt Aura's dense
+bento/metric-panel hierarchy directly (its intended use case).
+
 ## Layout pattern split
 
 **Web (≥1024px) — Aura's dense dashboard pattern:**
@@ -117,4 +138,8 @@ Moderate intensity, per Stratum.
 4. Mobile app re-skin (MobileLayout, bottom nav dock, drawer, bottom sheet, tabs)
 
 Each of 2–4 gets its own spec → plan → implementation pass, drawing from this
-file as the token source.
+file as the token source:
+
+- `docs/superpowers/specs/2026-06-22-landing-legal-pages-design.md`
+- `docs/superpowers/specs/2026-06-22-web-app-reskin-design.md`
+- `docs/superpowers/specs/2026-06-22-mobile-app-reskin-design.md`
