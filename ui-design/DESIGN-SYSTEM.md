@@ -81,9 +81,12 @@ Applies to both web and mobile — this is the signature visual identity.
 
 ## Iconography
 
-`@phosphor-icons/react` at `weight="thin"` / `weight="light"` — already
-installed, natively matches the "1.5px linear stroke" requirement. No new
-icon dependency (drops the source spec's suggested Solar set).
+Keep **Tabler Icons** (`ti ti-*` webfont, already loaded via CDN link in
+`index.html`) — it's the actual incumbent icon system (used across 11 files,
+vs. `@phosphor-icons/react` and `react-icons` at 1 file each despite being
+installed). Tabler's set is linear/outline by design, already matching the
+"1.5px linear stroke" requirement. No new icon dependency, and no migration
+of existing icon usage. Drops the source spec's suggested Solar set.
 
 ## Motion
 
