@@ -130,6 +130,21 @@ bento/metric-panel hierarchy directly (its intended use case).
 - Tailwind v4 `@theme` block in `webapp/src/index.css` is the only place token *values* live in code. This doc is the decision record; code is the implementation.
 - Replaces the current ad-hoc `--color-primary` CSS vars and leftover Quicksand/Fredoka font imports in `index.css`.
 
+## Implementation tooling
+
+Each skill/tool below has one assigned job during implementation — none of
+them re-decide tokens or layout already locked in this doc:
+
+| Tool | Job | When |
+|---|---|---|
+| `frontend-design` skill | Aesthetic polish on a new component/screen (spacing feel, visual rhythm) within the locked tokens | While implementing any screen, sub-projects 2–4 |
+| `impeccable` skill | UX/accessibility/hierarchy review pass | After each screen is implemented, before marking it done |
+| `ui-ux-pro-max` skill | Accessibility specifics (contrast, touch targets, focus states) and chart/data-viz patterns | Sandbox `InspectorPanel`/`SimulationPanel` (data-dense panels), and a contrast check on the severity ramp |
+| `copywriting` skill | Persuasive landing-page copy pass | Sub-project 2 (landing page) only, replacing placeholder copy |
+| `ai-seo` skill | Make the landing page's content crawlable/citable by AI answer engines | Sub-project 2 (landing page) only — it's the one page public crawlers/LLMs will see |
+| `motion` library | Gesture/spring-physics interactions only (e.g. bottom sheet drag) | Sub-project 4 (mobile), specific interactions — not routine hover/transition CSS |
+| Playwright MCP/CLI | Drive a real browser post-implementation: screenshot each breakpoint (web ≥1024px / mobile <1024px), confirm severity-ramp colors render, confirm Sandbox dark zone vs. light app, confirm dock motion | End of every sub-project, before claiming it done — required per the "test UI changes in a browser" rule, not optional |
+
 ## Rollout sequence (per Sprint 13)
 
 1. Design system foundation (this doc + `@theme` tokens) — **this spec**
