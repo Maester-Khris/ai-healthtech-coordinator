@@ -70,6 +70,11 @@ Stratum, unchanged.
 - Gaps: 6px, 8px, 12px, 16px
 - Radius family: 2px, 3px, 4px, 5px, 6px, 8px (buttons 5px, cards 5–8px, large bezels up to 15px)
 
+Only `card-padding` (16px), `section-padding-sm` (24px), and `section-padding-lg`
+(56px) are named `@theme` spacing tokens — the rest of this scale is already
+covered by Tailwind v4's default 4px-multiple spacing utilities (`p-1`=4px,
+`p-2`=8px, `p-4`=16px, `p-5`=20px), so it doesn't need a separate named token.
+
 ## Material ("calculated skeuomorphism")
 
 Applies to both web and mobile — this is the signature visual identity.
