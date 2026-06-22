@@ -30,7 +30,7 @@
   - Severity: `--color-severity-routine`, `--color-severity-moderate`, `--color-severity-urgent`, `--color-severity-emergent` → `bg-severity-emergent`, `text-severity-urgent`, etc.
   - Sandbox: `--color-sandbox-bg`, `--color-sandbox-surface`, `--color-sandbox-text`, `--color-sandbox-text-muted`, `--color-sandbox-border` → `bg-sandbox-bg`, `text-sandbox-text`, etc.
   - Fonts: `--font-sans` (Inter), `--font-mono` (JetBrains Mono) → `font-sans`, `font-mono` utilities (these override Tailwind's built-in default font stack keys).
-  - Radius: `--radius-xs` (2px) through `--radius-bezel` (15px) → `rounded-xs` … `rounded-bezel`.
+  - Radius: `--radius-stratum-xs` (2px) through `--radius-stratum-bezel` (15px) → `rounded-stratum-xs` … `rounded-stratum-bezel` (prefixed to avoid colliding with Tailwind's built-in `sm`/`md`/`lg`/`xl` radius scale keys, which 39 existing usages across 14 files already depend on).
   - Spacing: `--spacing-card-padding` (16px), `--spacing-section-padding-sm` (24px), `--spacing-section-padding-lg` (56px) → `p-card-padding`, `gap-card-padding`, `p-section-padding-sm`, etc.
 
 - [ ] **Step 1: Replace the dead Ubuntu Google Fonts link and theme-color meta in `webapp/index.html`**
@@ -95,14 +95,17 @@ Replace the entire file content with:
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Radius family */
-  --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-control: 5px;
-  --radius-lg: 6px;
-  --radius-xl: 8px;
-  --radius-bezel: 15px;
+  /* Radius family — prefixed to avoid colliding with Tailwind's built-in
+     default radius scale keys (sm/md/lg/xl/2xl/3xl/full). Bare names here
+     would silently change every existing rounded-sm/md/lg/xl usage across
+     the app (39 usages, 14 files) before those components are re-skinned. */
+  --radius-stratum-xs: 2px;
+  --radius-stratum-sm: 3px;
+  --radius-stratum-md: 4px;
+  --radius-stratum-control: 5px;
+  --radius-stratum-lg: 6px;
+  --radius-stratum-xl: 8px;
+  --radius-stratum-bezel: 15px;
 
   /* Named spacing additions */
   --spacing-card-padding: 16px;
@@ -229,18 +232,19 @@ Note what this removes from the original file: the Quicksand/Fredoka `@import` l
 Run: `cd webapp && npx vite build`
 Expected: build succeeds with no CSS errors, output ends with `✓ built in`.
 
-- [ ] **Step 5: Grep the generated CSS for the new utility classes**
+- [ ] **Step 5: Grep the generated CSS for the tokens that are actually referenced, then verify the rest by re-reading your own code**
 
-Run: `cd webapp && grep -o "\.bg-stratum-bg\|\.text-severity-emergent\|\.bg-sandbox-bg\|\.rounded-control\|\.font-mono" dist/assets/*.css | sort -u`
-Expected output (order may vary):
+Tailwind v4 tree-shakes `@theme` custom properties that nothing references — not just their utility classes, the underlying CSS variable declaration itself is dropped. Right now, exactly two new tokens are referenced anywhere: `--color-stratum-bg` (via the `body` rule's `background-color: var(...)`) and `--font-sans` (via the `body` rule's `font-family: var(...)`; `--font-mono` also survives because Tailwind's own preflight applies it to `<code>`/`<pre>`/`<kbd>`/`<samp>`). Everything else you just added (severity ramp, sandbox palette, the rest of the Stratum colors, the radius family, the named spacing tokens) has zero consumers until sub-projects 2–4 land — their *absence* from the build output is correct, not a bug.
+
+Run: `cd webapp && grep -o "\-\-color-stratum-bg:[^;]*\|\-\-font-sans:[^;]*\|\-\-font-mono:[^;]*" dist/assets/*.css | sort -u`
+Expected output:
 ```
-.bg-sandbox-bg
-.bg-stratum-bg
-.font-mono
-.rounded-control
-.text-severity-emergent
+--color-stratum-bg:#eae5df
+--font-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace
+--font-sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif
 ```
-If any line is missing, the corresponding `@theme` entry has a typo — fix and re-run.
+
+For the remaining tokens (everything in `@theme` besides `--color-stratum-bg`/`--font-sans`/`--font-mono`), there is no compiled-output check available yet — verify correctness by re-reading the `@theme` block you wrote in Step 3 directly against this task's literal CSS, value by value.
 
 - [ ] **Step 6: Commit**
 
@@ -308,7 +312,7 @@ In `webapp/src/index.css`, immediately after the closing `}` of the `@theme` blo
 }
 @utility shell-bezel {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-stratum-lg);
   padding: 1px;
   background: linear-gradient(to bottom, #ffffff, #fdfbf7, #dcd6cc);
 }
@@ -323,16 +327,12 @@ In `webapp/src/index.css`, immediately after the closing `}` of the `@theme` blo
 Run: `cd webapp && npx vite build`
 Expected: build succeeds, no CSS errors.
 
-- [ ] **Step 3: Grep the generated CSS for the new utility classes**
+- [ ] **Step 3: Verify the new utilities compiled**
 
-Run: `cd webapp && grep -o "\.text-display-lg\|\.surface-card\|\.shell-bezel\|\.surface-sandbox-card" dist/assets/*.css | sort -u`
-Expected output:
-```
-.shell-bezel
-.surface-card
-.surface-sandbox-card
-.text-display-lg
-```
+`@utility` classes (unlike plain `@theme` custom properties) are still subject to Tailwind v4's usage-based generation — they won't appear in the build output unless referenced by a scanned source file, which none are yet (that's sub-projects 2–4's job). So this step verifies the CSS is syntactically valid and was processed, not that the class selectors exist in the output:
+
+Run: `cd webapp && npx vite build 2>&1 | tail -20`
+Expected: build succeeds with no CSS/PostCSS errors mentioning `@utility`, `surface-card`, `shell-bezel`, `text-display-lg`, etc. (a malformed `@utility` block fails the build outright rather than being silently dropped, so a clean build is sufficient proof here).
 
 - [ ] **Step 4: Commit**
 
