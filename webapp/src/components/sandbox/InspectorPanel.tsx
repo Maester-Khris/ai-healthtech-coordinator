@@ -72,7 +72,7 @@ function MockChatTab() {
         {messages.length === 0 ? (
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: 0.8 }}>
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--sb-accent)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
-              <i className="ti ti-message-circle-2" style={{ fontSize: 28, color: "#0F172A" }}></i>
+              <i className="ti ti-message-circle-2" style={{ fontSize: 28, color: "var(--sb-bg-primary)" }}></i>
             </div>
             <span style={{ fontSize: 16, fontWeight: 700, color: "var(--sb-text-primary)" }}>How are you feeling?</span>
             <span style={{ fontSize: 13, color: "var(--sb-text-muted)", marginTop: 6 }}>Describe your simulated patient symptoms</span>
@@ -98,7 +98,7 @@ function MockChatTab() {
                   border:
                     msg.role === "assistant" ? "1px solid rgba(245, 158, 11, 0.3)" : "1px solid transparent",
                   color:
-                    msg.role === "user" ? "#0F172A" : "var(--sb-text-primary)",
+                    msg.role === "user" ? "var(--sb-bg-primary)" : "var(--sb-text-primary)",
                   borderBottomRightRadius: msg.role === "user" ? 4 : 12,
                   borderBottomLeftRadius: msg.role === "assistant" ? 4 : 12,
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
@@ -177,7 +177,7 @@ function LogsTab() {
             lineHeight: 1.6,
           }}
         >
-          <span style={{ color: "#64748B", opacity: 0.85, paddingTop: 2 }}>
+          <span style={{ color: "var(--sb-text-muted)", opacity: 0.85, paddingTop: 2 }}>
             {entry.time}
           </span>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>

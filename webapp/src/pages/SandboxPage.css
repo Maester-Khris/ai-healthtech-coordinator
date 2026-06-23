@@ -1,12 +1,12 @@
 /* Sandbox CSS vars — scoped to .sandbox-layout only, no global bleed */
 .sandbox-layout {
-  --sb-bg-primary:     #0B0F19; /* Deep night blue */
-  --sb-bg-secondary:   #1E293B; /* Slate blue */
-  --sb-bg-tertiary:    #0F172A; /* Darker slate for contrast elements */
-  --sb-border:         rgba(255, 255, 255, 0.08); /* 1px solid crisp border */
-  --sb-text-primary:   #F1F5F9;
-  --sb-text-secondary: #94A3B8; /* Faint grey text */
-  --sb-text-muted:     #64748B;
+  --sb-bg-primary:     #050505; /* Aura background */
+  --sb-bg-secondary:   #18181B; /* Aura surface */
+  --sb-bg-tertiary:    #0A0A0A; /* Between primary and surface, for contrast elements */
+  --sb-border:         #27272A; /* Aura border */
+  --sb-text-primary:   #FFFFFF; /* Aura text primary */
+  --sb-text-secondary: #A1A1AA; /* Aura text secondary */
+  --sb-text-muted:     #71717A; /* Dimmer third tier, not in Aura's 5-token set */
   --sb-accent:         #F59E0B; /* Vibrant amber yellow */
   --sb-accent-dim:     rgba(245, 158, 11, 0.15);
   --sb-teal:           #1D9E75;
