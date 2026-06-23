@@ -24,8 +24,7 @@ export function SymptomInput({
 
   return (
     <div
-      className={`flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-2 ${className}`}
-      style={{ borderRadius: 14 }}
+      className={`flex items-center gap-2 bg-stratum-bg border border-stratum-border px-3 py-2 rounded-stratum-bezel ${className}`}
     >
       <textarea
         value={value}
@@ -34,15 +33,15 @@ export function SymptomInput({
         disabled={disabled}
         rows={1}
         placeholder={placeholder}
-        className="flex-1 bg-transparent resize-none text-[13px] text-gray-900 focus:outline-none placeholder-gray-400 disabled:cursor-not-allowed leading-5"
+        className="flex-1 bg-transparent resize-none text-[13px] text-stratum-text focus:outline-none placeholder-stratum-text-muted disabled:cursor-not-allowed leading-5"
         style={{ minHeight: 24 }}
       />
       <button
         onClick={onSend}
         disabled={disabled || !value.trim()}
         className={`w-8 h-8 rounded-full flex items-center justify-center flex-none transition-all ${!disabled && value.trim()
-            ? 'bg-blue-600 text-white'
-            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+            ? 'bg-stratum-accent text-white'
+            : 'bg-stratum-border text-stratum-text-muted cursor-not-allowed'
           }`}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none">

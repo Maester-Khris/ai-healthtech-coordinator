@@ -190,23 +190,23 @@ export function AiAssistantTab({
   const showTriageCard = triage.active && lastMsg?.role === 'assistant'
 
   return (
-    <div className="flex flex-col h-full bg-slate-50/50">
+    <div className="flex flex-col h-full bg-stratum-bg/50">
       {/* AI header */}
       <div
-        className="flex-none flex items-center justify-between px-4 bg-white border-b border-gray-100"
+        className="flex-none flex items-center justify-between px-4 surface-card border-b border-stratum-border"
         style={{ minHeight: 48, paddingTop: 10, paddingBottom: 10 }}
       >
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 flex-none animate-pulse" />
           <div>
-            <p className="text-[13px] font-bold text-gray-900 leading-tight">AI health assistant</p>
-            <p className="text-[10px] text-gray-400">Online · secure &amp; confidential</p>
+            <p className="text-[13px] font-bold text-stratum-text leading-tight">AI health assistant</p>
+            <p className="text-[10px] text-stratum-text-muted">Online · secure &amp; confidential</p>
           </div>
         </div>
         <button
           onClick={handleNewConversation}
           disabled={!user}
-          className="px-3 py-1.5 text-[11px] font-semibold text-blue-600 border border-blue-300 rounded-[20px] disabled:opacity-40 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 text-[11px] font-semibold text-stratum-accent-2 border border-stratum-accent-2/40 rounded-[20px] disabled:opacity-40 disabled:cursor-not-allowed"
           style={{ minHeight: 32 }}
         >
           ＋ New
@@ -226,14 +226,14 @@ export function AiAssistantTab({
         >
           {/* 1st in DOM → visual bottom */}
           {user && recentSessions.length > 0 && (
-            <div className="px-4 mt-4 pt-4 pb-2 border-t border-gray-100">
+            <div className="px-4 mt-4 pt-4 pb-2 border-t border-stratum-border">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
+                <span className="text-[10px] font-semibold text-stratum-text-muted uppercase tracking-wide">
                   Past conversations
                 </span>
                 <button
                   onClick={() => setPastConvosOpen(v => !v)}
-                  className="text-[11px] font-semibold text-blue-600"
+                  className="text-[11px] font-semibold text-stratum-accent-2"
                 >
                   {pastConvosOpen ? 'Hide' : 'See'}
                 </button>
@@ -250,18 +250,18 @@ export function AiAssistantTab({
                     <button
                       key={session.id}
                       onClick={() => handleSelectSession(session)}
-                      className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
+                      className="w-full text-left px-3 py-2.5 border border-stratum-border rounded-stratum-lg bg-white"
                     >
-                      <p className="text-[9px] font-semibold text-gray-700 leading-snug">
+                      <p className="text-[9px] font-semibold text-stratum-text leading-snug">
                         {session.title}
                       </p>
-                      <p className="text-[8px] text-gray-400 mt-0.5">
+                      <p className="text-[8px] text-stratum-text-muted mt-0.5">
                         {formatDate(session.updated_at)}
                       </p>
                     </button>
                   ))}
                 </div>
-                <button className="text-[11px] font-semibold text-blue-600 mt-2 block">See all</button>
+                <button className="text-[11px] font-semibold text-stratum-accent-2 mt-2 block">See all</button>
               </div>
             </div>
           )}
@@ -269,7 +269,7 @@ export function AiAssistantTab({
           {/* 2nd in DOM → visual top (message thread, chronological column within) */}
           <div className="flex flex-col gap-3 px-4 py-4">
             {loadingOlder && (
-              <p className="text-center text-[11px] text-gray-400 py-2">Loading older messages…</p>
+              <p className="text-center text-[11px] text-stratum-text-muted py-2">Loading older messages…</p>
             )}
             {localMessages.map((msg, idx) => {
               const isLastAssistant = msg.role === 'assistant' && idx === localMessages.length - 1
@@ -279,8 +279,8 @@ export function AiAssistantTab({
                     <div
                       className={`max-w-[80%] min-w-0 px-3 py-2 text-[13px] leading-snug break-words overflow-hidden ${
                         msg.role === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white border border-gray-200 text-gray-800 shadow-sm'
+                          ? 'bg-stratum-accent text-white'
+                          : 'bg-white border border-stratum-border text-stratum-text shadow-sm'
                       }`}
                       style={{
                         borderRadius:
@@ -308,7 +308,7 @@ export function AiAssistantTab({
         // Empty state — centered, no column-reverse needed
         <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col items-center justify-center gap-5">
           <div className="text-center">
-            <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 mx-auto mb-4">
+            <div className="w-14 h-14 rounded-stratum-lg bg-stratum-accent flex items-center justify-center mx-auto mb-4">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-white">
                 <path
                   d="M8 10h8M8 14h4M21 12c0 4.97-4.03 9-9 9-2.07 0-3.98-.7-5.5-1.88L3 20l.88-3.5C2.7 14.98 2 13.07 2 12c0-4.97 4.03-9 9-9s9 4.03 9 9z"
@@ -319,8 +319,8 @@ export function AiAssistantTab({
                 />
               </svg>
             </div>
-            <h3 className="text-[17px] font-bold text-gray-900">How are you feeling?</h3>
-            <p className="text-[13px] text-gray-500 mt-1 max-w-[240px] mx-auto">
+            <h3 className="text-[17px] font-bold text-stratum-text">How are you feeling?</h3>
+            <p className="text-[13px] text-stratum-text-muted mt-1 max-w-[240px] mx-auto">
               Describe your symptoms or ask a health-related question.
             </p>
           </div>
@@ -331,12 +331,12 @@ export function AiAssistantTab({
           {user && recentSessions.length > 0 && (
             <div className="w-full">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">
+                <span className="text-[10px] font-semibold text-stratum-text-muted uppercase tracking-wide">
                   Past conversations
                 </span>
                 <button
                   onClick={() => setPastConvosOpen(v => !v)}
-                  className="text-[11px] font-semibold text-blue-600"
+                  className="text-[11px] font-semibold text-stratum-accent-2"
                 >
                   {pastConvosOpen ? 'Hide' : 'See'}
                 </button>
@@ -353,18 +353,18 @@ export function AiAssistantTab({
                     <button
                       key={session.id}
                       onClick={() => handleSelectSession(session)}
-                      className="w-full text-left px-3 py-2.5 border border-gray-200 rounded-xl bg-white"
+                      className="w-full text-left px-3 py-2.5 border border-stratum-border rounded-stratum-lg bg-white"
                     >
-                      <p className="text-[9px] font-semibold text-gray-700 leading-snug">
+                      <p className="text-[9px] font-semibold text-stratum-text leading-snug">
                         {session.title}
                       </p>
-                      <p className="text-[8px] text-gray-400 mt-0.5">
+                      <p className="text-[8px] text-stratum-text-muted mt-0.5">
                         {formatDate(session.updated_at)}
                       </p>
                     </button>
                   ))}
                 </div>
-                <button className="text-[11px] font-semibold text-blue-600 mt-2 block">See all</button>
+                <button className="text-[11px] font-semibold text-stratum-accent-2 mt-2 block">See all</button>
               </div>
             </div>
           )}
@@ -375,20 +375,20 @@ export function AiAssistantTab({
       <ToolCallProgress stage={progressStage} />
 
       {/* Pinned input */}
-      <div className="flex-none px-4 pt-3 pb-5 bg-white border-t border-gray-100">
+      <div className="flex-none px-4 pt-3 pb-5 surface-card border-t border-stratum-border">
         <SymptomInput
           value={symptomValue}
           onChange={onSymptomChange}
           onSend={handleSend}
           disabled={!user}
-          className="bg-gray-50"
+          className="bg-white"
         />
         {geo.permission === 'denied' ? (
           <p className="text-[10px] font-semibold text-center mt-2">
-            <span style={{ color: '#E8813A' }}>⚠ Location blocked — facility map routing unavailable</span>
+            <span style={{ color: 'var(--color-severity-urgent)' }}>⚠ Location blocked — facility map routing unavailable</span>
           </p>
         ) : (
-          <p className="text-[10px] font-semibold text-center text-gray-400 mt-2 flex items-center justify-center gap-1">
+          <p className="text-[10px] font-semibold text-center text-stratum-text-muted mt-2 flex items-center justify-center gap-1">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
