@@ -67,7 +67,7 @@ export default function LandingPage() {
         <section className="max-w-3xl mx-auto px-8 pt-16 pb-20 text-center">
           <h1 className="text-display-lg text-stratum-text">Know where to go,<br />before you go.</h1>
           <p className="text-body-md text-stratum-text-muted mt-6 max-w-xl mx-auto">
-            Describe how you're feeling, and MediCoord AI matches your symptoms to the right nearby
+            Describe how you’re feeling, and MediCoord AI matches your symptoms to the right nearby
             facility — with a live route and arrival time, not just a search result.
           </p>
           <div className="flex items-center justify-center gap-4 mt-8">
