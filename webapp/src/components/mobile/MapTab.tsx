@@ -10,7 +10,7 @@ import { SymptomInput } from './SymptomInput'
 import { useNextActions } from '../../hooks/useNextActions'
 
 const NAV_H = 56
-const TAB_H = 46
+const DOCK_H = 64
 const MIN_SHEET_H = 70
 const INPUT_BAR_H = 72  // height of the slim input-only sheet when triage is inactive
 
@@ -37,7 +37,7 @@ export function MapTab({
   visible,
   onClear,
 }: MapTabProps) {
-  const [availH, setAvailH] = useState(() => window.innerHeight - NAV_H - TAB_H)
+  const [availH, setAvailH] = useState(() => window.innerHeight - NAV_H - DOCK_H)
   const [mapExpanded, setMapExpanded] = useState(false)
   const [sizeVersion, setSizeVersion] = useState(0)
 
@@ -45,7 +45,7 @@ export function MapTab({
     let timer: ReturnType<typeof setTimeout>
     const onResize = () => {
       clearTimeout(timer)
-      timer = setTimeout(() => setAvailH(window.innerHeight - NAV_H - TAB_H), 100)
+      timer = setTimeout(() => setAvailH(window.innerHeight - NAV_H - DOCK_H), 100)
     }
     window.addEventListener('resize', onResize)
     return () => {
@@ -182,7 +182,7 @@ export function MapTab({
             fontSize: 20,
             fontWeight: 'bold',
             lineHeight: 1,
-            color: '#1a3a5c',
+            color: 'var(--color-stratum-accent)',
             zIndex: 1000,
           }}
         >
@@ -198,19 +198,19 @@ export function MapTab({
             {recommended && (
               <>
                 <div className="flex-1 min-w-0 mr-1">
-                  <p className="text-[11px] font-semibold text-gray-900 truncate leading-tight">
+                  <p className="text-[11px] font-semibold text-stratum-text truncate leading-tight">
                     {recommended.name}
                   </p>
                   {route && (
-                    <p className="text-[9px] text-gray-500">
+                    <p className="text-[9px] text-stratum-text-muted">
                       {route.etaMinutes} min · {route.distanceKm} km
                     </p>
                   )}
                 </div>
                 <button
                   onClick={() => getDirections(recommended.name, recommended.lat, recommended.lng)}
-                  className="flex-none text-[11px] font-bold text-white rounded-lg px-3"
-                  style={{ background: '#1a3a5c', minHeight: 44, minWidth: 44 }}
+                  className="flex-none text-[11px] font-bold text-white rounded-stratum-md px-3"
+                  style={{ background: 'var(--color-stratum-accent)', minHeight: 44, minWidth: 44 }}
                 >
                   Nav
                 </button>

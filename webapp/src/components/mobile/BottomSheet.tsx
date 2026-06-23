@@ -9,7 +9,7 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
     return (
       <div
         ref={ref}
-        className="flex flex-col bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.08)] overflow-hidden"
+        className="flex flex-col surface-card border-t border-stratum-border overflow-hidden"
         style={{ flexShrink: 0 }}
       >
         {/* DRAG DISABLED — revisit later */}
