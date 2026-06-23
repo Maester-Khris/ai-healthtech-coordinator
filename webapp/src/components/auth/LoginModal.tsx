@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../../auth/useAuth"
 
 interface LoginModalProps {
@@ -12,6 +12,10 @@ export function LoginModal({ isOpen, onClose, defaultTab = "signin" }: LoginModa
   const [tab, setTab] = useState<"signin" | "signup">(defaultTab)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  useEffect(() => {
+    if (isOpen) setTab(defaultTab)
+  }, [isOpen, defaultTab])
 
   if (!isOpen) return null
 
