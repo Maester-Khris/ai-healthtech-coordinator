@@ -5,11 +5,11 @@ import { LoginModal } from '../components/auth/LoginModal'
 const STEPS = [
   {
     title: 'Describe your symptoms',
-    body: 'Tell us what\'s going on in plain language. No forms, no symptom checklists.',
+    body: 'Tell us what’s going on in plain language. No forms, no symptom checklists.',
   },
   {
     title: 'Get an instant severity check',
-    body: 'MediCoord AI reviews what you\'ve described and determines how urgent it is.',
+    body: 'MediCoord AI reviews what you’ve described and determines how urgent it is.',
   },
   {
     title: 'Get routed to the right place',
@@ -24,11 +24,11 @@ const FEATURES = [
   },
   {
     title: 'Severity-aware routing',
-    body: 'MediCoord AI tells routine concerns apart from urgent ones, so you\'re matched to a facility actually equipped to help — not just the closest one.',
+    body: 'MediCoord AI tells routine concerns apart from urgent ones, so you’re matched to a facility actually equipped to help — not just the closest one.',
   },
   {
     title: 'Stay in the loop',
-    body: 'Get notified if your situation or facility status changes, so you\'re not left checking back manually.',
+    body: 'Get notified if your situation or facility status changes, so you’re not left checking back manually.',
   },
 ]
 
