@@ -6,6 +6,9 @@ import SetupPage from './pages/SetupPage'
 import TestLocationPage from './pages/TestLocationPage'
 import TestNotifPage from './pages/TestNotifPage'
 import SandboxPage from './pages/SandboxPage'
+import PrivacyPage from './pages/PrivacyPage'
+import CookiesPage from './pages/CookiesPage'
+import DataDisclosurePage from './pages/DataDisclosurePage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -123,6 +126,9 @@ function App() {
             <Route path="/testlocation" element={<TestLocationPage />} />
             <Route path="/sandbox" element={<SandboxPage />} />
             <Route path="/test-notif" element={<TestNotifPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/data-disclosure" element={<DataDisclosurePage />} />
             <Route path="*" element={<AppInner />} />
           </Routes>
         </BrowserRouter>
