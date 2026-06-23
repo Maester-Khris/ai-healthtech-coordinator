@@ -153,6 +153,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
       <div
         role="dialog"
         aria-modal="true"
+        className="surface-card"
         style={{
           position: 'fixed',
           top: 0,
@@ -160,8 +161,6 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
           zIndex: 50,
           width: 260,
           height: '100%',
-          background: '#ffffff',
-          boxShadow: '-4px 0 24px rgba(0,0,0,0.12)',
           display: 'flex',
           flexDirection: 'column',
           transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
@@ -175,7 +174,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
               width: 48,
               height: 48,
               borderRadius: '50%',
-              background: '#2563eb',
+              background: 'var(--color-stratum-accent)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -188,16 +187,16 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             {initials}
           </div>
           <div style={{ minWidth: 0 }}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: '#111827', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-stratum-text)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {displayName}
             </p>
-            <p style={{ fontSize: 12, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 12, color: 'var(--color-stratum-text-muted)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {email}
             </p>
           </div>
         </div>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'var(--color-stratum-border)', margin: '0 20px' }} />
 
         {/* Home */}
         <button
@@ -213,17 +212,17 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: 'var(--color-stratum-text)',
           }}
         >
           <HomeIcon />
           <span style={{ flex: 1, fontSize: 14 }}>Home</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: 'var(--color-stratum-text-muted)' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'var(--color-stratum-border)', margin: '0 20px' }} />
 
         {/* My profile */}
         <button
@@ -239,17 +238,17 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: 'var(--color-stratum-text)',
           }}
         >
           <ProfileIcon />
           <span style={{ flex: 1, fontSize: 14 }}>My profile</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: 'var(--color-stratum-text-muted)' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'var(--color-stratum-border)', margin: '0 20px' }} />
 
         {/* Test notifications */}
         <button
@@ -265,17 +264,17 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: 'var(--color-stratum-text)',
           }}
         >
           <BellIcon />
           <span style={{ flex: 1, fontSize: 14 }}>Test notifications</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: 'var(--color-stratum-text-muted)' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'var(--color-stratum-border)', margin: '0 20px' }} />
 
         {/* Sign out */}
         <button
