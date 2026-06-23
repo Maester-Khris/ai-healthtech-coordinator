@@ -221,7 +221,7 @@ export function MapTab({
               onChange={onSymptomChange}
               onSend={onSymptomSend}
               disabled={inputDisabled}
-              className="flex-1"
+              className="flex-1 bg-white"
             />
           </div>
         ) : (
@@ -234,6 +234,7 @@ export function MapTab({
                 onChange={onSymptomChange}
                 onSend={onSymptomSend}
                 disabled={inputDisabled}
+                className="bg-white"
               />
             </div>
           </div>
