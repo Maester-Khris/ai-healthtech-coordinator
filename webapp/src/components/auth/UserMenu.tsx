@@ -116,7 +116,7 @@ export function UserMenu() {
 
   const handleHome = () => {
     setOpen(false)
-    navigate("/")
+    navigate("/app")
   }
 
   const handleProfile = () => {

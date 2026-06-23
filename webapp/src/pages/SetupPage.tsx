@@ -24,7 +24,7 @@ export default function SetupPage() {
       getting_started_done: true,
     })
     setSaving(false)
-    navigate('/')
+    navigate('/app')
   }
 
   const locationOptions = [
