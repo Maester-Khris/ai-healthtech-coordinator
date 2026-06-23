@@ -100,28 +100,8 @@ export function MobileLayout({
   }
 
   return (
-    <div className="flex flex-col bg-[#F8FAFC]" style={{ height: '100dvh' }}>
+    <div className="flex flex-col bg-stratum-bg" style={{ height: '100dvh' }}>
       <MobileNavBar />
-
-      {/* Tab bar — 36px */}
-      <div
-        className="flex-none flex bg-white border-b border-gray-100 z-10"
-        style={{ height: 46 }}
-      >
-        {(['map', 'ai'] as Tab[]).map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-[12px] font-semibold transition-colors border-b-2 ${activeTab === tab
-              ? 'text-blue-600 border-blue-600'
-              : 'text-gray-400 border-transparent'
-              }`}
-          >
-            {tab === 'map' ? <MapIcon /> : <ChatIcon />}
-            {tab === 'map' ? 'Map view' : 'AI assistant'}
-          </button>
-        ))}
-      </div>
 
       {/* Tab content — both mounted to keep Leaflet alive */}
       <div className="flex-1 overflow-hidden relative">
@@ -161,6 +141,29 @@ export function MobileLayout({
             symptomValue={symptomValue}
             onSymptomChange={setSymptomValue}
           />
+        </div>
+      </div>
+
+      {/* Navigation Dock — floating bottom tab switcher */}
+      <div className="flex-none flex items-center justify-center px-4 pb-3" style={{ height: 64 }}>
+        <div className="flex items-center gap-1 w-full max-w-sm surface-card shell-bezel rounded-stratum-bezel backdrop-blur-xl p-1.5">
+          {(['map', 'ai'] as Tab[]).map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`relative flex-1 flex items-center justify-center gap-1.5 py-2.5 text-label-md rounded-stratum-control transition-colors ${
+                activeTab === tab
+                  ? 'text-white bg-stratum-accent'
+                  : 'text-stratum-text-muted'
+              }`}
+            >
+              {tab === 'map' ? <MapIcon /> : <ChatIcon />}
+              {tab === 'map' ? 'Map view' : 'AI assistant'}
+              {activeTab === tab && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-stratum-accent-3 animate-pulse" />
+              )}
+            </button>
+          ))}
         </div>
       </div>
     </div>

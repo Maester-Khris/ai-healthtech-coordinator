@@ -32,16 +32,16 @@ export function MobileNavBar() {
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} defaultTab="signin" />
 
       <header
-        className="flex-none flex items-center justify-between px-4 bg-white border-b border-gray-200 z-10 shadow-sm"
+        className="flex-none flex items-center justify-between px-4 bg-stratum-bg border-b border-stratum-border z-10"
         style={{ height: 56 }}
       >
         {/* Logo */}
         <Link to="/app" className="flex items-center gap-2 no-underline">
-          <div className="w-7 h-7 rounded-lg overflow-hidden shadow-sm flex-none">
+          <div className="w-7 h-7 rounded-stratum-control overflow-hidden shadow-sm flex-none">
             <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
           </div>
-          <span className="text-[15px] font-bold text-gray-900 tracking-tight">
-            MediCoord<span className="text-blue-600">AI</span>
+          <span className="text-[15px] font-bold text-stratum-text tracking-tight">
+            MediCoord<span className="text-stratum-accent">AI</span>
           </span>
         </Link>
 
@@ -49,13 +49,13 @@ export function MobileNavBar() {
         {user ? (
           <div className="flex items-center gap-1 flex-none">
             {/* Avatar — identity indicator, not interactive */}
-            <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-[11px] font-bold select-none">
+            <div className="w-7 h-7 rounded-full bg-stratum-accent flex items-center justify-center text-white text-[11px] font-bold select-none">
               {initials}
             </div>
             {/* Hamburger — opens drawer */}
             <button
               onClick={() => setDrawerOpen(true)}
-              className="flex items-center justify-center text-gray-700 rounded-md"
+              className="flex items-center justify-center text-stratum-text-muted hover:text-stratum-text rounded-stratum-md"
               style={{ minWidth: 36, minHeight: 36 }}
               aria-label="Open menu"
             >
@@ -65,7 +65,7 @@ export function MobileNavBar() {
         ) : (
           <button
             onClick={() => setLoginOpen(true)}
-            className="text-[12px] font-semibold text-blue-600 px-3 py-1.5"
+            className="text-[12px] font-semibold text-stratum-accent px-3 py-1.5"
             style={{ minHeight: 36 }}
           >
             Sign in
