@@ -52,7 +52,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
 
   return (
-    <div className="flex flex-col h-screen bg-[#F8FAFC]">
+    <div className="flex flex-col h-screen bg-stratum-bg">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
       {user && profile && !profile.getting_started_done && !onboardingDismissed && (
         <GettingStartedModal
@@ -69,13 +69,13 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         ) : (
           <>
             <button
-              className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors"
+              className="px-4 py-2 text-sm font-semibold text-stratum-text-muted hover:text-stratum-text transition-colors"
               onClick={openSignIn}
             >
               Sign in
             </button>
             <button
-              className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-lg bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all active:scale-95"
+              className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-stratum-control bg-stratum-accent hover:opacity-90 transition-all active:scale-95"
               onClick={openSignUp}
             >
               Get started
@@ -90,7 +90,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
       {/* Body — 70/30 split */}
       <div className="flex flex-1 overflow-hidden p-5 gap-5">
         {/* Map panel */}
-        <div className="flex-[7] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative">
+        <div className="flex-[7] overflow-hidden surface-card shell-bezel rounded-stratum-lg relative">
           <MapPanel
             facilities={facilities}
             facilitiesLoading={facilitiesLoading}
@@ -100,7 +100,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         </div>
 
         {/* Chat panel */}
-        <div className="flex-[3] overflow-hidden rounded-2xl shadow-sm border border-gray-200 bg-white relative min-w-[320px]">
+        <div className="flex-[3] overflow-hidden surface-card shell-bezel rounded-stratum-lg relative min-w-[320px]">
           <ChatPanel
             key={sessionKey}
             user={user}
@@ -119,19 +119,18 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
 
       {/* Footer */}
       <div
-        className="flex-none flex items-center justify-between px-8"
+        className="flex-none flex items-center justify-between px-8 border-stratum-border text-stratum-text-muted"
         style={{
           height: 28,
-          borderTop: "0.5px solid #e2e8f0",
+          borderTopWidth: "0.5px",
           fontSize: 11,
-          color: "#94a3b8",
         }}
       >
         <span>MediCoord AI · Health Tech Platform</span>
         <Link
           to="/sandbox"
-          className="flex items-center gap-1 no-underline"
-          style={{ color: "#94a3b8", fontWeight: 600 }}
+          className="flex items-center gap-1 no-underline text-stratum-text-muted hover:text-stratum-text"
+          style={{ fontWeight: 600 }}
         >
           <i className="ti ti-flask" style={{ fontSize: 12, color: "#EF9F27" }} />
           Open Sandbox →
