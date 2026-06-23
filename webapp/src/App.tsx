@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react"
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './Menucomponents/Home'
 import SetupPage from './pages/SetupPage'
 import TestLocationPage from './pages/TestLocationPage'
@@ -9,6 +9,7 @@ import SandboxPage from './pages/SandboxPage'
 import PrivacyPage from './pages/PrivacyPage'
 import CookiesPage from './pages/CookiesPage'
 import DataDisclosurePage from './pages/DataDisclosurePage'
+import LandingPage from './pages/LandingPage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -21,6 +22,14 @@ import { useBreakpoint } from './hooks/useBreakpoint'
 import { useGeolocation } from './hooks/useGeolocation'
 import { usePWAInstall } from './hooks/usePWAInstall'
 import { useNotificationPermission } from './hooks/useNotificationPermission'
+import { useAuth } from './auth/useAuth'
+
+function LandingRoute() {
+  const { user, loading } = useAuth()
+  if (loading) return null
+  if (user) return <Navigate to="/app" replace />
+  return <LandingPage />
+}
 
 function AppInner() {
   const isMobile = useBreakpoint()
@@ -122,6 +131,8 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingRoute />} />
+            <Route path="/app" element={<AppInner />} />
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/testlocation" element={<TestLocationPage />} />
             <Route path="/sandbox" element={<SandboxPage />} />
@@ -129,7 +140,7 @@ function App() {
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
             <Route path="/data-disclosure" element={<DataDisclosurePage />} />
-            <Route path="*" element={<AppInner />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

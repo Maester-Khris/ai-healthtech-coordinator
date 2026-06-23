@@ -7,7 +7,7 @@ interface WebNavBarProps {
 export function WebNavBar({ rightContent }: WebNavBarProps) {
   return (
     <header className="flex-none flex items-center justify-between px-8 bg-white border-b border-gray-200 shadow-sm z-10" style={{ height: 64 }}>
-      <Link to="/" className="flex items-center gap-3 no-underline">
+      <Link to="/app" className="flex items-center gap-3 no-underline">
         <div className="flex items-center justify-center w-10 h-10 rounded-xl flex-none overflow-hidden shadow-md">
           <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
         </div>

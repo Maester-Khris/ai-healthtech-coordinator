@@ -36,7 +36,7 @@ export function MobileNavBar() {
         style={{ height: 56 }}
       >
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 no-underline">
+        <Link to="/app" className="flex items-center gap-2 no-underline">
           <div className="w-7 h-7 rounded-lg overflow-hidden shadow-sm flex-none">
             <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
           </div>
