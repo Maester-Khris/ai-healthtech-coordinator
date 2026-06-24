@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom'
 import { LegalPageLayout } from '../components/legal/LegalPageLayout'
 
 export default function DataDisclosurePage() {
   return (
-    <LegalPageLayout title="Data Disclosure" lastUpdated="June 22, 2026">
+    <LegalPageLayout title="Data Disclosure" lastUpdated="June 24, 2026">
       <p>
         This page itemizes exactly what data MediCoord AI collects, in one
         place, for transparency. For the full narrative explanation of your
-        rights and choices, see our <a href="/privacy">Privacy Policy</a>.
+        rights and choices, see our <Link to="/privacy">Privacy Policy</Link>.
       </p>
 
       <table>
@@ -30,3 +31,4 @@ export default function DataDisclosurePage() {
     </LegalPageLayout>
   )
 }
+

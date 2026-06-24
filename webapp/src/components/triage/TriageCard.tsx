@@ -8,9 +8,9 @@ interface TriageCardProps {
 
 const SEVERITY_COLORS: Record<string, { bg: string; text: string }> = {
   emergent: { bg: "#E24B4A", text: "#fff" },
-  urgent:   { bg: "#E8813A", text: "#fff" },
+  urgent: { bg: "#E8813A", text: "#fff" },
   moderate: { bg: "#D4A017", text: "#fff" },
-  routine:  { bg: "#1D9E75", text: "#fff" },
+  routine: { bg: "#1D9E75", text: "#fff" },
 }
 
 export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
@@ -133,7 +133,7 @@ export function TriageCard({ triage, emergencyContactPhone }: TriageCardProps) {
                   }}>
                     {facility.category === "hospital" ? "Hospital"
                       : facility.category === "ambulatory" ? "Walk-in"
-                      : "Care"}
+                        : "Care"}
                   </span>
                 </div>
               </div>

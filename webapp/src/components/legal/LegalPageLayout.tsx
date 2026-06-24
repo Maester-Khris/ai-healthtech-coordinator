@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'motion/react'
+import { LoginModal } from '../auth/LoginModal'
 
 interface LegalPageLayoutProps {
   title: string
@@ -8,18 +11,86 @@ interface LegalPageLayoutProps {
 }
 
 export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayoutProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalTab, setModalTab] = useState<'signin' | 'signup'>('signin')
+
+  const openSignIn = () => {
+    setModalTab('signin')
+    setIsModalOpen(true)
+  }
+
+  const openSignUp = () => {
+    setModalTab('signup')
+    setIsModalOpen(true)
+  }
+
   return (
-    <div className="min-h-screen bg-stratum-bg">
-      <div className="max-w-2xl mx-auto px-6 py-12">
-        <Link to="/" className="text-body-md text-stratum-text-muted no-underline hover:underline">
-          ← Back to home
-        </Link>
-        <h1 className="text-display-md mt-6 mb-1 text-stratum-text">{title}</h1>
-        <p className="text-body-md text-stratum-text-muted mb-8">Last updated: {lastUpdated}</p>
-        <div className="text-body-md text-stratum-text space-y-6 [&_h2]:text-label-md [&_h2]:uppercase [&_h2]:tracking-wide [&_h2]:text-stratum-accent-2 [&_h2]:mt-8 [&_h2]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_table]:w-full [&_table]:border-collapse [&_th]:text-label-md [&_th]:text-left [&_th]:border-b [&_th]:border-stratum-border [&_th]:py-2 [&_td]:border-b [&_td]:border-stratum-border [&_td]:py-2 [&_td]:align-top">
-          {children}
+    <div className="min-h-screen bg-[#061219] flex flex-col font-sans text-[#E2F1F5] selection:bg-[#48F6C1]/30">
+      <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
+
+      {/* Modern Navigation Header */}
+      <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 no-underline">
+            <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
+              <img src="/logo.png" alt="MediCoord AI Logo" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-label-md font-bold tracking-wide text-white uppercase">MediCoord AI</span>
+          </Link>
+
+          <div className="flex items-center gap-6">
+            <button onClick={openSignIn} className="text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer bg-transparent border-none">
+              Sign in
+            </button>
+            <button
+              onClick={openSignUp}
+              className="px-4 py-2 text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95 border-none"
+            >
+              Get started
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
+
+      {/* Main Workspace Layout */}
+      <main className="flex-1 max-w-4xl w-full mx-auto px-6 py-12 md:py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
+          {/* Back link */}
+          <Link to="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7AA0B0] hover:text-[#00D2FF] no-underline transition-colors mb-6">
+            ← Back to home
+          </Link>
+
+          {/* Premium Glassmorphic Data Card */}
+          <div className="bg-[#0A1D27]/80 backdrop-blur-md border border-[#1C4659]/50 rounded-2xl p-6 md:p-10 shadow-2xl">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-2">
+              {title}
+            </h1>
+            <p className="text-xs font-mono text-[#85A4B1] mb-8 border-b border-[#1C4659]/30 pb-4">
+              Last updated: {lastUpdated}
+            </p>
+
+            <div className="text-body-md text-[#85A4B1] space-y-6 [&_a]:text-[#48F6C1] [&_a]:no-underline [&_a:hover]:underline [&_h2]:text-[18px] [&_h2]:font-bold [&_h2]:text-white [&_h2]:tracking-wide [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:border-b [&_h2]:border-[#1C4659]/30 [&_h2]:pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2 [&_table]:w-full [&_table]:border-collapse [&_table]:my-6 [&_th]:text-[11px] [&_th]:font-bold [&_th]:font-mono [&_th]:text-[#00D2FF] [&_th]:uppercase [&_th]:tracking-wider [&_th]:text-left [&_th]:border-b [&_th]:border-[#1C4659]/80 [&_th]:py-3 [&_th]:px-4 [&_td]:border-b [&_td]:border-[#1C4659]/40 [&_td]:py-3 [&_td]:px-4 [&_td]:align-top [&_td]:text-[#E2F1F5] [&_tr:hover]:bg-[#132E3C]/20 [&_strong]:text-white">
+              {children}
+            </div>
+          </div>
+        </motion.div>
+      </main>
+
+      {/* Footer */}
+      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 py-6 mt-auto">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
+          <span>© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
+          <div className="flex items-center gap-6">
+            <Link to="/privacy" className="hover:text-white transition-colors no-underline">Privacy Policy</Link>
+            <Link to="/cookies" className="hover:text-white transition-colors no-underline">Cookie Policy</Link>
+            <Link to="/data-disclosure" className="hover:text-white transition-colors no-underline">Data Disclosure</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

@@ -85,15 +85,13 @@ export function GettingStartedModal({ onComplete, onClose, geo }: GettingStarted
                   const position = await geo.requestOnce()
                   if (position) geo.setCoords(position)
                 }}
-                className={`flex items-start gap-3 px-4 py-3 rounded-stratum-md border text-left transition-all ${
-                  locationPreference === 'always'
+                className={`flex items-start gap-3 px-4 py-3 rounded-stratum-md border text-left transition-all ${locationPreference === 'always'
                     ? 'border-stratum-accent bg-stratum-bg'
                     : 'border-stratum-border bg-white hover:border-stratum-accent-2'
-                }`}
+                  }`}
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex-none flex items-center justify-center transition-colors ${
-                  locationPreference === 'always' ? 'border-stratum-accent' : 'border-stratum-border'
-                }`}>
+                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex-none flex items-center justify-center transition-colors ${locationPreference === 'always' ? 'border-stratum-accent' : 'border-stratum-border'
+                  }`}>
                   {locationPreference === 'always' && (
                     <div className="w-2 h-2 rounded-full bg-stratum-accent" />
                   )}
@@ -107,15 +105,13 @@ export function GettingStartedModal({ onComplete, onClose, geo }: GettingStarted
               <button
                 type="button"
                 onClick={() => setLocationPreference('ask')}
-                className={`flex items-start gap-3 px-4 py-3 rounded-stratum-md border text-left transition-all ${
-                  locationPreference === 'ask'
+                className={`flex items-start gap-3 px-4 py-3 rounded-stratum-md border text-left transition-all ${locationPreference === 'ask'
                     ? 'border-stratum-accent bg-stratum-bg'
                     : 'border-stratum-border bg-white hover:border-stratum-accent-2'
-                }`}
+                  }`}
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex-none flex items-center justify-center transition-colors ${
-                  locationPreference === 'ask' ? 'border-stratum-accent' : 'border-stratum-border'
-                }`}>
+                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex-none flex items-center justify-center transition-colors ${locationPreference === 'ask' ? 'border-stratum-accent' : 'border-stratum-border'
+                  }`}>
                   {locationPreference === 'ask' && (
                     <div className="w-2 h-2 rounded-full bg-stratum-accent" />
                   )}

@@ -210,11 +210,10 @@ export function ChatPanel({
             <button
               onClick={handleNewConversation}
               disabled={!user}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
-                user
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${user
                   ? "text-gray-600 border-gray-200 bg-white hover:border-gray-300 hover:text-gray-900"
                   : "text-gray-300 border-gray-100 bg-gray-50 cursor-not-allowed"
-              }`}
+                }`}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
@@ -278,11 +277,10 @@ export function ChatPanel({
                 <div key={msg.id}>
                   <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[80%] min-w-0 rounded-2xl px-4 py-2.5 text-sm break-words overflow-hidden ${
-                        msg.role === "user"
+                      className={`max-w-[80%] min-w-0 rounded-2xl px-4 py-2.5 text-sm break-words overflow-hidden ${msg.role === "user"
                           ? "bg-blue-600 text-white rounded-br-sm"
                           : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
-                      }`}
+                        }`}
                     >
                       {msg.content}
                     </div>
@@ -358,11 +356,10 @@ export function ChatPanel({
             <button
               disabled={!user || !content.trim()}
               onClick={handleSend}
-              className={`w-8 h-8 rounded-lg flex items-center justify-center text-white transition-all shadow-md active:scale-95 ${
-                user && content.trim()
+              className={`w-8 h-8 rounded-lg flex items-center justify-center text-white transition-all shadow-md active:scale-95 ${user && content.trim()
                   ? "bg-blue-600 hover:bg-blue-700 shadow-blue-500/20"
                   : "bg-gray-200 cursor-not-allowed shadow-none"
-              }`}
+                }`}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

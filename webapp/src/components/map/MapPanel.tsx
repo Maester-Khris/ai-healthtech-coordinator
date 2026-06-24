@@ -15,21 +15,21 @@ import { FacilityLegend } from './components/FacilityLegend'
 import { CategoryFilterDropdown } from './components/CategoryFilterDropdown'
 
 interface MapPanelProps {
-  facilities:        Facility[]
+  facilities: Facility[]
   facilitiesLoading: boolean
-  triage?:           TriageUIState
-  verticalLegend?:   boolean
-  sizeVersion?:      number
-  onClear?:          () => void
+  triage?: TriageUIState
+  verticalLegend?: boolean
+  sizeVersion?: number
+  onClear?: () => void
 }
 
 export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0, onClear }: MapPanelProps) {
-  const isMobile    = useBreakpoint()
+  const isMobile = useBreakpoint()
   const pinnedIdRef = useRef<string | null>(null)
 
-  const activeTriage     = triage ?? INACTIVE_TRIAGE
+  const activeTriage = triage ?? INACTIVE_TRIAGE
   const triageCandidates = buildTriageCandidates(activeTriage)
-  const recommendedId    = activeTriage.recommendedFacilityId
+  const recommendedId = activeTriage.recommendedFacilityId
 
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all")
 
@@ -38,9 +38,9 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
   }, [activeTriage.active])
 
   const counts = {
-    all:         facilities.length,
-    hospital:    facilities.filter(f => f.category === "hospital").length,
-    ambulatory:  facilities.filter(f => f.category === "ambulatory").length,
+    all: facilities.length,
+    hospital: facilities.filter(f => f.category === "hospital").length,
+    ambulatory: facilities.filter(f => f.category === "ambulatory").length,
     residential: facilities.filter(f => f.category === "residential").length,
   }
 

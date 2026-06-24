@@ -2,7 +2,7 @@ import { LegalPageLayout } from '../components/legal/LegalPageLayout'
 
 export default function PrivacyPage() {
   return (
-    <LegalPageLayout title="Privacy Policy" lastUpdated="June 22, 2026">
+    <LegalPageLayout title="Privacy Policy" lastUpdated="June 24, 2026">
       <p>
         MediCoord AI ("we", "us") helps you describe symptoms and find the
         right nearby healthcare facility. This policy explains what
