@@ -152,21 +152,74 @@ body {
 /* ETA route tooltips on triage map */
 .eta-tooltip,
 .eta-tooltip-permanent {
-  background: rgba(255, 255, 255, 0.92);
-  border: 0.5px solid #cbd5e1;
+  background: rgba(6, 18, 25, 0.90);
+  border: 0.5px solid rgba(28, 70, 89, 0.7);
   border-radius: 6px;
   padding: 3px 8px;
   font-size: 12px;
-  color: #334;
+  color: #A0B8C4;
   box-shadow: none;
 }
 
 .eta-tooltip-permanent {
-  font-weight: 500;
+  font-weight: 600;
+  color: #E2F1F5;
+}
+
+/* Leaflet controls — dark-themed for dark map */
+.leaflet-control-zoom a {
+  background: rgba(6, 18, 25, 0.88) !important;
+  color: #A0B8C4 !important;
+  border-color: rgba(28, 70, 89, 0.6) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(28, 70, 89, 0.5) !important;
+  color: #E2F1F5 !important;
+}
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(6, 18, 25, 0.75) !important;
+  color: #7AA0B0 !important;
+  font-size: 10px !important;
+}
+.leaflet-control-attribution a {
+  color: #48F6C1 !important;
+}
+/* Popup dark glass */
+.leaflet-popup-content-wrapper {
+  background: rgba(6, 18, 25, 0.94) !important;
+  border: 1px solid rgba(28, 70, 89, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  border-radius: 10px !important;
+  color: #E2F1F5 !important;
+}
+.leaflet-popup-tip {
+  background: rgba(6, 18, 25, 0.94) !important;
+}
+.leaflet-popup-close-button {
+  color: #7AA0B0 !important;
+}
+.leaflet-popup-close-button:hover {
+  color: #E2F1F5 !important;
+  background: transparent !important;
 }
 
 /* =========== Animation =================
 */
+
+/* Agent parser log — line fade-in (ToolCallProgress) */
+@keyframes agentLogFade {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.agent-log-line {
+  animation: agentLogFade 0.25s ease-out both;
+}
+
 @keyframes floating-object {
   0% {
     transform: translateY(-20px);

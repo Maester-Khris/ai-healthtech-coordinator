@@ -37,53 +37,30 @@ export function getFacilityIcon(
   const isRecommended = triageActive && !!facility.id && facility.id === recommendedId
   const isCandidate = triageActive && !isRecommended
 
-  const size    = isRecommended ? 40 : 28
-  const svgSize = isRecommended ? 60 : 36
-  const textSize = isRecommended ? 17 : 12
-  const opacity = isCandidate ? 0.55 : 1
-  const bg = style.color
+  const diameter = isRecommended ? 36 : 22
+  const svgSize  = isRecommended ? 64 : 36
+  const textSize = isRecommended ? 14 : 10
+  const opacity  = isCandidate ? 0.4 : 1
+  const bg       = style.color
+  const cx = svgSize / 2
+  const cy = svgSize / 2
+  const r  = diameter / 2
 
-  const pulse = isRecommended
-    ? `<circle
-         cx="${svgSize / 2}" cy="${svgSize / 2}"
-         r="${size / 2 + 4}"
-         fill="none"
-         stroke="${bg}"
-         stroke-width="2"
-         opacity="0.4">
-         <animate attributeName="r"
-           values="${size / 2 + 4};${size / 2 + 12}"
-           dur="1.5s" repeatCount="indefinite"/>
-         <animate attributeName="opacity"
-           values="0.4;0" dur="1.5s" repeatCount="indefinite"/>
-       </circle>`
-    : ""
-
-  const offset = (svgSize - size) / 2
+  // Recommended: mint pulse ring + static mint border
+  const rings = isRecommended
+    ? `<circle cx="${cx}" cy="${cy}" r="${r + 6}" fill="none" stroke="#48F6C1" stroke-width="1.5" opacity="0.5">
+         <animate attributeName="r" values="${r + 6};${r + 18}" dur="1.8s" repeatCount="indefinite"/>
+         <animate attributeName="opacity" values="0.5;0" dur="1.8s" repeatCount="indefinite"/>
+       </circle>
+       <circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="none" stroke="#48F6C1" stroke-width="1.5" opacity="0.85"/>`
+    : ''
 
   return L.divIcon({
-    className: "",
-    html: `<svg
-             xmlns="http://www.w3.org/2000/svg"
-             width="${svgSize}" height="${svgSize}"
-             viewBox="0 0 ${svgSize} ${svgSize}"
-             style="opacity:${opacity}">
-      ${pulse}
-      <rect
-        x="${offset}" y="${offset}"
-        width="${size}" height="${size}"
-        rx="${size * 0.22}"
-        fill="${bg}"
-        filter="${isRecommended ? "drop-shadow(0 2px 5px rgba(0,0,0,0.35))" : "none"}"/>
-      <text
-        x="${svgSize / 2}" y="${svgSize / 2 + textSize * 0.38}"
-        text-anchor="middle"
-        font-family="system-ui, -apple-system, sans-serif"
-        font-size="${textSize}"
-        font-weight="700"
-        fill="white">
-        ${style.letter}
-      </text>
+    className: '',
+    html: `<svg xmlns="http://www.w3.org/2000/svg" width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}" style="opacity:${opacity}">
+      ${rings}
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="${bg}" filter="${isRecommended ? `drop-shadow(0 0 8px ${bg})` : 'none'}"/>
+      <text x="${cx}" y="${cy + textSize * 0.38}" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="${textSize}" font-weight="700" fill="white">${style.letter}</text>
     </svg>`,
     iconSize: [svgSize, svgSize],
     iconAnchor: [svgSize / 2, svgSize / 2],

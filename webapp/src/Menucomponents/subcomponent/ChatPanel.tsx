@@ -72,7 +72,7 @@ export function ChatPanel({
   const [progressStage, setProgressStage] = useState<ProgressStage>("idle")
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const loadMoreRef = useRef(false)  // synchronous lock — prevents concurrent loads
+  const loadMoreRef = useRef(false)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -97,13 +97,11 @@ export function ChatPanel({
     const text = content.trim()
     setContent("")
 
-    // Resolve coordinates based on preference
     let coords = geo.coords
     if (!coords) {
       if (profile?.location_preference === 'always') {
         coords = await geo.requestOnce()
       } else if (!activeSessionId) {
-        // 'ask' — prompt on the first message of a new conversation only
         coords = await geo.requestOnce()
       }
     }
@@ -156,21 +154,16 @@ export function ChatPanel({
     const el = scrollContainerRef.current
     if (!el || !activeSessionId || localMessages.length === 0) return
     if (el.scrollTop > 50) return
-    if (loadMoreRef.current) return  // synchronous guard — prevents concurrent loads
+    if (loadMoreRef.current) return
 
     const oldest = localMessages[0]
-    // Only use Supabase-persisted messages as cursors (timestamp format: +00:00).
-    // Optimistic messages use JS toISOString() format (ends with Z) and were
-    // never written to the DB, so passing their ID as a cursor causes a 500.
     if (!oldest.created_at.includes("+")) return
 
     loadMoreRef.current = true
     setLoadingOlder(true)
     try {
       const older = await loadOlderMessages(activeSessionId, oldest.id)
-      if (older.length > 0) {
-        setLocalMessages(prev => [...older, ...prev])
-      }
+      if (older.length > 0) setLocalMessages(prev => [...older, ...prev])
     } finally {
       setLoadingOlder(false)
       loadMoreRef.current = false
@@ -190,69 +183,110 @@ export function ChatPanel({
   const showTriageCard = triage.active && lastMsg?.role === "assistant"
 
   return (
-    <div className="flex flex-col h-full bg-slate-50/50 relative">
+    <div className="flex flex-col h-full relative" style={{ background: 'transparent' }}>
+
       {/* Panel header */}
-      <div className="flex-none px-6 py-4 border-b border-gray-100 bg-white shadow-sm z-20 relative">
+      <div
+        className="flex-none px-5 py-3.5 z-20 relative"
+        style={{ borderBottom: '1px solid rgba(28, 70, 89, 0.6)' }}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100 shadow-sm">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4V20M4 12H20" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="12" cy="12" r="8" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" />
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center flex-none"
+              style={{ background: 'rgba(72, 246, 193, 0.12)', border: '1px solid rgba(72, 246, 193, 0.25)' }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 4V20M4 12H20" stroke="#48F6C1" strokeWidth="2.5" strokeLinecap="round" />
+                <circle cx="12" cy="12" r="8" stroke="#48F6C1" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="4 4" />
               </svg>
             </div>
             <div>
-              <h2 className="text-[15px] font-bold text-gray-900 tracking-tight leading-tight">AI Health Assistant</h2>
-              <p className="text-xs font-semibold text-blue-600 mt-0.5">Ready to assist you</p>
+              <h2 className="text-[14px] font-bold tracking-tight leading-tight" style={{ color: '#E2F1F5' }}>
+                AI Health Assistant
+              </h2>
+              <p className="text-[11px] font-semibold mt-0.5" style={{ color: '#48F6C1' }}>
+                Ready to assist you
+              </p>
             </div>
           </div>
+
           <div className="flex items-center gap-3">
             <button
               onClick={handleNewConversation}
               disabled={!user}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${user
-                  ? "text-gray-600 border-gray-200 bg-white hover:border-gray-300 hover:text-gray-900"
-                  : "text-gray-300 border-gray-100 bg-gray-50 cursor-not-allowed"
-                }`}
+              className="flex items-center gap-1.5 text-xs font-semibold rounded-lg transition-all"
+              style={{
+                padding: '5px 10px',
+                color: user ? '#7AA0B0' : '#1C4659',
+                border: `0.5px solid ${user ? 'rgba(28,70,89,0.6)' : 'rgba(28,70,89,0.3)'}`,
+                background: 'rgba(6,18,25,0.4)',
+                cursor: user ? 'pointer' : 'not-allowed',
+              }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
                 <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
               </svg>
               New conversation
             </button>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-100/50 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[11px] font-bold text-emerald-700 tracking-wide uppercase">Online</span>
+            <div
+              className="flex items-center gap-1.5 rounded-full"
+              style={{
+                padding: '4px 10px',
+                background: 'rgba(72, 246, 193, 0.08)',
+                border: '1px solid rgba(72, 246, 193, 0.2)',
+              }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#48F6C1' }} />
+              <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: '#48F6C1' }}>Online</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Past conversations — only when logged in */}
+      {/* Past conversations */}
       {user && sessions.length > 0 && (
-        <div className="flex-none border-b border-gray-100 bg-white z-10">
+        <div className="flex-none z-10" style={{ borderBottom: '1px solid rgba(28, 70, 89, 0.4)' }}>
           <button
             onClick={() => setPastConversationsOpen(o => !o)}
-            className="w-full flex items-center justify-between px-6 py-2.5 text-xs font-semibold text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+            className="w-full flex items-center justify-between transition-colors"
+            style={{
+              padding: '8px 20px',
+              fontSize: 12,
+              fontWeight: 600,
+              color: '#7AA0B0',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+            }}
           >
             <span>Past conversations</span>
             <svg
-              width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              width="13" height="13" viewBox="0 0 24 24" fill="none"
               className={`transition-transform ${pastConversationsOpen ? "rotate-180" : ""}`}
             >
               <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
           {pastConversationsOpen && (
-            <div className="border-t border-gray-100">
+            <div style={{ borderTop: '1px solid rgba(28, 70, 89, 0.3)' }}>
               {sessions.map(session => (
                 <button
                   key={session.id}
                   onClick={() => handleSelectSession(session)}
-                  className="w-full flex items-center justify-between px-6 py-2.5 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between text-left transition-colors"
+                  style={{
+                    padding: '8px 20px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#E2F1F5',
+                  }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(28,70,89,0.25)')}
+                  onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'none')}
                 >
-                  <span className="text-sm text-gray-700 truncate">{session.title}</span>
-                  <span className="text-xs text-gray-400 flex-none ml-2">{formatDate(session.updated_at)}</span>
+                  <span className="text-sm truncate" style={{ color: '#E2F1F5' }}>{session.title}</span>
+                  <span className="text-xs flex-none ml-2" style={{ color: '#7AA0B0' }}>{formatDate(session.updated_at)}</span>
                 </button>
               ))}
             </div>
@@ -269,7 +303,9 @@ export function ChatPanel({
         >
           <div className="flex flex-col justify-end min-h-full gap-3">
             {loadingOlder && (
-              <div className="text-center text-xs text-gray-400 py-2">Loading older messages…</div>
+              <div className="text-center text-xs py-2" style={{ color: '#7AA0B0' }}>
+                Loading older messages…
+              </div>
             )}
             {localMessages.map((msg, idx) => {
               const isLastAssistant = msg.role === "assistant" && idx === localMessages.length - 1
@@ -277,10 +313,21 @@ export function ChatPanel({
                 <div key={msg.id}>
                   <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                     <div
-                      className={`max-w-[80%] min-w-0 rounded-2xl px-4 py-2.5 text-sm break-words overflow-hidden ${msg.role === "user"
-                          ? "bg-blue-600 text-white rounded-br-sm"
-                          : "bg-white border border-gray-200 text-gray-800 rounded-bl-sm shadow-sm"
-                        }`}
+                      className="max-w-[80%] min-w-0 rounded-2xl px-4 py-2.5 text-sm break-words overflow-hidden"
+                      style={msg.role === "user"
+                        ? {
+                            background: '#48F6C1',
+                            color: '#061219',
+                            borderBottomRightRadius: 4,
+                            fontWeight: 500,
+                          }
+                        : {
+                            background: 'rgba(19, 46, 60, 0.9)',
+                            border: '1px solid rgba(28, 70, 89, 0.5)',
+                            color: '#E2F1F5',
+                            borderBottomLeftRadius: 4,
+                          }
+                      }
                     >
                       {msg.content}
                     </div>
@@ -300,29 +347,64 @@ export function ChatPanel({
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center px-8 gap-6 overflow-hidden relative">
-          <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
+        <div className="flex-1 flex flex-col items-center justify-center px-6 gap-5 overflow-hidden relative">
+          {/* Subtle grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(72,246,193,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(72,246,193,0.5) 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
+            }}
+          />
           <div className="text-center z-10 flex flex-col items-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30 mb-5 text-white">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 10h8M8 14h4M21 12c0 4.97-4.03 9-9 9-2.07 0-3.98-.7-5.5-1.88L3 20l.88-3.5C2.7 14.98 2 13.07 2 12c0-4.97 4.03-9 9-9s9 4.03 9 9z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+              style={{
+                background: 'rgba(72, 246, 193, 0.1)',
+                border: '1px solid rgba(72, 246, 193, 0.25)',
+                boxShadow: '0 0 24px rgba(72,246,193,0.1)',
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M8 10h8M8 14h4M21 12c0 4.97-4.03 9-9 9-2.07 0-3.98-.7-5.5-1.88L3 20l.88-3.5C2.7 14.98 2 13.07 2 12c0-4.97 4.03-9 9-9s9 4.03 9 9z" stroke="#48F6C1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 tracking-tight">How are you feeling?</h3>
-            <p className="text-sm font-medium text-gray-500 mt-2 max-w-[240px]">
+            <h3 className="text-lg font-bold tracking-tight" style={{ color: '#E2F1F5' }}>
+              How are you feeling?
+            </h3>
+            <p className="text-sm font-medium mt-1.5 max-w-[220px]" style={{ color: '#7AA0B0' }}>
               Describe your symptoms or ask a health-related question.
             </p>
           </div>
-          <div className="flex flex-col gap-3 w-full z-10 mt-2">
+          <div className="flex flex-col gap-2.5 w-full z-10">
             {SUGGESTIONS.map(s => (
               <button
                 key={s}
                 onClick={() => { if (user) setContent(s) }}
-                className="group w-full flex items-center gap-3 text-left px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition-all shadow-sm"
+                className="w-full flex items-center gap-3 text-left text-sm font-medium transition-all rounded-xl"
+                style={{
+                  padding: '10px 14px',
+                  color: '#E2F1F5',
+                  background: 'rgba(10, 29, 39, 0.6)',
+                  border: '1px solid rgba(28, 70, 89, 0.5)',
+                  cursor: user ? 'pointer' : 'default',
+                }}
+                onMouseEnter={e => {
+                  if (!user) return
+                  ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(72,246,193,0.4)'
+                  ;(e.currentTarget as HTMLElement).style.background = 'rgba(72,246,193,0.06)'
+                }}
+                onMouseLeave={e => {
+                  ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(28, 70, 89, 0.5)'
+                  ;(e.currentTarget as HTMLElement).style.background = 'rgba(10, 29, 39, 0.6)'
+                }}
               >
-                <div className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-white flex items-center justify-center flex-none text-gray-400 group-hover:text-blue-500 transition-colors shadow-sm">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <div
+                  className="w-6 h-6 rounded-full flex items-center justify-center flex-none"
+                  style={{ background: 'rgba(28, 70, 89, 0.5)' }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="#7AA0B0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <span className="truncate">{s}</span>
@@ -332,14 +414,36 @@ export function ChatPanel({
         </div>
       )}
 
-      {/* Progress trace — visible during message processing */}
+      {/* Progress trace */}
       <ToolCallProgress stage={progressStage} />
 
       {/* Input area */}
-      <div className="flex-none bg-white px-4 py-3 z-20 border-t border-gray-100 shadow-[0_-4px_10px_-2px_rgba(0,0,0,0.03)] relative">
-        <div className="relative flex items-center bg-gray-50 border border-gray-200 rounded-xl p-1 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-400 transition-all shadow-sm">
-          <div className="pl-2.5 pr-1 text-blue-500">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div
+        className="flex-none px-4 py-3 z-20 relative"
+        style={{ borderTop: '1px solid rgba(28, 70, 89, 0.5)' }}
+      >
+        {/* Omni-input box per design spec */}
+        <div
+          className="relative flex items-center transition-all"
+          style={{
+            background: 'rgba(19, 46, 60, 0.7)',
+            border: '1px solid rgba(28, 70, 89, 0.65)',
+            borderRadius: 10,
+            padding: '2px 4px 2px 2px',
+          }}
+          onFocusCapture={e => {
+            const el = e.currentTarget as HTMLElement
+            el.style.border = '1px solid rgba(72, 246, 193, 0.6)'
+            el.style.boxShadow = '0 0 0 3px rgba(72,246,193,0.08)'
+          }}
+          onBlurCapture={e => {
+            const el = e.currentTarget as HTMLElement
+            el.style.border = '1px solid rgba(28, 70, 89, 0.65)'
+            el.style.boxShadow = 'none'
+          }}
+        >
+          <div className="pl-3 pr-1" style={{ color: '#48F6C1', opacity: 0.7 }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M9 21h6m-3-18c-3.866 0-7 3.134-7 7 0 2.21 1.028 4.185 2.632 5.487C9.28 16.035 9.8 16.924 9.8 17.9V19a2 2 0 002 2h4a2 2 0 002-2v-1.1c0-.976.52-1.865 1.168-2.413C20.972 14.185 22 12.21 22 10c0-3.866-3.134-7-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
@@ -348,35 +452,60 @@ export function ChatPanel({
             value={content}
             onChange={e => setContent(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent resize-none text-[13px] font-medium text-gray-900 px-2 py-2 focus:outline-none placeholder-gray-400 disabled:cursor-not-allowed"
+            className="flex-1 resize-none text-[13px] font-medium px-2 py-2.5 focus:outline-none"
+            style={{
+              background: 'transparent',
+              color: '#E2F1F5',
+              caretColor: '#48F6C1',
+              cursor: user ? 'text' : 'not-allowed',
+            }}
             placeholder={user ? "Describe how you feel…" : "Sign in to start a conversation"}
             rows={1}
           />
+          {/* Ctrl+K badge */}
+          <span
+            className="flex-none mr-1.5 hidden sm:flex items-center rounded text-mono-meta"
+            style={{
+              padding: '2px 5px',
+              border: '1px solid rgba(28,70,89,0.6)',
+              background: 'rgba(10,29,39,0.4)',
+              color: '#7AA0B0',
+              fontSize: 10,
+              letterSpacing: '0.04em',
+              userSelect: 'none',
+            }}
+          >
+            ⌘K
+          </span>
           <div className="pr-1 pl-1">
             <button
               disabled={!user || !content.trim()}
               onClick={handleSend}
-              className={`w-8 h-8 rounded-lg flex items-center justify-center text-white transition-all shadow-md active:scale-95 ${user && content.trim()
-                  ? "bg-blue-600 hover:bg-blue-700 shadow-blue-500/20"
-                  : "bg-gray-200 cursor-not-allowed shadow-none"
-                }`}
+              className="w-8 h-8 rounded-lg flex items-center justify-center transition-all active:scale-95"
+              style={{
+                color: '#061219',
+                background: user && content.trim() ? '#48F6C1' : 'rgba(28, 70, 89, 0.4)',
+                border: 'none',
+                cursor: user && content.trim() ? 'pointer' : 'not-allowed',
+              }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke={user && content.trim() ? '#061219' : '#7AA0B0'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
         </div>
+
         {geo.permission === "denied" ? (
-          <p className="text-[10px] font-semibold text-center mt-2">
-            <span style={{ color: "#E8813A" }}>⚠ Location blocked — facility map routing unavailable</span>
+          <p className="text-[10px] font-semibold text-center mt-2" style={{ color: '#F59E0B' }}>
+            ⚠ Location blocked — facility map routing unavailable
           </p>
         ) : (
-          <p className="text-[10px] font-semibold text-center text-gray-400 mt-2 flex items-center justify-center gap-1.5">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <p className="text-[10px] font-semibold text-center mt-2 flex items-center justify-center gap-1.5" style={{ color: '#7AA0B0', fontFamily: 'var(--font-mono)' }}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            Secure &amp; confidential. Location requested on first message.
+            Secure &amp; confidential · Location synced
           </p>
         )}
       </div>

@@ -21,6 +21,15 @@ interface HomeProps {
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
 
+const GLASS_PANEL: React.CSSProperties = {
+  background: 'rgba(10, 29, 39, 0.82)',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  border: '1px solid rgba(28, 70, 89, 0.55)',
+  boxShadow: '0 20px 40px -15px rgba(3, 10, 14, 0.7)',
+  borderRadius: 12,
+}
+
 export default function Home({ facilities, facilitiesLoading, conversationsCache, sendMessage, createSession, loadOlderMessages }: HomeProps) {
   const { user } = useAuth()
   const { profile, updateProfile } = useProfile()
@@ -33,7 +42,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
 
   const handleNewConversation = () => {
     triageReset()
-    setSessionKey(k => k + 1)  // remounts ChatPanel, clearing all local state
+    setSessionKey(k => k + 1)
   }
 
   useEffect(() => {
@@ -52,7 +61,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
 
   return (
-    <div className="flex flex-col h-screen bg-stratum-bg">
+    <div className="flex flex-col h-screen" style={{ background: '#061219' }}>
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
       {user && profile && !profile.getting_started_done && !onboardingDismissed && (
         <GettingStartedModal
@@ -62,24 +71,36 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         />
       )}
 
-      {/* Header */}
       <WebNavBar
         rightContent={user ? (
           <UserMenu />
         ) : (
           <>
             <button
-              className="px-4 py-2 text-sm font-semibold text-stratum-text-muted hover:text-stratum-text transition-colors"
+              className="text-label-md font-medium transition-colors"
+              style={{ color: '#7AA0B0', background: 'none', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#E2F1F5')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#7AA0B0')}
               onClick={openSignIn}
             >
               Sign in
             </button>
             <button
-              className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-stratum-control bg-stratum-accent hover:opacity-90 transition-all active:scale-95"
+              className="flex items-center gap-2 text-label-md font-semibold transition-all active:scale-95"
+              style={{
+                padding: '8px 18px',
+                color: '#061219',
+                background: '#48F6C1',
+                border: 'none',
+                borderRadius: 8,
+                cursor: 'pointer',
+              }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = '#3ce0ad')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = '#48F6C1')}
               onClick={openSignUp}
             >
               Get started
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
@@ -87,20 +108,11 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         )}
       />
 
-      {/* Body — 70/30 split */}
-      <div className="flex flex-1 overflow-hidden p-5 gap-5">
-        {/* Map panel */}
-        <div className="flex-[7] overflow-hidden surface-card shell-bezel rounded-stratum-lg relative">
-          <MapPanel
-            facilities={facilities}
-            facilitiesLoading={facilitiesLoading}
-            triage={triage}
-            onClear={handleNewConversation}
-          />
-        </div>
+      {/* Body — sidebar left (40%) + map right (60%) */}
+      <div className="flex flex-1 overflow-hidden" style={{ padding: '12px 16px 12px', gap: 12 }}>
 
-        {/* Chat panel */}
-        <div className="flex-[3] overflow-hidden surface-card shell-bezel rounded-stratum-lg relative min-w-[320px]">
+        {/* Chat sidebar — LEFT, 25% */}
+        <div className="flex-[1] overflow-hidden relative min-w-[260px]" style={GLASS_PANEL}>
           <ChatPanel
             key={sessionKey}
             user={user}
@@ -115,24 +127,39 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
             onNewConversation={handleNewConversation}
           />
         </div>
+
+        {/* Map panel — RIGHT, 75% */}
+        <div className="flex-[3] overflow-hidden relative" style={GLASS_PANEL}>
+          <MapPanel
+            facilities={facilities}
+            facilitiesLoading={facilitiesLoading}
+            triage={triage}
+            onClear={handleNewConversation}
+          />
+        </div>
       </div>
 
       {/* Footer */}
       <div
-        className="flex-none flex items-center justify-between px-8 border-stratum-border text-stratum-text-muted"
+        className="flex-none flex items-center justify-between px-8"
         style={{
           height: 28,
-          borderTopWidth: "0.5px",
           fontSize: 11,
+          borderTop: '0.5px solid rgba(28, 70, 89, 0.5)',
+          color: '#7AA0B0',
         }}
       >
-        <span>MediCoord AI · Health Tech Platform</span>
+        <span style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+          MediCoord AI · Health Tech Platform
+        </span>
         <Link
           to="/sandbox"
-          className="flex items-center gap-1 no-underline text-stratum-text-muted hover:text-stratum-text"
-          style={{ fontWeight: 600 }}
+          className="flex items-center gap-1 no-underline transition-colors"
+          style={{ fontWeight: 600, color: '#7AA0B0' }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#E2F1F5')}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#7AA0B0')}
         >
-          <i className="ti ti-flask" style={{ fontSize: 12, color: "#EF9F27" }} />
+          <i className="ti ti-flask" style={{ fontSize: 12, color: '#F59E0B' }} />
           Open Sandbox →
         </Link>
       </div>

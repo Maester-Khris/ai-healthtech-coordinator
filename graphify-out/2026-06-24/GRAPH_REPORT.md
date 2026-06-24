@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1855 nodes · 2445 edges · 160 communities (125 shown, 35 thin omitted)
+- 1863 nodes · 2454 edges · 169 communities (134 shown, 35 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 170 edges (avg confidence: 0.69)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3da16b65`
+- Built from commit: `9e88f794`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -147,14 +147,23 @@
 - [[_COMMUNITY_Community 149|Community 149]]
 - [[_COMMUNITY_Community 150|Community 150]]
 - [[_COMMUNITY_Community 151|Community 151]]
+- [[_COMMUNITY_Community 152|Community 152]]
 - [[_COMMUNITY_Community 153|Community 153]]
 - [[_COMMUNITY_Community 154|Community 154]]
 - [[_COMMUNITY_Community 155|Community 155]]
 - [[_COMMUNITY_Community 156|Community 156]]
+- [[_COMMUNITY_Community 157|Community 157]]
 - [[_COMMUNITY_Community 158|Community 158]]
 - [[_COMMUNITY_Community 159|Community 159]]
+- [[_COMMUNITY_Community 160|Community 160]]
+- [[_COMMUNITY_Community 161|Community 161]]
+- [[_COMMUNITY_Community 162|Community 162]]
+- [[_COMMUNITY_Community 163|Community 163]]
+- [[_COMMUNITY_Community 164|Community 164]]
 - [[_COMMUNITY_Community 165|Community 165]]
 - [[_COMMUNITY_Community 166|Community 166]]
+- [[_COMMUNITY_Community 167|Community 167]]
+- [[_COMMUNITY_Community 168|Community 168]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `LLMAgent` - 27 edges
@@ -197,19 +206,19 @@
 - **IAM Roles Implemented by Pipeline Lambda Functions** — infra_template_yaml_ingestionrole, infra_template_yaml_processorrole, infra_template_yaml_dbtrunnerrole, infra_template_yaml_placesenricher, infra_template_yaml_placesprocessor, infra_template_yaml_dbtrunner [EXTRACTED 1.00]
 - **v2.0 Parallel Tool-Calling Triage Pipeline** — readme_anthropic_severity_classification_tool, readme_browser_geolocation_tool, readme_geoapify_routematrix_tool, readme_triage_post_endpoint, readme_v2_product_vision [EXTRACTED 1.00]
 
-## Communities (160 total, 35 thin omitted)
+## Communities (169 total, 35 thin omitted)
 
 ### Community 0 - "LLM Client Abstraction"
-Cohesion: 0.06
-Nodes (34): ABC, LLMMessage, LLMResponse, ToolDefinition, LLMMessage, LLMResponse, ToolDefinition, BaseLLMClient (+26 more)
+Cohesion: 0.11
+Nodes (22): ABC, LLMMessage, LLMResponse, ToolDefinition, LLMMessage, LLMResponse, ToolDefinition, BaseLLMClient (+14 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.12
-Nodes (14): DEFAULT_STATE, GEOAPIFY_KEY, ChatMessageResponse, ConversationsCache, FacilityCategory, Message, RouteResult, SendNotificationRequest (+6 more)
+Cohesion: 0.10
+Nodes (17): DEFAULT_STATE, GEOAPIFY_KEY, ChatMessageResponse, ConversationsCache, FacilityCategory, Message, RouteResult, SendNotificationRequest (+9 more)
 
 ### Community 2 - "Mobile Chat & Triage UI"
-Cohesion: 0.06
-Nodes (34): GeolocationPermission, NextActionHandlers, useNextActions(), AiAssistantTab(), AiAssistantTabProps, AuthUser, GeoProps, ProfileProps (+26 more)
+Cohesion: 0.08
+Nodes (23): GeolocationPermission, AiAssistantTab(), AiAssistantTabProps, AuthUser, GeoProps, ProfileProps, ProgressStage, QuickChips() (+15 more)
 
 ### Community 3 - "Backend Middleware & Notifications"
 Cohesion: 0.06
@@ -244,8 +253,8 @@ Cohesion: 0.20
 Nodes (9): Global Constraints, Self-Review Notes, Task 1: Sandbox dark palette (Aura), Task 2: WebNavBar re-skin, Task 3: Home shell re-skin (map+chat panels, footer), Task 4: LoginModal re-skin, Task 5: GettingStartedModal re-skin, Task 6: Visual verification (+1 more)
 
 ### Community 11 - "PWA Hooks & API Client"
-Cohesion: 0.11
-Nodes (19): PermissionState, useNotificationPermission(), UseNotificationPermissionResult, Window, BeforeInstallPromptEvent, detectiOSVersion(), detectPlatform(), InstallState (+11 more)
+Cohesion: 0.18
+Nodes (14): PermissionState, useNotificationPermission(), UseNotificationPermissionResult, Window, BeforeInstallPromptEvent, detectiOSVersion(), detectPlatform(), isIosDevice() (+6 more)
 
 ### Community 12 - "App TSConfig Compiler Options"
 Cohesion: 0.08
@@ -253,11 +262,11 @@ Nodes (23): compilerOptions, allowImportingTsExtensions, baseUrl, erasableSyntax
 
 ### Community 13 - "Sandbox Page Components"
 Cohesion: 0.13
-Nodes (12): SandboxPage(), InspectorPanel(), LOG_COLORS, STATIC_LOGS, SandboxMobileGuard(), SandboxSplashScreen(), STEPS, DARK_SELECT (+4 more)
+Nodes (13): useFacilities(), SandboxPage(), InspectorPanel(), LOG_COLORS, STATIC_LOGS, SandboxMobileGuard(), SandboxSplashScreen(), STEPS (+5 more)
 
 ### Community 14 - "Web Navbar & Onboarding"
-Cohesion: 0.22
-Nodes (12): buildTriageCandidates(), cnTowerPos, INACTIVE_TRIAGE, MapContext, MapContextValue, MapProvider(), MapFitBounds(), MapSizeGuard() (+4 more)
+Cohesion: 0.17
+Nodes (13): buildTriageCandidates(), cnTowerPos, INACTIVE_TRIAGE, MapContext, MapContextValue, MapProvider(), useMapContext(), useOsrmRoute() (+5 more)
 
 ### Community 16 - "Chat Cache & Tests"
 Cohesion: 0.21
@@ -272,8 +281,8 @@ Cohesion: 0.20
 Nodes (17): CreateSessionRequest, Facility, FacilityCandidate, FacilityCategory, MessageBase, PastConversationsResponse, SendMessageRequest, SessionBase (+9 more)
 
 ### Community 19 - "Auth Modal & Mobile Layout"
-Cohesion: 0.12
-Nodes (10): LoginModal(), LoginModalProps, useAuth(), Notification(), DrawerMenu(), DrawerMenuProps, MobileNavBar(), FEATURES (+2 more)
+Cohesion: 0.11
+Nodes (16): LoginModal(), LoginModalProps, useAuth(), useProfile(), useTriageState(), Home(), HomeProps, DrawerMenu() (+8 more)
 
 ### Community 20 - "CI/CD & Project Docs"
 Cohesion: 0.21
@@ -312,20 +321,20 @@ Cohesion: 0.24
 Nodes (12): Request, create_new_session(), invalidate_cache(), load_older_messages(), past_conversations(), Saves a user message, runs the LLM triage agent, saves the assistant response., Cursor-based pagination — returns messages older than `before_id`.     Always hi, Clears the server-side chat cache for the user — call on logout. (+4 more)
 
 ### Community 29 - "Permission Modals"
-Cohesion: 0.15
-Nodes (14): GpsPermissionModal(), GpsPermissionModalProps, useConversations(), useFacilities(), UseFacilitiesResult, LegalPageLayout(), LegalPageLayoutProps, CookiesPage() (+6 more)
+Cohesion: 0.13
+Nodes (12): GpsPermissionModal(), GpsPermissionModalProps, Notification(), LegalPageLayout(), LegalPageLayoutProps, CookiesPage(), DataDisclosurePage(), PrivacyPage() (+4 more)
 
 ### Community 30 - "Auth Integration Task Docs"
-Cohesion: 0.16
-Nodes (20): webapp/src/App.tsx (tab router removed), Dead npm packages removed (recharts, turf, slick, material-tailwind, heroicons), webapp/src/Menucomponents/Home.tsx, Removed simulation components (Inhousescheduler, Map, SimulationForm), Task 002: Home UI Refactor — Static SPA Layout, webapp/src/lib/apiClient.ts (Bearer token fetch wrapper), Auth Architecture (client-side Supabase Auth + backend JWT verify), webapp/src/auth/AuthContext.tsx (+12 more)
+Cohesion: 0.23
+Nodes (14): webapp/src/lib/apiClient.ts (Bearer token fetch wrapper), Auth Architecture (client-side Supabase Auth + backend JWT verify), webapp/src/auth/AuthContext.tsx, backend/middleware/auth.py (get_current_user, AuthMiddleware), webapp/src/auth/authService.ts, backend/services/auth.py (verify_token), webapp/src/components/auth/LoginModal.tsx, GET /me endpoint (auth smoke test) (+6 more)
 
 ### Community 31 - "LLM Provider Abstraction Task"
 Cohesion: 0.07
 Nodes (29): Architecture Overview, `backend/llm/anthropic_client.py`, `backend/llm/base.py`, `backend/llm/groq_client.py`, `backend/llm/__init__.py`, `backend/llm/prompts.py`, `backend/llm/tools.py`, `backend/models.py` — add/update (+21 more)
 
 ### Community 32 - "Profile & Chat Task Docs"
-Cohesion: 0.27
-Nodes (11): migrations/003_messages.sql, migrations/README.md, migrations/001_profile.sql, Row Level Security policies (profile_select_own, profile_update_own), migrations/002_sessions.sql, backend/cache_chat.py (per-user chat cache), backend/routers/chat.py, backend/services/chat.py (+3 more)
+Cohesion: 0.24
+Nodes (12): migrations/003_messages.sql, migrations/README.md, migrations/001_profile.sql, Row Level Security policies (profile_select_own, profile_update_own), migrations/002_sessions.sql, webapp/src/hooks/useProfile.ts, backend/cache_chat.py (per-user chat cache), backend/routers/chat.py (+4 more)
 
 ### Community 33 - "ER Wait Scraper Lambda"
 Cohesion: 0.25
@@ -356,8 +365,8 @@ Cohesion: 0.15
 Nodes (12): Check 1 — `/app` mobile viewport: top bar beige, floating dock pill, active tab tan + pulse dot, Check 2 — Tap "AI assistant": active highlight moves, content swaps, beige card material, Check 3 — Tap hamburger: `DrawerMenu` slides in, beige material, tan avatar, Check 4 — `FacilityCard` severity banner uses severity-ramp tokens, Check 5 — Screenshots, Defects found, Self-review, Step 1: Production build (+4 more)
 
 ### Community 40 - "Push Notification Task Docs"
-Cohesion: 0.22
-Nodes (9): iOS 16.4+ push support constraint, OneSignal Web Push SDK v16, webapp/src/components/pwa/NotificationPermissionPrompt.tsx, webapp/src/components/pwa/PWAInstallModal.tsx, Push install/permission state machine, Task: Push Notification Infrastructure (PWA + OneSignal), webapp/src/pages/TestNotifPage.tsx (/test-notif), webapp/src/hooks/useNotificationPermission.ts (+1 more)
+Cohesion: 0.13
+Nodes (17): webapp/src/App.tsx (tab router removed), Dead npm packages removed (recharts, turf, slick, material-tailwind, heroicons), webapp/src/Menucomponents/Home.tsx, Removed simulation components (Inhousescheduler, Map, SimulationForm), Task 002: Home UI Refactor — Static SPA Layout, Sentry.ErrorBoundary in App.tsx, webapp/src/components/onboarding/GettingStartedModal.tsx, webapp/src/pages/SetupPage.tsx (/setup route) (+9 more)
 
 ### Community 41 - "Backend Requirements Deps"
 Cohesion: 0.08
@@ -368,8 +377,8 @@ Cohesion: 0.22
 Nodes (8): background_color, description, display, icons, name, short_name, start_url, theme_color
 
 ### Community 43 - "Observability Task Docs"
-Cohesion: 0.16
-Nodes (16): Task Template (000_TEMPLATE.md), backend/db.py (Supabase client factory), GET /facilities endpoint, backend/services/facilities.py, Supabase facilities table schema, backend/models.py (Pydantic Facility models), shared/types.ts (Facility mirror), Task 001: FastAPI Backend Base Endpoints (+8 more)
+Cohesion: 0.38
+Nodes (7): backend/db.py (Supabase client factory), GET /facilities endpoint, backend/services/facilities.py, Supabase facilities table schema, backend/cache.py (in-memory facility cache), FastAPI lifespan cache warm-up, Task 004: Facilities Prefetch — Cache, ETag, Map Integration
 
 ### Community 44 - "Home UI Refactor Task Docs"
 Cohesion: 0.08
@@ -380,8 +389,8 @@ Cohesion: 0.18
 Nodes (10): AiAssistantTab.tsx, Build Verification, Git Commit Details, Issues or Concerns, Key Changes by File, QuickChips.tsx, Self-Review Checklist, SymptomInput.tsx (+2 more)
 
 ### Community 46 - "Map Triage UI Task Docs"
-Cohesion: 0.11
-Nodes (18): webapp/src/components/mobile/AiAssistantTab.tsx, webapp/src/components/mobile/BottomSheet.tsx, 768px breakpoint mobile/desktop split strategy, webapp/src/components/mobile/MapTab.tsx, webapp/src/components/mobile/MobileLayout.tsx, webapp/src/hooks/useBottomSheet.ts (drag gesture), webapp/src/hooks/useBreakpoint.ts, Acceptance Criteria (+10 more)
+Cohesion: 0.17
+Nodes (11): Acceptance Criteria, Context, Design Spec, File Scope, Layout strategy, Notes for Implementation, Out of Scope, Screen 1 — Map view (mobile) (+3 more)
 
 ### Community 47 - "Mobile Layout Task Docs"
 Cohesion: 0.09
@@ -396,8 +405,8 @@ Cohesion: 0.22
 Nodes (8): Global Constraints, Mobile App Re-skin Implementation Plan, Self-Review Notes, Task 1: Navigation Dock (MobileNavBar top bar + MobileLayout dock conversion), Task 2: Map tab chain (MapTab, BottomSheet, FacilityCard), Task 3: AI assistant chain (AiAssistantTab, QuickChips, SymptomInput), Task 4: DrawerMenu re-skin, Task 5: Visual verification
 
 ### Community 50 - "SDD Progress & Tailwind Fix"
-Cohesion: 0.70
-Nodes (3): useMapContext(), useOsrmRoute(), OsrmRouteLayer()
+Cohesion: 0.11
+Nodes (8): make_agent(), Unit tests for proximity service, agent message building, and follow-up ceiling., TestAgentMessageBuilding, TestFindNearestFacilities, TestHaversine, find_nearest_facilities(), haversine_km(), Returns up to top_n nearest facilities that accept the given severity,     sorte
 
 ### Community 51 - "Architecture Doc Topology"
 Cohesion: 0.13
@@ -408,8 +417,8 @@ Cohesion: 0.20
 Nodes (6): UserMenu(), WebNavBar(), WebNavBarProps, useBreakpoint(), SetupPage(), SandboxHeader()
 
 ### Community 54 - "Backend Facilities Service"
-Cohesion: 0.10
-Nodes (19): AGENTS.md — MediCoord AI, Branch check before touching any file, Branch hierarchy, Branching rule — always cut from `preview`, Decision Boundaries, Deployment Targets, Environment Variables, Git Branch Model (+11 more)
+Cohesion: 0.20
+Nodes (9): AGENTS.md — MediCoord AI, Decision Boundaries, Deployment Targets, Environment Variables, Git Hygiene, LLM Provider, Planning Protocol, Proceed without asking when: (+1 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.22
@@ -452,8 +461,8 @@ Cohesion: 0.11
 Nodes (18): Chat Panel Changes, Commits (max 4), Context, Files to modify: map panel component (wherever MapPanel.tsx lives), Map Panel Changes, New Component: `webapp/src/components/triage/ToolCallProgress.tsx`, New Component: `webapp/src/components/triage/TriageCard.tsx`, New conversation reset (+10 more)
 
 ### Community 101 - "Community 101"
-Cohesion: 0.18
-Nodes (10): AuthContext, AuthContextValue, AuthNotification, AuthProvider(), AuthUser, authService, UseConversationsResult, Profile (+2 more)
+Cohesion: 0.17
+Nodes (11): AuthContext, AuthContextValue, AuthNotification, AuthProvider(), AuthUser, authService, useConversations(), UseConversationsResult (+3 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.08
@@ -516,8 +525,8 @@ Cohesion: 0.15
 Nodes (12): Colors, Iconography, Implementation notes, Implementation tooling, Layout pattern split, Material ("calculated skeuomorphism"), MediCoord AI — Merged Design System, Motion (+4 more)
 
 ### Community 117 - "Community 117"
-Cohesion: 0.11
-Nodes (17): GET /health endpoint, webapp/src/Menucomponents/utils/baseData.ts, webapp/src/Menucomponents/utils/customIcon.tsx, Leaflet Map (CN Tower center, zoom 13), MapPanel.tsx (static facility markers), Map loading spinner (cold-start load-bearing), Task 008 (LLM doc): LLM Triage Agent — Symptom Classification + Facility Tool, Geoapify RouteMatrix ETA re-ranking (+9 more)
+Cohesion: 0.17
+Nodes (11): webapp/src/Menucomponents/utils/baseData.ts, webapp/src/Menucomponents/utils/customIcon.tsx, Leaflet Map (CN Tower center, zoom 13), MapPanel.tsx (static facility markers), Map loading spinner (cold-start load-bearing), webapp/src/index.css @theme tokens (Stratum/severity/sandbox), Subagent-Driven Development Progress — Design System Foundation, Subagent-Driven Development Progress — Landing + Legal Pages (sub-project 2) (+3 more)
 
 ### Community 118 - "Community 118"
 Cohesion: 0.18
@@ -592,24 +601,32 @@ Cohesion: 0.17
 Nodes (11): 1. `/app` (logged out) — PASS, 2. Click "Get started" → LoginModal — PASS, 3. `/sandbox` — PASS, 4. Screenshots taken — PASS, Build output, Dev server, GettingStartedModal — ⚠️ not directly verified, Issues found (+3 more)
 
 ### Community 138 - "Community 138"
-Cohesion: 0.14
-Nodes (16): Coords, GeoError, useGeolocation(), UseGeolocationResult, useProfile(), useTriageState(), Home(), HomeProps (+8 more)
+Cohesion: 0.32
+Nodes (6): Coords, GeoError, useGeolocation(), UseGeolocationResult, GEO_ERROR_CODES, TestLocationPage()
 
 ### Community 139 - "Community 139"
-Cohesion: 0.60
-Nodes (4): FacilityMarkerLayer(), FacilityMarkerLayerProps, Facility, FacilityCandidate
+Cohesion: 0.31
+Nodes (7): FacilityMarkerLayer(), FacilityMarkerLayerProps, UnifiedFacilityPopup(), UseFacilitiesResult, MapPanelProps, Facility, FacilityCandidate
+
+### Community 152 - "Community 152"
+Cohesion: 0.24
+Nodes (9): NextActionHandlers, useNextActions(), BottomSheet, BottomSheetProps, FacilityCard(), FacilityCardProps, SEVERITY_COLORS, MapTab() (+1 more)
 
 ### Community 153 - "Community 153"
 Cohesion: 0.29
 Nodes (8): backend/main.py (FastAPI app), init_logging() (structured JSON logging), GET /metrics (Bearer-protected), init_metrics() Prometheus push loop, backend/observability.py, RequestIDMiddleware, init_sentry() (backend Sentry init), Task 005: Observability — Backend + Frontend
 
 ### Community 155 - "Community 155"
-Cohesion: 0.16
-Nodes (10): CategoryFilterDropdown(), CategoryFilterDropdownProps, FacilityLegend(), UnifiedFacilityPopup(), UnifiedFacilityPopupProps, CATEGORY_STYLES, CategoryFilter, DEFAULT_STYLE (+2 more)
+Cohesion: 0.18
+Nodes (12): CategoryFilterDropdown(), CategoryFilterDropdownProps, FacilityLegend(), UnifiedFacilityPopupProps, CATEGORY_STYLES, CategoryFilter, DEFAULT_STYLE, FILTER_OPTIONS (+4 more)
 
 ### Community 156 - "Community 156"
-Cohesion: 0.14
-Nodes (11): cnTowerIcon, getFacilityIcon(), userIcon, CategoryFilter, DARK_CATEGORY, FILTER_OPTIONS, LEGEND_ITEMS, MOCK_ACTIVE_NODES (+3 more)
+Cohesion: 0.18
+Nodes (8): CategoryFilter, DARK_CATEGORY, FILTER_OPTIONS, LEGEND_ITEMS, MOCK_ACTIVE_NODES, MOCK_FACILITIES, SandboxMap(), SandboxMapProps
+
+### Community 157 - "Community 157"
+Cohesion: 0.18
+Nodes (11): BIKE_PATH, CAR_PATH, CLINIC_PIN, FAMILY_PATH, HOSPITAL_PIN, interpolatePath(), JOGGER_PATH, LAB_PIN (+3 more)
 
 ### Community 158 - "Community 158"
 Cohesion: 0.20
@@ -619,12 +636,40 @@ Nodes (9): Build Verification, Changes Made, Git Status, Graphify Update, Implem
 Cohesion: 0.39
 Nodes (3): Recursively convert datetime objects to ISO strings for JSONResponse., _ser(), TestSer
 
+### Community 160 - "Community 160"
+Cohesion: 0.22
+Nodes (6): InstallState, Platform, primaryButtonStyle, PWAInstallModal(), PWAInstallModalProps, secondaryButtonStyle
+
+### Community 161 - "Community 161"
+Cohesion: 0.39
+Nodes (4): TestFollowupCeiling, TestTriageResultShape, LLMAgent, Stateless triage agent facade.      Stateless: caller provides full conversation
+
+### Community 162 - "Community 162"
+Cohesion: 0.29
+Nodes (7): webapp/src/components/mobile/AiAssistantTab.tsx, webapp/src/components/mobile/BottomSheet.tsx, 768px breakpoint mobile/desktop split strategy, webapp/src/components/mobile/MapTab.tsx, webapp/src/components/mobile/MobileLayout.tsx, webapp/src/hooks/useBottomSheet.ts (drag gesture), webapp/src/hooks/useBreakpoint.ts
+
+### Community 163 - "Community 163"
+Cohesion: 0.40
+Nodes (6): Task Template (000_TEMPLATE.md), backend/models.py (Pydantic Facility models), shared/types.ts (Facility mirror), Task 001: FastAPI Backend Base Endpoints, /execute-task command, Planning Protocol (/execute-task)
+
+### Community 164 - "Community 164"
+Cohesion: 0.33
+Nodes (6): GET /health endpoint, Task 008 (LLM doc): LLM Triage Agent — Symptom Classification + Facility Tool, Geoapify RouteMatrix ETA re-ranking, Task 010 (doc id 009): Triage UI — Map Route Display + Chat Triage Result, webapp/src/hooks/useTriageState.ts, LLM_PROVIDER Feature Flag
+
+### Community 167 - "Community 167"
+Cohesion: 0.33
+Nodes (6): Branch check before touching any file, Branch hierarchy, Branching rule — always cut from `preview`, Git Branch Model, Protected branches, Upstream tracking
+
+### Community 168 - "Community 168"
+Cohesion: 0.50
+Nodes (4): Never do, Never modify, Read and write allowed, Scope Boundaries
+
 ## Ambiguous Edges - Review These
 - `webapp/src/lib/apiClient.ts (Bearer token fetch wrapper)` → `webapp/src/hooks/useFacilities.ts`  [AMBIGUOUS]
   .agents/tasks/004_FACILITY_PREFETCH.md · relation: calls
 
 ## Knowledge Gaps
-- **809 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+804 more)
+- **816 isolated node(s):** `PLACEHOLDERS`, `SAMPLE_CHIPS`, `HOSPITAL_PIN`, `CLINIC_PIN`, `LAB_PIN` (+811 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **35 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -634,14 +679,14 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `webapp/src/lib/apiClient.ts (Bearer token fetch wrapper)` and `webapp/src/hooks/useFacilities.ts`?**
   _Edge tagged AMBIGUOUS (relation: calls) - confidence is low._
 - **Why does `get_supabase_client()` connect `Backend DB & Chat Service` to `Backend Middleware & Notifications`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
-- **Why does `LLMAgent` connect `LLM Client Abstraction` to `Backend Pydantic Models`, `Chat Router Endpoints`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Why does `LLMAgent` connect `Community 161` to `LLM Client Abstraction`, `Backend Pydantic Models`, `Chat Router Endpoints`, `SDD Progress & Tailwind Fix`?**
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **Are the 19 inferred relationships involving `LLMAgent` (e.g. with `Request` and `Response`) actually correct?**
   _`LLMAgent` has 19 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `name`, `private`, `version` to the rest of the system?**
-  _890 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `PLACEHOLDERS`, `SAMPLE_CHIPS`, `HOSPITAL_PIN` to the rest of the system?**
+  _897 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `LLM Client Abstraction` be split into smaller, more focused modules?**
-  _Cohesion score 0.05630834086118639 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11014492753623188 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.12418300653594772 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10144927536231885 - nodes in this community are weakly interconnected._

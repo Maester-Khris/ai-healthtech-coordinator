@@ -1,7 +1,5 @@
 import { useState } from "react"
 
-// Removing static mock chat array
-
 const STATIC_LOGS = [
   { time: "42:01", type: "INFO", msg: "Sandbox session initialized" },
   { time: "42:03", type: "INFO", msg: "Mock patient generated at [43.6, -79.3]" },
@@ -16,10 +14,55 @@ const STATIC_LOGS = [
 ] as const
 
 const LOG_COLORS: Record<string, string> = {
-  INFO: "#185FA5",
-  ALGO: "#1D9E75",
-  OK:   "#1D9E75",
-  ERR:  "#C0392B",
+  INFO: "#00D2FF",
+  ALGO: "#48F6C1",
+  OK:   "#48F6C1",
+  ERR:  "#FF7B93",
+}
+
+// Compact stats row above tabs
+function StatsRow() {
+  const stats = [
+    { label: "Latency", value: "38ms", ok: true },
+    { label: "Events", value: "10", ok: true },
+    { label: "Errors", value: "0", ok: true },
+    { label: "Uptime", value: "04:32", ok: true },
+  ]
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        borderBottom: "0.5px solid var(--sb-border)",
+        flexShrink: 0,
+      }}
+    >
+      {stats.map(s => (
+        <div
+          key={s.label}
+          style={{
+            padding: "8px 10px",
+            borderRight: "0.5px solid var(--sb-border)",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 15,
+              fontWeight: 700,
+              fontFamily: '"JetBrains Mono", monospace',
+              color: s.ok ? "var(--sb-accent)" : "var(--sb-red)",
+              lineHeight: 1,
+            }}
+          >
+            {s.value}
+          </div>
+          <div style={{ fontSize: 9, fontWeight: 600, color: "var(--sb-text-muted)", letterSpacing: "0.06em", marginTop: 3, textTransform: "uppercase" }}>
+            {s.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 function MockChatTab() {
@@ -35,8 +78,7 @@ function MockChatTab() {
     setTimeout(() => {
       const lower = input.toLowerCase()
       let mockRes = "Based on your symptoms, I'm classifying this as moderate severity. I've located Richview Community Care (4 min away) as the best match for walk-in care."
-      
-      if (lower.includes("chest") || lower.includes("heart") || lower.includes("pain") || lower.includes("breath")) {
+      if (lower.includes("chest") || lower.includes("heart") || lower.includes("breath")) {
         mockRes = "This sounds like a severe emergency. Activating rapid routing to Toronto General Hospital ER. Please hold while we confirm capacity."
       } else if (lower.includes("bring") || lower.includes("what")) {
         mockRes = "Bring your health card (OHIP), a list of any current medications, and a mask. Walk-in wait time is approximately 25 minutes."
@@ -45,65 +87,47 @@ function MockChatTab() {
       } else if (!input.trim() || input.length < 10) {
         mockRes = "Could you provide a few more details about how you're feeling?"
       }
-
-      setMessages(prev => [
-        ...prev,
-        {
-          role: "assistant",
-          content: mockRes
-        }
-      ])
+      setMessages(prev => [...prev, { role: "assistant", content: mockRes }])
     }, 600)
   }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "hidden" }}>
-      {/* Messages or Empty State */}
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          padding: "16px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 12,
-        }}
-      >
+      <div style={{ flex: 1, overflowY: "auto", padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10 }}>
         {messages.length === 0 ? (
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", opacity: 0.8 }}>
-            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--sb-accent)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
-              <i className="ti ti-message-circle-2" style={{ fontSize: 28, color: "var(--sb-bg-primary)" }}></i>
+            <div style={{
+              width: 44, height: 44, borderRadius: "50%",
+              background: "rgba(245,158,11,0.12)",
+              border: "1px solid rgba(245,158,11,0.25)",
+              display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12,
+            }}>
+              <i className="ti ti-message-circle-2" style={{ fontSize: 22, color: "var(--sb-accent)" }} />
             </div>
-            <span style={{ fontSize: 16, fontWeight: 700, color: "var(--sb-text-primary)" }}>How are you feeling?</span>
-            <span style={{ fontSize: 13, color: "var(--sb-text-muted)", marginTop: 6 }}>Describe your simulated patient symptoms</span>
+            <span style={{ fontSize: 14, fontWeight: 700, color: "var(--sb-text-primary)" }}>Simulate a patient</span>
+            <span style={{ fontSize: 12, color: "var(--sb-text-muted)", marginTop: 4, textAlign: "center" }}>
+              Describe symptoms to test the triage agent
+            </span>
           </div>
         ) : (
           messages.map((msg, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-              }}
-            >
-              <div
-                style={{
-                  maxWidth: "85%",
-                  borderRadius: 12,
-                  padding: "12px 16px",
-                  fontSize: 15,
-                  lineHeight: 1.5,
-                  background:
-                    msg.role === "user" ? "var(--sb-accent)" : "var(--sb-bg-tertiary)",
-                  border:
-                    msg.role === "assistant" ? "1px solid rgba(245, 158, 11, 0.3)" : "1px solid transparent",
-                  color:
-                    msg.role === "user" ? "var(--sb-bg-primary)" : "var(--sb-text-primary)",
-                  borderBottomRightRadius: msg.role === "user" ? 4 : 12,
-                  borderBottomLeftRadius: msg.role === "assistant" ? 4 : 12,
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                }}
-              >
+            <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+              <div style={{
+                maxWidth: "85%",
+                borderRadius: 10,
+                padding: "9px 13px",
+                fontSize: 13,
+                lineHeight: 1.5,
+                background: msg.role === "user"
+                  ? "var(--sb-accent)"
+                  : "var(--sb-bg-tertiary)",
+                border: msg.role === "assistant"
+                  ? "0.5px solid var(--sb-border)"
+                  : "0.5px solid transparent",
+                color: msg.role === "user" ? "var(--sb-bg-primary)" : "var(--sb-text-primary)",
+                borderBottomRightRadius: msg.role === "user" ? 3 : 10,
+                borderBottomLeftRadius: msg.role === "assistant" ? 3 : 10,
+              }}>
                 {msg.content}
               </div>
             </div>
@@ -111,42 +135,27 @@ function MockChatTab() {
         )}
       </div>
 
-      {/* Input area */}
-      <div
-        style={{
-          padding: "12px 16px",
-          borderTop: "1px solid var(--sb-border)",
-          flexShrink: 0,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "var(--sb-bg-tertiary)",
-            border: "1px solid var(--sb-border)",
-            borderRadius: 8,
-            padding: "8px 12px",
-            gap: 8,
-          }}
-        >
+      <div style={{ padding: "10px 14px", borderTop: "0.5px solid var(--sb-border)", flexShrink: 0 }}>
+        <div style={{
+          display: "flex", alignItems: "center",
+          background: "var(--sb-bg-tertiary)",
+          border: "0.5px solid var(--sb-border)",
+          borderRadius: 8,
+          padding: "6px 10px",
+          gap: 8,
+        }}>
           <input
-            type="text"
-            value={input}
+            type="text" value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleSend()}
-            placeholder="Type patient symptoms..."
+            placeholder="Type patient symptoms…"
             style={{
-              flex: 1,
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "var(--sb-text-primary)",
-              fontSize: 14,
+              flex: 1, background: "transparent", border: "none", outline: "none",
+              color: "var(--sb-text-primary)", fontSize: 13, caretColor: "var(--sb-accent)",
             }}
           />
           <button onClick={handleSend} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", padding: 0 }}>
-            <i className="ti ti-send" style={{ fontSize: 18, color: input.trim() ? "var(--sb-accent)" : "var(--sb-text-muted)", transition: "color 0.2s" }} />
+            <i className="ti ti-send" style={{ fontSize: 16, color: input.trim() ? "var(--sb-accent)" : "var(--sb-text-muted)", transition: "color 0.2s" }} />
           </button>
         </div>
       </div>
@@ -156,55 +165,41 @@ function MockChatTab() {
 
 function LogsTab() {
   return (
-    <div
-      style={{
-        flex: 1,
-        overflowY: "auto",
-        padding: "16px 0",
-        fontFamily: '"Fira Code", "JetBrains Mono", "SF Mono", monospace',
-      }}
-    >
+    <div style={{ flex: 1, overflowY: "auto", padding: "10px 0", fontFamily: '"JetBrains Mono", "Fira Code", monospace' }}>
       {STATIC_LOGS.map((entry, i) => (
         <div
           key={i}
           style={{
             display: "grid",
-            gridTemplateColumns: "44px 44px 1fr",
+            gridTemplateColumns: "40px 40px 1fr",
             alignItems: "flex-start",
             gap: 8,
-            padding: "4px 14px",
-            fontSize: 13,
-            lineHeight: 1.6,
+            padding: "3px 14px",
+            fontSize: 12,
+            lineHeight: 1.7,
           }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = "rgba(28,70,89,0.2)")}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = "transparent")}
         >
-          <span style={{ color: "var(--sb-text-muted)", opacity: 0.85, paddingTop: 2 }}>
-            {entry.time}
-          </span>
+          <span style={{ color: "var(--sb-text-muted)", paddingTop: 1 }}>{entry.time}</span>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                padding: "2px 5px",
-                borderRadius: 3,
-                background: (LOG_COLORS[entry.type] ?? "#888") + "22",
-                color: LOG_COLORS[entry.type] ?? "#888",
-                marginTop: 2,
-              }}
-            >
+            <span style={{
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              padding: "2px 5px",
+              borderRadius: 3,
+              background: (LOG_COLORS[entry.type] ?? "#888") + "18",
+              color: LOG_COLORS[entry.type] ?? "#888",
+              marginTop: 2,
+              display: "inline-block",
+            }}>
               {entry.type}
             </span>
           </div>
-          <span 
+          <span
             title={entry.msg}
-            style={{ 
-              color: "var(--sb-text-secondary)", 
-              paddingTop: 2, 
-              whiteSpace: "nowrap", 
-              overflow: "hidden", 
-              textOverflow: "ellipsis" 
-            }}
+            style={{ color: "var(--sb-text-secondary)", paddingTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
           >
             {entry.msg}
           </span>
@@ -218,70 +213,65 @@ export function InspectorPanel() {
   const [tab, setTab] = useState<"chat" | "logs">("chat")
 
   return (
-    <div
-      style={{
-        width: 400,
-        flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        background: "var(--sb-bg-secondary)",
-        borderLeft: "0.5px solid var(--sb-border)",
-      }}
-    >
-      {/* Tab bar */}
-      <div
-        style={{
-          display: "flex",
-          borderBottom: "1px solid var(--sb-border)",
-          flexShrink: 0,
-        }}
-      >
-        {(["chat", "logs"] as const).map(t => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            style={{
-              flex: 1,
-              height: 48,
-              background: tab === t ? "rgba(255, 255, 255, 0.02)" : "none",
-              border: "none",
-              borderBottom:
-                tab === t ? "2px solid var(--sb-accent)" : "2px solid transparent",
-              color:
-                tab === t ? "var(--sb-text-primary)" : "var(--sb-text-muted)",
-              fontSize: 14,
-              fontWeight: tab === t ? 700 : 500,
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-            }}
-          >
-            {t === "chat" ? (
-              <>
-                AI Preview Assistant
-                <span
-                  style={{
+    <div style={{
+      width: 380,
+      flexShrink: 0,
+      display: "flex",
+      flexDirection: "column",
+      background: "var(--sb-bg-secondary)",
+      borderLeft: "0.5px solid var(--sb-border)",
+    }}>
+      {/* Panel label */}
+      <div style={{ padding: "10px 14px 0", borderBottom: "0.5px solid var(--sb-border)", flexShrink: 0 }}>
+        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--sb-text-muted)", margin: "0 0 10px" }}>
+          Agent Inspector
+        </p>
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 2 }}>
+          {(["chat", "logs"] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              style={{
+                padding: "6px 12px 8px",
+                background: "none",
+                border: "none",
+                borderBottom: tab === t ? "2px solid var(--sb-accent)" : "2px solid transparent",
+                color: tab === t ? "var(--sb-text-primary)" : "var(--sb-text-muted)",
+                fontSize: 12,
+                fontWeight: tab === t ? 700 : 500,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              {t === "chat" ? (
+                <>
+                  AI Preview
+                  <span style={{
                     fontSize: 9,
                     fontWeight: 800,
                     background: "var(--sb-accent-dim)",
                     color: "var(--sb-accent)",
-                    padding: "2px 5px",
-                    borderRadius: 4,
+                    padding: "1px 5px",
+                    borderRadius: 3,
                     letterSpacing: "0.06em",
-                  }}
-                >
-                  MOCK
-                </span>
-              </>
-            ) : (
-              "Live System Logs"
-            )}
-          </button>
-        ))}
+                  }}>
+                    MOCK
+                  </span>
+                </>
+              ) : (
+                "System Logs"
+              )}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* Compact stats row */}
+      <StatsRow />
 
       {tab === "chat" ? <MockChatTab /> : <LogsTab />}
     </div>

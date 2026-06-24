@@ -1,20 +1,20 @@
 import { useState, type CSSProperties } from "react"
 
+// Section label: color + tracking, no side-stripe (impeccable ban)
 const SECTION_LABEL: CSSProperties = {
-  fontSize: 12,
+  fontSize: 10,
   fontWeight: 700,
   letterSpacing: "0.12em",
   textTransform: "uppercase",
-  color: "var(--sb-text-secondary)",
-  margin: "0 0 12px",
-  borderLeft: "2px solid var(--sb-accent)",
-  paddingLeft: 8,
+  color: "var(--sb-accent)",
+  margin: "0 0 10px",
 }
 
 const DIVIDER: CSSProperties = {
   height: "0.5px",
   background: "var(--sb-border)",
-  margin: "24px 0",
+  margin: "20px 0",
+  opacity: 0.5,
 }
 
 const STATIC_BTN: CSSProperties = {
@@ -22,21 +22,21 @@ const STATIC_BTN: CSSProperties = {
   alignItems: "center",
   gap: 10,
   width: "100%",
-  borderRadius: 8,
-  fontSize: 14,
-  padding: "10px 12px",
+  borderRadius: 6,
+  fontSize: 13,
+  padding: "9px 12px",
   cursor: "pointer",
   textAlign: "left",
 }
 
 const DARK_SELECT: CSSProperties = {
   width: "100%",
-  background: "var(--sb-bg-tertiary) url('data:image/svg+xml;utf8,<svg fill=\"%2364748B\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>') no-repeat right 8px center",
+  background: "var(--sb-bg-tertiary)",
   border: "0.5px solid var(--sb-border)",
   borderRadius: 6,
   color: "var(--sb-text-primary)",
-  fontSize: 14,
-  padding: "8px 32px 8px 10px",
+  fontSize: 13,
+  padding: "8px 28px 8px 10px",
   cursor: "pointer",
   outline: "none",
   appearance: "none",
@@ -44,147 +44,165 @@ const DARK_SELECT: CSSProperties = {
   MozAppearance: "none",
 }
 
-export function SimulationPanel({ defaultSystemCapacity = 72 }: { defaultSystemCapacity?: number } = {}) {
-  const [capacity, setCapacity] = useState(defaultSystemCapacity)
+// Quick-stat tile used in the metric header row
+function MetricTile({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
     <div
       style={{
-        width: 320,
+        flex: 1,
+        background: "var(--sb-bg-tertiary)",
+        border: "0.5px solid var(--sb-border)",
+        borderRadius: 6,
+        padding: "8px 10px",
+      }}
+    >
+      <div style={{ fontSize: 18, fontWeight: 700, color: accent ?? "var(--sb-text-primary)", fontFamily: '"JetBrains Mono", monospace', lineHeight: 1 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: 10, fontWeight: 500, color: "var(--sb-text-muted)", letterSpacing: "0.06em", marginTop: 4 }}>
+        {label}
+      </div>
+    </div>
+  )
+}
+
+export function SimulationPanel({ defaultSystemCapacity = 72 }: { defaultSystemCapacity?: number } = {}) {
+  const [capacity, setCapacity] = useState(defaultSystemCapacity)
+
+  const capacityColor = capacity >= 85 ? "var(--sb-red)" : capacity >= 65 ? "var(--sb-accent)" : "var(--sb-teal)"
+
+  return (
+    <div
+      style={{
+        width: 300,
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
         background: "var(--sb-bg-secondary)",
-        borderRight: "1px solid var(--sb-border)",
+        borderRight: "0.5px solid var(--sb-border)",
         overflowY: "auto",
-        padding: "24px 20px 40px",
       }}
     >
-      <p style={{ fontSize: 14, fontWeight: 600, color: "var(--sb-text-secondary)", margin: "0 0 16px" }}>
-        Simulation Configuration
-      </p>
+      {/* Panel header */}
+      <div style={{ padding: "14px 16px 12px", borderBottom: "0.5px solid var(--sb-border)" }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--sb-text-muted)", margin: 0 }}>
+          Simulation Configuration
+        </p>
+      </div>
 
-      {/* Section 1 — Scenario Templates */}
-      <p style={SECTION_LABEL}>Scenario Templates</p>
-      <select style={DARK_SELECT}>
-        <option>Routine Saturday afternoon</option>
-        <option>Friday night ER surge</option>
-        <option>Mass casualty event</option>
-        <option>Blizzard conditions</option>
-      </select>
+      {/* Metric tiles */}
+      <div style={{ display: "flex", gap: 8, padding: "12px 16px" }}>
+        <MetricTile label="Capacity" value={`${capacity}%`} accent={capacityColor} />
+        <MetricTile label="Patients" value="1" accent="var(--sb-blue)" />
+        <MetricTile label="Routes" value="2" />
+      </div>
 
-      <div style={DIVIDER} />
+      <div style={{ padding: "0 16px 20px" }}>
 
-      {/* Section 2 — System Shock Toggles */}
-      <p style={SECTION_LABEL}>System Shock Toggles</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        {/* TODO: wire simulation engine */}
-        {[
-          { label: "Spawn simulated patient", className: "sandbox-shock-btn-neutral" },
-          { label: "Force facility outage", className: "sandbox-shock-btn-warning" },
-          { label: "Restore all facilities", className: "sandbox-shock-btn-success" }
-        ].map(
-          item => (
+        {/* Section 1 — Scenario Templates */}
+        <p style={SECTION_LABEL}>Scenario</p>
+        <div style={{ position: "relative" }}>
+          <select style={DARK_SELECT}>
+            <option>Routine Saturday afternoon</option>
+            <option>Friday night ER surge</option>
+            <option>Mass casualty event</option>
+            <option>Blizzard conditions</option>
+          </select>
+          <svg
+            style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
+            width="14" height="14" viewBox="0 0 24 24" fill="none"
+          >
+            <path d="M6 9l6 6 6-6" stroke="var(--sb-text-muted)" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+
+        <div style={DIVIDER} />
+
+        {/* Section 2 — System Shock Toggles */}
+        <p style={SECTION_LABEL}>System Shocks</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          {[
+            { label: "Spawn simulated patient", className: "sandbox-shock-btn-neutral", icon: "ti-user-plus" },
+            { label: "Force facility outage", className: "sandbox-shock-btn-warning", icon: "ti-alert-triangle" },
+            { label: "Restore all facilities", className: "sandbox-shock-btn-success", icon: "ti-refresh" }
+          ].map(item => (
             <button key={item.label} className={item.className} style={STATIC_BTN}>
-              <i className="ti ti-plus" style={{ fontSize: 16, flexShrink: 0 }} />
+              <i className={`ti ${item.icon}`} style={{ fontSize: 14, flexShrink: 0 }} />
               {item.label}
             </button>
-          ),
-        )}
-      </div>
+          ))}
+        </div>
 
-      <div style={DIVIDER} />
+        <div style={DIVIDER} />
 
-      {/* Section 3 — Emergency Load */}
-      <p style={SECTION_LABEL}>Emergency Load</p>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-        <span style={{ fontSize: 13, color: "var(--sb-text-secondary)" }}>System capacity</span>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "#E87070" }}>{capacity}%</span>
-      </div>
-      <div
-        style={{
-          height: 8,
-          borderRadius: 4,
-          background: "var(--sb-bg-tertiary)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 4,
-            background: "linear-gradient(90deg, #1D9E75 0%, #EF9F27 60%, #C0392B 90%)",
+        {/* Section 3 — Emergency Load */}
+        <p style={SECTION_LABEL}>Emergency Load</p>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+          <span style={{ fontSize: 12, color: "var(--sb-text-secondary)" }}>System capacity</span>
+          <span style={{ fontSize: 13, fontWeight: 700, fontFamily: '"JetBrains Mono", monospace', color: capacityColor }}>
+            {capacity}%
+          </span>
+        </div>
+        <div style={{ height: 6, borderRadius: 3, background: "var(--sb-bg-tertiary)", position: "relative", overflow: "hidden" }}>
+          <div style={{
+            position: "absolute", top: 0, left: 0, right: 0, bottom: 0, borderRadius: 3,
+            background: "linear-gradient(90deg, var(--sb-teal) 0%, var(--sb-accent) 60%, var(--sb-red) 90%)",
             clipPath: `inset(0 ${100 - capacity}% 0 0)`,
             transition: "clip-path 0.1s ease-out",
-          }}
-        />
-      </div>
-      <input 
-        type="range" 
-        min={0} 
-        max={100} 
-        value={capacity}
-        onChange={(e) => setCapacity(Number(e.target.value))}
-        style={{ width: "100%", marginTop: 12, cursor: "pointer", accentColor: "var(--sb-accent)" }}
-      />
-
-      {/* Section 4 — Simulation Controls */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "32px 0 16px" }}>
-        <div style={{ flex: 1, height: "1px", background: "var(--sb-border)" }} />
-        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: "var(--sb-text-muted)", textTransform: "uppercase" }}>
-          Simulation Controls
-        </span>
-        <div style={{ flex: 1, height: "1px", background: "var(--sb-border)" }} />
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        {(["player-play", "player-pause", "player-stop"] as const).map(icon => (
-          <button
-            key={icon}
-            className="sandbox-playback-btn"
-            style={{
-              width: 38,
-              height: 38,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "var(--sb-bg-tertiary)",
-              border: "1px solid var(--sb-border)",
-              borderRadius: 8,
-              color: "var(--sb-text-secondary)",
-              cursor: "pointer",
-              flexShrink: 0,
-            }}
-          >
-            <i className={`ti ti-${icon}`} style={{ fontSize: 20 }} />
-          </button>
-        ))}
-        <div style={{ flex: 1 }} />
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 13, color: "var(--sb-text-secondary)", fontWeight: 500 }}>Speed:</span>
-          <select
-            style={{
-              background: "var(--sb-bg-tertiary) url('data:image/svg+xml;utf8,<svg fill=\"%2364748B\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>') no-repeat right 6px center",
-              border: "0.5px solid var(--sb-border)",
-              borderRadius: 6,
-              color: "var(--sb-text-secondary)",
-              fontSize: 13,
-              padding: "8px 26px 8px 10px",
-              cursor: "pointer",
-              outline: "none",
-              appearance: "none",
-              WebkitAppearance: "none",
-              MozAppearance: "none",
-            }}
-          >
-            <option>1×</option>
-            <option>2×</option>
-            <option>5×</option>
-          </select>
+          }} />
         </div>
+        <input
+          type="range" min={0} max={100} value={capacity}
+          onChange={e => setCapacity(Number(e.target.value))}
+          style={{ width: "100%", marginTop: 10, cursor: "pointer", accentColor: "var(--sb-accent)" }}
+        />
+
+        {/* Section 4 — Simulation Controls */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "20px 0 14px" }}>
+          <div style={{ flex: 1, height: "0.5px", background: "var(--sb-border)", opacity: 0.5 }} />
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", color: "var(--sb-text-muted)", textTransform: "uppercase" }}>
+            Playback
+          </span>
+          <div style={{ flex: 1, height: "0.5px", background: "var(--sb-border)", opacity: 0.5 }} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {(["player-play", "player-pause", "player-stop"] as const).map(icon => (
+            <button
+              key={icon}
+              className="sandbox-playback-btn"
+              style={{
+                width: 36,
+                height: 36,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "var(--sb-bg-tertiary)",
+                border: "0.5px solid var(--sb-border)",
+                borderRadius: 6,
+                color: "var(--sb-text-secondary)",
+                cursor: "pointer",
+                flexShrink: 0,
+              }}
+            >
+              <i className={`ti ti-${icon}`} style={{ fontSize: 17 }} />
+            </button>
+          ))}
+          <div style={{ flex: 1 }} />
+          <div style={{ position: "relative" }}>
+            <select style={{ ...DARK_SELECT, width: "auto", padding: "7px 24px 7px 10px", fontSize: 12 }}>
+              <option>1×</option>
+              <option>2×</option>
+              <option>5×</option>
+            </select>
+            <svg
+              style={{ position: "absolute", right: 6, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}
+              width="12" height="12" viewBox="0 0 24 24" fill="none"
+            >
+              <path d="M6 9l6 6 6-6" stroke="var(--sb-text-muted)" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
+        </div>
+
       </div>
     </div>
   )

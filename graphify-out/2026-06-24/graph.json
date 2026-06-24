@@ -176,14 +176,134 @@
   },
   "nodes": [
     {
+      "label": "LandingPage.tsx",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "pages_landingpage",
+      "community": 157,
+      "norm_label": "landingpage.tsx"
+    },
+    {
+      "label": "PLACEHOLDERS",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "pages_landingpage_placeholders",
+      "community": 157,
+      "norm_label": "placeholders"
+    },
+    {
+      "label": "SAMPLE_CHIPS",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "pages_landingpage_sample_chips",
+      "community": 157,
+      "norm_label": "sample_chips"
+    },
+    {
+      "label": "HOSPITAL_PIN",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "pages_landingpage_hospital_pin",
+      "community": 157,
+      "norm_label": "hospital_pin"
+    },
+    {
+      "label": "CLINIC_PIN",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "pages_landingpage_clinic_pin",
+      "community": 157,
+      "norm_label": "clinic_pin"
+    },
+    {
+      "label": "LAB_PIN",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "pages_landingpage_lab_pin",
+      "community": 157,
+      "norm_label": "lab_pin"
+    },
+    {
+      "label": "CAR_PATH",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "pages_landingpage_car_path",
+      "community": 157,
+      "norm_label": "car_path"
+    },
+    {
+      "label": "BIKE_PATH",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "pages_landingpage_bike_path",
+      "community": 157,
+      "norm_label": "bike_path"
+    },
+    {
+      "label": "JOGGER_PATH",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "pages_landingpage_jogger_path",
+      "community": 157,
+      "norm_label": "jogger_path"
+    },
+    {
+      "label": "FAMILY_PATH",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "pages_landingpage_family_path",
+      "community": 157,
+      "norm_label": "family_path"
+    },
+    {
+      "label": "interpolatePath()",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "pages_landingpage_interpolatepath",
+      "community": 157,
+      "norm_label": "interpolatepath()"
+    },
+    {
+      "label": "LandingPage()",
+      "file_type": "code",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "pages_landingpage_landingpage",
+      "community": 157,
+      "norm_label": "landingpage()"
+    },
+    {
       "label": "package.json",
       "file_type": "code",
       "source_file": "webapp/package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "webapp_package",
       "community": 5,
-      "norm_label": "package.json"
+      "norm_label": "package.json",
+      "id": "webapp_package"
     },
     {
       "label": "name",
@@ -191,9 +311,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "webapp_package_name",
       "community": 5,
-      "norm_label": "name"
+      "norm_label": "name",
+      "id": "webapp_package_name"
     },
     {
       "label": "private",
@@ -201,9 +321,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "webapp_package_private",
       "community": 5,
-      "norm_label": "private"
+      "norm_label": "private",
+      "id": "webapp_package_private"
     },
     {
       "label": "version",
@@ -211,9 +331,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "webapp_package_version",
       "community": 5,
-      "norm_label": "version"
+      "norm_label": "version",
+      "id": "webapp_package_version"
     },
     {
       "label": "type",
@@ -221,9 +341,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "webapp_package_type",
       "community": 5,
-      "norm_label": "type"
+      "norm_label": "type",
+      "id": "webapp_package_type"
     },
     {
       "label": "scripts",
@@ -231,9 +351,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "webapp_package_scripts",
       "community": 5,
-      "norm_label": "scripts"
+      "norm_label": "scripts",
+      "id": "webapp_package_scripts"
     },
     {
       "label": "dev",
@@ -241,9 +361,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "webapp_package_scripts_dev",
       "community": 5,
-      "norm_label": "dev"
+      "norm_label": "dev",
+      "id": "webapp_package_scripts_dev"
     },
     {
       "label": "doppler-dev",
@@ -251,9 +371,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "webapp_package_scripts_doppler_dev",
       "community": 5,
-      "norm_label": "doppler-dev"
+      "norm_label": "doppler-dev",
+      "id": "webapp_package_scripts_doppler_dev"
     },
     {
       "label": "build",
@@ -261,9 +381,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "webapp_package_scripts_build",
       "community": 5,
-      "norm_label": "build"
+      "norm_label": "build",
+      "id": "webapp_package_scripts_build"
     },
     {
       "label": "lint",
@@ -271,9 +391,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "webapp_package_scripts_lint",
       "community": 5,
-      "norm_label": "lint"
+      "norm_label": "lint",
+      "id": "webapp_package_scripts_lint"
     },
     {
       "label": "preview",
@@ -281,9 +401,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "webapp_package_scripts_preview",
       "community": 5,
-      "norm_label": "preview"
+      "norm_label": "preview",
+      "id": "webapp_package_scripts_preview"
     },
     {
       "label": "dependencies",
@@ -291,9 +411,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "webapp_package_dependencies",
       "community": 5,
-      "norm_label": "dependencies"
+      "norm_label": "dependencies",
+      "id": "webapp_package_dependencies"
     },
     {
       "label": "@phosphor-icons/react",
@@ -301,9 +421,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_phosphor_icons_react",
       "community": 5,
-      "norm_label": "@phosphor-icons/react"
+      "norm_label": "@phosphor-icons/react",
+      "id": "webapp_package_dependencies_phosphor_icons_react"
     },
     {
       "label": "@sentry/react",
@@ -311,9 +431,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_sentry_react",
       "community": 5,
-      "norm_label": "@sentry/react"
+      "norm_label": "@sentry/react",
+      "id": "webapp_package_dependencies_sentry_react"
     },
     {
       "label": "@supabase/supabase-js",
@@ -321,9 +441,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_supabase_supabase_js",
       "community": 5,
-      "norm_label": "@supabase/supabase-js"
+      "norm_label": "@supabase/supabase-js",
+      "id": "webapp_package_dependencies_supabase_supabase_js"
     },
     {
       "label": "@tailwindcss/vite",
@@ -331,9 +451,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L17",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_tailwindcss_vite",
       "community": 5,
-      "norm_label": "@tailwindcss/vite"
+      "norm_label": "@tailwindcss/vite",
+      "id": "webapp_package_dependencies_tailwindcss_vite"
     },
     {
       "label": "leaflet",
@@ -341,9 +461,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L18",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_leaflet",
       "community": 5,
-      "norm_label": "leaflet"
+      "norm_label": "leaflet",
+      "id": "webapp_package_dependencies_leaflet"
     },
     {
       "label": "motion",
@@ -351,9 +471,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_motion",
       "community": 5,
-      "norm_label": "motion"
+      "norm_label": "motion",
+      "id": "webapp_package_dependencies_motion"
     },
     {
       "label": "react",
@@ -361,9 +481,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L20",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react",
       "community": 5,
-      "norm_label": "react"
+      "norm_label": "react",
+      "id": "webapp_package_dependencies_react"
     },
     {
       "label": "react-dom",
@@ -371,9 +491,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react_dom",
       "community": 5,
-      "norm_label": "react-dom"
+      "norm_label": "react-dom",
+      "id": "webapp_package_dependencies_react_dom"
     },
     {
       "label": "react-icons",
@@ -381,9 +501,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L22",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react_icons",
       "community": 5,
-      "norm_label": "react-icons"
+      "norm_label": "react-icons",
+      "id": "webapp_package_dependencies_react_icons"
     },
     {
       "label": "react-leaflet",
@@ -391,9 +511,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react_leaflet",
       "community": 5,
-      "norm_label": "react-leaflet"
+      "norm_label": "react-leaflet",
+      "id": "webapp_package_dependencies_react_leaflet"
     },
     {
       "label": "react-responsive-carousel",
@@ -401,9 +521,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react_responsive_carousel",
       "community": 5,
-      "norm_label": "react-responsive-carousel"
+      "norm_label": "react-responsive-carousel",
+      "id": "webapp_package_dependencies_react_responsive_carousel"
     },
     {
       "label": "react-router-dom",
@@ -411,9 +531,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "id": "webapp_package_dependencies_react_router_dom",
       "community": 5,
-      "norm_label": "react-router-dom"
+      "norm_label": "react-router-dom",
+      "id": "webapp_package_dependencies_react_router_dom"
     },
     {
       "label": "devDependencies",
@@ -421,9 +541,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L27",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies",
       "community": 5,
-      "norm_label": "devdependencies"
+      "norm_label": "devdependencies",
+      "id": "webapp_package_devdependencies"
     },
     {
       "label": "@eslint/js",
@@ -431,9 +551,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L28",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_eslint_js",
       "community": 5,
-      "norm_label": "@eslint/js"
+      "norm_label": "@eslint/js",
+      "id": "webapp_package_devdependencies_eslint_js"
     },
     {
       "label": "@faker-js/faker",
@@ -441,9 +561,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L29",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_faker_js_faker",
       "community": 5,
-      "norm_label": "@faker-js/faker"
+      "norm_label": "@faker-js/faker",
+      "id": "webapp_package_devdependencies_faker_js_faker"
     },
     {
       "label": "@types/leaflet",
@@ -451,9 +571,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L30",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_types_leaflet",
       "community": 5,
-      "norm_label": "@types/leaflet"
+      "norm_label": "@types/leaflet",
+      "id": "webapp_package_devdependencies_types_leaflet"
     },
     {
       "label": "@types/node",
@@ -461,9 +581,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L31",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_types_node",
       "community": 5,
-      "norm_label": "@types/node"
+      "norm_label": "@types/node",
+      "id": "webapp_package_devdependencies_types_node"
     },
     {
       "label": "@types/react",
@@ -471,9 +591,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L32",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_types_react",
       "community": 5,
-      "norm_label": "@types/react"
+      "norm_label": "@types/react",
+      "id": "webapp_package_devdependencies_types_react"
     },
     {
       "label": "@types/react-dom",
@@ -481,9 +601,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_types_react_dom",
       "community": 5,
-      "norm_label": "@types/react-dom"
+      "norm_label": "@types/react-dom",
+      "id": "webapp_package_devdependencies_types_react_dom"
     },
     {
       "label": "@vitejs/plugin-react",
@@ -491,9 +611,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L34",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_vitejs_plugin_react",
       "community": 5,
-      "norm_label": "@vitejs/plugin-react"
+      "norm_label": "@vitejs/plugin-react",
+      "id": "webapp_package_devdependencies_vitejs_plugin_react"
     },
     {
       "label": "autoprefixer",
@@ -501,9 +621,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L35",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_autoprefixer",
       "community": 5,
-      "norm_label": "autoprefixer"
+      "norm_label": "autoprefixer",
+      "id": "webapp_package_devdependencies_autoprefixer"
     },
     {
       "label": "eslint",
@@ -511,9 +631,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L36",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_eslint",
       "community": 5,
-      "norm_label": "eslint"
+      "norm_label": "eslint",
+      "id": "webapp_package_devdependencies_eslint"
     },
     {
       "label": "eslint-plugin-react-hooks",
@@ -521,9 +641,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L37",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_eslint_plugin_react_hooks",
       "community": 5,
-      "norm_label": "eslint-plugin-react-hooks"
+      "norm_label": "eslint-plugin-react-hooks",
+      "id": "webapp_package_devdependencies_eslint_plugin_react_hooks"
     },
     {
       "label": "eslint-plugin-react-refresh",
@@ -531,9 +651,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L38",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_eslint_plugin_react_refresh",
       "community": 5,
-      "norm_label": "eslint-plugin-react-refresh"
+      "norm_label": "eslint-plugin-react-refresh",
+      "id": "webapp_package_devdependencies_eslint_plugin_react_refresh"
     },
     {
       "label": "globals",
@@ -541,9 +661,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_globals",
       "community": 5,
-      "norm_label": "globals"
+      "norm_label": "globals",
+      "id": "webapp_package_devdependencies_globals"
     },
     {
       "label": "postcss",
@@ -551,9 +671,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L40",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_postcss",
       "community": 5,
-      "norm_label": "postcss"
+      "norm_label": "postcss",
+      "id": "webapp_package_devdependencies_postcss"
     },
     {
       "label": "tailwindcss",
@@ -561,9 +681,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L41",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_tailwindcss",
       "community": 5,
-      "norm_label": "tailwindcss"
+      "norm_label": "tailwindcss",
+      "id": "webapp_package_devdependencies_tailwindcss"
     },
     {
       "label": "typescript",
@@ -571,9 +691,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L42",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_typescript",
       "community": 5,
-      "norm_label": "typescript"
+      "norm_label": "typescript",
+      "id": "webapp_package_devdependencies_typescript"
     },
     {
       "label": "typescript-eslint",
@@ -581,9 +701,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L43",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_typescript_eslint",
       "community": 5,
-      "norm_label": "typescript-eslint"
+      "norm_label": "typescript-eslint",
+      "id": "webapp_package_devdependencies_typescript_eslint"
     },
     {
       "label": "vite",
@@ -591,9 +711,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L44",
       "_origin": "ast",
-      "id": "webapp_package_devdependencies_vite",
       "community": 5,
-      "norm_label": "vite"
+      "norm_label": "vite",
+      "id": "webapp_package_devdependencies_vite"
     },
     {
       "label": "cache.py",
@@ -1911,7 +2031,7 @@
       "source_file": "backend/services/llm_agent.py",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": "llmagent",
       "id": "services_llm_agent_llmagent"
     },
@@ -2001,7 +2121,7 @@
       "source_file": "backend/services/llm_agent.py",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": "stateless triage agent facade.      stateless: caller provides full conversation",
       "id": "services_llm_agent_rationale_26"
     },
@@ -2021,7 +2141,7 @@
       "source_file": "backend/services/proximity.py",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "proximity.py",
       "id": "services_proximity"
     },
@@ -2031,7 +2151,7 @@
       "source_file": "backend/services/proximity.py",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "haversine_km()",
       "id": "services_proximity_haversine_km"
     },
@@ -2041,7 +2161,7 @@
       "source_file": "backend/services/proximity.py",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "find_nearest_facilities()",
       "id": "services_proximity_find_nearest_facilities"
     },
@@ -2051,7 +2171,7 @@
       "source_file": "backend/services/proximity.py",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "returns up to top_n nearest facilities that accept the given severity,     sorte",
       "id": "services_proximity_rationale_21"
     },
@@ -2081,7 +2201,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "test_triage_tools.py",
       "id": "llm_test_triage_tools"
     },
@@ -2091,7 +2211,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "mock_facilities_cache()",
       "id": "llm_test_triage_tools_mock_facilities_cache"
     },
@@ -2101,7 +2221,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "testhaversine",
       "id": "llm_test_triage_tools_testhaversine"
     },
@@ -2111,7 +2231,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_same_point_is_zero()",
       "id": "llm_test_triage_tools_testhaversine_test_same_point_is_zero"
     },
@@ -2121,7 +2241,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_known_approximate_distance()",
       "id": "llm_test_triage_tools_testhaversine_test_known_approximate_distance"
     },
@@ -2131,7 +2251,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_symmetry()",
       "id": "llm_test_triage_tools_testhaversine_test_symmetry"
     },
@@ -2141,7 +2261,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "testfindnearestfacilities",
       "id": "llm_test_triage_tools_testfindnearestfacilities"
     },
@@ -2151,7 +2271,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L78",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_returns_list_not_single()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_returns_list_not_single"
     },
@@ -2161,7 +2281,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L83",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_top_n_respected()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_top_n_respected"
     },
@@ -2171,7 +2291,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L89",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_sorted_by_distance_ascending()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_sorted_by_distance_ascending"
     },
@@ -2181,7 +2301,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_emergent_only_returns_hospitals()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_emergent_only_returns_hospitals"
     },
@@ -2191,7 +2311,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L103",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_all_results_accept_severity()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_all_results_accept_severity"
     },
@@ -2201,7 +2321,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L111",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_returns_none_when_cache_empty()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_returns_none_when_cache_empty"
     },
@@ -2211,7 +2331,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L118",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_returns_empty_list_when_no_eligible()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_returns_empty_list_when_no_eligible"
     },
@@ -2221,7 +2341,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L125",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_distance_field_present_and_positive()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_distance_field_present_and_positive"
     },
@@ -2231,7 +2351,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L133",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_result_fields_complete()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_result_fields_complete"
     },
@@ -2241,7 +2361,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L141",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_first_item_is_nearest()",
       "id": "llm_test_triage_tools_testfindnearestfacilities_test_first_item_is_nearest"
     },
@@ -2251,7 +2371,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L152",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "make_agent()",
       "id": "llm_test_triage_tools_make_agent"
     },
@@ -2261,7 +2381,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L157",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "testagentmessagebuilding",
       "id": "llm_test_triage_tools_testagentmessagebuilding"
     },
@@ -2271,7 +2391,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L158",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_system_prompt_is_first()",
       "id": "llm_test_triage_tools_testagentmessagebuilding_test_system_prompt_is_first"
     },
@@ -2281,7 +2401,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L164",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_user_message_is_last()",
       "id": "llm_test_triage_tools_testagentmessagebuilding_test_user_message_is_last"
     },
@@ -2291,7 +2411,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L170",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_history_trimmed_to_context_window()",
       "id": "llm_test_triage_tools_testagentmessagebuilding_test_history_trimmed_to_context_window"
     },
@@ -2301,7 +2421,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L181",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": ".test_empty_history_two_messages()",
       "id": "llm_test_triage_tools_testagentmessagebuilding_test_empty_history_two_messages"
     },
@@ -2311,7 +2431,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L191",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": "testfollowupceiling",
       "id": "llm_test_triage_tools_testfollowupceiling"
     },
@@ -2321,7 +2441,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L192",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": ".test_force_classify_at_ceiling()",
       "id": "llm_test_triage_tools_testfollowupceiling_test_force_classify_at_ceiling"
     },
@@ -2331,7 +2451,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L225",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": ".test_followup_turn_no_force_tool()",
       "id": "llm_test_triage_tools_testfollowupceiling_test_followup_turn_no_force_tool"
     },
@@ -2341,7 +2461,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L249",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": "testtriageresultshape",
       "id": "llm_test_triage_tools_testtriageresultshape"
     },
@@ -2351,7 +2471,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L250",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": ".test_triage_result_contains_nearby_facilities()",
       "id": "llm_test_triage_tools_testtriageresultshape_test_triage_result_contains_nearby_facilities"
     },
@@ -2361,7 +2481,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L295",
       "_origin": "ast",
-      "community": 0,
+      "community": 161,
       "norm_label": ".test_no_location_returns_no_facility()",
       "id": "llm_test_triage_tools_testtriageresultshape_test_no_location_returns_no_facility"
     },
@@ -2371,7 +2491,7 @@
       "source_file": "backend/tests/llm/test_triage_tools.py",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 50,
       "norm_label": "unit tests for proximity service, agent message building, and follow-up ceiling.",
       "id": "llm_test_triage_tools_rationale_1"
     },
@@ -4011,7 +4131,7 @@
       "source_file": "shared/types.ts",
       "source_location": "L99",
       "_origin": "ast",
-      "community": 14,
+      "community": 1,
       "norm_label": "triageuistate",
       "id": "shared_types_triageuistate"
     },
@@ -4171,7 +4291,7 @@
       "source_file": "webapp/src/App.tsx",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 19,
+      "community": 29,
       "norm_label": "landingroute()",
       "id": "src_app_landingroute"
     },
@@ -4181,7 +4301,7 @@
       "source_file": "webapp/src/App.tsx",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 29,
+      "community": 11,
       "norm_label": "appinner()",
       "id": "src_app_appinner"
     },
@@ -4201,7 +4321,7 @@
       "source_file": "webapp/src/Menucomponents/Home.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "home.tsx",
       "id": "menucomponents_home"
     },
@@ -4211,7 +4331,7 @@
       "source_file": "webapp/src/Menucomponents/Home.tsx",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "homeprops",
       "id": "menucomponents_home_homeprops"
     },
@@ -4221,7 +4341,7 @@
       "source_file": "webapp/src/Menucomponents/Home.tsx",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "home()",
       "id": "menucomponents_home_home"
     },
@@ -4931,7 +5051,7 @@
       "source_file": "webapp/src/components/Notification.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 29,
       "norm_label": "notification.tsx",
       "id": "components_notification"
     },
@@ -4941,7 +5061,7 @@
       "source_file": "webapp/src/components/Notification.tsx",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 19,
+      "community": 29,
       "norm_label": "erroricon()",
       "id": "components_notification_erroricon"
     },
@@ -4951,7 +5071,7 @@
       "source_file": "webapp/src/components/Notification.tsx",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 19,
+      "community": 29,
       "norm_label": "successicon()",
       "id": "components_notification_successicon"
     },
@@ -4961,7 +5081,7 @@
       "source_file": "webapp/src/components/Notification.tsx",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 19,
+      "community": 29,
       "norm_label": "notification()",
       "id": "components_notification_notification"
     },
@@ -5121,7 +5241,7 @@
       "source_file": "webapp/src/components/map/MapPanel.tsx",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 14,
+      "community": 139,
       "norm_label": "mappanelprops",
       "id": "map_mappanel_mappanelprops"
     },
@@ -5241,7 +5361,7 @@
       "source_file": "webapp/src/components/map/components/UnifiedFacilityPopup.tsx",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 155,
+      "community": 139,
       "norm_label": "unifiedfacilitypopup()",
       "id": "components_unifiedfacilitypopup_unifiedfacilitypopup"
     },
@@ -5351,7 +5471,7 @@
       "source_file": "webapp/src/components/map/config/icons.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 156,
+      "community": 155,
       "norm_label": "icons.ts",
       "id": "config_icons"
     },
@@ -5361,7 +5481,7 @@
       "source_file": "webapp/src/components/map/config/icons.ts",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 156,
+      "community": 155,
       "norm_label": "cntowericon",
       "id": "config_icons_cntowericon"
     },
@@ -5371,7 +5491,7 @@
       "source_file": "webapp/src/components/map/config/icons.ts",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 156,
+      "community": 155,
       "norm_label": "usericon",
       "id": "config_icons_usericon"
     },
@@ -5381,7 +5501,7 @@
       "source_file": "webapp/src/components/map/config/icons.ts",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 156,
+      "community": 155,
       "norm_label": "getfacilityicon()",
       "id": "config_icons_getfacilityicon"
     },
@@ -5431,7 +5551,7 @@
       "source_file": "webapp/src/components/map/context/MapContext.tsx",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 50,
+      "community": 14,
       "norm_label": "usemapcontext()",
       "id": "context_mapcontext_usemapcontext"
     },
@@ -5441,7 +5561,7 @@
       "source_file": "webapp/src/components/map/hooks/useOsrmRoute.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 14,
       "norm_label": "useosrmroute.ts",
       "id": "hooks_useosrmroute"
     },
@@ -5451,7 +5571,7 @@
       "source_file": "webapp/src/components/map/hooks/useOsrmRoute.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 50,
+      "community": 14,
       "norm_label": "useosrmroute()",
       "id": "hooks_useosrmroute_useosrmroute"
     },
@@ -5511,7 +5631,7 @@
       "source_file": "webapp/src/components/map/layers/OsrmRouteLayer.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 50,
+      "community": 14,
       "norm_label": "osrmroutelayer.tsx",
       "id": "layers_osrmroutelayer"
     },
@@ -5521,7 +5641,7 @@
       "source_file": "webapp/src/components/map/layers/OsrmRouteLayer.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 50,
+      "community": 14,
       "norm_label": "osrmroutelayer()",
       "id": "layers_osrmroutelayer_osrmroutelayer"
     },
@@ -5531,7 +5651,7 @@
       "source_file": "webapp/src/components/map/layers/RoadRouteLayer.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 155,
+      "community": 14,
       "norm_label": "roadroutelayer.tsx",
       "id": "layers_roadroutelayer"
     },
@@ -5541,7 +5661,7 @@
       "source_file": "webapp/src/components/map/layers/RoadRouteLayer.tsx",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 155,
+      "community": 14,
       "norm_label": "ensurestyles()",
       "id": "layers_roadroutelayer_ensurestyles"
     },
@@ -5551,7 +5671,7 @@
       "source_file": "webapp/src/components/map/layers/RoadRouteLayer.tsx",
       "source_location": "L37",
       "_origin": "ast",
-      "community": 155,
+      "community": 14,
       "norm_label": "buildoriginicon()",
       "id": "layers_roadroutelayer_buildoriginicon"
     },
@@ -5561,7 +5681,7 @@
       "source_file": "webapp/src/components/map/layers/RoadRouteLayer.tsx",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 155,
+      "community": 14,
       "norm_label": "builddestinationicon()",
       "id": "layers_roadroutelayer_builddestinationicon"
     },
@@ -5671,7 +5791,7 @@
       "source_file": "webapp/src/components/mobile/BottomSheet.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "bottomsheet.tsx",
       "id": "mobile_bottomsheet"
     },
@@ -5681,7 +5801,7 @@
       "source_file": "webapp/src/components/mobile/BottomSheet.tsx",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "bottomsheetprops",
       "id": "mobile_bottomsheet_bottomsheetprops"
     },
@@ -5691,7 +5811,7 @@
       "source_file": "webapp/src/components/mobile/BottomSheet.tsx",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "bottomsheet",
       "id": "mobile_bottomsheet_bottomsheet"
     },
@@ -5781,7 +5901,7 @@
       "source_file": "webapp/src/components/mobile/FacilityCard.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "facilitycard.tsx",
       "id": "mobile_facilitycard"
     },
@@ -5791,7 +5911,7 @@
       "source_file": "webapp/src/components/mobile/FacilityCard.tsx",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "severity_colors",
       "id": "mobile_facilitycard_severity_colors"
     },
@@ -5801,7 +5921,7 @@
       "source_file": "webapp/src/components/mobile/FacilityCard.tsx",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "facilitycardprops",
       "id": "mobile_facilitycard_facilitycardprops"
     },
@@ -5811,7 +5931,7 @@
       "source_file": "webapp/src/components/mobile/FacilityCard.tsx",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "facilitycard()",
       "id": "mobile_facilitycard_facilitycard"
     },
@@ -5821,7 +5941,7 @@
       "source_file": "webapp/src/components/mobile/MapTab.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "maptab.tsx",
       "id": "mobile_maptab"
     },
@@ -5831,7 +5951,7 @@
       "source_file": "webapp/src/components/mobile/MapTab.tsx",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "maptabprops",
       "id": "mobile_maptab_maptabprops"
     },
@@ -5841,7 +5961,7 @@
       "source_file": "webapp/src/components/mobile/MapTab.tsx",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "maptab()",
       "id": "mobile_maptab_maptab"
     },
@@ -5851,7 +5971,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "mobilelayout.tsx",
       "id": "mobile_mobilelayout"
     },
@@ -5861,7 +5981,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "mobilelayoutprops",
       "id": "mobile_mobilelayout_mobilelayoutprops"
     },
@@ -5871,7 +5991,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "tab",
       "id": "mobile_mobilelayout_tab"
     },
@@ -5881,7 +6001,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "mapicon()",
       "id": "mobile_mobilelayout_mapicon"
     },
@@ -5891,7 +6011,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L47",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "chaticon()",
       "id": "mobile_mobilelayout_chaticon"
     },
@@ -5901,7 +6021,7 @@
       "source_file": "webapp/src/components/mobile/MobileLayout.tsx",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "mobilelayout()",
       "id": "mobile_mobilelayout_mobilelayout"
     },
@@ -6011,7 +6131,7 @@
       "source_file": "webapp/src/components/onboarding/GettingStartedModal.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "gettingstartedmodal.tsx",
       "id": "onboarding_gettingstartedmodal"
     },
@@ -6021,7 +6141,7 @@
       "source_file": "webapp/src/components/onboarding/GettingStartedModal.tsx",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "geoprops",
       "id": "onboarding_gettingstartedmodal_geoprops"
     },
@@ -6031,7 +6151,7 @@
       "source_file": "webapp/src/components/onboarding/GettingStartedModal.tsx",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "gettingstartedmodalprops",
       "id": "onboarding_gettingstartedmodal_gettingstartedmodalprops"
     },
@@ -6041,7 +6161,7 @@
       "source_file": "webapp/src/components/onboarding/GettingStartedModal.tsx",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "gettingstartedmodal()",
       "id": "onboarding_gettingstartedmodal_gettingstartedmodal"
     },
@@ -6091,7 +6211,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "pwainstallmodal.tsx",
       "id": "pwa_pwainstallmodal"
     },
@@ -6101,7 +6221,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "pwainstallmodalprops",
       "id": "pwa_pwainstallmodal_pwainstallmodalprops"
     },
@@ -6111,7 +6231,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "pwainstallmodal()",
       "id": "pwa_pwainstallmodal_pwainstallmodal"
     },
@@ -6121,7 +6241,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "iosvariant()",
       "id": "pwa_pwainstallmodal_iosvariant"
     },
@@ -6131,7 +6251,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L142",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "wrongbrowservariant()",
       "id": "pwa_pwainstallmodal_wrongbrowservariant"
     },
@@ -6141,7 +6261,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L161",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "androidvariant()",
       "id": "pwa_pwainstallmodal_androidvariant"
     },
@@ -6151,7 +6271,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L186",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "desktopvariant()",
       "id": "pwa_pwainstallmodal_desktopvariant"
     },
@@ -6161,7 +6281,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L211",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "primarybuttonstyle",
       "id": "pwa_pwainstallmodal_primarybuttonstyle"
     },
@@ -6171,7 +6291,7 @@
       "source_file": "webapp/src/components/pwa/PWAInstallModal.tsx",
       "source_location": "L226",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "secondarybuttonstyle",
       "id": "pwa_pwainstallmodal_secondarybuttonstyle"
     },
@@ -6521,7 +6641,7 @@
       "source_file": "webapp/src/components/triage/TriageCard.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "norm_label": "triagecard.tsx",
       "id": "triage_triagecard"
     },
@@ -6531,7 +6651,7 @@
       "source_file": "webapp/src/components/triage/TriageCard.tsx",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "norm_label": "triagecardprops",
       "id": "triage_triagecard_triagecardprops"
     },
@@ -6541,7 +6661,7 @@
       "source_file": "webapp/src/components/triage/TriageCard.tsx",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "norm_label": "severity_colors",
       "id": "triage_triagecard_severity_colors"
     },
@@ -6561,7 +6681,7 @@
       "source_file": "webapp/src/components/triage/TriageCard.tsx",
       "source_location": "L242",
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "norm_label": "primarybutton()",
       "id": "triage_triagecard_primarybutton"
     },
@@ -6571,7 +6691,7 @@
       "source_file": "webapp/src/components/triage/TriageCard.tsx",
       "source_location": "L260",
       "_origin": "ast",
-      "community": 2,
+      "community": 1,
       "norm_label": "secondarybutton()",
       "id": "triage_triagecard_secondarybutton"
     },
@@ -6671,7 +6791,7 @@
       "source_file": "webapp/src/hooks/useConversations.ts",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 29,
+      "community": 101,
       "norm_label": "useconversations()",
       "id": "hooks_useconversations_useconversations"
     },
@@ -6681,7 +6801,7 @@
       "source_file": "webapp/src/hooks/useFacilities.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 29,
+      "community": 139,
       "norm_label": "usefacilities.ts",
       "id": "hooks_usefacilities"
     },
@@ -6691,7 +6811,7 @@
       "source_file": "webapp/src/hooks/useFacilities.ts",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 29,
+      "community": 139,
       "norm_label": "usefacilitiesresult",
       "id": "hooks_usefacilities_usefacilitiesresult"
     },
@@ -6701,7 +6821,7 @@
       "source_file": "webapp/src/hooks/useFacilities.ts",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 29,
+      "community": 13,
       "norm_label": "usefacilities()",
       "id": "hooks_usefacilities_usefacilities"
     },
@@ -6771,7 +6891,7 @@
       "source_file": "webapp/src/hooks/useNextActions.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "usenextactions.ts",
       "id": "hooks_usenextactions"
     },
@@ -6781,7 +6901,7 @@
       "source_file": "webapp/src/hooks/useNextActions.ts",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "nextactionhandlers",
       "id": "hooks_usenextactions_nextactionhandlers"
     },
@@ -6791,7 +6911,7 @@
       "source_file": "webapp/src/hooks/useNextActions.ts",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 2,
+      "community": 152,
       "norm_label": "usenextactions()",
       "id": "hooks_usenextactions_usenextactions"
     },
@@ -6861,7 +6981,7 @@
       "source_file": "webapp/src/hooks/usePWAInstall.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "platform",
       "id": "hooks_usepwainstall_platform"
     },
@@ -6871,7 +6991,7 @@
       "source_file": "webapp/src/hooks/usePWAInstall.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 11,
+      "community": 160,
       "norm_label": "installstate",
       "id": "hooks_usepwainstall_installstate"
     },
@@ -6971,7 +7091,7 @@
       "source_file": "webapp/src/hooks/useProfile.ts",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "useprofile()",
       "id": "hooks_useprofile_useprofile"
     },
@@ -7011,7 +7131,7 @@
       "source_file": "webapp/src/hooks/useTriageState.ts",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 138,
+      "community": 19,
       "norm_label": "usetriagestate()",
       "id": "hooks_usetriagestate_usetriagestate"
     },
@@ -7144,46 +7264,6 @@
       "community": 29,
       "norm_label": "datadisclosurepage()",
       "id": "pages_datadisclosurepage_datadisclosurepage"
-    },
-    {
-      "label": "LandingPage.tsx",
-      "file_type": "code",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 19,
-      "norm_label": "landingpage.tsx",
-      "id": "pages_landingpage"
-    },
-    {
-      "label": "STEPS",
-      "file_type": "code",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 19,
-      "norm_label": "steps",
-      "id": "pages_landingpage_steps"
-    },
-    {
-      "label": "FEATURES",
-      "file_type": "code",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 19,
-      "norm_label": "features",
-      "id": "pages_landingpage_features"
-    },
-    {
-      "label": "LandingPage()",
-      "file_type": "code",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L35",
-      "_origin": "ast",
-      "community": 19,
-      "norm_label": "landingpage()",
-      "id": "pages_landingpage_landingpage"
     },
     {
       "label": "PrivacyPage.tsx",
@@ -7971,7 +8051,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 54,
+      "community": 168,
       "norm_label": "scope boundaries",
       "id": "agents_scope_boundaries"
     },
@@ -7981,7 +8061,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 54,
+      "community": 168,
       "norm_label": "read and write allowed",
       "id": "agents_read_and_write_allowed"
     },
@@ -7991,7 +8071,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 54,
+      "community": 168,
       "norm_label": "never modify",
       "id": "agents_never_modify"
     },
@@ -8001,7 +8081,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 54,
+      "community": 168,
       "norm_label": "never do",
       "id": "agents_never_do"
     },
@@ -8011,7 +8091,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "git branch model",
       "id": "agents_git_branch_model"
     },
@@ -8021,7 +8101,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "branch hierarchy",
       "id": "agents_branch_hierarchy"
     },
@@ -8031,7 +8111,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L47",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "protected branches",
       "id": "agents_protected_branches"
     },
@@ -8041,7 +8121,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "branching rule \u2014 always cut from `preview`",
       "id": "agents_branching_rule_always_cut_from_preview"
     },
@@ -8051,7 +8131,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "branch check before touching any file",
       "id": "agents_branch_check_before_touching_any_file"
     },
@@ -8061,7 +8141,7 @@
       "source_file": ".AGENTS.md",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 54,
+      "community": 167,
       "norm_label": "upstream tracking",
       "id": "agents_upstream_tracking"
     },
@@ -15056,7 +15136,7 @@
       "author": null,
       "contributor": null,
       "rationale": "All structured multi-file work must flow through /execute-task to enforce read-plan-approve-implement-summarize-commit, preventing ungoverned changes.",
-      "community": 43,
+      "community": 163,
       "norm_label": "planning protocol (/execute-task)",
       "id": "medicoordai_planning_protocol"
     },
@@ -15084,7 +15164,7 @@
       "author": null,
       "contributor": null,
       "rationale": "Switches between groq and anthropic without hardcoding a provider, routed through backend/llm/client.py abstraction layer.",
-      "community": 117,
+      "community": 164,
       "norm_label": "llm_provider feature flag",
       "id": "medicoordai_llm_provider_flag"
     },
@@ -15138,7 +15218,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 163,
       "norm_label": "task template (000_template.md)",
       "id": "000_template_task_template"
     },
@@ -15151,7 +15231,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 163,
       "norm_label": "task 001: fastapi backend base endpoints",
       "id": "001_backend_skeleton_task"
     },
@@ -15177,7 +15257,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 163,
       "norm_label": "backend/models.py (pydantic facility models)",
       "id": "001_backend_skeleton_models_py"
     },
@@ -15216,7 +15296,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 163,
       "norm_label": "shared/types.ts (facility mirror)",
       "id": "001_backend_skeleton_shared_types"
     },
@@ -15242,7 +15322,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 117,
+      "community": 164,
       "norm_label": "get /health endpoint",
       "id": "001_backend_skeleton_health_endpoint"
     },
@@ -15268,7 +15348,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "task 002: home ui refactor \u2014 static spa layout",
       "id": "002_home_ui_refactor_task"
     },
@@ -15281,7 +15361,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "webapp/src/app.tsx (tab router removed)",
       "id": "002_home_ui_refactor_app_tsx"
     },
@@ -15294,7 +15374,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "webapp/src/menucomponents/home.tsx",
       "id": "002_home_ui_refactor_home_tsx"
     },
@@ -15347,7 +15427,7 @@
       "author": null,
       "contributor": null,
       "rationale": "Hackathon three-tab simulator (Smart Routing, In-house Scheduling, Predictive Analysis) is replaced wholesale by a static 70/30 map+chat SPA matching the approved design; deleted not commented out to avoid dead code.",
-      "community": 30,
+      "community": 40,
       "norm_label": "removed simulation components (inhousescheduler, map, simulationform)",
       "id": "002_home_ui_refactor_removed_components"
     },
@@ -15374,7 +15454,7 @@
       "author": null,
       "contributor": null,
       "rationale": "Installed but never used \u2014 cleaned up opportunistically while package.json was already being touched for the refactor.",
-      "community": 30,
+      "community": 40,
       "norm_label": "dead npm packages removed (recharts, turf, slick, material-tailwind, heroicons)",
       "id": "002_home_ui_refactor_dead_packages"
     },
@@ -15478,7 +15558,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 30,
       "norm_label": "backend/services/auth.py (verify_token)",
       "id": "003_auth_integration_auth_service_py"
     },
@@ -15491,7 +15571,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 30,
       "norm_label": "backend/middleware/auth.py (get_current_user, authmiddleware)",
       "id": "003_auth_integration_auth_middleware_py"
     },
@@ -15504,7 +15584,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 30,
       "norm_label": "get /me endpoint (auth smoke test)",
       "id": "003_auth_integration_me_endpoint"
     },
@@ -15728,7 +15808,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "sentry.errorboundary in app.tsx",
       "id": "005_observability_error_boundary"
     },
@@ -15820,7 +15900,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "webapp/src/components/onboarding/gettingstartedmodal.tsx",
       "id": "007_profile_onboarding_getting_started_modal"
     },
@@ -15846,7 +15926,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 32,
       "norm_label": "webapp/src/hooks/useprofile.ts",
       "id": "007_profile_onboarding_use_profile_hook"
     },
@@ -15966,7 +16046,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 117,
+      "community": 164,
       "norm_label": "task 008 (llm doc): llm triage agent \u2014 symptom classification + facility tool",
       "id": "009_llm_triage_task"
     },
@@ -16110,7 +16190,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 117,
+      "community": 164,
       "norm_label": "task 010 (doc id 009): triage ui \u2014 map route display + chat triage result",
       "id": "010_map_triage_task"
     },
@@ -16123,7 +16203,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 117,
+      "community": 164,
       "norm_label": "webapp/src/hooks/usetriagestate.ts",
       "id": "010_map_triage_use_triage_state_hook"
     },
@@ -16176,7 +16256,7 @@
       "author": null,
       "contributor": null,
       "rationale": "Backend recommends the nearest facility by Haversine distance; the frontend re-ranks by Geoapify drive-time ETA so the true recommendation reflects real-world travel time, not straight-line distance.",
-      "community": 117,
+      "community": 164,
       "norm_label": "geoapify routematrix eta re-ranking",
       "id": "010_map_triage_route_matrix"
     },
@@ -16269,7 +16349,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/components/mobile/mobilelayout.tsx",
       "id": "010_mobile_layout_mobile_layout_tsx"
     },
@@ -16282,7 +16362,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/components/mobile/maptab.tsx",
       "id": "010_mobile_layout_map_tab_tsx"
     },
@@ -16295,7 +16375,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/components/mobile/aiassistanttab.tsx",
       "id": "010_mobile_layout_ai_assistant_tab_tsx"
     },
@@ -16308,7 +16388,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/components/mobile/bottomsheet.tsx",
       "id": "010_mobile_layout_bottom_sheet_tsx"
     },
@@ -16321,7 +16401,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/hooks/usebottomsheet.ts (drag gesture)",
       "id": "010_mobile_layout_use_bottom_sheet_hook"
     },
@@ -16334,7 +16414,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 46,
+      "community": 162,
       "norm_label": "webapp/src/hooks/usebreakpoint.ts",
       "id": "010_mobile_layout_use_breakpoint_hook"
     },
@@ -16347,7 +16427,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 30,
+      "community": 40,
       "norm_label": "webapp/src/pages/setuppage.tsx (/setup route)",
       "id": "010_mobile_layout_setup_page"
     },
@@ -16361,7 +16441,7 @@
       "author": null,
       "contributor": null,
       "rationale": "Desktop split-pane layout (map left, chat right) is unusable below 768px, so a dedicated tab-based mobile layout is introduced without restructuring or regressing the existing desktop JSX.",
-      "community": 46,
+      "community": 162,
       "norm_label": "768px breakpoint mobile/desktop split strategy",
       "id": "010_mobile_layout_breakpoint_strategy"
     },
@@ -16506,7 +16586,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 43,
+      "community": 163,
       "norm_label": "/execute-task command",
       "id": "execute_task_command"
     },
@@ -19883,6 +19963,160 @@
   ],
   "links": [
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_landingpage",
+      "target": "auth_loginmodal"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_landingpage",
+      "target": "auth_loginmodal_loginmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_bike_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_car_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_clinic_pin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_family_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_hospital_pin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_interpolatepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_jogger_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_lab_pin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_landingpage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_placeholders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "pages_landingpage",
+      "target": "pages_landingpage_sample_chips",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/App.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "pages_landingpage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "webapp/src/pages/LandingPage.tsx",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "pages_landingpage_landingpage",
+      "target": "pages_landingpage_interpolatepath",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "webapp/package.json",
@@ -20018,9 +20252,9 @@
       "source_file": "webapp/package.json",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "webapp_package_dependencies",
-      "target": "webapp_package_dependencies_motion",
-      "confidence_score": 1.0
+      "target": "webapp_package_dependencies_motion"
     },
     {
       "relation": "contains",
@@ -27091,17 +27325,6 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "webapp/src/App.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "pages_landingpage"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/App.tsx",
       "source_location": "L9",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -28944,17 +29167,6 @@
       "target": "auth_loginmodal"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_landingpage",
-      "target": "auth_loginmodal"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -28963,17 +29175,6 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "mobile_mobilenavbar",
-      "target": "auth_loginmodal_loginmodal"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_landingpage",
       "target": "auth_loginmodal_loginmodal"
     },
     {
@@ -32611,36 +32812,6 @@
       "confidence_score": 1.0,
       "source": "pages_datadisclosurepage",
       "target": "pages_datadisclosurepage_datadisclosurepage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_landingpage",
-      "target": "pages_landingpage_features"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_landingpage",
-      "target": "pages_landingpage_landingpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "webapp/src/pages/LandingPage.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_landingpage",
-      "target": "pages_landingpage_steps"
     },
     {
       "relation": "contains",
@@ -45084,5 +45255,5 @@
       "source_file": "readme.md"
     }
   ],
-  "built_at_commit": "3da16b655e7bc95a1655ed9a1eca202b3fa558af"
+  "built_at_commit": "9e88f794c64b1b745e1eef1c57e468ceaa741056"
 }

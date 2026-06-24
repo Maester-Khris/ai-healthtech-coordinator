@@ -17,8 +17,8 @@ function ensureStyles() {
       to   { stroke-dashoffset: -17; }
     }
     @keyframes originHalo {
-      0%   { transform: scale(0.5); opacity: 0.55; }
-      100% { transform: scale(2.2); opacity: 0; }
+      0%   { transform: scale(0.5); opacity: 0.7; }
+      100% { transform: scale(2.4); opacity: 0; }
     }
     .route-flow-line {
       animation: routeFlow 3s linear infinite;
@@ -41,15 +41,16 @@ function buildOriginIcon(): L.DivIcon {
       <div style="position:relative;width:40px;height:40px">
         <div class="origin-pulse-halo" style="
           position:absolute;inset:0;border-radius:50%;
-          background:#1C6FC4;pointer-events:none"></div>
+          background:#48F6C1;pointer-events:none"></div>
         <div style="
           position:absolute;top:50%;left:50%;width:18px;height:18px;
-          border-radius:50%;background:white;
-          box-shadow:0 1px 5px rgba(0,0,0,0.22);
+          border-radius:50%;background:rgba(6,18,25,0.95);
+          border:2px solid rgba(72,246,193,0.6);
+          box-shadow:0 0 10px rgba(72,246,193,0.3);
           transform:translate(-50%,-50%);pointer-events:none"></div>
         <div style="
-          position:absolute;top:50%;left:50%;width:11px;height:11px;
-          border-radius:50%;background:#1C6FC4;
+          position:absolute;top:50%;left:50%;width:9px;height:9px;
+          border-radius:50%;background:#48F6C1;
           transform:translate(-50%,-50%);pointer-events:none"></div>
       </div>`,
     iconSize: [40, 40],
@@ -64,10 +65,11 @@ function buildDestinationIcon(
 ): L.DivIcon {
   const chip = etaLabel
     ? `<div style="
-        margin-top:4px;white-space:nowrap;background:white;
-        border:1.5px solid #dde6f0;border-radius:999px;
-        padding:2px 9px;font-size:11px;font-weight:600;color:#1a2b40;
-        box-shadow:0 2px 6px rgba(0,0,0,0.13);line-height:1.5;
+        margin-top:4px;white-space:nowrap;
+        background:rgba(6,18,25,0.9);
+        border:1px solid rgba(28,70,89,0.7);border-radius:999px;
+        padding:3px 10px;font-size:11px;font-weight:600;color:#E2F1F5;
+        backdrop-filter:blur(8px);line-height:1.5;
         font-family:system-ui,-apple-system,sans-serif;
         pointer-events:none">${etaLabel}</div>`
     : ""
@@ -80,8 +82,8 @@ function buildDestinationIcon(
         pointer-events:none">
         <div style="
           width:38px;height:38px;border-radius:50%;background:${color};
-          border:2.5px solid white;display:flex;align-items:center;
-          justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.3);
+          border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;
+          justify-content:center;box-shadow:0 0 12px ${color}66,0 3px 10px rgba(0,0,0,0.4);
           font-family:system-ui,-apple-system,sans-serif">
           <span style="color:white;font-weight:700;font-size:14px;line-height:1">
             ${letter}
@@ -140,15 +142,14 @@ export function RoadRouteLayer() {
 
     const ROUND = { lineCap: "round" as const, lineJoin: "round" as const, smoothFactor: 1 }
 
-    const shadow = L.polyline(positions, { ...ROUND, color: "#1C6FC4", weight: 14, opacity: 0.18 })
-    const casing = L.polyline(positions, { ...ROUND, color: "#FFFFFF",  weight: 13, opacity: 1 })
-    const main   = L.polyline(positions, { ...ROUND, color: "#1C6FC4", weight: 7,  opacity: 1 })
+    const shadow = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 18, opacity: 0.1 })
+    const main   = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 4,  opacity: 0.9 })
     const flow   = L.polyline(positions, {
       ...ROUND,
-      color: "#BBDCF8",
-      weight: 2.5,
+      color: "rgba(255,255,255,0.5)",
+      weight: 1.5,
       opacity: 1,
-      dashArray: "1 16",
+      dashArray: "1 12",
       className: "route-flow-line",
     })
 
@@ -165,7 +166,7 @@ export function RoadRouteLayer() {
       zIndexOffset: 200,
     })
 
-    layerRef.current = L.layerGroup([shadow, casing, main, flow, originMarker, destMarker])
+    layerRef.current = L.layerGroup([shadow, main, flow, originMarker, destMarker])
     layerRef.current.addTo(map)
 
     const bounds = main.getBounds().extend([facilityLat, facilityLng])

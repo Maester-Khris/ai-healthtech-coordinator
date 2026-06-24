@@ -5,12 +5,12 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1863 nodes · 2454 edges · 169 communities (134 shown, 35 thin omitted)
+- 1911 nodes · 2501 edges · 178 communities (143 shown, 35 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 170 edges (avg confidence: 0.69)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9e88f794`
+- Built from commit: `0b936033`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -164,6 +164,15 @@
 - [[_COMMUNITY_Community 166|Community 166]]
 - [[_COMMUNITY_Community 167|Community 167]]
 - [[_COMMUNITY_Community 168|Community 168]]
+- [[_COMMUNITY_Community 169|Community 169]]
+- [[_COMMUNITY_Community 170|Community 170]]
+- [[_COMMUNITY_Community 171|Community 171]]
+- [[_COMMUNITY_Community 172|Community 172]]
+- [[_COMMUNITY_Community 173|Community 173]]
+- [[_COMMUNITY_Community 174|Community 174]]
+- [[_COMMUNITY_Community 175|Community 175]]
+- [[_COMMUNITY_Community 176|Community 176]]
+- [[_COMMUNITY_Community 177|Community 177]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `LLMAgent` - 27 edges
@@ -206,19 +215,19 @@
 - **IAM Roles Implemented by Pipeline Lambda Functions** — infra_template_yaml_ingestionrole, infra_template_yaml_processorrole, infra_template_yaml_dbtrunnerrole, infra_template_yaml_placesenricher, infra_template_yaml_placesprocessor, infra_template_yaml_dbtrunner [EXTRACTED 1.00]
 - **v2.0 Parallel Tool-Calling Triage Pipeline** — readme_anthropic_severity_classification_tool, readme_browser_geolocation_tool, readme_geoapify_routematrix_tool, readme_triage_post_endpoint, readme_v2_product_vision [EXTRACTED 1.00]
 
-## Communities (169 total, 35 thin omitted)
+## Communities (178 total, 35 thin omitted)
 
 ### Community 0 - "LLM Client Abstraction"
-Cohesion: 0.11
-Nodes (22): ABC, LLMMessage, LLMResponse, ToolDefinition, LLMMessage, LLMResponse, ToolDefinition, BaseLLMClient (+14 more)
+Cohesion: 0.06
+Nodes (34): ABC, LLMMessage, LLMResponse, ToolDefinition, LLMMessage, LLMResponse, ToolDefinition, BaseLLMClient (+26 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.10
-Nodes (17): DEFAULT_STATE, GEOAPIFY_KEY, ChatMessageResponse, ConversationsCache, FacilityCategory, Message, RouteResult, SendNotificationRequest (+9 more)
+Cohesion: 0.11
+Nodes (17): UseFacilitiesResult, DEFAULT_STATE, GEOAPIFY_KEY, MapPanelProps, ChatMessageResponse, ConversationsCache, Facility, FacilityCategory (+9 more)
 
 ### Community 2 - "Mobile Chat & Triage UI"
-Cohesion: 0.08
-Nodes (23): GeolocationPermission, AiAssistantTab(), AiAssistantTabProps, AuthUser, GeoProps, ProfileProps, ProgressStage, QuickChips() (+15 more)
+Cohesion: 0.06
+Nodes (33): GeolocationPermission, NextActionHandlers, useNextActions(), AiAssistantTabProps, AuthUser, GeoProps, ProfileProps, ProgressStage (+25 more)
 
 ### Community 3 - "Backend Middleware & Notifications"
 Cohesion: 0.06
@@ -245,8 +254,8 @@ Cohesion: 0.08
 Nodes (14): Entity, GetRouteMatrixParams, HealthProvider, LatLngTuple, Patient, Person, RouteData, RouteMatrixResponse (+6 more)
 
 ### Community 9 - "Chat Endpoint Tests"
-Cohesion: 0.10
-Nodes (13): FastAPI, TestClient, _clear_cache(), _FakeUser, _make_test_app(), Unit tests for chat logic, serialisation, cache, and endpoints. All Supabase cal, Client with no dependency override — real get_current_user runs., LLMAgent.respond is called and its response is used as assistant content. (+5 more)
+Cohesion: 0.14
+Nodes (9): FastAPI, TestClient, _clear_cache(), _FakeUser, _make_test_app(), Unit tests for chat logic, serialisation, cache, and endpoints. All Supabase cal, Client with no dependency override — real get_current_user runs., Reset module-level chat cache before and after every test. (+1 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.20
@@ -261,12 +270,12 @@ Cohesion: 0.08
 Nodes (23): compilerOptions, allowImportingTsExtensions, baseUrl, erasableSyntaxOnly, jsx, lib, module, moduleDetection (+15 more)
 
 ### Community 13 - "Sandbox Page Components"
-Cohesion: 0.13
-Nodes (13): useFacilities(), SandboxPage(), InspectorPanel(), LOG_COLORS, STATIC_LOGS, SandboxMobileGuard(), SandboxSplashScreen(), STEPS (+5 more)
+Cohesion: 0.12
+Nodes (14): useFacilities(), SandboxPage(), InspectorPanel(), LOG_COLORS, STATIC_LOGS, SandboxMap(), SandboxMobileGuard(), SandboxSplashScreen() (+6 more)
 
 ### Community 14 - "Web Navbar & Onboarding"
-Cohesion: 0.17
-Nodes (13): buildTriageCandidates(), cnTowerPos, INACTIVE_TRIAGE, MapContext, MapContextValue, MapProvider(), useMapContext(), useOsrmRoute() (+5 more)
+Cohesion: 0.21
+Nodes (11): buildTriageCandidates(), cnTowerPos, INACTIVE_TRIAGE, MapContext, MapContextValue, useMapContext(), useOsrmRoute(), MapFitBounds() (+3 more)
 
 ### Community 16 - "Chat Cache & Tests"
 Cohesion: 0.21
@@ -281,8 +290,8 @@ Cohesion: 0.20
 Nodes (17): CreateSessionRequest, Facility, FacilityCandidate, FacilityCategory, MessageBase, PastConversationsResponse, SendMessageRequest, SessionBase (+9 more)
 
 ### Community 19 - "Auth Modal & Mobile Layout"
-Cohesion: 0.11
-Nodes (16): LoginModal(), LoginModalProps, useAuth(), useProfile(), useTriageState(), Home(), HomeProps, DrawerMenu() (+8 more)
+Cohesion: 0.15
+Nodes (6): useAuth(), Notification(), DrawerMenu(), DrawerMenuProps, MobileNavBar(), LandingRoute()
 
 ### Community 20 - "CI/CD & Project Docs"
 Cohesion: 0.21
@@ -317,12 +326,12 @@ Cohesion: 0.21
 Nodes (9): get_supabase_client(), Client, initSentry(), add_message(), create_session(), get_older_messages(), get_past_conversations(), Returns (sessions_list, messages_dict).     sessions_list: up to `session_limit` (+1 more)
 
 ### Community 28 - "Chat Router Endpoints"
-Cohesion: 0.24
-Nodes (12): Request, create_new_session(), invalidate_cache(), load_older_messages(), past_conversations(), Saves a user message, runs the LLM triage agent, saves the assistant response., Cursor-based pagination — returns messages older than `before_id`.     Always hi, Clears the server-side chat cache for the user — call on logout. (+4 more)
+Cohesion: 0.17
+Nodes (15): Request, create_new_session(), invalidate_cache(), load_older_messages(), past_conversations(), Saves a user message, runs the LLM triage agent, saves the assistant response., Cursor-based pagination — returns messages older than `before_id`.     Always hi, Clears the server-side chat cache for the user — call on logout. (+7 more)
 
 ### Community 29 - "Permission Modals"
-Cohesion: 0.13
-Nodes (12): GpsPermissionModal(), GpsPermissionModalProps, Notification(), LegalPageLayout(), LegalPageLayoutProps, CookiesPage(), DataDisclosurePage(), PrivacyPage() (+4 more)
+Cohesion: 0.15
+Nodes (12): LoginModal(), LoginModalProps, GpsPermissionModal(), GpsPermissionModalProps, LegalPageLayout(), LegalPageLayoutProps, CookiesPage(), DataDisclosurePage() (+4 more)
 
 ### Community 30 - "Auth Integration Task Docs"
 Cohesion: 0.23
@@ -405,16 +414,16 @@ Cohesion: 0.22
 Nodes (8): Global Constraints, Mobile App Re-skin Implementation Plan, Self-Review Notes, Task 1: Navigation Dock (MobileNavBar top bar + MobileLayout dock conversion), Task 2: Map tab chain (MapTab, BottomSheet, FacilityCard), Task 3: AI assistant chain (AiAssistantTab, QuickChips, SymptomInput), Task 4: DrawerMenu re-skin, Task 5: Visual verification
 
 ### Community 50 - "SDD Progress & Tailwind Fix"
-Cohesion: 0.11
-Nodes (8): make_agent(), Unit tests for proximity service, agent message building, and follow-up ceiling., TestAgentMessageBuilding, TestFindNearestFacilities, TestHaversine, find_nearest_facilities(), haversine_km(), Returns up to top_n nearest facilities that accept the given severity,     sorte
+Cohesion: 0.08
+Nodes (23): 1. Active Simulation Shock Controls, 1. Dark Ops Simulation Theme, 1. Desktop Viewport Layout (min-width: 1024px), 1. Desktop Viewport Layout (min-width: 1024px), 1. "Glass-Box" Streaming Parser Logs, 1. Main Command Center (`/app`) UI Redesign, 1. Material Specs & Glassmorphism, 2. Historic Timeline Rewind & Inspect (+15 more)
 
 ### Community 51 - "Architecture Doc Topology"
 Cohesion: 0.13
 Nodes (14): Background Worker (Render), Doppler env var management, Frontend surface (Vercel), Architecture — MediCoord AI, Backend — Render (Web Service), Background Worker — Render (Background Worker), Data Flow — Phase 1 Triage Loop, Deployment Topology (+6 more)
 
 ### Community 52 - "Drawer Menu Icons"
-Cohesion: 0.20
-Nodes (6): UserMenu(), WebNavBar(), WebNavBarProps, useBreakpoint(), SetupPage(), SandboxHeader()
+Cohesion: 0.15
+Nodes (10): UserMenu(), WebNavBar(), WebNavBarProps, useBreakpoint(), HomeProps, GeoProps, GettingStartedModal(), GettingStartedModalProps (+2 more)
 
 ### Community 54 - "Backend Facilities Service"
 Cohesion: 0.20
@@ -465,12 +474,12 @@ Cohesion: 0.17
 Nodes (11): AuthContext, AuthContextValue, AuthNotification, AuthProvider(), AuthUser, authService, useConversations(), UseConversationsResult (+3 more)
 
 ### Community 102 - "Community 102"
-Cohesion: 0.08
-Nodes (29): Tool 1a: Claude Severity Classification, Architecture (v2.0 Target), Background, Tool 1b: Browser Geolocation API, triage_function_alternate.py (Deployed random-fallback classifier), triage_function_original.py (Broken Vertex AI integration), Current State (as of May 2026 audit), Dialogflow CX Dependency Dropped Decision (+21 more)
+Cohesion: 0.12
+Nodes (16): Background, Current State (as of May 2026 audit), Gemini 2.5 Flash Symptom Extraction (Cloud Function), Geoapify Route Matrix Integration, Hackathon Team, MediCoord AI, Priority Queue Triage Algorithm, Repository Structure (+8 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.04
-Nodes (48): Added, Auth + Session, Chores, Completed — Infrastructure, Completed — Sprint 1: Home UI Refactor, Completed — Sprint 2: Backend v1.0, Completed — Sprint 3: Auth Integration (Supabase), Completed — Sprint 4: Facilities Prefetch + Map Integration (+40 more)
+Cohesion: 0.11
+Nodes (18): Chores, Deferred / not wired, [Deferred — v3+], Delivered, Feature — Augmented Filtering (business hours), Low priority — ER Wait Time Background Worker (carried over from Sprint 12), MediCoord AI — Changelog, Planned — LLM engineering improvements on a working system (+10 more)
 
 ### Community 104 - "Community 104"
 Cohesion: 0.33
@@ -601,28 +610,28 @@ Cohesion: 0.17
 Nodes (11): 1. `/app` (logged out) — PASS, 2. Click "Get started" → LoginModal — PASS, 3. `/sandbox` — PASS, 4. Screenshots taken — PASS, Build output, Dev server, GettingStartedModal — ⚠️ not directly verified, Issues found (+3 more)
 
 ### Community 138 - "Community 138"
-Cohesion: 0.32
-Nodes (6): Coords, GeoError, useGeolocation(), UseGeolocationResult, GEO_ERROR_CODES, TestLocationPage()
+Cohesion: 0.16
+Nodes (13): Coords, GeoError, useGeolocation(), UseGeolocationResult, useProfile(), useTriageState(), Home(), AiAssistantTab() (+5 more)
 
 ### Community 139 - "Community 139"
-Cohesion: 0.31
-Nodes (7): FacilityMarkerLayer(), FacilityMarkerLayerProps, UnifiedFacilityPopup(), UseFacilitiesResult, MapPanelProps, Facility, FacilityCandidate
+Cohesion: 0.10
+Nodes (19): 1. Design Philosophy & Visual Aesthetic, 2. Color Palette & Tokens (Logo-Derived), 3. Typography System, 4. Responsive Grid & Layout Architectures, 5. UI Component Specifications, 6. Map Canvas Overlay & Transit Routes, 7. Motion, Transition & Animation Parameters, A. Core Neutral Tokens (+11 more)
 
 ### Community 152 - "Community 152"
-Cohesion: 0.24
-Nodes (9): NextActionHandlers, useNextActions(), BottomSheet, BottomSheetProps, FacilityCard(), FacilityCardProps, SEVERITY_COLORS, MapTab() (+1 more)
+Cohesion: 0.19
+Nodes (9): CategoryFilterDropdown(), CategoryFilterDropdownProps, FacilityLegend(), CategoryFilter, FILTER_OPTIONS, LEGEND_ITEMS, MapProvider(), MapSizeGuard() (+1 more)
 
 ### Community 153 - "Community 153"
 Cohesion: 0.29
 Nodes (8): backend/main.py (FastAPI app), init_logging() (structured JSON logging), GET /metrics (Bearer-protected), init_metrics() Prometheus push loop, backend/observability.py, RequestIDMiddleware, init_sentry() (backend Sentry init), Task 005: Observability — Backend + Frontend
 
 ### Community 155 - "Community 155"
-Cohesion: 0.18
-Nodes (12): CategoryFilterDropdown(), CategoryFilterDropdownProps, FacilityLegend(), UnifiedFacilityPopupProps, CATEGORY_STYLES, CategoryFilter, DEFAULT_STYLE, FILTER_OPTIONS (+4 more)
+Cohesion: 0.23
+Nodes (10): FacilityMarkerLayer(), FacilityMarkerLayerProps, UnifiedFacilityPopup(), UnifiedFacilityPopupProps, CATEGORY_STYLES, DEFAULT_STYLE, cnTowerIcon, getFacilityIcon() (+2 more)
 
 ### Community 156 - "Community 156"
-Cohesion: 0.18
-Nodes (8): CategoryFilter, DARK_CATEGORY, FILTER_OPTIONS, LEGEND_ITEMS, MOCK_ACTIVE_NODES, MOCK_FACILITIES, SandboxMap(), SandboxMapProps
+Cohesion: 0.20
+Nodes (7): CategoryFilter, DARK_CATEGORY, FILTER_OPTIONS, LEGEND_ITEMS, MOCK_ACTIVE_NODES, MOCK_FACILITIES, SandboxMapProps
 
 ### Community 157 - "Community 157"
 Cohesion: 0.18
@@ -633,16 +642,16 @@ Cohesion: 0.20
 Nodes (9): Build Verification, Changes Made, Git Status, Graphify Update, Implementation Summary, Preserved (Per Brief), Result, Self-Review Checklist (+1 more)
 
 ### Community 159 - "Community 159"
-Cohesion: 0.39
-Nodes (3): Recursively convert datetime objects to ISO strings for JSONResponse., _ser(), TestSer
+Cohesion: 0.31
+Nodes (4): LLMAgent.respond is called and its response is used as assistant content., When LLMAgent returns turn_type=triage, response includes triage object., When LLMAgent raises, endpoint returns 200 with safe error message., TestSendMessage
 
 ### Community 160 - "Community 160"
 Cohesion: 0.22
 Nodes (6): InstallState, Platform, primaryButtonStyle, PWAInstallModal(), PWAInstallModalProps, secondaryButtonStyle
 
 ### Community 161 - "Community 161"
-Cohesion: 0.39
-Nodes (4): TestFollowupCeiling, TestTriageResultShape, LLMAgent, Stateless triage agent facade.      Stateless: caller provides full conversation
+Cohesion: 0.33
+Nodes (9): Tool 1a: Claude Severity Classification, Tool 1b: Browser Geolocation API, triage_function_alternate.py (Deployed random-fallback classifier), triage_function_original.py (Broken Vertex AI integration), Dialogflow CX Dependency Dropped Decision, Tool 2: Geoapify RouteMatrix Facility Selection, POST /triage Backend Endpoint, v2.0 Product Vision (Chat + Map Split Interface) (+1 more)
 
 ### Community 162 - "Community 162"
 Cohesion: 0.29
@@ -664,12 +673,48 @@ Nodes (6): Branch check before touching any file, Branch hierarchy, Branching ru
 Cohesion: 0.50
 Nodes (4): Never do, Never modify, Read and write allowed, Scope Boundaries
 
+### Community 169 - "Community 169"
+Cohesion: 0.33
+Nodes (6): Completed — Infrastructure, Completed — Sprint 1: Home UI Refactor, Completed — Sprint 2: Backend v1.0, Completed — Sprint 3: Auth Integration (Supabase), Completed — Sprint 4: Facilities Prefetch + Map Integration, [v2.0-preview] — 2026-05 · Active development on `preview` branch
+
+### Community 170 - "Community 170"
+Cohesion: 0.33
+Nodes (6): Definition of done, Priority rationale, Production promotion (end of this sprint), [Sprint 8 — Active] · Triage MVP — Working Product to Production, Task 009 — LLM + Routing (backend, condensed), Task 010 — Map + Chat UI (frontend, condensed)
+
+### Community 171 - "Community 171"
+Cohesion: 0.40
+Nodes (5): Confirmed working end-to-end, Deferred, Delivered — completion pass (2026-06-18–19, see `docs/superpowers/plans/2026-06-18-pwa-push-notifications-completion.md`), Delivered — initial build (2026-06-07–12), [Sprint 11 — Closed] · Push Notifications
+
+### Community 172 - "Community 172"
+Cohesion: 0.50
+Nodes (4): Auth + Session, [Deferred — v2.1+] · Core Product Features, Production Promotion (`preview` → `main`), Triage Chat Loop
+
+### Community 173 - "Community 173"
+Cohesion: 0.50
+Nodes (4): Architecture (v2.0 Target), New Direction — v2.0, Product Vision, What Changes from the Hackathon Build
+
+### Community 174 - "Community 174"
+Cohesion: 0.50
+Nodes (3): 1. Project Overview & Objectives, 2. Architecture & Design Tokens, Key Deliverables:
+
+### Community 175 - "Community 175"
+Cohesion: 0.67
+Nodes (3): Added, [Hackathon Release] — 2025-05 · Toronto Tech Week 2025, Known Issues at Submission
+
+### Community 176 - "Community 176"
+Cohesion: 0.67
+Nodes (3): Deferred, Delivered, [Sprint 12 — Closed] · Data Pipeline
+
+### Community 177 - "Community 177"
+Cohesion: 0.67
+Nodes (3): Delivered, Known issues / deferred, [Sprint 5 — Closed] · Observability + Alerting
+
 ## Ambiguous Edges - Review These
 - `webapp/src/lib/apiClient.ts (Bearer token fetch wrapper)` → `webapp/src/hooks/useFacilities.ts`  [AMBIGUOUS]
   .agents/tasks/004_FACILITY_PREFETCH.md · relation: calls
 
 ## Knowledge Gaps
-- **816 isolated node(s):** `PLACEHOLDERS`, `SAMPLE_CHIPS`, `HOSPITAL_PIN`, `CLINIC_PIN`, `LAB_PIN` (+811 more)
+- **846 isolated node(s):** `Key Deliverables:`, `2. Architecture & Design Tokens`, `Project in One Sentence`, `Repository Structure`, `Tech Stack (non-negotiable, do not suggest alternatives)` (+841 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **35 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -679,14 +724,14 @@ _Questions this graph is uniquely positioned to answer:_
 - **What is the exact relationship between `webapp/src/lib/apiClient.ts (Bearer token fetch wrapper)` and `webapp/src/hooks/useFacilities.ts`?**
   _Edge tagged AMBIGUOUS (relation: calls) - confidence is low._
 - **Why does `get_supabase_client()` connect `Backend DB & Chat Service` to `Backend Middleware & Notifications`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
-- **Why does `LLMAgent` connect `Community 161` to `LLM Client Abstraction`, `Backend Pydantic Models`, `Chat Router Endpoints`, `SDD Progress & Tailwind Fix`?**
-  _High betweenness centrality (0.026) - this node is a cross-community bridge._
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Why does `LLMAgent` connect `LLM Client Abstraction` to `Backend Pydantic Models`, `Chat Router Endpoints`?**
+  _High betweenness centrality (0.030) - this node is a cross-community bridge._
 - **Are the 19 inferred relationships involving `LLMAgent` (e.g. with `Request` and `Response`) actually correct?**
   _`LLMAgent` has 19 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `PLACEHOLDERS`, `SAMPLE_CHIPS`, `HOSPITAL_PIN` to the rest of the system?**
-  _897 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `Key Deliverables:`, `2. Architecture & Design Tokens`, `Project in One Sentence` to the rest of the system?**
+  _927 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `LLM Client Abstraction` be split into smaller, more focused modules?**
-  _Cohesion score 0.11014492753623188 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05630834086118639 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.10144927536231885 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10822510822510822 - nodes in this community are weakly interconnected._

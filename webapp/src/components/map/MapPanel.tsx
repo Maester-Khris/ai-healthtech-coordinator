@@ -5,14 +5,13 @@ import type { Facility, TriageUIState } from '../../../../shared/types'
 import { useBreakpoint } from '../../hooks/useBreakpoint'
 import { cnTowerPos, INACTIVE_TRIAGE, buildTriageCandidates } from './config/constants'
 import { cnTowerIcon } from './config/icons'
-import { type CategoryFilter } from './config/categories'
+import { type CategoryFilter, FILTER_OPTIONS } from './config/categories'
 import { MapProvider } from './context/MapContext'
 import { MapFitBounds } from './layers/MapFitBounds'
 import { MapSizeGuard } from './layers/MapSizeGuard'
 import { RoadRouteLayer } from './layers/RoadRouteLayer'
 import { FacilityMarkerLayer } from './components/FacilityMarkerLayer'
 import { FacilityLegend } from './components/FacilityLegend'
-import { CategoryFilterDropdown } from './components/CategoryFilterDropdown'
 
 interface MapPanelProps {
   facilities: Facility[]
@@ -21,6 +20,14 @@ interface MapPanelProps {
   verticalLegend?: boolean
   sizeVersion?: number
   onClear?: () => void
+}
+
+// Short labels for filter chips
+const CHIP_LABEL: Record<CategoryFilter, string> = {
+  all: 'All',
+  hospital: 'Hospital',
+  ambulatory: 'Walk-in',
+  residential: 'Residential',
 }
 
 export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend = false, sizeVersion = 0, onClear }: MapPanelProps) {
@@ -53,8 +60,8 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
       <MapContainer center={cnTowerPos} zoom={13} scrollWheelZoom={false} zoomControl={true} className="h-full w-full z-0">
         <MapProvider activeTriage={activeTriage} recommendedId={recommendedId} isMobile={isMobile}>
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             tileSize={512}
             zoomOffset={-1}
             detectRetina={true}
@@ -73,43 +80,115 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
         </MapProvider>
       </MapContainer>
 
+      {/* Filter chips — top-left, hidden when triage is active */}
+      {!activeTriage.active && (
+        <div style={{ position: 'absolute', top: 12, left: 12, zIndex: 20, display: 'flex', gap: 6, pointerEvents: 'auto' }}>
+          {FILTER_OPTIONS.map(opt => {
+            const active = categoryFilter === opt.value
+            return (
+              <button
+                key={opt.value}
+                onClick={() => setCategoryFilter(opt.value)}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: 999,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.02em',
+                  border: `1px solid ${active ? opt.color : 'rgba(28,70,89,0.5)'}`,
+                  background: active ? `${opt.color}22` : 'rgba(6,18,25,0.82)',
+                  color: active ? opt.color : '#7AA0B0',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {CHIP_LABEL[opt.value]} ({opt.value === 'all' ? counts.all : counts[opt.value]})
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Loading indicator */}
       {facilitiesLoading && (
-        <div style={{ position: 'absolute', top: 52, left: 12, zIndex: 15, background: 'rgba(255,255,255,0.88)', borderRadius: 8, padding: '6px 10px', fontSize: 12, color: '#557', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 12, height: 12, borderRadius: '50%', border: '2px solid #185FA5', borderTopColor: 'transparent', display: 'inline-block', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{
+          position: 'absolute', top: 52, left: 12, zIndex: 15,
+          background: 'rgba(6, 18, 25, 0.85)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(28, 70, 89, 0.6)',
+          borderRadius: 8, padding: '6px 10px', fontSize: 12, color: '#7AA0B0',
+          display: 'flex', alignItems: 'center', gap: 6,
+        }}>
+          <span style={{ width: 12, height: 12, borderRadius: '50%', border: '2px solid #48F6C1', borderTopColor: 'transparent', display: 'inline-block', animation: 'spin 0.8s linear infinite' }} />
           Loading facilities…
         </div>
       )}
 
-      <div style={{ position: "absolute", top: 12, right: 12, zIndex: 20, display: "flex", alignItems: "center", gap: 8, pointerEvents: "auto" }}>
-        {!activeTriage.active && (
-          <CategoryFilterDropdown value={categoryFilter} onChange={setCategoryFilter} counts={counts} />
+      {/* Top-right: clear + facilities badge */}
+      <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 20, display: 'flex', alignItems: 'center', gap: 8, pointerEvents: 'auto' }}>
+        {onClear && activeTriage.active && (
+          <button
+            onClick={onClear}
+            aria-label="Clear map"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              padding: '5px 12px',
+              fontSize: 11, fontWeight: 700,
+              background: 'rgba(176, 58, 58, 0.15)',
+              border: '1px solid rgba(224, 85, 85, 0.5)',
+              borderRadius: 999,
+              color: '#E05555',
+              cursor: 'pointer',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={e => {
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(176, 58, 58, 0.28)'
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(224, 85, 85, 0.8)'
+            }}
+            onMouseLeave={e => {
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(176, 58, 58, 0.15)'
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(224, 85, 85, 0.5)'
+            }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+            Clear map
+          </button>
         )}
-        <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full px-4 py-2.5 text-xs font-bold text-gray-800 shadow-md flex items-center gap-2.5 pointer-events-none">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        <div style={{
+          background: 'rgba(6, 18, 25, 0.85)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(28, 70, 89, 0.6)',
+          borderRadius: 999,
+          padding: '6px 14px',
+          fontSize: 11, fontWeight: 700,
+          color: '#7AA0B0',
+          display: 'flex', alignItems: 'center', gap: 8,
+          pointerEvents: 'none',
+        }}>
+          <span style={{ position: 'relative', display: 'inline-flex', width: 8, height: 8 }}>
+            <span
+              className="animate-ping absolute inline-flex h-full w-full rounded-full"
+              style={{ background: '#48F6C1', opacity: 0.75 }}
+            />
+            <span style={{ position: 'relative', width: 8, height: 8, borderRadius: '50%', background: '#48F6C1' }} />
           </span>
           {activeTriage.active
             ? `${triageCandidates.length} FACILITIES SHOWN`
-            : categoryFilter === "all"
+            : categoryFilter === 'all'
               ? `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
               : `${displayedFacilities.length} OF ${facilities.length} SHOWN`
           }
         </div>
       </div>
-
-      {onClear && activeTriage.active && (
-        <button
-          onClick={onClear}
-          aria-label="Clear map"
-          className="absolute top-[58px] right-3 z-20 group flex items-center gap-2 bg-white/80 hover:bg-rose-50/90 active:bg-rose-100/90 backdrop-blur-md border border-gray-200/60 hover:border-rose-200/80 rounded-full px-4 py-2 text-xs font-bold text-gray-600 hover:text-rose-500 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out cursor-pointer outline-none focus:ring-4 focus:ring-rose-500/10 active:scale-95 whitespace-nowrap"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:rotate-90 duration-300">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-          <span>Clear map</span>
-        </button>
-      )}
 
       <FacilityLegend verticalLegend={verticalLegend} />
     </div>
