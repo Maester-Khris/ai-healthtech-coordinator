@@ -1,129 +1,1110 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'motion/react'
 import { LoginModal } from '../components/auth/LoginModal'
+import {
+  MagnifyingGlass,
+  Command,
+  CircleNotch,
+  Sparkle,
+  ArrowRight,
+  MapPin,
+  ShieldCheck,
+  Check,
+  Info,
+  Car,
+  Bicycle,
+  User,
+  CaretDown,
+  CaretUp,
+  Stethoscope,
+  ListBullets,
+  TrafficSign
+} from '@phosphor-icons/react'
 
-const STEPS = [
-  {
-    title: 'Describe your symptoms',
-    body: 'Tell us what’s going on in plain language. No forms, no symptom checklists.',
-  },
-  {
-    title: 'Get an instant severity check',
-    body: 'MediCoord AI reviews what you’ve described and determines how urgent it is.',
-  },
-  {
-    title: 'Get routed to the right place',
-    body: 'See the nearest facility equipped to treat you, with a live map and arrival time.',
-  },
+const PLACEHOLDERS = [
+  "Pediatrician open past 7pm nearby",
+  "Urgent care clinic for deep cut",
+  "Nearest ER with low wait time",
+  "Diagnostic lab with rapid PCR testing"
 ]
 
-const FEATURES = [
-  {
-    title: 'One chat, one map',
-    body: 'Describe your symptoms and watch your route appear on the same screen — no switching between a search engine and a directions app.',
-  },
-  {
-    title: 'Severity-aware routing',
-    body: 'MediCoord AI tells routine concerns apart from urgent ones, so you’re matched to a facility actually equipped to help — not just the closest one.',
-  },
-  {
-    title: 'Stay in the loop',
-    body: 'Get notified if your situation or facility status changes, so you’re not left checking back manually.',
-  },
+const SAMPLE_CHIPS = [
+  { text: "Pediatrician open past 7pm", query: "Pediatrician open past 7pm nearby" },
+  { text: "Urgent care for cut", query: "Urgent care clinic for deep cut" },
+  { text: "Nearest ER", query: "Nearest ER with low wait time" }
 ]
+
+// Facility Coordinates (matching the generated base_map_canvas.png landmarks)
+const HOSPITAL_PIN = { left: '28%', top: '50%' }
+const CLINIC_PIN = { left: '58%', top: '51%' }
+const LAB_PIN = { left: '81%', top: '54%' }
+
+// Path coordinates for travelers (as percentages)
+const CAR_PATH = [
+  { left: '10', top: '92' },
+  { left: '22', top: '78' },
+  { left: '28', top: '70' },
+  { left: '28', top: '50' }
+]
+
+const BIKE_PATH = [
+  { left: '48', top: '92' },
+  { left: '48', top: '72' },
+  { left: '58', top: '60' },
+  { left: '58', top: '51' }
+]
+
+const JOGGER_PATH = [
+  { left: '92', top: '90' },
+  { left: '81', top: '79' },
+  { left: '81', top: '54' }
+]
+
+const FAMILY_PATH = [
+  { left: '64', top: '22' },
+  { left: '64', top: '40' },
+  { left: '58', top: '46' },
+  { left: '58', top: '51' }
+]
+
+// Path interpolation function
+function interpolatePath(path: { left: string; top: string }[], progress: number) {
+  if (progress <= 0) return path[0]
+  if (progress >= 1) return path[path.length - 1]
+  
+  const totalSegments = path.length - 1
+  const segment = Math.floor(progress * totalSegments)
+  const segmentProgress = (progress * totalSegments) - segment
+  
+  const start = path[segment]
+  const end = path[segment + 1]
+  
+  const startLeft = parseFloat(start.left)
+  const endLeft = parseFloat(end.left)
+  const startTop = parseFloat(start.top)
+  const endTop = parseFloat(end.top)
+  
+  const currentLeft = startLeft + (endLeft - startLeft) * segmentProgress
+  const currentTop = startTop + (endTop - startTop) * segmentProgress
+  
+  return {
+    left: `${currentLeft}%`,
+    top: `${currentTop}%`
+  }
+}
 
 export default function LandingPage() {
+  const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<'signin' | 'signup'>('signin')
+
+  // Search/Intent simulation states
+  const [searchQuery, setSearchQuery] = useState('')
+  const [placeholderIndex, setPlaceholderIndex] = useState(0)
+  const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false)
+  const [selectedCommandIndex, setSelectedCommandIndex] = useState(0)
+  
+  const [isTyping, setIsTyping] = useState(false)
+  const [isParsing, setIsParsing] = useState(false)
+  const [parsedIntents, setParsedIntents] = useState<string[]>([])
+  const [parseComplete, setParseComplete] = useState(false)
+
+  // Cookie Controller states
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(true)
+  const [showPreferences, setShowPreferences] = useState(false)
+  const [cookieSettings, setCookieSettings] = useState({
+    zoom: true,
+    history: true,
+    analytics: false
+  })
+
+  // Animation timeline state (0 to 12 seconds)
+  const [time, setTime] = useState(0)
+  const typingTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // CENTRAL TIMELINE FOR HERO MAP LOOP (0s - 12s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prev) => (prev + 0.05) % 12)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Cycling placeholder text when not typing or searching
+  useEffect(() => {
+    if (searchQuery || isTyping || isParsing) return
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDERS.length)
+    }, 3500)
+    return () => clearInterval(interval)
+  }, [searchQuery, isTyping, isParsing])
+
+  // Key listeners for command menu (Ctrl+K / Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        setIsCommandMenuOpen((prev) => !prev)
+      } else if (e.key === 'Escape') {
+        setIsCommandMenuOpen(false)
+      } else if (isCommandMenuOpen) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault()
+          setSelectedCommandIndex((prev) => (prev + 1) % 4)
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          setSelectedCommandIndex((prev) => (prev - 1 + 4) % 4)
+        } else if (e.key === 'Enter') {
+          e.preventDefault()
+          handleSelectCommand(selectedCommandIndex)
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isCommandMenuOpen, selectedCommandIndex])
 
   const openSignIn = () => { setModalTab('signin'); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab('signup'); setIsModalOpen(true) }
 
+  // Search Demo typing simulator
+  const runSearchDemo = (targetQuery: string) => {
+    setIsCommandMenuOpen(false)
+    if (typingTimerRef.current) clearInterval(typingTimerRef.current)
+    
+    setSearchQuery('')
+    setParsedIntents([])
+    setIsParsing(false)
+    setParseComplete(false)
+    setIsTyping(true)
+
+    let currentCharIndex = 0
+    typingTimerRef.current = setInterval(() => {
+      if (currentCharIndex < targetQuery.length) {
+        setSearchQuery(targetQuery.substring(0, currentCharIndex + 1))
+        currentCharIndex++
+      } else {
+        if (typingTimerRef.current) clearInterval(typingTimerRef.current)
+        setIsTyping(false)
+        setIsParsing(true)
+        
+        // Simulate step-by-step agent intent extraction
+        setTimeout(() => {
+          let tags = ['[Intent: Find Care]']
+          if (targetQuery.toLowerCase().includes('pediatrician')) {
+            tags.push('[Specialty: Pediatrics]')
+          } else if (targetQuery.toLowerCase().includes('cut')) {
+            tags.push('[Triage: Wound Care]')
+          } else if (targetQuery.toLowerCase().includes('er')) {
+            tags.push('[Triage: Emergent]')
+          }
+          setParsedIntents([...tags])
+        }, 600)
+
+        setTimeout(() => {
+          let tags = ['[Intent: Find Care]']
+          if (targetQuery.toLowerCase().includes('pediatrician')) {
+            tags.push('[Specialty: Pediatrics]')
+            tags.push('[Constraint: Open Post-19:00]')
+          } else if (targetQuery.toLowerCase().includes('cut')) {
+            tags.push('[Triage: Wound Care]')
+            tags.push('[Facility: Urgent Care]')
+          } else if (targetQuery.toLowerCase().includes('er')) {
+            tags.push('[Triage: Emergent]')
+            tags.push('[Constraint: Low Wait Queue]')
+          } else {
+            tags.push('[Constraint: Nearest Location]')
+          }
+          setParsedIntents([...tags])
+        }, 1200)
+
+        setTimeout(() => {
+          setIsParsing(false)
+          setParseComplete(true)
+        }, 2000)
+      }
+    }, 40)
+  }
+
+  const handleSelectCommand = (index: number) => {
+    const commands = [
+      "Pediatrician open past 7pm nearby",
+      "Urgent care clinic for deep cut",
+      "Nearest ER with low wait time",
+      "Diagnostic lab with rapid PCR testing"
+    ]
+    runSearchDemo(commands[index])
+  }
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!searchQuery) return
+    runSearchDemo(searchQuery)
+  }
+
+  // Animation timeline values based on time (0s - 12s)
+  const isMapPulsing = time >= 0 && time < 2
+  const mapScale = 1.0 + (time < 2 ? (time / 2) * 0.015 : 0.015 - ((time - 2) / 10) * 0.015)
+
+  // Travelers move from 2s to 8s (progress is 0 to 1)
+  const showTravelers = time >= 2 && time < 8.2
+  const travelProgress = Math.max(0, Math.min(1, (time - 2) / 6))
+  const showOverlays = time >= 4 && time < 8
+
+  // Coordinates computed by interpolation
+  const carPos = interpolatePath(CAR_PATH, travelProgress)
+  const bikePos = interpolatePath(BIKE_PATH, travelProgress)
+  const joggerPos = interpolatePath(JOGGER_PATH, travelProgress)
+  const familyPos = interpolatePath(FAMILY_PATH, travelProgress)
+
+  // Ripple arrivals occur between 8s and 10s
+  const showRipples = time >= 8 && time < 10
+  const rippleScale = 1.0 + ((time - 8) / 2) * 0.8
+  const rippleOpacity = 1.0 - (time - 8) / 2
+
+  // Success banner active from 10s to 11.8s
+  const showSuccess = time >= 10 && time < 11.8
+
   return (
-    <div className="bg-stratum-bg min-h-screen">
+    <div className="bg-[#061219] min-h-screen relative flex flex-col font-sans overflow-x-hidden select-none text-[#E2F1F5] selection:bg-[#48F6C1]/30">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
 
-      <header className="flex items-center justify-between px-8 h-16 max-w-5xl mx-auto">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-stratum-md overflow-hidden flex-none">
-            <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
+      {/* Modern High-End Header with Logo Palette & Blue Accents */}
+      <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
+              <img src="/logo.png" alt="MediCoord AI Logo" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-label-md font-bold tracking-wide text-white uppercase">MediCoord AI</span>
           </div>
-          <span className="text-label-md text-stratum-text">MediCoord AI</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <button onClick={openSignIn} className="text-body-md text-stratum-text-muted hover:text-stratum-text">
-            Sign in
-          </button>
-          <button
-            onClick={openSignUp}
-            className="px-5 py-2.5 text-label-md text-white rounded-stratum-control bg-stratum-accent hover:opacity-90 transition-opacity"
-          >
-            Get started
-          </button>
-        </div>
-      </header>
 
-      <main>
-        <section className="max-w-3xl mx-auto px-8 pt-16 pb-20 text-center">
-          <h1 className="text-display-lg text-stratum-text">Know where to go,<br />before you go.</h1>
-          <p className="text-body-md text-stratum-text-muted mt-6 max-w-xl mx-auto">
-            Describe how you’re feeling, and MediCoord AI matches your symptoms to the right nearby
-            facility — with a live route and arrival time, not just a search result.
-          </p>
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex items-center gap-6">
+            <button onClick={openSignIn} className="text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer">
+              Sign in
+            </button>
             <button
               onClick={openSignUp}
-              className="px-6 py-3 text-label-md text-white rounded-stratum-control bg-stratum-accent hover:opacity-90 transition-opacity"
+              className="px-4 py-2 text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95"
             >
               Get started
             </button>
-            <button onClick={openSignIn} className="px-6 py-3 text-label-md text-stratum-text-muted hover:text-stratum-text">
-              Sign in
-            </button>
           </div>
-        </section>
+        </div>
+      </header>
 
-        <section className="max-w-5xl mx-auto px-8 py-16">
-          <h2 className="text-label-md uppercase tracking-wide text-stratum-accent-2 text-center mb-10">How it works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {STEPS.map((step, i) => (
-              <div key={step.title} className="surface-card shell-bezel rounded-stratum-lg p-6">
-                <span className="text-label-md text-stratum-accent-2">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="text-label-md text-stratum-text mt-2 mb-1">{step.title}</h3>
-                <p className="text-body-md text-stratum-text-muted">{step.body}</p>
+      {/* Main Container: Split Hero section */}
+      <main className="flex-1 w-full flex items-center justify-center relative overflow-hidden">
+        <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 px-6 py-12 lg:py-20 items-center">
+          
+          {/* Left Column: Command & Input Workspace */}
+          <div className="lg:col-span-5 flex flex-col gap-6 relative z-20">
+            <div className="inline-flex items-center self-start gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 tracking-wider uppercase">
+              <Sparkle className="w-3.5 h-3.5" weight="fill" />
+              Agentic HealthTech System
+            </div>
+
+            <h1 className="text-display-md lg:text-[56px] text-white leading-[1.05] tracking-tight font-extrabold">
+              Know where <br/>
+              to go, <br/>
+              before you go.
+            </h1>
+
+            <p className="text-body-md text-[#85A4B1] max-w-lg leading-relaxed">
+              Describe symptoms in plain words. Watch our AI agent extract clinical intent, evaluate routing criteria, and verify secure arrival in real time.
+            </p>
+
+            {/* Unified Omni-Input Box Workspace */}
+            <div className="relative w-full max-w-lg mt-2">
+              <form onSubmit={handleFormSubmit} className="relative z-20">
+                <div className="flex items-center w-full h-14 pl-4 pr-2.5 rounded-xl border border-[#1C4659]/65 bg-[#0A1D27]/90 backdrop-blur-xl shadow-lg focus-within:border-[#48F6C1] focus-within:ring-2 focus-within:ring-[#48F6C1]/10 transition-all duration-300">
+                  <MagnifyingGlass className="w-5 h-5 text-[#7AA0B0] flex-none mr-2.5" />
+                  
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value)
+                      setParseComplete(false)
+                    }}
+                    placeholder={PLACEHOLDERS[placeholderIndex]}
+                    disabled={isTyping}
+                    className="flex-1 h-full bg-transparent text-white placeholder-[#7AA0B0]/60 outline-none text-body-md"
+                  />
+
+                  {/* Inline Command indicator */}
+                  <button
+                    type="button"
+                    onClick={() => setIsCommandMenuOpen((prev) => !prev)}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-md border border-[#1C4659]/60 bg-[#0A1D27]/40 text-xs font-mono text-[#7AA0B0] hover:bg-[#0A1D27]/90 hover:text-white transition-colors"
+                  >
+                    <Command className="w-3 h-3" />
+                    <span>K</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="ml-2.5 h-9 px-4 text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95"
+                  >
+                    Parse
+                  </button>
+                </div>
+              </form>
+
+              {/* Command Menu Dropdown */}
+              <AnimatePresence>
+                {isCommandMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 2 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    className="absolute left-0 right-0 top-full mt-1.5 z-30 rounded-xl border border-[#1A3F4F] bg-[#0A1D27] shadow-2xl p-2.5 text-[#E2F1F5]"
+                  >
+                    <div className="px-2.5 py-1.5 text-[11px] font-mono text-[#7AA0B0] uppercase tracking-wider border-b border-[#1C4659]/40 mb-1.5 flex items-center justify-between">
+                      <span>Quick Intents Command Menu</span>
+                      <span>ESC to close · ↑↓ to navigate</span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      {[
+                        { label: "🚑 Locate Nearest ER Emergency Room", desc: "Instantly checks wait times and routing" },
+                        { label: "🩺 Search Pediatrician Nearby", desc: "Filters for pediatric specialty open after hours" },
+                        { label: "🩹 Route Urgent Care for Deep Cut", desc: "Finds clinic equipped for lacerations" },
+                        { label: "🧪 Locate Diagnostic Lab (PCR)", desc: "Finds labs with rapid PCR processing" }
+                      ].map((cmd, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleSelectCommand(idx)}
+                          className={`w-full text-left px-3 py-2 rounded-lg flex flex-col text-body-md transition-colors ${
+                            selectedCommandIndex === idx ? 'bg-[#132E3C] border-l-2 border-[#48F6C1] pl-2.5' : 'hover:bg-[#132E3C]/40'
+                          }`}
+                        >
+                          <span className="font-semibold text-white text-sm">{cmd.label}</span>
+                          <span className="text-xs text-[#7AA0B0]">{cmd.desc}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Sample Queries Chips */}
+              <div className="flex flex-wrap gap-2 mt-3.5">
+                <span className="text-xs text-[#7AA0B0] self-center mr-1">Try:</span>
+                {SAMPLE_CHIPS.map((chip, i) => (
+                  <button
+                    key={i}
+                    onClick={() => runSearchDemo(chip.query)}
+                    className="px-3 py-1 rounded-full text-xs border border-[#1C4659]/60 bg-[#0A1D27]/40 text-[#7AA0B0] hover:bg-[#0A1D27]/90 hover:text-[#48F6C1] hover:border-[#48F6C1]/40 shadow-sm transition-all duration-200 cursor-pointer"
+                  >
+                    {chip.text}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
 
-        <section className="max-w-5xl mx-auto px-8 py-16">
-          <h2 className="text-label-md uppercase tracking-wide text-stratum-accent-2 text-center mb-10">What you get</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {FEATURES.map((feature) => (
-              <div key={feature.title} className="surface-card shell-bezel rounded-stratum-lg p-6">
-                <h3 className="text-label-md text-stratum-text mb-1">{feature.title}</h3>
-                <p className="text-body-md text-stratum-text-muted">{feature.body}</p>
+              {/* Asynchronous Streaming Preview Box */}
+              <AnimatePresence>
+                {(isTyping || isParsing || parsedIntents.length > 0 || parseComplete) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="mt-5 w-full rounded-xl border border-[#1C4659]/60 bg-[#0A1D27]/95 shadow-xl p-5 flex flex-col gap-3 relative overflow-hidden"
+                  >
+                    {/* Header line */}
+                    <div className="flex items-center justify-between border-b border-[#1C4659]/40 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#48F6C1] animate-pulse" />
+                        <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Agent Parser Log</span>
+                      </div>
+                      {parseComplete && (
+                        <span className="text-xs font-semibold text-[#48F6C1] bg-[#48F6C1]/10 px-2 py-0.5 rounded-md flex items-center gap-1 border border-[#48F6C1]/20">
+                          <Check className="w-3.5 h-3.5" /> Checked
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Simulation stream details */}
+                    <div className="flex flex-col gap-2 min-h-24">
+                      {isTyping && (
+                        <p className="text-xs font-mono text-[#7AA0B0] italic">Typing search prompt...</p>
+                      )}
+                      
+                      {isParsing && (
+                        <div className="flex items-center gap-2 text-xs font-mono text-white">
+                          <CircleNotch className="w-4 h-4 text-[#48F6C1] animate-spin" />
+                          <span>🤖 Agent parsing intent and mapping real-time availability queues...</span>
+                        </div>
+                      )}
+
+                      {/* Displaying extracted chips */}
+                      <div className="flex flex-wrap gap-2.5 mt-1">
+                        {parsedIntents.map((tag, idx) => (
+                          <motion.span
+                            key={idx}
+                            initial={{ scale: 0.85, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="px-2.5 py-1 rounded bg-[#132E3C] text-[11px] font-mono font-bold text-[#48F6C1] border border-[#1C4659]/60"
+                          >
+                            {tag}
+                          </motion.span>
+                        ))}
+                      </div>
+
+                      {parseComplete && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex flex-col gap-2.5 mt-2"
+                        >
+                          <p className="text-xs text-[#85A4B1] leading-relaxed">
+                            Matched coordinate location parameters successfully. Agent verified dispatch criteria: **Toronto Core Dispatch** &rarr; **HIPAA Secure Gateway**.
+                          </p>
+                          <button
+                            onClick={() => navigate('/app')}
+                            className="self-start inline-flex items-center gap-1.5 px-4.5 py-2 text-xs font-bold text-[#061219] bg-[#48F6C1] hover:bg-[#3ce0ad] rounded-lg shadow-sm transition-all duration-200 active:scale-95 cursor-pointer"
+                          >
+                            Launch Command Center
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Right Column: Hero Animation Loop Canvas (Increased Height & Seamless Blending) */}
+          <div className="lg:col-span-7 flex justify-center items-center relative min-h-[500px] lg:min-h-[640px] w-full">
+            <div className="relative w-full h-[540px] lg:h-[620px] rounded-2xl overflow-hidden">
+              
+              {/* Map background image with subtle respirating scaling */}
+              <div 
+                className="w-full h-full overflow-hidden relative z-0"
+                style={{
+                  transform: `scale(${mapScale})`,
+                  transition: 'transform 0.05s linear'
+                }}
+              >
+                <img 
+                  src="/base_map_canvas.png" 
+                  alt="City Map Viewport" 
+                  className="w-full h-full object-cover select-none filter brightness-90 contrast-105 saturate-[0.9]"
+                />
+
+                {/* SVG Route Trails Layer */}
+                <svg 
+                  className="absolute inset-0 w-full h-full z-10 pointer-events-none"
+                  viewBox="0 0 100 100" 
+                  preserveAspectRatio="none"
+                >
+                  {/* Car route path (Mint Green) */}
+                  <path
+                    d="M 10 92 L 22 78 L 28 70 L 28 50"
+                    fill="none"
+                    stroke="#48F6C1"
+                    strokeWidth="0.8"
+                    strokeDasharray="100"
+                    strokeDashoffset={showTravelers ? 100 - travelProgress * 100 : 100}
+                    className="transition-all duration-100 ease-out"
+                    opacity="0.8"
+                  />
+                  {/* Bike route path (Electric Cyber Blue - `#00D2FF` variant) */}
+                  <path
+                    d="M 48 92 L 48 72 L 58 60 L 58 51"
+                    fill="none"
+                    stroke="#00D2FF"
+                    strokeWidth="0.8"
+                    strokeDasharray="100"
+                    strokeDashoffset={showTravelers ? 100 - travelProgress * 100 : 100}
+                    className="transition-all duration-100 ease-out"
+                    opacity="0.8"
+                  />
+                  {/* Jogger route path (Lighter Mint) */}
+                  <path
+                    d="M 92 90 L 81 79 L 81 54"
+                    fill="none"
+                    stroke="#5CEBBA"
+                    strokeWidth="0.8"
+                    strokeDasharray="100"
+                    strokeDashoffset={showTravelers ? 100 - travelProgress * 100 : 100}
+                    className="transition-all duration-100 ease-out"
+                    opacity="0.8"
+                  />
+                  {/* Family route path (Muted Teal) */}
+                  <path
+                    d="M 64 22 L 64 40 L 58 46 L 58 51"
+                    fill="none"
+                    stroke="#2E8EA5"
+                    strokeWidth="0.8"
+                    strokeDasharray="100"
+                    strokeDashoffset={showTravelers ? 100 - travelProgress * 100 : 100}
+                    className="transition-all duration-100 ease-out"
+                    opacity="0.8"
+                  />
+                </svg>
+
+                {/* Pulsating Street Lines grid indicator */}
+                <div 
+                  className={`absolute inset-0 bg-[#2B7A8C]/5 mix-blend-overlay pointer-events-none transition-opacity duration-1000 ${
+                    isMapPulsing ? 'opacity-80' : 'opacity-20'
+                  }`} 
+                />
               </div>
-            ))}
-          </div>
-        </section>
 
-        <section className="max-w-2xl mx-auto px-8 py-16 text-center">
-          <p className="text-body-md text-stratum-text-muted">
-            Your symptoms and location are used only to find you care — never sold, never shared for
-            advertising. Read our <Link to="/privacy" className="text-stratum-accent-2 underline">Privacy Policy</Link> to
-            see exactly what we store and why.
-          </p>
-        </section>
+              {/* Edge Gradient Blending to make the canvas look seamless inside the dark page */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#061219] to-transparent z-20 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#061219] to-transparent z-20 pointer-events-none" />
+              <div className="absolute left-0 right-0 top-0 h-20 bg-gradient-to-b from-[#061219] to-transparent z-20 pointer-events-none" />
+              <div className="absolute left-0 right-0 bottom-0 h-20 bg-gradient-to-t from-[#061219] to-transparent z-20 pointer-events-none" />
+
+              {/* FACILITY PIN MARKERS OVERLAY */}
+              
+              {/* General Hospital */}
+              <div 
+                className="absolute z-20"
+                style={HOSPITAL_PIN}
+              >
+                {/* Ripple Circle (Mint color) */}
+                {showRipples && (
+                  <div 
+                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#48F6C1] bg-[#48F6C1]/10 pointer-events-none"
+                    style={{
+                      width: `${rippleScale * 45}px`,
+                      height: `${rippleScale * 45}px`,
+                      opacity: rippleOpacity,
+                      transition: 'all 0.05s linear'
+                    }}
+                  />
+                )}
+                {/* Map pin */}
+                <div className="absolute -translate-x-1/2 -translate-y-[85%] flex flex-col items-center">
+                  <div className="bg-[#28A684] text-white p-1 rounded-full border border-white shadow-md">
+                    <MapPin className="w-4.5 h-4.5" weight="fill" />
+                  </div>
+                  <div className="mt-1 bg-[#0A1A21]/90 backdrop-blur-sm border border-[#1C4659]/50 px-1.5 py-0.5 rounded text-[10px] font-bold text-white whitespace-nowrap shadow-sm">
+                    General Hospital
+                  </div>
+                </div>
+              </div>
+
+              {/* Urgent Care Clinic */}
+              <div 
+                className="absolute z-20"
+                style={CLINIC_PIN}
+              >
+                {/* Ripple Circle (Blue color) */}
+                {showRipples && (
+                  <div 
+                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#00D2FF] bg-[#00D2FF]/10 pointer-events-none"
+                    style={{
+                      width: `${rippleScale * 45}px`,
+                      height: `${rippleScale * 45}px`,
+                      opacity: rippleOpacity,
+                      transition: 'all 0.05s linear'
+                    }}
+                  />
+                )}
+                {/* Map pin */}
+                <div className="absolute -translate-x-1/2 -translate-y-[85%] flex flex-col items-center">
+                  <div className="bg-[#00D2FF] text-[#061219] p-1 rounded-full border border-white shadow-md">
+                    <MapPin className="w-4.5 h-4.5" weight="fill" />
+                  </div>
+                  <div className="mt-1 bg-[#0A1A21]/90 backdrop-blur-sm border border-[#1C4659]/50 px-1.5 py-0.5 rounded text-[10px] font-bold text-white whitespace-nowrap shadow-sm">
+                    Urgent Care Clinic
+                  </div>
+                </div>
+              </div>
+
+              {/* Diagnostic Lab */}
+              <div 
+                className="absolute z-20"
+                style={LAB_PIN}
+              >
+                {/* Ripple Circle */}
+                {showRipples && (
+                  <div 
+                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#2E8EA5] bg-[#2E8EA5]/10 pointer-events-none"
+                    style={{
+                      width: `${rippleScale * 45}px`,
+                      height: `${rippleScale * 45}px`,
+                      opacity: rippleOpacity,
+                      transition: 'all 0.05s linear'
+                    }}
+                  />
+                )}
+                {/* Map pin */}
+                <div className="absolute -translate-x-1/2 -translate-y-[85%] flex flex-col items-center">
+                  <div className="bg-[#195669] text-white p-1 rounded-full border border-white shadow-md">
+                    <MapPin className="w-4.5 h-4.5" weight="fill" />
+                  </div>
+                  <div className="mt-1 bg-[#0A1A21]/90 backdrop-blur-sm border border-[#1C4659]/50 px-1.5 py-0.5 rounded text-[10px] font-bold text-white whitespace-nowrap shadow-sm">
+                    Diagnostic Lab
+                  </div>
+                </div>
+              </div>
+
+              {/* TRAVELER NODES & OVERLAYS */}
+              {showTravelers && (
+                <>
+                  {/* Car Traveler */}
+                  <div 
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+                    style={{ left: carPos.left, top: carPos.top }}
+                  >
+                    <div className="relative">
+                      {/* Car Marker Pin */}
+                      <div className="w-7 h-7 rounded-full bg-[#48F6C1] text-[#061219] flex items-center justify-center border border-white shadow-lg shadow-[#48F6C1]/40">
+                        <Car className="w-4 h-4" />
+                      </div>
+                      
+                      {/* Floating overlay tracking above car */}
+                      {showOverlays && (
+                        <div className="absolute bottom-[115%] left-1/2 -translate-x-1/2 bg-[#061219]/95 backdrop-blur-md border border-[#48F6C1]/30 text-white text-[9px] font-mono px-2 py-1 rounded whitespace-nowrap flex items-center gap-1 shadow-lg pointer-events-none animate-bounce">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#48F6C1] animate-ping" />
+                          <span>Routing ETA: 6m</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Bike Traveler (Electric Cyber Blue Variant) */}
+                  <div 
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+                    style={{ left: bikePos.left, top: bikePos.top }}
+                  >
+                    <div className="relative">
+                      <div className="w-7 h-7 rounded-full bg-[#00D2FF] text-[#061219] flex items-center justify-center border border-white shadow-lg shadow-[#00D2FF]/40">
+                        <Bicycle className="w-4 h-4" />
+                      </div>
+
+                      {showOverlays && (
+                        <div className="absolute bottom-[115%] left-1/2 -translate-x-1/2 bg-[#061219]/95 backdrop-blur-md border border-[#00D2FF]/30 text-white text-[9px] font-mono px-2 py-1 rounded whitespace-nowrap flex flex-col gap-0.5 items-center shadow-lg pointer-events-none">
+                          <span>Flat terrain optimized</span>
+                          <span className="text-[7.5px] opacity-75">ETA: 11m</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Jogger Traveler */}
+                  <div 
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+                    style={{ left: joggerPos.left, top: joggerPos.top }}
+                  >
+                    <div className="relative">
+                      <div className="w-7 h-7 rounded-full bg-[#5CEBBA] text-[#061219] flex items-center justify-center border border-white shadow-lg shadow-[#5CEBBA]/30">
+                        <User className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Family Traveler */}
+                  <div 
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+                    style={{ left: familyPos.left, top: familyPos.top }}
+                  >
+                    <div className="relative">
+                      <div className="w-7 h-7 rounded-full bg-[#2E8EA5] text-white flex items-center justify-center border border-white shadow-lg shadow-[#2E8EA5]/30">
+                        <User className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* SUCCESS BANNER OVERLAY */}
+              <AnimatePresence>
+                {showSuccess && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20, x: '-50%' }}
+                    animate={{ opacity: 1, y: 12, x: '-50%' }}
+                    exit={{ opacity: 0, y: -20, x: '-50%' }}
+                    className="absolute top-0 left-1/2 z-30 w-[85%] rounded-xl border border-[#48F6C1]/30 bg-[#061219]/95 backdrop-blur-xl p-3 flex items-center justify-between shadow-2xl"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-[#48F6C1]/20 text-[#48F6C1] flex items-center justify-center border border-[#48F6C1]/30">
+                        <ShieldCheck className="w-5 h-5" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-bold text-white tracking-wide uppercase">Patient Confirmed</span>
+                        <span className="text-[9.5px] font-mono text-[#48F6C1]">Secure HIPAA coordinate verification completed</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono font-semibold bg-[#48F6C1]/10 text-[#48F6C1] px-2 py-0.5 rounded border border-[#48F6C1]/20">
+                      SECURE GATEWAY
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Live HUD System Status */}
+              <div className="absolute bottom-3 left-3 z-20 bg-[#061219]/80 backdrop-blur-sm border border-[#1C4659]/50 rounded-md px-2 py-1 flex items-center gap-1.5 pointer-events-none">
+                <span className="w-2 h-2 rounded-full bg-[#48F6C1] animate-ping" />
+                <span className="text-[9px] font-mono text-white tracking-wider uppercase">SECURE NETWORK OK</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </main>
 
-      <footer className="border-t border-stratum-border">
-        <div className="max-w-5xl mx-auto px-8 h-14 flex items-center justify-between text-body-md text-stratum-text-muted">
-          <span>MediCoord AI · Health Tech Platform</span>
-          <div className="flex items-center gap-4">
-            <Link to="/privacy" className="text-stratum-text-muted hover:text-stratum-text no-underline">Privacy</Link>
-            <Link to="/cookies" className="text-stratum-text-muted hover:text-stratum-text no-underline">Cookies</Link>
-            <Link to="/data-disclosure" className="text-stratum-text-muted hover:text-stratum-text no-underline">Data Disclosure</Link>
+      {/* Operational Workflow (How It Works) Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-12 relative z-20">
+        <div className="flex flex-col gap-3">
+          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">Operational Workflow</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">How the Platform Works</h2>
+          <p className="text-[#85A4B1] max-w-xl text-sm leading-relaxed">
+            Behind the interface, the agent coordinates live datasets, clinical classifications, and HIPAA-compliant routing protocols.
+          </p>
+        </div>
+
+        {/* Staggered container for card entries */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {/* Card 1: LLM Chat Parsing */}
+          {(() => {
+            const isCard1Active = (time >= 0 && time < 2.5) || isTyping || isParsing;
+            return (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 25 },
+                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
+                }}
+                whileHover={{ y: -8, borderColor: "#00D2FF", boxShadow: "0 12px 30px -10px rgba(0, 210, 255, 0.15)" }}
+                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
+                  isCard1Active ? 'border-[#00D2FF] bg-[#132E3C]/30 shadow-[#00D2FF]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
+                }`}
+              >
+                {/* Active Tag */}
+                {isCard1Active && (
+                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#00D2FF] tracking-wider bg-[#00D2FF]/10 px-1.5 py-0.5 rounded border border-[#00D2FF]/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF] animate-pulse" />
+                    PARSING
+                  </span>
+                )}
+                
+                <div className="w-10 h-10 rounded-lg bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 flex items-center justify-center">
+                  <Sparkle className="w-5 h-5" weight="fill" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-md font-bold text-white">1. LLM Chat Parsing</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#00D2FF] uppercase tracking-wider">Natural Language Matching</span>
+                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
+                    Describe symptoms in simple, plain words. The agent extracts clinical intent and constraints instantly, removing the need for complex filter drop-downs.
+                  </p>
+                </div>
+                {/* Mock Chat Preview */}
+                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px]">
+                  <div className="flex justify-between text-[#85A4B1] mb-1">
+                    <span>query:</span>
+                    <span className="text-[#00D2FF]">"child high fever"</span>
+                  </div>
+                  <div className="flex justify-between text-white">
+                    <span>intent:</span>
+                    <span className="text-[#48F6C1]">[Specialty: Pediatrics]</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+
+          {/* Card 2: Clinical Triage */}
+          {(() => {
+            const isCard2Active = (time >= 2.5 && time < 5.0) && !isTyping && !isParsing;
+            return (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 25 },
+                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
+                }}
+                whileHover={{ y: -8, borderColor: "#FF7B93", boxShadow: "0 12px 30px -10px rgba(255, 123, 147, 0.15)" }}
+                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
+                  isCard2Active ? 'border-[#FF7B93] bg-[#132E3C]/30 shadow-[#FF7B93]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
+                }`}
+              >
+                {/* Active Tag */}
+                {isCard2Active && (
+                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#FF7B93] tracking-wider bg-[#FF7B93]/10 px-1.5 py-0.5 rounded border border-[#FF7B93]/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF7B93] animate-pulse" />
+                    TRIAGING
+                  </span>
+                )}
+
+                <div className="w-10 h-10 rounded-lg bg-[#FF7B93]/10 text-[#FF7B93] border border-[#FF7B93]/20 flex items-center justify-center">
+                  <Stethoscope className="w-5 h-5" weight="fill" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-md font-bold text-white">2. Clinical Triage</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#FF7B93] uppercase tracking-wider">Severity Classification</span>
+                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
+                    Dynamic evaluation categorizes query severity using standard medical triage protocols to prioritize emergent cases and recommend correct care modes.
+                  </p>
+                </div>
+                {/* Mock Triage Preview */}
+                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px]">
+                  <div className="flex justify-between text-[#85A4B1] mb-1">
+                    <span>protocol:</span>
+                    <span>CTAS Severity Level</span>
+                  </div>
+                  <div className="flex justify-between text-[#FF7B93] font-bold">
+                    <span>urgency:</span>
+                    <span className="bg-[#FF7B93]/10 border border-[#FF7B93]/35 px-1 rounded">ESI LEVEL 2</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+
+          {/* Card 3: Facility Filtering */}
+          {(() => {
+            const isCard3Active = (time >= 5.0 && time < 8.0) && !isTyping && !isParsing;
+            return (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 25 },
+                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
+                }}
+                whileHover={{ y: -8, borderColor: "#35A7C4", boxShadow: "0 12px 30px -10px rgba(53, 167, 196, 0.15)" }}
+                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
+                  isCard3Active ? 'border-[#35A7C4] bg-[#132E3C]/30 shadow-[#35A7C4]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
+                }`}
+              >
+                {/* Active Tag */}
+                {isCard3Active && (
+                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#35A7C4] tracking-wider bg-[#35A7C4]/10 px-1.5 py-0.5 rounded border border-[#35A7C4]/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#35A7C4] animate-pulse" />
+                    MATCHING
+                  </span>
+                )}
+
+                <div className="w-10 h-10 rounded-lg bg-[#35A7C4]/10 text-[#35A7C4] border border-[#35A7C4]/20 flex items-center justify-center">
+                  <ListBullets className="w-5 h-5" weight="fill" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-md font-bold text-white">3. Facility Filtering</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#35A7C4] uppercase tracking-wider">Resource Mapping</span>
+                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
+                    Map matching logic screens regional ERs, specialized urgent care clinics, and labs based on operating hours, current capacity, and gear.
+                  </p>
+                </div>
+                {/* Mock Filtering Preview */}
+                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px] flex flex-col gap-1">
+                  <div className="flex justify-between text-[#85A4B1]">
+                    <span>filter:</span>
+                    <span>{`[ER + Open]`}</span>
+                  </div>
+                  <div className="flex justify-between text-white">
+                    <span>status:</span>
+                    <span className="text-[#48F6C1]">General Hosp (Active)</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+
+          {/* Card 4: Priority Routing */}
+          {(() => {
+            const isCard4Active = (time >= 8.0 && time < 11.5) && !isTyping && !isParsing;
+            return (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 25 },
+                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
+                }}
+                whileHover={{ y: -8, borderColor: "#48F6C1", boxShadow: "0 12px 30px -10px rgba(72, 246, 193, 0.15)" }}
+                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
+                  isCard4Active ? 'border-[#48F6C1] bg-[#132E3C]/30 shadow-[#48F6C1]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
+                }`}
+              >
+                {/* Active Tag */}
+                {isCard4Active && (
+                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#48F6C1] tracking-wider bg-[#48F6C1]/10 px-1.5 py-0.5 rounded border border-[#48F6C1]/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#48F6C1] animate-pulse" />
+                    ROUTING
+                  </span>
+                )}
+
+                <div className="w-10 h-10 rounded-lg bg-[#48F6C1]/10 text-[#48F6C1] border border-[#48F6C1]/20 flex items-center justify-center">
+                  <TrafficSign className="w-5 h-5" weight="fill" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-md font-bold text-white">4. Priority Routing</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#48F6C1] uppercase tracking-wider">Transit ETA Mapping</span>
+                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
+                    Calculates real-time multi-modal transit paths (driving, cycling, jogging, walking) and triggers secure, HIPAA-compliant patient check-ins.
+                  </p>
+                </div>
+                {/* Mock Routing Preview */}
+                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px] flex flex-col gap-1">
+                  <div className="flex justify-between text-[#85A4B1]">
+                    <span>transit mode:</span>
+                    <span className="text-white">Car</span>
+                  </div>
+                  <div className="flex justify-between text-white font-bold">
+                    <span>calculated ETA:</span>
+                    <span className="text-[#48F6C1]">6 minutes</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+        </motion.div>
+      </section>
+
+      {/* Modern Contextual Cookie Banner */}
+      <AnimatePresence>
+        {cookieBannerOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 30, x: '-50%' }}
+            className="fixed bottom-6 left-1/2 z-40 w-[92%] max-w-xl bg-[#0A1D27]/95 backdrop-blur-2xl border border-[#1C4659]/80 rounded-2xl shadow-2xl flex flex-col p-4.5 gap-3.5 transition-all text-[#E2F1F5]"
+          >
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-[#48F6C1]/20 text-[#48F6C1] flex items-center justify-center border border-[#48F6C1]/10 flex-none animate-pulse">
+                  <Info className="w-4.5 h-4.5" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-white leading-tight">Privacy & Performance Settings</span>
+                  <span className="text-xs text-[#85A4B1]">Optimize routing parameters and save maps coordinate preferences.</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+                <button
+                  onClick={() => setShowPreferences(!showPreferences)}
+                  className="px-3 py-1.5 rounded-lg border border-[#1C4659]/65 hover:bg-[#132E3C]/40 text-xs font-semibold text-[#7AA0B0] hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  Preferences
+                  {showPreferences ? <CaretUp className="w-3 h-3" /> : <CaretDown className="w-3 h-3" />}
+                </button>
+
+                <button
+                  onClick={() => setCookieBannerOpen(false)}
+                  className="px-4 py-1.5 rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] text-xs font-bold text-[#061219] shadow-sm transition-colors cursor-pointer"
+                >
+                  Accept
+                </button>
+              </div>
+            </div>
+
+            {/* Custom Cookie Preferences Panel */}
+            {showPreferences && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden border-t border-[#1C4659]/40 pt-3 flex flex-col gap-3"
+              >
+                <div className="flex flex-col gap-2.5">
+                  {/* Zoom switch */}
+                  <div className="flex items-center justify-between bg-[#061219]/60 p-2 rounded-lg border border-[#1C4659]/40">
+                    <div className="flex flex-col max-w-[80%]">
+                      <span className="text-xs font-bold text-white">Zoom Layer coordinate persistence</span>
+                      <span className="text-[10px] text-[#85A4B1] leading-tight">
+                        Saves your last searched coordinate map zoom layer so you avoid re-typing your region during future visits.
+                      </span>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={cookieSettings.zoom}
+                        onChange={(e) => setCookieSettings({ ...cookieSettings, zoom: e.target.checked })}
+                        className="sr-only peer"
+                      />
+                      <div className="w-7 h-4 bg-[#1C4659]/40 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1C4659] after:border after:rounded-full after:height-3 after:width-3 after:transition-all peer-checked:bg-[#48F6C1]"></div>
+                    </label>
+                  </div>
+
+                  {/* History switch */}
+                  <div className="flex items-center justify-between bg-[#061219]/60 p-2 rounded-lg border border-[#1C4659]/40">
+                    <div className="flex flex-col max-w-[80%]">
+                      <span className="text-xs font-bold text-white">Remember Triage filters</span>
+                      <span className="text-[10px] text-[#85A4B1] leading-tight">
+                        Remembers your triage history filters to prioritize nearest facilities in subsequent sessions.
+                      </span>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={cookieSettings.history}
+                        onChange={(e) => setCookieSettings({ ...cookieSettings, history: e.target.checked })}
+                        className="sr-only peer"
+                      />
+                      <div className="w-7 h-4 bg-[#1C4659]/40 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1C4659] after:border after:rounded-full after:height-3 after:width-3 after:transition-all peer-checked:bg-[#48F6C1]"></div>
+                    </label>
+                  </div>
+
+                  {/* Analytics switch */}
+                  <div className="flex items-center justify-between bg-[#061219]/60 p-2 rounded-lg border border-[#1C4659]/40">
+                    <div className="flex flex-col max-w-[80%]">
+                      <span className="text-xs font-bold text-white">Anonymized Transit ETAs</span>
+                      <span className="text-[10px] text-[#85A4B1] leading-tight">
+                        Improves AI routing suggestions using fully anonymized transit ETAs.
+                      </span>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={cookieSettings.analytics}
+                        onChange={(e) => setCookieSettings({ ...cookieSettings, analytics: e.target.checked })}
+                        className="sr-only peer"
+                      />
+                      <div className="w-7 h-4 bg-[#1C4659]/40 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#1C4659] after:border after:rounded-full after:height-3 after:width-3 after:transition-all peer-checked:bg-[#48F6C1]"></div>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between border-t border-[#1C4659]/40 pt-2.5 mt-1">
+                  <button 
+                    onClick={() => {
+                      setCookieSettings({ zoom: false, history: false, analytics: false })
+                    }}
+                    className="text-[10px] font-bold text-[#FF7B93] hover:text-red-300 transition-colors cursor-pointer"
+                  >
+                    Reject Optional
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowPreferences(false)
+                      setCookieBannerOpen(false)
+                    }}
+                    className="px-3.5 py-1 bg-[#1A3F4F] text-white text-[11px] font-bold rounded-md hover:bg-[#204d60] transition-colors cursor-pointer"
+                  >
+                    Save Preferences
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modern High-End Footer */}
+      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 py-6 mt-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
+          <span>© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
+          <div className="flex items-center gap-6">
+            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link to="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
+            <Link to="/data-disclosure" className="hover:text-white transition-colors">Data Disclosure</Link>
           </div>
         </div>
       </footer>
