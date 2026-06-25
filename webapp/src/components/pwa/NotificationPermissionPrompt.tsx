@@ -28,20 +28,25 @@ export function NotificationPermissionPrompt({
       }}
     >
       <div
-        className="surface-card flex items-center gap-3 px-4 py-3 border border-stratum-border"
-        style={{ borderRadius: "var(--radius-stratum-bezel)" }}
+        className="flex items-center gap-3 px-4 py-3"
+        style={{
+          borderRadius: "12px",
+          background: "rgba(10, 29, 39, 0.95)",
+          border: "1px solid rgba(28, 70, 89, 0.4)",
+          backdropFilter: "blur(16px)",
+        }}
       >
         {/* Bell icon */}
-        <div className="w-10 h-10 rounded-stratum-control bg-stratum-accent flex items-center justify-center shrink-0">
-          <i className="ti ti-bell text-white text-xl" />
+        <div className="w-10 h-10 rounded-lg bg-[#48F6C1]/10 flex items-center justify-center shrink-0">
+          <i className="ti ti-bell text-[#48F6C1] text-xl" />
         </div>
 
         {/* Copy */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-stratum-text leading-tight">
+          <p className="text-sm font-bold text-[#E2F1F5] leading-tight font-sans">
             Enable health alerts
           </p>
-          <p className="text-xs text-stratum-text-muted mt-0.5 leading-snug">
+          <p className="text-xs text-[#85A4B1] mt-0.5 leading-snug font-sans">
             Get notified when emergency care recommendations are ready.
           </p>
         </div>
@@ -50,14 +55,32 @@ export function NotificationPermissionPrompt({
         <div className="flex gap-2 shrink-0">
           <button
             onClick={handleDismiss}
-            className="px-3 py-1.5 text-xs font-medium text-stratum-text-muted border border-stratum-border rounded-stratum-control hover:text-stratum-text transition-colors cursor-pointer"
+            style={{
+              padding: "6px 12px",
+              fontSize: "12px",
+              fontWeight: 500,
+              color: "#85A4B1",
+              border: "1px solid rgba(28, 70, 89, 0.4)",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+            className="hover:text-[#E2F1F5] hover:border-[#1C4659] transition-all font-sans"
           >
             Not now
           </button>
           <button
             onClick={onEnable}
             disabled={requesting}
-            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-stratum-accent rounded-stratum-control hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+            style={{
+              padding: "6px 14px",
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#061219",
+              background: "#48F6C1",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+            className="hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed font-sans"
           >
             {requesting ? "…" : "Enable"}
           </button>
