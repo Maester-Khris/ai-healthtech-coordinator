@@ -78,3 +78,7 @@ assets/
 
 # playwright-cli skill scratch output
 .playwright-cli/
+
+
+.screenshots/
+graphify-out/

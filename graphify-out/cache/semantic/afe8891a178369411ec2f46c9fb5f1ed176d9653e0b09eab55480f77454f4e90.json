@@ -1,1 +1,0 @@
-{"nodes": [{"id": "medicoord_dbt_user_yml", "label": "dbt user config (.user.yml)", "file_type": "document", "source_file": "pipeline/functions/dbt-runner/medicoord_dbt/.user.yml", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}
