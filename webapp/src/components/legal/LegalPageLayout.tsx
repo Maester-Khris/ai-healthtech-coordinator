@@ -30,21 +30,23 @@ export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayou
 
       {/* Modern Navigation Header */}
       <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 no-underline">
-            <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
+        <div className="max-w-7xl mx-auto px-3 min-[360px]:px-6 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-1.5 min-[360px]:gap-3 no-underline">
+            <div className="w-8 h-8 min-[360px]:w-9 min-[360px]:h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
               <img src="/logo.png" alt="MediCoord AI Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="text-label-md font-bold tracking-wide text-white uppercase">MediCoord AI</span>
+            <span className="text-xs min-[360px]:text-label-md font-bold tracking-wide text-white uppercase hidden min-[360px]:inline">
+              MediCoord<span className="hidden min-[450px]:inline"> AI</span>
+            </span>
           </Link>
 
-          <div className="flex items-center gap-6">
-            <button onClick={openSignIn} className="text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer bg-transparent border-none">
+          <div className="flex items-center gap-3 min-[360px]:gap-6">
+            <button onClick={openSignIn} className="text-xs min-[360px]:text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer bg-transparent border-none">
               Sign in
             </button>
             <button
               onClick={openSignUp}
-              className="px-4 py-2 text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95 border-none"
+              className="px-2.5 py-1.5 min-[360px]:px-4 min-[360px]:py-2 text-xs min-[360px]:text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95 border-none"
             >
               Get started
             </button>
@@ -81,9 +83,9 @@ export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayou
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 py-6 mt-auto">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
-          <span>© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
+      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] mt-auto">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
+          <span className="text-center md:text-left">© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
           <div className="flex items-center gap-6">
             <Link to="/privacy" className="hover:text-white transition-colors no-underline">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-white transition-colors no-underline">Cookie Policy</Link>
