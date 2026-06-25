@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { FILTER_OPTIONS, type CategoryFilter } from '../config/categories'
 
 interface CategoryFilterDropdownProps {
-  value:    CategoryFilter
+  value: CategoryFilter
   onChange: (v: CategoryFilter) => void
-  counts:   Record<CategoryFilter, number>
+  counts: Record<CategoryFilter, number>
 }
 
 export function CategoryFilterDropdown({ value, onChange, counts }: CategoryFilterDropdownProps) {

@@ -156,16 +156,17 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
         style={{
           position: 'fixed',
           top: 0,
-          right: 0,
+          left: 0,
           zIndex: 50,
           width: 260,
           height: '100%',
-          background: '#ffffff',
-          boxShadow: '-4px 0 24px rgba(0,0,0,0.12)',
           display: 'flex',
           flexDirection: 'column',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.25s ease',
+          background: 'rgba(10, 29, 39, 0.95)',
+          backdropFilter: 'blur(16px)',
+          borderRight: '1px solid rgba(28, 70, 89, 0.40)',
         }}
       >
         {/* User info */}
@@ -175,11 +176,11 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
               width: 48,
               height: 48,
               borderRadius: '50%',
-              background: '#2563eb',
+              background: '#35A7C4',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#fff',
+              color: '#061219',
               fontSize: 18,
               fontWeight: 700,
               flexShrink: 0,
@@ -188,16 +189,16 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             {initials}
           </div>
           <div style={{ minWidth: 0 }}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: '#111827', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#E2F1F5', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'var(--font-sans)' }}>
               {displayName}
             </p>
-            <p style={{ fontSize: 12, color: '#6b7280', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 12, color: '#85A4B1', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'var(--font-sans)' }}>
               {email}
             </p>
           </div>
         </div>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
         {/* Home */}
         <button
@@ -213,17 +214,18 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: '#E2F1F5',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           <HomeIcon />
           <span style={{ flex: 1, fontSize: 14 }}>Home</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: '#85A4B1' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
         {/* My profile */}
         <button
@@ -239,17 +241,18 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: '#E2F1F5',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           <ProfileIcon />
           <span style={{ flex: 1, fontSize: 14 }}>My profile</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: '#85A4B1' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
         {/* Test notifications */}
         <button
@@ -265,17 +268,18 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#1f2937',
+            color: '#E2F1F5',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           <BellIcon />
           <span style={{ flex: 1, fontSize: 14 }}>Test notifications</span>
-          <span style={{ color: '#9ca3af' }}>
+          <span style={{ color: '#85A4B1' }}>
             <ChevronRightIcon />
           </span>
         </button>
 
-        <div style={{ height: 1, background: '#e5e7eb', margin: '0 20px' }} />
+        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
         {/* Sign out */}
         <button
@@ -291,7 +295,8 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
             border: 'none',
             cursor: 'pointer',
             textAlign: 'left',
-            color: '#dc2626',
+            color: '#FF7B93',
+            fontFamily: 'var(--font-sans)',
           }}
         >
           <SignOutIcon />

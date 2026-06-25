@@ -4,6 +4,7 @@ import { useMap } from 'react-leaflet'
 import { useMapContext } from '../context/MapContext'
 import { buildTriageCandidates } from '../config/constants'
 import { CATEGORY_STYLES, DEFAULT_STYLE } from '../config/categories'
+import { getFacilitySvgInner } from '../config/icons'
 
 const STYLE_ID = "road-route-layer-styles"
 
@@ -17,8 +18,8 @@ function ensureStyles() {
       to   { stroke-dashoffset: -17; }
     }
     @keyframes originHalo {
-      0%   { transform: scale(0.5); opacity: 0.55; }
-      100% { transform: scale(2.2); opacity: 0; }
+      0%   { transform: scale(0.5); opacity: 0.7; }
+      100% { transform: scale(2.4); opacity: 0; }
     }
     .route-flow-line {
       animation: routeFlow 3s linear infinite;
@@ -41,15 +42,16 @@ function buildOriginIcon(): L.DivIcon {
       <div style="position:relative;width:40px;height:40px">
         <div class="origin-pulse-halo" style="
           position:absolute;inset:0;border-radius:50%;
-          background:#1C6FC4;pointer-events:none"></div>
+          background:#48F6C1;pointer-events:none"></div>
         <div style="
           position:absolute;top:50%;left:50%;width:18px;height:18px;
-          border-radius:50%;background:white;
-          box-shadow:0 1px 5px rgba(0,0,0,0.22);
+          border-radius:50%;background:rgba(6,18,25,0.95);
+          border:2px solid rgba(72,246,193,0.6);
+          box-shadow:0 0 10px rgba(72,246,193,0.3);
           transform:translate(-50%,-50%);pointer-events:none"></div>
         <div style="
-          position:absolute;top:50%;left:50%;width:11px;height:11px;
-          border-radius:50%;background:#1C6FC4;
+          position:absolute;top:50%;left:50%;width:9px;height:9px;
+          border-radius:50%;background:#48F6C1;
           transform:translate(-50%,-50%);pointer-events:none"></div>
       </div>`,
     iconSize: [40, 40],
@@ -58,16 +60,17 @@ function buildOriginIcon(): L.DivIcon {
 }
 
 function buildDestinationIcon(
-  letter: string,
+  category: string,
   color: string,
   etaLabel: string | null,
 ): L.DivIcon {
   const chip = etaLabel
     ? `<div style="
-        margin-top:4px;white-space:nowrap;background:white;
-        border:1.5px solid #dde6f0;border-radius:999px;
-        padding:2px 9px;font-size:11px;font-weight:600;color:#1a2b40;
-        box-shadow:0 2px 6px rgba(0,0,0,0.13);line-height:1.5;
+        margin-top:4px;white-space:nowrap;
+        background:rgba(6,18,25,0.9);
+        border:1px solid rgba(28,70,89,0.7);border-radius:999px;
+        padding:3px 10px;font-size:11px;font-weight:600;color:#E2F1F5;
+        backdrop-filter:blur(8px);line-height:1.5;
         font-family:system-ui,-apple-system,sans-serif;
         pointer-events:none">${etaLabel}</div>`
     : ""
@@ -79,18 +82,24 @@ function buildDestinationIcon(
         display:inline-flex;flex-direction:column;align-items:center;
         pointer-events:none">
         <div style="
+          position:relative;
           width:38px;height:38px;border-radius:50%;background:${color};
-          border:2.5px solid white;display:flex;align-items:center;
-          justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.3);
-          font-family:system-ui,-apple-system,sans-serif">
-          <span style="color:white;font-weight:700;font-size:14px;line-height:1">
-            ${letter}
-          </span>
+          border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;
+          justify-content:center;box-shadow:0 0 12px ${color}66,0 3px 10px rgba(0,0,0,0.4)">
+          <div class="user-pulse-halo" style="
+            position:absolute;inset:-6px;border-radius:50%;
+            border:2px solid ${color};
+            pointer-events:none;
+          "></div>
+          <svg width="38" height="38" viewBox="0 0 38 38" style="display:block;position:relative;z-index:2">
+            ${getFacilitySvgInner(category, 38)}
+          </svg>
         </div>
         <div style="
           width:0;height:0;border-left:7px solid transparent;
           border-right:7px solid transparent;
           border-top:9px solid ${color};margin-top:-1px;
+          position:relative;z-index:2;
           pointer-events:none"></div>
         ${chip}
       </div>`,
@@ -100,7 +109,13 @@ function buildDestinationIcon(
   })
 }
 
-export function RoadRouteLayer() {
+function getScaledEta(minutes: number, mode: 'car' | 'bike' | 'bus'): number {
+  if (mode === 'bike') return Math.round(minutes * 2.5)
+  if (mode === 'bus') return Math.round(minutes * 1.8)
+  return minutes
+}
+
+export function RoadRouteLayer({ travelMode }: { travelMode: 'car' | 'bike' | 'bus' }) {
   const map = useMap()
   const { activeTriage, recommendedId } = useMapContext()
   const layerRef = useRef<L.LayerGroup | null>(null)
@@ -140,15 +155,15 @@ export function RoadRouteLayer() {
 
     const ROUND = { lineCap: "round" as const, lineJoin: "round" as const, smoothFactor: 1 }
 
-    const shadow = L.polyline(positions, { ...ROUND, color: "#1C6FC4", weight: 14, opacity: 0.18 })
-    const casing = L.polyline(positions, { ...ROUND, color: "#FFFFFF",  weight: 13, opacity: 1 })
-    const main   = L.polyline(positions, { ...ROUND, color: "#1C6FC4", weight: 7,  opacity: 1 })
+    const shadow = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 16, opacity: 0.15 })
+    const casing = L.polyline(positions, { ...ROUND, color: "#061219", weight: 8,  opacity: 0.85 })
+    const main   = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 4,  opacity: 1.0 })
     const flow   = L.polyline(positions, {
       ...ROUND,
-      color: "#BBDCF8",
-      weight: 2.5,
+      color: "rgba(255,255,255,0.75)",
+      weight: 1.5,
       opacity: 1,
-      dashArray: "1 16",
+      dashArray: "8 16",
       className: "route-flow-line",
     })
 
@@ -157,15 +172,50 @@ export function RoadRouteLayer() {
       zIndexOffset: 100,
     })
 
-    const route    = routes.find(r => r.facilityId === recommendedFacility.id)
-    const etaLabel = route ? `${route.etaMinutes} min · ${route.distanceKm} km` : null
+    const route = routes.find(r => r.facilityId === recommendedFacility.id)
+    const scaledMinutes = route ? getScaledEta(route.etaMinutes, travelMode) : 0
+    const etaLabel = route ? `${scaledMinutes} min · ${route.distanceKm} km` : null
     const catStyle = CATEGORY_STYLES[recommendedFacility.category] ?? DEFAULT_STYLE
     const destMarker = L.marker([facilityLat, facilityLng], {
-      icon: buildDestinationIcon(catStyle.letter, catStyle.color, etaLabel),
+      icon: buildDestinationIcon(recommendedFacility.category, catStyle.color, etaLabel),
       zIndexOffset: 200,
     })
 
-    layerRef.current = L.layerGroup([shadow, casing, main, flow, originMarker, destMarker])
+    // Draw secondary connectors to alternative recommendations
+    const secondaryCandidates = triageCandidates.filter(f => f.id !== recommendedFacility.id)
+    const secondaryLayers: L.Layer[] = []
+
+    secondaryCandidates.forEach(cand => {
+      const candRoute = routes.find(r => r.facilityId === cand.id)
+      const candEta = candRoute ? getScaledEta(candRoute.etaMinutes, travelMode) : null
+      const candEtaLabel = candEta ? `Alt: ${candEta} min` : null
+      const candStyle = CATEGORY_STYLES[cand.category] ?? DEFAULT_STYLE
+
+      const candLine = L.polyline([[userLat, userLng], [cand.lat, cand.lng]], {
+        ...ROUND,
+        color: "#7AA0B0",
+        weight: 2,
+        opacity: 0.65,
+        dashArray: "6 10",
+      })
+      secondaryLayers.push(candLine)
+
+      const candMarker = L.marker([cand.lat, cand.lng], {
+        icon: buildDestinationIcon(cand.category, candStyle.color, candEtaLabel),
+        zIndexOffset: 150,
+      })
+      secondaryLayers.push(candMarker)
+    })
+
+    layerRef.current = L.layerGroup([
+      shadow,
+      casing,
+      main,
+      flow,
+      originMarker,
+      destMarker,
+      ...secondaryLayers,
+    ])
     layerRef.current.addTo(map)
 
     const bounds = main.getBounds().extend([facilityLat, facilityLng])
@@ -183,7 +233,7 @@ export function RoadRouteLayer() {
         layerRef.current = null
       }
     }
-  }, [map, userCoords?.lat, userCoords?.lng, recommendedFacility?.lat, recommendedFacility?.lng, roadGeometry, routes.length])
+  }, [map, userCoords?.lat, userCoords?.lng, recommendedFacility?.lat, recommendedFacility?.lng, roadGeometry, routes.length, travelMode])
 
   return null
 }

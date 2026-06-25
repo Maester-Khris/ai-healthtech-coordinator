@@ -1,31 +1,87 @@
 import { LEGEND_ITEMS } from '../config/categories'
+import { getFacilitySvgInner } from '../config/icons'
 
 export function FacilityLegend({ verticalLegend }: { verticalLegend: boolean }) {
   return (
-    <div className="absolute bottom-3 left-3 z-[15] bg-white/95 backdrop-blur-md border border-gray-200/80 rounded-lg px-3 py-2.5 shadow-lg pointer-events-none">
-      <p className="text-[10px] font-bold text-gray-800 mb-2 uppercase tracking-wider">Facility Legend</p>
-      <div className={verticalLegend ? "flex flex-col gap-1.5" : "flex items-center gap-3"}>
+    <div style={{
+      position: 'absolute',
+      bottom: 12,
+      left: 12,
+      zIndex: 15,
+      background: 'rgba(6, 18, 25, 0.85)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid rgba(28, 70, 89, 0.6)',
+      borderRadius: 10,
+      padding: '10px 14px',
+      pointerEvents: 'none',
+    }}>
+      <p style={{
+        fontSize: 10,
+        fontWeight: 700,
+        color: '#7AA0B0',
+        marginBottom: 8,
+        textTransform: 'uppercase',
+        letterSpacing: '0.08em',
+      }}>
+        Legend
+      </p>
+      <div style={verticalLegend
+        ? { display: 'flex', flexDirection: 'column', gap: 7 }
+        : { display: 'flex', alignItems: 'center', gap: 14 }
+      }>
         {LEGEND_ITEMS.map(item => (
-          <div key={item.label} className="flex items-center gap-1.5">
+          <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             {'isPin' in item ? (
-              <span
-                className="w-2.5 h-2.5 rounded-full inline-block flex-none shadow-sm"
-                style={{ backgroundColor: item.color }}
-              />
+              <span style={{
+                position: 'relative',
+                width: 14,
+                height: 14,
+                borderRadius: '50%',
+                background: 'white',
+                border: '2.5px solid #48F6C1',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                boxShadow: `0 0 6px #48F6C188`,
+              }}>
+                <span style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: '50%',
+                  background: '#48F6C1',
+                  display: 'inline-block',
+                }} />
+              </span>
             ) : (
-              <span
-                className="inline-flex items-center justify-center flex-none rounded shadow-sm"
-                style={{
-                  width: 18, height: 18,
-                  background: item.color,
-                  fontSize: 10, fontWeight: 700, color: 'white',
-                  borderRadius: 4,
-                }}
-              >
-                {'letter' in item ? item.letter : ''}
+              <span style={{
+                width: 18,
+                height: 18,
+                borderRadius: '50%',
+                background: item.color,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                boxShadow: `0 0 6px ${'color' in item ? item.color : ''}55`,
+              }}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  dangerouslySetInnerHTML={{
+                    __html: getFacilitySvgInner(
+                      item.letter === 'H' ? 'hospital' : item.letter === 'A' ? 'ambulatory' : 'residential',
+                      18
+                    )
+                  }}
+                />
               </span>
             )}
-            <span className="text-[11px] font-semibold text-gray-600 leading-none">{item.label}</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#A0B8C4', lineHeight: 1 }}>
+              {item.label}
+            </span>
           </div>
         ))}
       </div>

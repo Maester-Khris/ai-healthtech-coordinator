@@ -10,8 +10,8 @@ interface UnifiedFacilityPopupProps {
 export function UnifiedFacilityPopup({ name, category, address, distanceKm }: UnifiedFacilityPopupProps) {
   const style = CATEGORY_STYLES[category] ?? DEFAULT_STYLE
   return (
-    <div style={{ minWidth: 160 }}>
-      <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#111' }}>
+    <div style={{ minWidth: 160, fontFamily: 'var(--font-sans)' }}>
+      <p style={{ fontWeight: 700, fontSize: 13, marginBottom: 4, color: '#3D3A35' }}>
         {name}
       </p>
       <span style={{
@@ -28,12 +28,18 @@ export function UnifiedFacilityPopup({ name, category, address, distanceKm }: Un
       }}>
         {style.label}
       </span>
-      <p style={{ fontSize: 11, color: '#666', marginBottom: distanceKm != null ? 2 : 0 }}>
+      <p style={{ fontSize: 11, color: '#7A756D', marginBottom: distanceKm != null ? 2 : 0 }}>
         {address}
       </p>
       {distanceKm != null && (
-        <p style={{ fontSize: 11, color: '#666' }}>~{distanceKm} km away</p>
+        <p style={{ fontSize: 11, color: '#7A756D' }}>~{distanceKm} km away</p>
       )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 6, borderTop: '1px solid #DCD6CC', paddingTop: 6 }}>
+        <i className="ti ti-clock" style={{ fontSize: 11, color: '#8C8273' }} />
+        <span style={{ fontSize: 10, color: '#7A756D', fontWeight: 500 }}>
+          Mon - Fri: 9:00 AM - 10:00 PM
+        </span>
+      </div>
     </div>
   )
 }

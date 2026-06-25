@@ -75,7 +75,7 @@ export function SandboxHeader() {
         <select
           defaultValue="sandbox"
           onChange={e => {
-            if (e.target.value === "production") navigate("/")
+            if (e.target.value === "production") navigate("/app")
           }}
           style={{
             background: "var(--sb-bg-tertiary)",
