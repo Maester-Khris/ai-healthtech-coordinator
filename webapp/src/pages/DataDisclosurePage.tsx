@@ -114,6 +114,58 @@ export default function DataDisclosurePage() {
       <p className="text-sm md:text-body-md text-[#85A4B1] leading-relaxed mt-8">
         We do not sell any of the above metadata or telemetry, and we do not use it for commercial advertisement.
       </p>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Does MediCoord AI store my GPS location?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Your device location is used in-memory during an active request to calculate travel times and is discarded immediately after. It is never stored in our database."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can MediCoord AI see my symptom descriptions?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Your symptom descriptions are transmitted securely to an AI language model to generate the triage assessment. They are stored in your conversation history in our database but are never used to train any AI model."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who can see my MediCoord AI data?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Only you and our service backend can access your records. Data is shared only with the service providers that make the app work: Supabase for storage, Sentry for error tracking, OneSignal for push notifications, and the AI provider for symptom triage."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is my emergency contact shared with anyone?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Emergency contact metadata is never shared with any third party. It is processed only by you in your browser session when you choose to generate a message link."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does MediCoord AI sell my data?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. MediCoord AI does not sell any data and does not use it for commercial advertisement."
+                }
+              }
+            ]
+          })
+        }}
+      />
     </LegalPageLayout>
   )
 }
