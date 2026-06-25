@@ -4,9 +4,9 @@ export default function PrivacyPage() {
   return (
     <LegalPageLayout title="Privacy Policy" lastUpdated="June 24, 2026">
       <p>
-        MediCoord AI ("we", "us") helps you describe symptoms and find the
-        right nearby healthcare facility. This policy explains what
-        information we collect, why, and how it's handled.
+        Your health information is yours. This policy explains exactly what
+        MediCoord AI collects when you use the app, why we need it, and how
+        it's protected — in plain language.
       </p>
 
       <h2>Information we collect</h2>
@@ -57,10 +57,10 @@ export default function PrivacyPage() {
         <li>To request access to or deletion of your data, contact us using the details below.</li>
       </ul>
 
-      <h2>Children's privacy</h2>
+      <h2>Who this is for</h2>
       <p>
-        MediCoord AI is not directed at children under 16, and we do not
-        knowingly collect information from them.
+        MediCoord AI is designed for adults 16 and over. We do not knowingly
+        collect information from anyone under 16.
       </p>
 
       <h2>Changes to this policy</h2>

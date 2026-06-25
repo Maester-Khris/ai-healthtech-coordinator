@@ -17,9 +17,9 @@ export default function CookiesPage() {
       desc: 'Monitors software stability and isolates code crashes. All input parameters and messages are fully masked.'
     },
     {
-      name: 'Performance Telemetry',
+      name: 'Performance Analytics',
       service: 'Internal Routing Analytics',
-      badge: 'Telemetry',
+      badge: 'Analytics',
       badgeClass: 'bg-[#00D2FF]/15 text-[#00D2FF] border-[#00D2FF]/25',
       desc: 'Aggregates completely anonymized routing parameters to analyze transit bottlenecks and improve dispatch suggestions.'
     },
@@ -56,9 +56,8 @@ export default function CookiesPage() {
   return (
     <LegalPageLayout title="Cookie Policy" lastUpdated="June 24, 2026">
       <p className="text-sm md:text-body-md text-[#85A4B1] leading-relaxed">
-        MediCoord AI does not use advertising, marketing, or cross-site tracking cookies.
-        We utilize local browser storage and cloud service cookies solely to maintain secure sessions,
-        ensure application stability, and save your coordinate configurations.
+        MediCoord AI uses cookies only for three things: keeping your session secure, keeping the app
+        stable, and remembering your map preferences. No advertising. No cross-site tracking.
       </p>
 
       <h2 className="text-white text-lg font-bold mt-10 mb-4 border-b border-[#1C4659]/30 pb-2">

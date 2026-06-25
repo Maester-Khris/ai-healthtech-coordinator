@@ -5,36 +5,42 @@ export default function DataDisclosurePage() {
   const disclosureItems = [
     {
       data: 'Email address',
+      badge: 'Account',
       why: 'Used for account creation, secure authentication, and profile identification.',
       stored: 'Supabase secure cloud database.',
       shared: 'Shared only with Supabase authentication servers.'
     },
     {
       data: 'Symptom descriptions & Triage history',
+      badge: 'Sensitive',
       why: 'Used to run symptom analysis, map patient speech to clinical protocols, and save consultation logs.',
       stored: 'Supabase secure cloud database.',
       shared: 'Transmitted securely to the clinical AI language model provider; never used for model training.'
     },
     {
       data: 'Device coordinates & GPS position',
+      badge: 'In-session only',
       why: 'Used solely to find nearest emergency rooms and calculate live transit times.',
       stored: 'Not stored. Used in-memory during active requests and discarded.',
       shared: 'Sent to the OSRM/Geoapify routing services to calculate travel time ETAs.'
     },
     {
       data: 'Emergency contact metadata',
+      badge: 'Optional',
       why: 'Used only if you manually request the app to generate a shared message link for family contacts.',
       stored: 'Supabase secure cloud database.',
       shared: 'Never shared with any third party; processed only by you in your browser session.'
     },
     {
       data: 'Application diagnostic logs',
+      badge: 'Operational',
       why: 'Used to capture front-end rendering exceptions, software crashes, and connection failures.',
       stored: 'Sentry diagnostics registry.',
       shared: 'Shared only with Sentry monitoring servers. Content inputs are masked.'
     },
     {
       data: 'Notification device token',
+      badge: 'Optional',
       why: 'Used to route real-time travel alerts and queue updates to your device.',
       stored: 'Supabase database & OneSignal registry.',
       shared: 'Registered only with OneSignal push dispatch servers.'
@@ -44,8 +50,8 @@ export default function DataDisclosurePage() {
   return (
     <LegalPageLayout title="Data Disclosure" lastUpdated="June 24, 2026">
       <p className="text-sm md:text-body-md text-[#85A4B1] leading-relaxed">
-        This page itemizes exactly what data MediCoord AI collects, where it is stored, and who it is shared with for absolute transparency.
-        For a comprehensive legal explanation of your rights, please read our <Link to="/privacy">Privacy Policy</Link>.
+        MediCoord AI is built on real Canadian public health data — no simulated locations, no synthetic wait times.
+        This page shows exactly what we collect, where it lives, and who can see it. For your legal rights, see our <Link to="/privacy">Privacy Policy</Link>.
       </p>
 
       {/* Prominent Canadian Sourcing Alert Card */}
@@ -83,7 +89,7 @@ export default function DataDisclosurePage() {
             <div className="flex items-center justify-between border-b border-[#1C4659]/30 pb-2.5">
               <span className="text-sm font-bold text-white leading-snug">{item.data}</span>
               <span className="text-[9px] font-mono text-[#00D2FF] bg-[#00D2FF]/10 px-2 py-0.5 rounded border border-[#00D2FF]/20 font-bold uppercase tracking-wider">
-                Active Category
+                {item.badge}
               </span>
             </div>
             
