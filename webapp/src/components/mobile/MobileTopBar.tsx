@@ -1,5 +1,5 @@
 // webapp/src/components/mobile/MobileTopBar.tsx
-import { Buildings, List } from '@phosphor-icons/react'
+import { ListIcon } from '@phosphor-icons/react'
 import type { Severity } from '@shared/types'
 
 export type MobileMode = 'browse' | 'recommendation'
@@ -38,7 +38,7 @@ export function MobileTopBar({ mode, severity, onMenuOpen }: MobileTopBarProps) 
         className="flex items-center gap-2 bg-transparent border-none p-0 cursor-pointer"
         aria-label="Open menu"
       >
-        <List size={20} color="#48F6C1" weight="bold" />
+        <ListIcon size={20} color="#48F6C1" weight="bold" />
         <span
           className="font-bold text-[16px]"
           style={{ color: '#E2F1F5', fontFamily: 'var(--font-sans)' }}

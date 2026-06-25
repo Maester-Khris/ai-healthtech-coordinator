@@ -34,7 +34,6 @@ export function FacilityCardPanel({ triage, onGetDirections }: FacilityCardPanel
   const [activeMode, setActiveMode] = useState<TransitMode>('drive')
 
   const facility = triage.recommendedFacility
-  const route = triage.routes.find(r => r.facilityId === triage.recommendedFacilityId)
 
   if (!facility || !triage.active) return null
 
