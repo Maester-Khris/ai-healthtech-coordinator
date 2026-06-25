@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, TreeStructure, Compass, ChartLineUp } from '@phosphor-icons/react'
 
+interface DiagramStep {
+  title: string
+  desc: string
+  icon: string
+}
+
 interface BlogSection {
   icon: React.ElementType
   iconColor: string
@@ -14,6 +20,7 @@ interface BlogSection {
   approachCode?: string
   tradeoff: string
   result: string
+  diagramSteps?: DiagramStep[]
 }
 
 const SECTIONS: BlogSection[] = [
@@ -33,6 +40,28 @@ const SECTIONS: BlogSection[] = [
       "The KG is a knowledge snapshot with a maintenance cost. Rare conditions and unusual symptom presentations still fall through to LLM base priors. The extraction step adds ~80–120ms latency per query. Grounding reduces misclassification frequency — it doesn't reduce it to zero.",
     result:
       "METRIC PENDING — % reduction in routing misclassification vs. baseline LLM without KG grounding, measured against Canadian ED triage benchmark dataset",
+    diagramSteps: [
+      {
+        title: "Natural Language Ingest",
+        desc: "Lay-language symptom input parsed from chat interfaces.",
+        icon: "ti ti-message-chatbot"
+      },
+      {
+        title: "Clinical Entity Extractor",
+        desc: "Extracts key symptoms, risks, and age groupings.",
+        icon: "ti ti-braces"
+      },
+      {
+        title: "KG Diagnostic Query",
+        desc: "Queries ICD-10-CA Knowledge Graph to map exact clinical entities.",
+        icon: "ti ti-git-fork"
+      },
+      {
+        title: "LLM Agent Triage",
+        desc: "Multi-turn agent reasons over context and triggers follow-up.",
+        icon: "ti ti-brain"
+      }
+    ]
   },
   {
     icon: Compass,
@@ -61,6 +90,28 @@ score = osrm_travel_minutes + redis_queue_depth_minutes`,
       "PostGIS adds infrastructure complexity over a pure in-memory geo index. More critically: in Phase 1, queue depth is modeled from facility type and time-of-day heuristics — not live facility data feeds. The routing math is correct; the queue input is an approximation. Live feed integration is the next defensibility moat.",
     result:
       "METRIC PENDING — average minutes saved per routing decision vs. straight-line nearest-neighbor, across sandbox simulation runs",
+    diagramSteps: [
+      {
+        title: "Location Ingest",
+        desc: "Retrieves user GPS coordinates and target capability tier.",
+        icon: "ti ti-map-pin"
+      },
+      {
+        title: "PostGIS Filter",
+        desc: "Performs quick spatial query on Indexed Postgres database.",
+        icon: "ti ti-database"
+      },
+      {
+        title: "Multi-Modal OSRM",
+        desc: "Computes path geometry and travel time (Car/Bike/Bus).",
+        icon: "ti ti-clock"
+      },
+      {
+        title: "Composite Scoring",
+        desc: "Ranks candidates: ETA = Road Travel Time + Redis Queue Depth.",
+        icon: "ti ti-calculator"
+      }
+    ]
   },
   {
     icon: ChartLineUp,
@@ -78,12 +129,34 @@ score = osrm_travel_minutes + redis_queue_depth_minutes`,
       "Phase 1 runs the cache in-process at the app layer — no external Redis instance. This works for single-node sandbox simulation but doesn't survive horizontal scaling or process restarts. Production city-scale deployment requires Redis Cluster with AOF persistence and a durable event bus for decision replay. The sandbox models the coordination logic faithfully; it doesn't model distributed failure modes.",
     result:
       "METRIC PENDING — % improvement in facility utilization balance (std dev of queue depth across facilities) under simulated peak load, vs. non-load-aware routing baseline",
+    diagramSteps: [
+      {
+        title: "Concurrent Inflow",
+        desc: "Multiple patient routing requests sent concurrently.",
+        icon: "ti ti-users"
+      },
+      {
+        title: "Atomic Pipeline Lock",
+        desc: "Increments in-flight buffer atomically to hold place.",
+        icon: "ti ti-lock"
+      },
+      {
+        title: "Redis ZSET Tracking",
+        desc: "Scores and updates load tracking sorted sets in real-time.",
+        icon: "ti ti-list-numbers"
+      },
+      {
+        title: "Load Redistribution",
+        desc: "Pushes subsequent decisions to secondary capacity buffers.",
+        icon: "ti ti-adjustments-horizontal"
+      }
+    ]
   },
 ]
 
 export default function ForEngineersPage() {
   return (
-    <div className="bg-[#061219] min-h-screen flex flex-col font-sans text-[#E2F1F5] overflow-x-hidden">
+    <div className="bg-[#061219] min-h-screen flex flex-col font-static text-[#E2F1F5] overflow-x-hidden">
 
       {/* Header */}
       <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
@@ -155,6 +228,33 @@ export default function ForEngineersPage() {
                   )}
                 </div>
               </div>
+
+              {/* System Flow Diagram */}
+              {section.diagramSteps && (
+                <div className="flex flex-col gap-3">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7AA0B0]">System Flow</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 relative">
+                    {section.diagramSteps.map((step, idx) => (
+                      <div key={idx} className="relative flex flex-col gap-2 p-4 bg-[#0A1D27]/60 border border-[#1C4659]/40 rounded-xl">
+                        {/* Step number badge */}
+                        <div className="absolute top-3 right-3 text-xs font-mono font-bold text-[#7AA0B0]/40">0{idx + 1}</div>
+                        <div className={`text-[20px]`} style={{ color: section.iconColor.split('-')[1]?.replace('[', '')?.replace(']', '') || '#48F6C1' }}>
+                          <i className={step.icon} />
+                        </div>
+                        <div className="text-xs font-bold text-white mt-1">{step.title}</div>
+                        <div className="text-[11px] text-[#85A4B1] leading-relaxed mt-0.5">{step.desc}</div>
+                        
+                        {/* Connection arrow for desktop */}
+                        {idx < 3 && (
+                          <div className="hidden md:block absolute -right-3.5 top-1/2 -translate-y-1/2 z-10 text-[#48F6C1]/30">
+                            <ArrowRight className="w-4 h-4 text-[#7AA0B0]/40" />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Tradeoff */}
               <div className="flex flex-col gap-2">
