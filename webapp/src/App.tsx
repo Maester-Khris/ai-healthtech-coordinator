@@ -24,7 +24,6 @@ import { useBreakpoint } from './hooks/useBreakpoint'
 import { useGeolocation } from './hooks/useGeolocation'
 import { usePWAInstall } from './hooks/usePWAInstall'
 import { useNotificationPermission } from './hooks/useNotificationPermission'
-import { useAuth } from './auth/useAuth'
 
 function LandingRoute() {
   return <LandingPage />

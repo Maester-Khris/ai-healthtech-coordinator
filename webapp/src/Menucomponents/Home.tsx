@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import type { Facility, Message, Session, ConversationsCache, ChatMessageResponse } from '@shared/types'
 import { MapPanel } from '../components/map'
 import { ChatPanel } from './subcomponent/ChatPanel'
