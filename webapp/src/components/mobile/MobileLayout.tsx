@@ -145,7 +145,10 @@ export function MobileLayout({
       </div>
 
       {/* Navigation Dock — floating bottom tab switcher */}
-      <div className="flex-none flex items-center justify-center px-4 pb-3" style={{ height: 64 }}>
+      <div 
+        className="flex-none flex items-center justify-center px-4 pb-[calc(12px+env(safe-area-inset-bottom,0px))]" 
+        style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}
+      >
         <div className="flex items-center gap-1 w-full max-w-sm surface-card shell-bezel rounded-stratum-bezel backdrop-blur-xl p-1.5">
           {(['map', 'ai'] as Tab[]).map(tab => (
             <button

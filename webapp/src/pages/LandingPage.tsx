@@ -111,13 +111,18 @@ export default function LandingPage() {
   const [parseComplete, setParseComplete] = useState(false)
 
   // Cookie Controller states
-  const [cookieBannerOpen, setCookieBannerOpen] = useState(true)
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(false)
+
+  useEffect(() => {
+    setCookieBannerOpen(true)
+  }, [])
   const [showPreferences, setShowPreferences] = useState(false)
   const [cookieSettings, setCookieSettings] = useState({
     zoom: true,
     history: true,
     analytics: false
   })
+  const [activeStep, setActiveStep] = useState(1)
 
   // Animation timeline state (0 to 12 seconds)
   const [time, setTime] = useState(0)
@@ -272,21 +277,23 @@ export default function LandingPage() {
 
       {/* Modern High-End Header with Logo Palette & Blue Accents */}
       <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
+        <div className="max-w-7xl mx-auto px-3 min-[360px]:px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 min-[360px]:gap-3">
+            <div className="w-8 h-8 min-[360px]:w-9 min-[360px]:h-9 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
               <img src="/logo.png" alt="MediCoord AI Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="text-label-md font-bold tracking-wide text-white uppercase">MediCoord AI</span>
+            <span className="text-xs min-[360px]:text-label-md font-bold tracking-wide text-white uppercase hidden min-[360px]:inline">
+              MediCoord<span className="hidden min-[450px]:inline"> AI</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <button onClick={openSignIn} className="text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer">
+          <div className="flex items-center gap-3 min-[360px]:gap-6">
+            <button onClick={openSignIn} className="text-xs min-[360px]:text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer">
               Sign in
             </button>
             <button
               onClick={openSignUp}
-              className="px-4 py-2 text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95"
+              className="px-2.5 py-1.5 min-[360px]:px-4 min-[360px]:py-2 text-xs min-[360px]:text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95"
             >
               Get started
             </button>
@@ -752,219 +759,314 @@ export default function LandingPage() {
         </div>
       </main>
 
-      {/* Operational Workflow (How It Works) Section */}
+      {/* Strategic Positioning & Technical Edge Section */}
       <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-12 relative z-20">
         <div className="flex flex-col gap-3">
-          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">Operational Workflow</div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">How the Platform Works</h2>
+          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">Platform Value</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">Strategic Positioning & Technical Edge</h2>
           <p className="text-[#85A4B1] max-w-xl text-sm leading-relaxed">
-            Behind the interface, the agent coordinates live datasets, clinical classifications, and HIPAA-compliant routing protocols.
+            MediCoord AI sits at the intersection of real-time clinical triage and intelligent routing logistics.
           </p>
         </div>
 
-        {/* Staggered container for card entries */}
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.1
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Card 1: Strategic Positioning & Value */}
+          <div className="relative border border-[#1C4659]/50 bg-[#0A1D27]/80 rounded-2xl p-8 flex flex-col gap-5 shadow-xl hover:border-[#00D2FF]/60 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 flex items-center justify-center">
+              <Sparkle className="w-6 h-6 animate-pulse" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-bold text-white">Positioning & City-Wide Value</h3>
+              <span className="text-xs font-mono font-bold text-[#00D2FF] uppercase tracking-wider">Toronto Healthcare Resource Optimization</span>
+              <p className="text-sm text-[#85A4B1] leading-relaxed mt-2">
+                Toronto's emergency spaces suffer from fragmented and underutilized data (uncoordinated wait times, disconnected government datasets). We provide a unified coordination layer helping citizens locate the right facility for their specific needs, in the most convenient way—knowing exactly where to go before they leave their home.
+              </p>
+              <p className="text-sm text-[#85A4B1] leading-relaxed mt-1">
+                Beyond individual convenience, we aim to better balance the load across the city's healthcare infrastructure. By leveraging a multi-user live triage model, we route patients dynamically based on severity, facility type, and active capacity queues.
+              </p>
+            </div>
+            <div className="mt-auto pt-6 border-t border-[#1C4659]/30 flex items-center justify-between">
+              <span className="text-xs text-[#7AA0B0] font-mono">Simulate multi-user capacity load:</span>
+              <Link
+                to="/sandbox"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#061219] bg-[#00D2FF] hover:bg-[#00b4db] rounded-lg shadow-sm transition-all duration-200 active:scale-95 cursor-pointer"
+              >
+                Launch Sandbox Mode
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Card 2: Technical Architecture & Prowess */}
+          <div className="relative border border-[#1C4659]/50 bg-[#0A1D27]/80 rounded-2xl p-8 flex flex-col gap-5 shadow-xl hover:border-[#48F6C1]/60 transition-all duration-300">
+            <div className="w-12 h-12 rounded-xl bg-[#48F6C1]/10 text-[#48F6C1] border border-[#48F6C1]/20 flex items-center justify-center">
+              <Stethoscope className="w-6 h-6" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-bold text-white">Technical Architecture & Prowess</h3>
+              <span className="text-xs font-mono font-bold text-[#48F6C1] uppercase tracking-wider">Clinical Intelligent Routing Layer</span>
+              <p className="text-sm text-[#85A4B1] leading-relaxed mt-2">
+                We combine real-time proximity searches with near real-time cloud-integrated telemetry datasets. A dedicated, personal AI agent understands patient symptoms expressed in simple natural language and provides highly accurate recommendations without replacing human healthcare professionals.
+              </p>
+              <p className="text-sm text-[#85A4B1] leading-relaxed mt-1">
+                Our engine uses custom-built Graph RAG systems optimized on Canadian clinical datasets and medical knowledge graphs. An internal custom severity classification engine maps user input to triage states, while customized MCP tools calculate driving, transit, cycling, and walking ETAs.
+              </p>
+            </div>
+            <div className="mt-auto pt-6 border-t border-[#1C4659]/30 flex flex-wrap gap-2 text-xs font-mono text-[#7AA0B0]">
+              <span className="px-2.5 py-1 rounded bg-[#132E3C]/50 border border-[#1C4659]/65">Graph RAG</span>
+              <span className="px-2.5 py-1 rounded bg-[#132E3C]/50 border border-[#1C4659]/65">MCP Telemetry</span>
+              <span className="px-2.5 py-1 rounded bg-[#132E3C]/50 border border-[#1C4659]/65">Real-Time OSRM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Operational Workflow Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-12 relative z-20">
+        <div className="flex flex-col gap-3">
+          <div className="text-xs font-bold uppercase tracking-widest text-[#48F6C1]">How It Works</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">Interactive Triage Showcase</h2>
+          <p className="text-[#85A4B1] max-w-xl text-sm leading-relaxed">
+            Click through the pipeline stages to inspect the real-time technical processing of a patient's request.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Step Selector Tabs */}
+          <div className="lg:col-span-4 flex flex-col gap-4 w-full">
+            {[
+              {
+                id: 1,
+                title: "1. Multi-Turn Conversation",
+                tagline: "Natural Language Triage",
+                desc: "Graph RAG extracts medical entities from conversational speech and generates clinical follow-up questions.",
+                icon: Sparkle
+              },
+              {
+                id: 2,
+                title: "2. Medical Interpretation",
+                tagline: "Custom Classification Engine",
+                desc: "Maps unstructured patient statements to specific clinical/medical scenarios using knowledge graph connections.",
+                icon: Stethoscope
+              },
+              {
+                id: 3,
+                title: "3. Proximity & ETA Routing",
+                tagline: "Advanced MCP Decision Layer",
+                desc: "Calculates driving distance and wait queue durations, delivering total care recommendations.",
+                icon: TrafficSign
               }
-            }
-          }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {/* Card 1: LLM Chat Parsing */}
-          {(() => {
-            const isCard1Active = (time >= 0 && time < 2.5) || isTyping || isParsing;
-            return (
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 25 },
-                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
-                }}
-                whileHover={{ y: -8, borderColor: "#00D2FF", boxShadow: "0 12px 30px -10px rgba(0, 210, 255, 0.15)" }}
-                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
-                  isCard1Active ? 'border-[#00D2FF] bg-[#132E3C]/30 shadow-[#00D2FF]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
-                }`}
-              >
-                {/* Active Tag */}
-                {isCard1Active && (
-                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#00D2FF] tracking-wider bg-[#00D2FF]/10 px-1.5 py-0.5 rounded border border-[#00D2FF]/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF] animate-pulse" />
-                    PARSING
+            ].map((step) => {
+              const Icon = step.icon;
+              return (
+                <button
+                  key={step.id}
+                  onClick={() => setActiveStep(step.id)}
+                  className={`w-full text-left p-5 rounded-xl border transition-all duration-300 cursor-pointer flex flex-col gap-1.5 ${
+                    activeStep === step.id
+                      ? "border-[#48F6C1] bg-[#132E3C]/50 shadow-lg shadow-[#48F6C1]/5"
+                      : "border-[#1C4659]/40 bg-[#0A1D27]/40 hover:border-[#1C4659]/80 hover:bg-[#0A1D27]/80"
+                  }`}
+                >
+                  <span className={`text-[10px] font-mono font-bold uppercase tracking-wider ${
+                    activeStep === step.id ? "text-[#48F6C1]" : "text-[#7AA0B0]"
+                  }`}>
+                    {step.tagline}
                   </span>
-                )}
-                
-                <div className="w-10 h-10 rounded-lg bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 flex items-center justify-center">
-                  <Sparkle className="w-5 h-5" weight="fill" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-md font-bold text-white">1. LLM Chat Parsing</h3>
-                  <span className="text-[10px] font-mono font-bold text-[#00D2FF] uppercase tracking-wider">Natural Language Matching</span>
-                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
-                    Describe symptoms in simple, plain words. The agent extracts clinical intent and constraints instantly, removing the need for complex filter drop-downs.
-                  </p>
-                </div>
-                {/* Mock Chat Preview */}
-                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px]">
-                  <div className="flex justify-between text-[#85A4B1] mb-1">
-                    <span>query:</span>
-                    <span className="text-[#00D2FF]">"child high fever"</span>
+                  <div className="flex items-center gap-2">
+                    <Icon className={`w-4.5 h-4.5 ${activeStep === step.id ? "text-[#48F6C1]" : "text-[#85A4B1]"}`} />
+                    <h4 className="text-md font-bold text-white">{step.title}</h4>
                   </div>
-                  <div className="flex justify-between text-white">
-                    <span>intent:</span>
-                    <span className="text-[#48F6C1]">[Specialty: Pediatrics]</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })()}
+                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">{step.desc}</p>
+                </button>
+              );
+            })}
+          </div>
 
-          {/* Card 2: Clinical Triage */}
-          {(() => {
-            const isCard2Active = (time >= 2.5 && time < 5.0) && !isTyping && !isParsing;
-            return (
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 25 },
-                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
-                }}
-                whileHover={{ y: -8, borderColor: "#FF7B93", boxShadow: "0 12px 30px -10px rgba(255, 123, 147, 0.15)" }}
-                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
-                  isCard2Active ? 'border-[#FF7B93] bg-[#132E3C]/30 shadow-[#FF7B93]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
-                }`}
-              >
-                {/* Active Tag */}
-                {isCard2Active && (
-                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#FF7B93] tracking-wider bg-[#FF7B93]/10 px-1.5 py-0.5 rounded border border-[#FF7B93]/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF7B93] animate-pulse" />
-                    TRIAGING
-                  </span>
-                )}
+          {/* Interactive Simulation Panel */}
+          <div className="lg:col-span-8 w-full border border-[#1C4659]/60 bg-[#0A1D27]/90 backdrop-blur-xl rounded-2xl p-6 h-full flex flex-col gap-5 relative overflow-hidden shadow-2xl">
+            {/* Header/Status Bar */}
+            <div className="flex items-center justify-between border-b border-[#1C4659]/40 pb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#48F6C1] animate-ping" />
+                <span className="text-xs font-mono font-bold text-white uppercase tracking-widest">
+                  {activeStep === 1 && "Graph RAG Triage Pipeline — ACTIVE"}
+                  {activeStep === 2 && "Clinical Classifier Dashboard — ACTIVE"}
+                  {activeStep === 3 && "MCP Dispatch Calculator — ACTIVE"}
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-[#7AA0B0] bg-[#132E3C]/60 px-2.5 py-1 rounded border border-[#1C4659]/50">
+                STAGE {activeStep} / 3
+              </span>
+            </div>
 
-                <div className="w-10 h-10 rounded-lg bg-[#FF7B93]/10 text-[#FF7B93] border border-[#FF7B93]/20 flex items-center justify-center">
-                  <Stethoscope className="w-5 h-5" weight="fill" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-md font-bold text-white">2. Clinical Triage</h3>
-                  <span className="text-[10px] font-mono font-bold text-[#FF7B93] uppercase tracking-wider">Severity Classification</span>
-                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
-                    Dynamic evaluation categorizes query severity using standard medical triage protocols to prioritize emergent cases and recommend correct care modes.
-                  </p>
-                </div>
-                {/* Mock Triage Preview */}
-                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px]">
-                  <div className="flex justify-between text-[#85A4B1] mb-1">
-                    <span>protocol:</span>
-                    <span>CTAS Severity Level</span>
-                  </div>
-                  <div className="flex justify-between text-[#FF7B93] font-bold">
-                    <span>urgency:</span>
-                    <span className="bg-[#FF7B93]/10 border border-[#FF7B93]/35 px-1 rounded">ESI LEVEL 2</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })()}
+            {/* Interactive Showcase Content */}
+            <AnimatePresence mode="wait">
+              {activeStep === 1 && (
+                <motion.div
+                  key="step1"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-4 flex-1 justify-center"
+                >
+                  <div className="flex flex-col gap-3 font-mono text-xs">
+                    {/* Patient Speech Input */}
+                    <div className="bg-[#061219]/90 border border-[#1C4659]/60 rounded-xl p-3.5 flex flex-col gap-2">
+                      <div className="flex justify-between items-center text-[10px] text-[#7AA0B0] border-b border-[#1C4659]/30 pb-1.5">
+                        <span>patient_speech_input:</span>
+                        <span className="text-[#00D2FF]">natural_language</span>
+                      </div>
+                      <span className="text-white text-body-md font-sans italic">
+                        "My child woke up with a very high fever, they are breathing faster than normal and won't drink anything."
+                      </span>
+                    </div>
 
-          {/* Card 3: Facility Filtering */}
-          {(() => {
-            const isCard3Active = (time >= 5.0 && time < 8.0) && !isTyping && !isParsing;
-            return (
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 25 },
-                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
-                }}
-                whileHover={{ y: -8, borderColor: "#35A7C4", boxShadow: "0 12px 30px -10px rgba(53, 167, 196, 0.15)" }}
-                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
-                  isCard3Active ? 'border-[#35A7C4] bg-[#132E3C]/30 shadow-[#35A7C4]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
-                }`}
-              >
-                {/* Active Tag */}
-                {isCard3Active && (
-                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#35A7C4] tracking-wider bg-[#35A7C4]/10 px-1.5 py-0.5 rounded border border-[#35A7C4]/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#35A7C4] animate-pulse" />
-                    MATCHING
-                  </span>
-                )}
+                    {/* Graph RAG Entity Recognition */}
+                    <div className="flex flex-col gap-2.5 bg-[#061219]/60 border border-[#1C4659]/40 rounded-xl p-3.5">
+                      <span className="text-[10px] text-[#7AA0B0] uppercase tracking-wider">Graph RAG Entity Recognition & Relations:</span>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-0.5 rounded bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 text-[10px]">
+                          [Patient: Pediatric]
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-[#48F6C1]/10 text-[#48F6C1] border border-[#48F6C1]/20 text-[10px]">
+                          [Symptom: Pyrexia/Fever]
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-[#48F6C1]/10 text-[#48F6C1] border border-[#48F6C1]/20 text-[10px]">
+                          [Symptom: Tachypnea/Rapid Breathing]
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-[#FF7B93]/10 text-[#FF7B93] border border-[#FF7B93]/20 text-[10px]">
+                          [Risk: Dehydration Indicator]
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="w-10 h-10 rounded-lg bg-[#35A7C4]/10 text-[#35A7C4] border border-[#35A7C4]/20 flex items-center justify-center">
-                  <ListBullets className="w-5 h-5" weight="fill" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-md font-bold text-white">3. Facility Filtering</h3>
-                  <span className="text-[10px] font-mono font-bold text-[#35A7C4] uppercase tracking-wider">Resource Mapping</span>
-                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
-                    Map matching logic screens regional ERs, specialized urgent care clinics, and labs based on operating hours, current capacity, and gear.
-                  </p>
-                </div>
-                {/* Mock Filtering Preview */}
-                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px] flex flex-col gap-1">
-                  <div className="flex justify-between text-[#85A4B1]">
-                    <span>filter:</span>
-                    <span>{`[ER + Open]`}</span>
+                    {/* AI Prompted Follow-up Question */}
+                    <div className="bg-[#132E3C]/30 border border-[#48F6C1]/30 rounded-xl p-3.5 flex flex-col gap-1.5">
+                      <span className="text-[10px] text-[#48F6C1] uppercase tracking-wider font-bold">Generated Clinical Follow-up:</span>
+                      <p className="text-white font-sans text-body-md">
+                        "I've recorded the high fever and fast breathing. Is your child unusually sleepy, or are you noticing a rash or pulling in of their chest muscles when breathing?"
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-white">
-                    <span>status:</span>
-                    <span className="text-[#48F6C1]">General Hosp (Active)</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })()}
+                </motion.div>
+              )}
 
-          {/* Card 4: Priority Routing */}
-          {(() => {
-            const isCard4Active = (time >= 8.0 && time < 11.5) && !isTyping && !isParsing;
-            return (
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 25 },
-                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80, damping: 14 } }
-                }}
-                whileHover={{ y: -8, borderColor: "#48F6C1", boxShadow: "0 12px 30px -10px rgba(72, 246, 193, 0.15)" }}
-                className={`relative border rounded-2xl p-6 flex flex-col gap-4 shadow-xl transition-all duration-300 ${
-                  isCard4Active ? 'border-[#48F6C1] bg-[#132E3C]/30 shadow-[#48F6C1]/5' : 'border-[#1C4659]/50 bg-[#0A1D27]/80'
-                }`}
-              >
-                {/* Active Tag */}
-                {isCard4Active && (
-                  <span className="absolute top-4 right-4 flex items-center gap-1.5 text-[8px] font-mono font-bold text-[#48F6C1] tracking-wider bg-[#48F6C1]/10 px-1.5 py-0.5 rounded border border-[#48F6C1]/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#48F6C1] animate-pulse" />
-                    ROUTING
-                  </span>
-                )}
+              {activeStep === 2 && (
+                <motion.div
+                  key="step2"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-4 flex-1 justify-center"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Severity scoring details */}
+                    <div className="flex flex-col gap-3 p-4 rounded-xl border border-[#1C4659]/50 bg-[#061219]/60 font-mono text-xs">
+                      <span className="text-[10px] text-[#7AA0B0] uppercase tracking-wider border-b border-[#1C4659]/40 pb-1.5">
+                        Triage Score Calculation
+                      </span>
+                      <div className="flex justify-between items-center">
+                        <span>Respiratory Rate Index:</span>
+                        <span className="text-[#FF7B93] font-bold">CRITICAL (+3)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Pediatric Age Factor:</span>
+                        <span className="text-[#00D2FF] font-bold">MODERATE (+2)</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Fluid Intake/Dehydration:</span>
+                        <span className="text-[#48F6C1] font-bold">EVALUATED (+1)</span>
+                      </div>
+                      <div className="border-t border-[#1C4659]/40 pt-2 flex justify-between items-center text-white font-bold">
+                        <span>Composite Score:</span>
+                        <span className="px-2 py-0.5 rounded bg-[#FF7B93]/20 border border-[#FF7B93]/40">
+                          ESI LEVEL 2
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="w-10 h-10 rounded-lg bg-[#48F6C1]/10 text-[#48F6C1] border border-[#48F6C1]/20 flex items-center justify-center">
-                  <TrafficSign className="w-5 h-5" weight="fill" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-md font-bold text-white">4. Priority Routing</h3>
-                  <span className="text-[10px] font-mono font-bold text-[#48F6C1] uppercase tracking-wider">Transit ETA Mapping</span>
-                  <p className="text-xs text-[#85A4B1] leading-relaxed mt-1">
-                    Calculates real-time multi-modal transit paths (driving, cycling, jogging, walking) and triggers secure, HIPAA-compliant patient check-ins.
-                  </p>
-                </div>
-                {/* Mock Routing Preview */}
-                <div className="mt-auto pt-3 border-t border-[#1C4659]/30 font-mono text-[9.5px] flex flex-col gap-1">
-                  <div className="flex justify-between text-[#85A4B1]">
-                    <span>transit mode:</span>
-                    <span className="text-white">Car</span>
+                    {/* Medical Interpretation panel */}
+                    <div className="flex flex-col gap-3 p-4 rounded-xl border border-[#1C4659]/50 bg-[#061219]/60 font-mono text-xs">
+                      <span className="text-[10px] text-[#7AA0B0] uppercase tracking-wider border-b border-[#1C4659]/40 pb-1.5">
+                        Medical Interpretation
+                      </span>
+                      <p className="text-white font-sans text-xs leading-relaxed">
+                        The agent correlates the user's natural description of "breathing faster" and "won't drink" with pediatric clinical graphs to identify potential tachypnea-induced dehydration.
+                      </p>
+                      <p className="text-[#85A4B1] font-sans text-xs leading-relaxed">
+                        Relationship mapped: <br />
+                        <span className="text-[#48F6C1]">Tachypnea + Decreased Intake ➔ Pediatric Respiratory Distress Protocol</span>.
+                      </p>
+                      <span className="text-[#FF7B93] text-[10px] font-bold uppercase tracking-wider mt-1 block">
+                        ➔ Emergency / Urgent Care Referral Required
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-white font-bold">
-                    <span>calculated ETA:</span>
-                    <span className="text-[#48F6C1]">6 minutes</span>
+                </motion.div>
+              )}
+
+              {activeStep === 3 && (
+                <motion.div
+                  key="step3"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-4 flex-1 justify-center"
+                >
+                  <div className="flex flex-col gap-3 font-mono text-xs">
+                    {/* Routing logic details */}
+                    <span className="text-[10px] text-[#7AA0B0] uppercase tracking-wider">
+                      Comparison: Straight Distance vs. Dynamic Care ETA Routing
+                    </span>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-[11px]">
+                        <thead>
+                          <tr className="border-b border-[#1C4659]/50 text-[#7AA0B0]">
+                            <th className="py-2 pr-2">FACILITY</th>
+                            <th className="py-2 px-2">STRAIGHT DISTANCE</th>
+                            <th className="py-2 px-2">TRANSIT DURATION</th>
+                            <th className="py-2 px-2">ACTIVE WAIT QUEUE</th>
+                            <th className="py-2 pl-2 text-white">TOTAL TIME TO CARE</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#1C4659]/30 text-white">
+                          <tr>
+                            <td className="py-2.5 pr-2 font-sans font-bold">General Hospital (Pediatric Wing)</td>
+                            <td className="py-2.5 px-2 text-[#7AA0B0]">4.2 km</td>
+                            <td className="py-2.5 px-2">8 mins (OSRM API)</td>
+                            <td className="py-2.5 px-2 text-[#48F6C1]">15 mins</td>
+                            <td className="py-2.5 pl-2 text-[#48F6C1] font-bold">23 mins total (RECOMMENDED)</td>
+                          </tr>
+                          <tr className="opacity-70">
+                            <td className="py-2.5 pr-2 font-sans font-bold">Urgent Care Clinic A</td>
+                            <td className="py-2.5 px-2 text-[#7AA0B0]">1.5 km (Closest)</td>
+                            <td className="py-2.5 px-2">5 mins (OSRM API)</td>
+                            <td className="py-2.5 px-2 text-[#FF7B93]">60 mins</td>
+                            <td className="py-2.5 pl-2 text-[#FF7B93]">65 mins total</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="bg-[#132E3C]/30 border border-[#48F6C1]/30 rounded-xl p-3.5 flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#48F6C1]/20 text-[#48F6C1] flex items-center justify-center shrink-0 border border-[#48F6C1]/20">
+                        <Check className="w-4 h-4" />
+                      </div>
+                      <p className="text-white font-sans text-xs leading-normal">
+                        <strong>Dispatch Decision:</strong> General Hospital selected. Standard straight-line distance mapping would have routed the patient to Clinic A, resulting in <strong>42 minutes of extra waiting time</strong>.
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })()}
-        </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </section>
 
       {/* Modern Contextual Cookie Banner */}
@@ -974,7 +1076,8 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 30, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
             exit={{ opacity: 0, y: 30, x: '-50%' }}
-            className="fixed bottom-6 left-1/2 z-40 w-[92%] max-w-xl bg-[#0A1D27]/95 backdrop-blur-2xl border border-[#1C4659]/80 rounded-2xl shadow-2xl flex flex-col p-4.5 gap-3.5 transition-all text-[#E2F1F5]"
+            transition={{ duration: 0.8 }}
+            className="fixed bottom-16 left-1/2 z-40 w-[92%] max-w-xl bg-[#0A1D27]/95 backdrop-blur-2xl border border-[#1C4659]/80 rounded-2xl shadow-2xl flex flex-col p-4.5 gap-3.5 transition-all text-[#E2F1F5]"
           >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
@@ -1098,9 +1201,9 @@ export default function LandingPage() {
       </AnimatePresence>
 
       {/* Modern High-End Footer */}
-      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 py-6 mt-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
-          <span>© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
+      <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] mt-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
+          <span className="text-center md:text-left">© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
           <div className="flex items-center gap-6">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
