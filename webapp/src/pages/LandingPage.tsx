@@ -309,7 +309,7 @@ export default function LandingPage() {
           <div className="lg:col-span-5 flex flex-col gap-6 relative z-20">
             <div className="inline-flex items-center self-start gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 tracking-wider uppercase">
               <Sparkle className="w-3.5 h-3.5" weight="fill" />
-              Agentic HealthTech System
+              AI Health Routing · Toronto
             </div>
 
             <h1 className="text-display-md lg:text-[56px] text-white leading-[1.05] tracking-tight font-extrabold">
@@ -319,7 +319,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-body-md text-[#85A4B1] max-w-lg leading-relaxed">
-              Describe symptoms in plain words. Watch our AI agent extract clinical intent, evaluate routing criteria, and verify secure arrival in real time.
+              Describe your symptoms. We'll find the nearest clinic, urgent care, or ER that can help — with real wait times and directions.
             </p>
 
             {/* Unified Omni-Input Box Workspace */}
@@ -423,7 +423,7 @@ export default function LandingPage() {
                     <div className="flex items-center justify-between border-b border-[#1C4659]/40 pb-2.5">
                       <div className="flex items-center gap-2">
                         <div className="w-2.5 h-2.5 rounded-full bg-[#48F6C1] animate-pulse" />
-                        <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Agent Parser Log</span>
+                        <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">Checking availability...</span>
                       </div>
                       {parseComplete && (
                         <span className="text-xs font-semibold text-[#48F6C1] bg-[#48F6C1]/10 px-2 py-0.5 rounded-md flex items-center gap-1 border border-[#48F6C1]/20">
@@ -441,7 +441,7 @@ export default function LandingPage() {
                       {isParsing && (
                         <div className="flex items-center gap-2 text-xs font-mono text-white">
                           <CircleNotch className="w-4 h-4 text-[#48F6C1] animate-spin" />
-                          <span>🤖 Agent parsing intent and mapping real-time availability queues...</span>
+                          <span>Checking nearby clinics, urgent cares, and wait times...</span>
                         </div>
                       )}
 
@@ -466,13 +466,13 @@ export default function LandingPage() {
                           className="flex flex-col gap-2.5 mt-2"
                         >
                           <p className="text-xs text-[#85A4B1] leading-relaxed">
-                            Matched coordinate location parameters successfully. Agent verified dispatch criteria: **Toronto Core Dispatch** &rarr; **HIPAA Secure Gateway**.
+                            Found nearby facilities matching your situation. Results are ready in MediCoord AI.
                           </p>
                           <button
                             onClick={() => navigate('/app')}
                             className="self-start inline-flex items-center gap-1.5 px-4.5 py-2 text-xs font-bold text-[#061219] bg-[#48F6C1] hover:bg-[#3ce0ad] rounded-lg shadow-sm transition-all duration-200 active:scale-95 cursor-pointer"
                           >
-                            Launch Command Center
+                            Open MediCoord AI
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
                         </motion.div>
@@ -737,8 +737,8 @@ export default function LandingPage() {
                         <ShieldCheck className="w-5 h-5" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[11px] font-bold text-white tracking-wide uppercase">Patient Confirmed</span>
-                        <span className="text-[9.5px] font-mono text-[#48F6C1]">Secure HIPAA coordinate verification completed</span>
+                        <span className="text-[11px] font-bold text-white tracking-wide uppercase">Facility matched</span>
+                        <span className="text-[9.5px] font-mono text-[#48F6C1]">Routed to the best available option near you</span>
                       </div>
                     </div>
                     <span className="text-[10px] font-mono font-semibold bg-[#48F6C1]/10 text-[#48F6C1] px-2 py-0.5 rounded border border-[#48F6C1]/20">
