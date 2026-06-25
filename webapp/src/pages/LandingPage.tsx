@@ -18,7 +18,6 @@ import {
   CaretDown,
   CaretUp,
   Stethoscope,
-  ListBullets,
   TrafficSign
 } from '@phosphor-icons/react'
 
