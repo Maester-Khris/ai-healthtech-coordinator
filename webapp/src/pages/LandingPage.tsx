@@ -1214,7 +1214,10 @@ export default function LandingPage() {
       <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] mt-12">
         <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
           <span className="text-center md:text-left">© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <Link to="/for-investors" className="hover:text-[#48F6C1] transition-colors">For Investors</Link>
+            <Link to="/for-engineers" className="hover:text-[#00D2FF] transition-colors">For Engineers</Link>
+            <span className="text-[#1C4659] hidden md:inline" aria-hidden>·</span>
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
             <Link to="/data-disclosure" className="hover:text-white transition-colors">Data Disclosure</Link>

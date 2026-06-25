@@ -10,6 +10,8 @@ import PrivacyPage from './pages/PrivacyPage'
 import CookiesPage from './pages/CookiesPage'
 import DataDisclosurePage from './pages/DataDisclosurePage'
 import LandingPage from './pages/LandingPage'
+import ForInvestorsPage from './pages/ForInvestorsPage'
+import ForEngineersPage from './pages/ForEngineersPage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -137,6 +139,8 @@ function App() {
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
             <Route path="/data-disclosure" element={<DataDisclosurePage />} />
+            <Route path="/for-investors" element={<ForInvestorsPage />} />
+            <Route path="/for-engineers" element={<ForEngineersPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
