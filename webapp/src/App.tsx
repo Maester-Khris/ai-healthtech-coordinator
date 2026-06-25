@@ -24,6 +24,14 @@ import { useBreakpoint } from './hooks/useBreakpoint'
 import { useGeolocation } from './hooks/useGeolocation'
 import { usePWAInstall } from './hooks/usePWAInstall'
 import { useNotificationPermission } from './hooks/useNotificationPermission'
+import { useAuth } from './auth/useAuth'
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
+  // ponytail: no loading guard — redirect on null, tolerate auth flash in phase 1
+  if (!user) return <Navigate to="/" replace />
+  return <>{children}</>
+}
 
 function LandingRoute() {
   return <LandingPage />
@@ -133,7 +141,7 @@ function App() {
             <Route path="/app" element={<AppInner />} />
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/testlocation" element={<TestLocationPage />} />
-            <Route path="/sandbox" element={<SandboxPage />} />
+            <Route path="/sandbox" element={<ProtectedRoute><SandboxPage /></ProtectedRoute>} />
             <Route path="/test-notif" element={<TestNotifPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
