@@ -762,10 +762,10 @@ export default function LandingPage() {
       {/* Strategic Positioning & Technical Edge Section */}
       <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-12 relative z-20">
         <div className="flex flex-col gap-3">
-          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">Platform Value</div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">Strategic Positioning & Technical Edge</h2>
+          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">Why MediCoord AI</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">The right care, without the guesswork</h2>
           <p className="text-[#85A4B1] max-w-xl text-sm leading-relaxed">
-            MediCoord AI sits at the intersection of real-time clinical triage and intelligent routing logistics.
+            Most people don't know whether to go to urgent care, the ER, or their family doctor. MediCoord AI figures that out for you.
           </p>
         </div>
 
@@ -776,17 +776,17 @@ export default function LandingPage() {
               <Sparkle className="w-6 h-6 animate-pulse" />
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-bold text-white">Positioning & City-Wide Value</h3>
-              <span className="text-xs font-mono font-bold text-[#00D2FF] uppercase tracking-wider">Toronto Healthcare Resource Optimization</span>
+              <h3 className="text-xl font-bold text-white">Real wait times, not estimates</h3>
+              <span className="text-xs font-mono font-bold text-[#00D2FF] uppercase tracking-wider">Live Queue Data · Toronto Facilities</span>
               <p className="text-sm text-[#85A4B1] leading-relaxed mt-2">
-                Toronto's emergency spaces suffer from fragmented and underutilized data (uncoordinated wait times, disconnected government datasets). We provide a unified coordination layer helping citizens locate the right facility for their specific needs, in the most convenient way—knowing exactly where to go before they leave their home.
+                Live queue data from Toronto facilities so you know the best place to go right now — not just the nearest one.
               </p>
               <p className="text-sm text-[#85A4B1] leading-relaxed mt-1">
-                Beyond individual convenience, we aim to better balance the load across the city's healthcare infrastructure. By leveraging a multi-user live triage model, we route patients dynamically based on severity, facility type, and active capacity queues.
+                The closest clinic isn't always the fastest option. We combine travel time and current wait queues to find the one where you'll be seen soonest.
               </p>
             </div>
             <div className="mt-auto pt-6 border-t border-[#1C4659]/30 flex items-center justify-between">
-              <span className="text-xs text-[#7AA0B0] font-mono">Simulate multi-user capacity load:</span>
+              <span className="text-xs text-[#7AA0B0] font-mono">See multi-facility load balancing:</span>
               <Link
                 to="/sandbox"
                 className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#061219] bg-[#00D2FF] hover:bg-[#00b4db] rounded-lg shadow-sm transition-all duration-200 active:scale-95 cursor-pointer"
@@ -803,13 +803,13 @@ export default function LandingPage() {
               <Stethoscope className="w-6 h-6" />
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-bold text-white">Technical Architecture & Prowess</h3>
-              <span className="text-xs font-mono font-bold text-[#48F6C1] uppercase tracking-wider">Clinical Intelligent Routing Layer</span>
+              <h3 className="text-xl font-bold text-white">Your symptoms stay private</h3>
+              <span className="text-xs font-mono font-bold text-[#48F6C1] uppercase tracking-wider">Session-Only · Never Stored · Never Trained</span>
               <p className="text-sm text-[#85A4B1] leading-relaxed mt-2">
-                We combine real-time proximity searches with near real-time cloud-integrated telemetry datasets. A dedicated, personal AI agent understands patient symptoms expressed in simple natural language and provides highly accurate recommendations without replacing human healthcare professionals.
+                Your descriptions are never stored beyond your session or used to train any AI model. No appointment, no referral, no account required to try it.
               </p>
               <p className="text-sm text-[#85A4B1] leading-relaxed mt-1">
-                Our engine uses custom-built Graph RAG systems optimized on Canadian clinical datasets and medical knowledge graphs. An internal custom severity classification engine maps user input to triage states, while customized MCP tools calculate driving, transit, cycling, and walking ETAs.
+                MediCoord AI is built on real Canadian public health data — real hospital locations, real facility types, and real routing times from Toronto's transit and road network.
               </p>
             </div>
             <div className="mt-auto pt-6 border-t border-[#1C4659]/30 flex flex-wrap gap-2 text-xs font-mono text-[#7AA0B0]">
@@ -824,10 +824,10 @@ export default function LandingPage() {
       {/* Interactive Operational Workflow Section */}
       <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-12 relative z-20">
         <div className="flex flex-col gap-3">
-          <div className="text-xs font-bold uppercase tracking-widest text-[#48F6C1]">How It Works</div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">Interactive Triage Showcase</h2>
+          <div className="text-xs font-bold uppercase tracking-widest text-[#48F6C1]">How it works</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">From symptom to facility in seconds</h2>
           <p className="text-[#85A4B1] max-w-xl text-sm leading-relaxed">
-            Click through the pipeline stages to inspect the real-time technical processing of a patient's request.
+            Every request goes through three steps — description, assessment, and routing — so you always get the most relevant recommendation.
           </p>
         </div>
 
@@ -837,23 +837,23 @@ export default function LandingPage() {
             {[
               {
                 id: 1,
-                title: "1. Multi-Turn Conversation",
-                tagline: "Natural Language Triage",
-                desc: "Graph RAG extracts medical entities from conversational speech and generates clinical follow-up questions.",
+                title: "1. You describe it",
+                tagline: "Plain words, no medical jargon",
+                desc: "Describe your situation in plain language. The AI asks follow-up questions to understand your symptoms fully.",
                 icon: Sparkle
               },
               {
                 id: 2,
-                title: "2. Medical Interpretation",
-                tagline: "Custom Classification Engine",
-                desc: "Maps unstructured patient statements to specific clinical/medical scenarios using knowledge graph connections.",
+                title: "2. We assess it",
+                tagline: "Clinical context, understood",
+                desc: "Your description is mapped to clinical severity and the right type of care — without replacing a doctor's judgment.",
                 icon: Stethoscope
               },
               {
                 id: 3,
-                title: "3. Proximity & ETA Routing",
-                tagline: "Advanced MCP Decision Layer",
-                desc: "Calculates driving distance and wait queue durations, delivering total care recommendations.",
+                title: "3. We route you there",
+                tagline: "Nearest care, fastest total time",
+                desc: "Travel time plus live wait queue — so you arrive at the facility where you'll be seen soonest.",
                 icon: TrafficSign
               }
             ].map((step) => {
@@ -890,9 +890,9 @@ export default function LandingPage() {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#48F6C1] animate-ping" />
                 <span className="text-xs font-mono font-bold text-white uppercase tracking-widest">
-                  {activeStep === 1 && "Graph RAG Triage Pipeline — ACTIVE"}
-                  {activeStep === 2 && "Clinical Classifier Dashboard — ACTIVE"}
-                  {activeStep === 3 && "MCP Dispatch Calculator — ACTIVE"}
+                  {activeStep === 1 && "Listening to your description — ACTIVE"}
+                  {activeStep === 2 && "Assessing clinical context — ACTIVE"}
+                  {activeStep === 3 && "Calculating routes and wait times — ACTIVE"}
                 </span>
               </div>
               <span className="text-[10px] font-mono text-[#7AA0B0] bg-[#132E3C]/60 px-2.5 py-1 rounded border border-[#1C4659]/50">
