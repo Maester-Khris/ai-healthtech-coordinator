@@ -19,79 +19,49 @@ export function NotificationPermissionPrompt({
   }
 
   return (
-    <div style={{
-      position: "fixed",
-      bottom: "calc(env(safe-area-inset-bottom, 0px) + 72px)",
-      left: "50%",
-      transform: "translateX(-50%)",
-      width: "calc(100% - 32px)",
-      maxWidth: 440,
-      zIndex: 9000,
-      background: "var(--color-surface)",
-      border: "1px solid var(--color-border)",
-      borderRadius: 16,
-      padding: "14px 16px",
-      boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
-      display: "flex",
-      alignItems: "center",
-      gap: 12,
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    }}>
-      <div style={{
-        width: 40,
-        height: 40,
-        borderRadius: 10,
-        background: "var(--color-background-info)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-      }}>
-        <i className="ti ti-bell" style={{ fontSize: 20, color: "var(--color-text-info)" }} />
-      </div>
+    <div
+      className="notif-prompt-enter fixed z-[9000] left-1/2 -translate-x-1/2"
+      style={{
+        bottom: "calc(env(safe-area-inset-bottom, 0px) + 72px)",
+        width: "calc(100% - 32px)",
+        maxWidth: 440,
+      }}
+    >
+      <div
+        className="surface-card flex items-center gap-3 px-4 py-3 border border-stratum-border"
+        style={{ borderRadius: "var(--radius-stratum-bezel)" }}
+      >
+        {/* Bell icon */}
+        <div className="w-10 h-10 rounded-stratum-control bg-stratum-accent flex items-center justify-center shrink-0">
+          <i className="ti ti-bell text-white text-xl" />
+        </div>
 
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "var(--color-text-primary)" }}>
-          Enable health alerts
-        </p>
-        <p style={{ margin: "2px 0 0", fontSize: 12, color: "var(--color-text-secondary)", lineHeight: 1.4 }}>
-          Get notified when emergency care recommendations are ready.
-        </p>
-      </div>
+        {/* Copy */}
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-bold text-stratum-text leading-tight">
+            Enable health alerts
+          </p>
+          <p className="text-xs text-stratum-text-muted mt-0.5 leading-snug">
+            Get notified when emergency care recommendations are ready.
+          </p>
+        </div>
 
-      <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-        <button
-          onClick={handleDismiss}
-          style={{
-            padding: "7px 12px",
-            background: "transparent",
-            color: "var(--color-text-secondary)",
-            border: "1px solid var(--color-border)",
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 500,
-            cursor: "pointer",
-          }}
-        >
-          Not now
-        </button>
-        <button
-          onClick={onEnable}
-          disabled={requesting}
-          style={{
-            padding: "7px 14px",
-            background: "var(--color-primary)",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: requesting ? "not-allowed" : "pointer",
-            opacity: requesting ? 0.7 : 1,
-          }}
-        >
-          {requesting ? "…" : "Enable"}
-        </button>
+        {/* Actions */}
+        <div className="flex gap-2 shrink-0">
+          <button
+            onClick={handleDismiss}
+            className="px-3 py-1.5 text-xs font-medium text-stratum-text-muted border border-stratum-border rounded-stratum-control hover:text-stratum-text transition-colors cursor-pointer"
+          >
+            Not now
+          </button>
+          <button
+            onClick={onEnable}
+            disabled={requesting}
+            className="px-3.5 py-1.5 text-xs font-semibold text-white bg-stratum-accent rounded-stratum-control hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {requesting ? "…" : "Enable"}
+          </button>
+        </div>
       </div>
     </div>
   )

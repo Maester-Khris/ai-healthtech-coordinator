@@ -63,7 +63,7 @@ function AppInner() {
   const showInstallModal =
     !installModalDismissed &&
     installState !== "standalone" &&
-    (isPushSupported || platform === "ios_safari" || isIosNonSafari) &&
+    (platform === "ios_safari" || platform === "android_chrome" || isIosNonSafari) &&
     !installConfirmed
 
   const showPermissionPrompt =
