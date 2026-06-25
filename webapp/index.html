@@ -13,13 +13,18 @@
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({
-        appId: "%VITE_ONESIGNAL_APP_ID%",
-        notifyButton: { enable: false },
-        allowLocalhostAsSecureOrigin: true
+    const appId = "%VITE_ONESIGNAL_APP_ID%";
+    if (appId && !appId.startsWith("%")) {
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: appId,
+          notifyButton: { enable: false },
+          allowLocalhostAsSecureOrigin: true
+        });
       });
-    });
+    } else {
+      console.warn("OneSignal app ID not configured or is placeholder");
+    }
   </script>
   <title>MediCoord AI — Find the Right Care, Right Now</title>
   <meta name="description" content="Describe your symptoms and MediCoord AI matches you to the nearest right-fit healthcare facility, with live directions and arrival time — no guesswork." />
