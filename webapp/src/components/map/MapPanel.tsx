@@ -85,7 +85,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
 
   return (
     <div className="relative h-full w-full isolate">
-      <MapContainer center={cnTowerPos} zoom={12} scrollWheelZoom={false} zoomControl={true} className="h-full w-full z-0">
+      <MapContainer center={cnTowerPos} zoom={12} scrollWheelZoom={false} zoomControl={!isMobile} className="h-full w-full z-0">
         <MapProvider activeTriage={activeTriage} recommendedId={recommendedId} isMobile={isMobile}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -112,12 +112,12 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
             </Marker>
           )}
           {/* Focus User Location button */}
-          <FocusUserButton geo={geo} />
+          <FocusUserButton geo={geo} isMobile={isMobile} />
         </MapProvider>
       </MapContainer>
 
       {/* Travel mode selector when triage is active */}
-      {activeTriage.active && (
+      {!isMobile && activeTriage.active && (
         <div style={{
           position: 'absolute',
           top: 12,
@@ -177,9 +177,26 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
 
       {/* Filter chips — top-left, hidden when triage is active */}
       {!activeTriage.active && (
-        <div style={{ position: 'absolute', top: 12, left: 54, zIndex: 20, display: 'flex', flexDirection: 'column', gap: 8, pointerEvents: 'auto' }}>
+        <div style={{
+          position: 'absolute',
+          top: 12,
+          left: isMobile ? 12 : 54,
+          right: isMobile ? 12 : 'auto',
+          zIndex: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+          pointerEvents: 'auto',
+        }}>
           {/* Category Filter Chips */}
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          <div style={{
+            display: 'flex',
+            gap: 6,
+            overflowX: isMobile ? 'auto' : 'visible',
+            whiteSpace: 'nowrap',
+            paddingBottom: isMobile ? '4px' : 0,
+            scrollbarWidth: 'none',
+          }}>
             {FILTER_OPTIONS.map(opt => {
               const active = categoryFilter === opt.value
               return (
@@ -209,7 +226,14 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
           </div>
 
           {/* Static/Interactive Sub-filters */}
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <div style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            overflowX: isMobile ? 'auto' : 'visible',
+            whiteSpace: 'nowrap',
+            scrollbarWidth: 'none',
+          }}>
             {/* Open Now toggle */}
             <button
               onClick={() => setOpenNow(!openNow)}
@@ -421,22 +445,22 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '5px 12px',
               fontSize: 11, fontWeight: 700,
-              background: 'rgba(176, 58, 58, 0.15)',
-              border: '1px solid rgba(224, 85, 85, 0.5)',
+              background: 'rgba(255, 123, 147, 0.15)',
+              border: '1px solid rgba(255, 123, 147, 0.50)',
               borderRadius: 999,
-              color: '#E05555',
+              color: '#FF7B93',
               cursor: 'pointer',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
               transition: 'all 0.15s ease',
             }}
             onMouseEnter={e => {
-              ;(e.currentTarget as HTMLElement).style.background = 'rgba(176, 58, 58, 0.28)'
-              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(224, 85, 85, 0.8)'
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.28)'
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.80)'
             }}
             onMouseLeave={e => {
-              ;(e.currentTarget as HTMLElement).style.background = 'rgba(176, 58, 58, 0.15)'
-              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(224, 85, 85, 0.5)'
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.15)'
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.50)'
             }}
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -445,32 +469,34 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
             Clear map
           </button>
         )}
-        <div style={{
-          background: 'rgba(6, 18, 25, 0.85)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(28, 70, 89, 0.6)',
-          borderRadius: 999,
-          padding: '6px 14px',
-          fontSize: 11, fontWeight: 700,
-          color: '#7AA0B0',
-          display: 'flex', alignItems: 'center', gap: 8,
-          pointerEvents: 'none',
-        }}>
-          <span style={{ position: 'relative', display: 'inline-flex', width: 8, height: 8 }}>
-            <span
-              className="animate-ping absolute inline-flex h-full w-full rounded-full"
-              style={{ background: '#48F6C1', opacity: 0.75 }}
-            />
-            <span style={{ position: 'relative', width: 8, height: 8, borderRadius: '50%', background: '#48F6C1' }} />
-          </span>
-          {activeTriage.active
-            ? `${triageCandidates.length} FACILITIES SHOWN`
-            : categoryFilter === 'all'
-              ? `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
-              : `${displayedFacilities.length} OF ${facilities.length} SHOWN`
-          }
-        </div>
+        {!isMobile && (
+          <div style={{
+            background: 'rgba(6, 18, 25, 0.85)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(28, 70, 89, 0.6)',
+            borderRadius: 999,
+            padding: '6px 14px',
+            fontSize: 11, fontWeight: 700,
+            color: '#7AA0B0',
+            display: 'flex', alignItems: 'center', gap: 8,
+            pointerEvents: 'none',
+          }}>
+            <span style={{ position: 'relative', display: 'inline-flex', width: 8, height: 8 }}>
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full"
+                style={{ background: '#48F6C1', opacity: 0.75 }}
+              />
+              <span style={{ position: 'relative', width: 8, height: 8, borderRadius: '50%', background: '#48F6C1' }} />
+            </span>
+            {activeTriage.active
+              ? `${triageCandidates.length} FACILITIES SHOWN`
+              : categoryFilter === 'all'
+                ? `${facilitiesLoading ? '—' : facilities.length} FACILITIES ACTIVE`
+                : `${displayedFacilities.length} OF ${facilities.length} SHOWN`
+            }
+          </div>
+        )}
       </div>
 
       <FacilityLegend verticalLegend={verticalLegend} />
@@ -478,7 +504,13 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
   )
 }
 
-function FocusUserButton({ geo }: { geo: any }) {
+function FocusUserButton({
+  geo,
+  isMobile,
+}: {
+  geo: ReturnType<typeof useGeolocation>
+  isMobile: boolean
+}) {
   const map = useMap()
 
   const handleFocus = async () => {
@@ -494,7 +526,7 @@ function FocusUserButton({ geo }: { geo: any }) {
       title="Focus on my location"
       style={{
         position: 'absolute',
-        bottom: 16,
+        bottom: isMobile ? 236 : 16,
         right: 16,
         zIndex: 1000,
         width: 38,

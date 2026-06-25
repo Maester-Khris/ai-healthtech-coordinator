@@ -16,8 +16,18 @@ export const INACTIVE_TRIAGE: TriageUIState = {
 
 export function buildTriageCandidates(triage: TriageUIState): FacilityCandidate[] {
   if (!triage.active) return []
+  const list: FacilityCandidate[] = []
   if (triage.recommendedFacility) {
-    return [triage.recommendedFacility, ...triage.nearbyFacilities]
+    list.push(triage.recommendedFacility)
   }
-  return triage.nearbyFacilities
+  for (const f of triage.nearbyFacilities) {
+    const isRec = triage.recommendedFacility && (
+      (triage.recommendedFacility.id && f.id && triage.recommendedFacility.id === f.id) ||
+      (triage.recommendedFacility.name === f.name)
+    )
+    if (!isRec) {
+      list.push(f)
+    }
+  }
+  return list
 }

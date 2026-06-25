@@ -21,13 +21,15 @@ export function GpsPermissionModal({ onDismiss }: GpsPermissionModalProps) {
         left: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 9999,
-        background: "#ffffff",
+        background: "rgba(10, 29, 39, 0.95)",
+        backdropFilter: "blur(16px)",
+        border: "1px solid rgba(28, 70, 89, 0.4)",
         borderRadius: 16,
         padding: "20px 18px 18px",
         width: "calc(100% - 48px)",
         maxWidth: 380,
-        boxShadow: "0 8px 40px rgba(0, 0, 0, 0.22)",
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        boxShadow: "0 8px 40px rgba(0, 0, 0, 0.4)",
+        fontFamily: "var(--font-sans)",
       }}>
 
         {/* Icon + title row */}
@@ -36,18 +38,18 @@ export function GpsPermissionModal({ onDismiss }: GpsPermissionModalProps) {
             width: 40,
             height: 40,
             borderRadius: 10,
-            background: "#FEF3E2",
+            background: "rgba(255, 123, 147, 0.1)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}>
-            <i className="ti ti-map-pin-off" style={{ fontSize: 20, color: "#E8813A" }} />
+            <i className="ti ti-map-pin-off" style={{ fontSize: 20, color: "#FF7B93" }} />
           </div>
           <h2 style={{
             fontSize: 16,
             fontWeight: 700,
-            color: "#111827",
+            color: "#E2F1F5",
             margin: 0,
             lineHeight: 1.3,
           }}>
@@ -57,7 +59,7 @@ export function GpsPermissionModal({ onDismiss }: GpsPermissionModalProps) {
 
         <p style={{
           fontSize: 13,
-          color: "#4B5563",
+          color: "#85A4B1",
           lineHeight: 1.5,
           margin: "0 0 12px",
         }}>
@@ -67,29 +69,29 @@ export function GpsPermissionModal({ onDismiss }: GpsPermissionModalProps) {
 
         {/* Instructions box */}
         <div style={{
-          background: "#F9FAFB",
-          border: "1px solid #E5E7EB",
+          background: "rgba(19, 46, 60, 0.4)",
+          border: "1px solid rgba(28, 70, 89, 0.3)",
           borderRadius: 10,
           padding: "10px 12px",
           marginBottom: 14,
           fontSize: 12,
-          color: "#374151",
+          color: "#85A4B1",
           lineHeight: 1.6,
         }}>
           <div style={{ marginBottom: 4 }}>
-            <strong style={{ color: "#111827" }}>iPhone / Safari:</strong>{" "}
+            <strong style={{ color: "#E2F1F5" }}>iPhone / Safari:</strong>{" "}
             Settings → Privacy → Location Services → Safari → While Using
           </div>
           <div style={{ marginBottom: 4 }}>
-            <strong style={{ color: "#111827" }}>iPhone / Chrome:</strong>{" "}
+            <strong style={{ color: "#E2F1F5" }}>iPhone / Chrome:</strong>{" "}
             Settings → Chrome → Location → Allow
           </div>
           <div style={{ marginBottom: 4 }}>
-            <strong style={{ color: "#111827" }}>Android:</strong>{" "}
+            <strong style={{ color: "#E2F1F5" }}>Android:</strong>{" "}
             Lock icon in address bar → Site settings → Location → Allow
           </div>
           <div>
-            <strong style={{ color: "#111827" }}>Desktop:</strong>{" "}
+            <strong style={{ color: "#E2F1F5" }}>Desktop:</strong>{" "}
             Location icon in address bar → Allow
           </div>
         </div>
@@ -101,8 +103,8 @@ export function GpsPermissionModal({ onDismiss }: GpsPermissionModalProps) {
             padding: "11px 0",
             borderRadius: 10,
             border: "none",
-            background: "#185FA5",
-            color: "#ffffff",
+            background: "#48F6C1",
+            color: "#061219",
             fontSize: 14,
             fontWeight: 700,
             cursor: "pointer",
