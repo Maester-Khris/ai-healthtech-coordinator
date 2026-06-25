@@ -48,22 +48,52 @@ The color palette is extracted from the brand assets, utilizing a deep slate nav
 
 ---
 
-## 3. Typography System
+## 3. Typography & Font Chart System
 
-The typography uses a clean, tech-focused sans-serif font family (such as **Inter**, **Outfit**, or **Geist Sans**) paired with a monospaced typeface for system readouts and agent logs.
+To guarantee visual premium consistency and prevent reliance on system defaults, MediCoord AI enforces a strict multi-tiered typography stack. Fonts must be imported explicitly via Webfont CDN (Google Fonts) with complete fallback chains.
 
+### A. Typographic Domains
+
+| Domain | Font Family | Google Font Source | Target Use Cases | Fallback Font Chain |
+| :--- | :--- | :--- | :--- | :--- |
+| **Public & Static** | `Plus Jakarta Sans` | `Plus+Jakarta+Sans:wght@300;400;500;600;700;800` | Landing Page, For Investors, For Engineers, Legal pages | `'Plus Jakarta Sans', 'Outfit', sans-serif` |
+| **App & User Space** | `Inter` | `Inter:wght@300;400;500;600;700` | Sandbox Dashboard, Getting Started, Profile, Chat Panel, Settings | `'Inter', 'Plus Jakarta Sans', sans-serif` |
+| **Telemetry & Logs** | `JetBrains Mono` | `JetBrains+Mono:wght@400;500;600` | Clinical metrics, system logs, code blocks, priority queue data | `'JetBrains Mono', 'Fira Code', monospace` |
+
+---
+
+### B. Font Sizing & CSS Tokens
+
+```css
+/* Core Font Stack Variables */
+:root {
+  --font-static: "Plus Jakarta Sans", "Outfit", system-ui, sans-serif;
+  --font-app: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
 ```
-Font Primary: Inter, -apple-system, sans-serif
-Font Mono: JetBrains Mono, Fira Code, Courier New, monospace
-```
 
-### Hierarchy Blueprint
-- **Display Bold:** `text-[48px]` to `text-[56px]`, font weight `800` (Extra Bold), line-height `1.05`, tracking `-0.02em` (Used in Hero text).
-- **H2 Title:** `text-[28px]` to `text-[36px]`, font weight `700` (Bold), line-height `1.2` (Used for section headings).
-- **H3 Card Header:** `text-[18px]` to `text-[20px]`, font-weight `600` (Semi-Bold) (Used in component headers).
-- **Body Regular:** `text-[14px]` to `text-[16px]`, font-weight `400`, line-height `1.6`, color `var(--text-secondary)`.
-- **Label Bold:** `text-[13px]` to `text-[14px]`, font-weight `700` (Bold), letter-spacing `0.05em` (Used for buttons, tabs, tags).
-- **System Mono:** `text-[11px]` to `text-[12px]`, font-family `var(--font-mono)`, letter-spacing `0.02em` (Used for agent logs, mock code previews, system metadata).
+---
+
+### C. Coherent Font Chart Layout
+
+#### 1. Public & Static Pages (Plus Jakarta Sans)
+- **Hero Display Title:** `text-5xl` to `text-6xl` (`48px` - `60px`), font-weight `800` (Extra Bold), tracking `-0.03em`, line-height `1.1`. Applied to landing page titles, value propositions.
+- **Section Headers (H2):** `text-3xl` to `text-4xl` (`30px` - `36px`), font-weight `700` (Bold), tracking `-0.02em`, line-height `1.2`. Applied to feature sections, investor highlights.
+- **Sub-headers (H3):** `text-xl` to `text-2xl` (`20px` - `24px`), font-weight `600` (Semi-Bold), tracking `-0.01em`, line-height `1.3`. Applied to card titles, pricing headers.
+- **Body & Paragraphs:** `text-sm` to `text-base` (`14px` - `16px`), font-weight `400` (Regular), line-height `1.6`, text color `var(--text-secondary)`. Applied to narrative descriptions, long legal copy.
+
+#### 2. App & User Space (Inter)
+- **App Dashboard Header:** `text-xl` to `text-2xl` (`20px` - `24px`), font-weight `700` (Bold), tracking `-0.015em`. Applied to Sandbox title, primary control panels.
+- **Card Titles & Tab Labels:** `text-sm` (`14px`), font-weight `600` (Semi-Bold), tracking `-0.01em`. Applied to sidebar cards, filter tab buttons, navigation buttons.
+- **UI Body text:** `text-xs` to `text-sm` (`12px` - `14px`), font-weight `400` (Regular) or `500` (Medium) for active items. Applied to user chat bubbles, modal fields, settings inputs.
+- **Buttons & CTAs:** `text-xs` to `text-sm` (`12px` - `14px`), font-weight `700` (Bold), tracking `0.03em` uppercase. Applied to "Launch Sandbox", "Focus Map", "Accept Cookies".
+- **Form Labels & Placeholders:** `text-[11px]` to `text-xs` (`11px` - `12px`), font-weight `500` (Medium), text color `#7AA0B0`. Applied to inputs, dropdown titles, profile settings fields.
+
+#### 3. System Metrics & Logs (JetBrains Mono)
+- **Diagnostic Numbers:** `text-2xl` to `text-3xl` (`24px` - `30px`), font-weight `700` (Bold). Applied to active ETAs, write latencies, throughput numbers.
+- **Log Stream lines:** `text-[11px]` to `text-xs` (`11px` - `12px`), font-weight `400` (Regular). Applied to chatbot reasoning states, database queries, terminal telemetry outputs.
+- **In-flight Badges:** `text-[10px]`, font-weight `600` (Semi-Bold) uppercase tracking `0.05em`. Applied to inline capability tags, active/pending badges.
 
 ---
 

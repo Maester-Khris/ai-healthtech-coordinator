@@ -25,7 +25,7 @@ export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayou
   }
 
   return (
-    <div className="min-h-screen bg-[#061219] flex flex-col font-sans text-[#E2F1F5] selection:bg-[#48F6C1]/30">
+    <div className="min-h-screen bg-[#061219] flex flex-col font-static text-[#E2F1F5] selection:bg-[#48F6C1]/30">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
 
       {/* Modern Navigation Header */}

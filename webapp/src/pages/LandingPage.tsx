@@ -273,7 +273,7 @@ export default function LandingPage() {
   const showSuccess = time >= 10 && time < 11.8
 
   return (
-    <div className="bg-[#061219] min-h-screen relative flex flex-col font-sans overflow-x-hidden select-none text-[#E2F1F5] selection:bg-[#48F6C1]/30">
+    <div className="bg-[#061219] min-h-screen relative flex flex-col font-static overflow-x-hidden select-none text-[#E2F1F5] selection:bg-[#48F6C1]/30">
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
 
       {/* Modern High-End Header with Logo Palette & Blue Accents */}
