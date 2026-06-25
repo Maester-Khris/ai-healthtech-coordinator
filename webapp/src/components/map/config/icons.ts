@@ -14,19 +14,58 @@ export const cnTowerIcon = L.divIcon({
 
 export const userIcon = L.divIcon({
   className: '',
-  html: `<svg xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 24 24" width="32" height="32">
-    <ellipse cx="12" cy="22" rx="5" ry="2" fill="rgba(0,0,0,0.15)"/>
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-          fill="#185FA5"/>
-    <circle cx="12" cy="8" r="2.2" fill="white"/>
-    <path d="M8.5 14.5c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5"
-          fill="white"/>
-  </svg>`,
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
+  html: `<div style="position:relative;width:24px;height:24px">
+    <div class="user-pulse-halo" style="
+      position:absolute;inset:-6px;border-radius:50%;
+      background:rgba(72,246,193,0.3);
+      pointer-events:none;
+    "></div>
+    <div style="
+      position:absolute;inset:0;border-radius:50%;
+      background:white;border:3px solid #48F6C1;
+      box-shadow:0 2px 6px rgba(0,0,0,0.3);
+      pointer-events:none;
+    "></div>
+    <div style="
+      position:absolute;top:50%;left:50%;width:8px;height:8px;
+      border-radius:50%;background:#48F6C1;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+    "></div>
+  </div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -12],
 })
+
+export function getFacilitySvgInner(category: string, size: number): string {
+  if (category === 'hospital') {
+    const pad = size * 0.25
+    const th = size * 0.2
+    const mid = size / 2
+    return `<path d="M ${mid - th/2} ${pad} h ${th} v ${mid - th/2 - pad} h ${mid - th/2 - pad} v ${th} h -${mid - th/2 - pad} v ${mid - th/2 - pad} h -${th} v -${mid - th/2 - pad} h -${mid - th/2 - pad} v -${th} h ${mid - th/2 - pad} z" fill="white"/>`
+  } else if (category === 'ambulatory') {
+    const sw = Math.max(1.8, size * 0.08)
+    const points = [
+      [size * 0.15, size * 0.5],
+      [size * 0.35, size * 0.5],
+      [size * 0.43, size * 0.25],
+      [size * 0.52, size * 0.75],
+      [size * 0.60, size * 0.4],
+      [size * 0.68, size * 0.55],
+      [size * 0.73, size * 0.5],
+      [size * 0.85, size * 0.5]
+    ]
+    const d = points.reduce((acc, p, i) => i === 0 ? `M ${p[0]} ${p[1]}` : `${acc} L ${p[0]} ${p[1]}`, '')
+    return `<path d="${d}" stroke="white" stroke-width="${sw}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
+  } else {
+    const w = size * 0.5
+    const h = size * 0.5
+    const x = (size - w) / 2
+    const y = (size - h) / 2 + 1
+    return `<path d="M ${x} ${y + h} v -${h*0.5} l ${w*0.5} -${h*0.5} l ${w*0.5} ${h*0.5} v ${h*0.5} z M ${x + w*0.3} ${y + h} v -${h*0.35} h ${w*0.4} v ${h*0.35}" fill="white" stroke="white" stroke-width="1.2" stroke-linejoin="round"/>`
+  }
+}
 
 export function getFacilityIcon(
   facility: { id?: string; category: string },
@@ -39,7 +78,6 @@ export function getFacilityIcon(
 
   const diameter = isRecommended ? 36 : 22
   const svgSize  = isRecommended ? 64 : 36
-  const textSize = isRecommended ? 14 : 10
   const opacity  = isCandidate ? 0.4 : 1
   const bg       = style.color
   const cx = svgSize / 2
@@ -60,7 +98,9 @@ export function getFacilityIcon(
     html: `<svg xmlns="http://www.w3.org/2000/svg" width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}" style="opacity:${opacity}">
       ${rings}
       <circle cx="${cx}" cy="${cy}" r="${r}" fill="${bg}" filter="${isRecommended ? `drop-shadow(0 0 8px ${bg})` : 'none'}"/>
-      <text x="${cx}" y="${cy + textSize * 0.38}" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="${textSize}" font-weight="700" fill="white">${style.letter}</text>
+      <g transform="translate(${cx - r}, ${cy - r})">
+        ${getFacilitySvgInner(facility.category, diameter)}
+      </g>
     </svg>`,
     iconSize: [svgSize, svgSize],
     iconAnchor: [svgSize / 2, svgSize / 2],

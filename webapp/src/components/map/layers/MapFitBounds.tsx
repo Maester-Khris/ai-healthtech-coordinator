@@ -22,7 +22,7 @@ export function MapFitBounds() {
 
   useEffect(() => {
     if (!activeTriage.active) {
-      map.setView(cnTowerPos, 13)
+      map.setView(cnTowerPos, 12)
     }
   }, [activeTriage.active, map])
 

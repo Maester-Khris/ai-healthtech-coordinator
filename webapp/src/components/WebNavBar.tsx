@@ -42,25 +42,28 @@ export function WebNavBar({ rightContent }: WebNavBarProps) {
       <div className="flex items-center gap-4 ml-auto">
         <Link
           to="/sandbox"
-          className="flex items-center gap-1.5 no-underline transition-colors"
+          className="flex items-center gap-1.5 no-underline transition-all active:scale-95 hover:scale-102"
           style={{
-            padding: '5px 10px',
-            fontSize: 12,
-            fontWeight: 600,
-            color: '#7AA0B0',
-            border: '0.5px solid rgba(28, 70, 89, 0.6)',
-            borderRadius: 6,
+            padding: '6px 14px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: '#061219',
+            background: '#F59E0B',
+            borderRadius: 8,
+            boxShadow: '0 0 12px rgba(245, 158, 11, 0.3)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.color = '#E2F1F5'
-            ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.4)'
+            (e.currentTarget as HTMLElement).style.background = '#d97706'
+            ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(245, 158, 11, 0.5)'
           }}
           onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.color = '#7AA0B0'
-            ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(28, 70, 89, 0.6)'
+            (e.currentTarget as HTMLElement).style.background = '#F59E0B'
+            ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(245, 158, 11, 0.3)'
           }}
         >
-          <i className="ti ti-flask" style={{ fontSize: 13, color: '#F59E0B' }} />
+          <i className="ti ti-test-pipe" style={{ fontSize: 13 }} />
           Sandbox
         </Link>
         {rightContent && <div className="flex items-center gap-4">{rightContent}</div>}

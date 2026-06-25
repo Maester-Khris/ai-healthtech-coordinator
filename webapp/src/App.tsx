@@ -25,9 +25,6 @@ import { useNotificationPermission } from './hooks/useNotificationPermission'
 import { useAuth } from './auth/useAuth'
 
 function LandingRoute() {
-  const { user, loading } = useAuth()
-  if (loading) return null
-  if (user) return <Navigate to="/app" replace />
   return <LandingPage />
 }
 

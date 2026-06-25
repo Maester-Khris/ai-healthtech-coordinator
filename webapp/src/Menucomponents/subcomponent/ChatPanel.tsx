@@ -73,6 +73,15 @@ export function ChatPanel({
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      textarea.style.height = "auto"
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`
+    }
+  }, [content])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -448,6 +457,7 @@ export function ChatPanel({
             </svg>
           </div>
           <textarea
+            ref={textareaRef}
             disabled={!user}
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -458,6 +468,9 @@ export function ChatPanel({
               color: '#E2F1F5',
               caretColor: '#48F6C1',
               cursor: user ? 'text' : 'not-allowed',
+              maxHeight: '120px',
+              height: 'auto',
+              overflowY: 'auto',
             }}
             placeholder={user ? "Describe how you feel…" : "Sign in to start a conversation"}
             rows={1}

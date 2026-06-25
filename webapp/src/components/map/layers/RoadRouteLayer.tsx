@@ -4,6 +4,7 @@ import { useMap } from 'react-leaflet'
 import { useMapContext } from '../context/MapContext'
 import { buildTriageCandidates } from '../config/constants'
 import { CATEGORY_STYLES, DEFAULT_STYLE } from '../config/categories'
+import { getFacilitySvgInner } from '../config/icons'
 
 const STYLE_ID = "road-route-layer-styles"
 
@@ -59,7 +60,7 @@ function buildOriginIcon(): L.DivIcon {
 }
 
 function buildDestinationIcon(
-  letter: string,
+  category: string,
   color: string,
   etaLabel: string | null,
 ): L.DivIcon {
@@ -81,18 +82,24 @@ function buildDestinationIcon(
         display:inline-flex;flex-direction:column;align-items:center;
         pointer-events:none">
         <div style="
+          position:relative;
           width:38px;height:38px;border-radius:50%;background:${color};
           border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;
-          justify-content:center;box-shadow:0 0 12px ${color}66,0 3px 10px rgba(0,0,0,0.4);
-          font-family:system-ui,-apple-system,sans-serif">
-          <span style="color:white;font-weight:700;font-size:14px;line-height:1">
-            ${letter}
-          </span>
+          justify-content:center;box-shadow:0 0 12px ${color}66,0 3px 10px rgba(0,0,0,0.4)">
+          <div class="user-pulse-halo" style="
+            position:absolute;inset:-6px;border-radius:50%;
+            border:2px solid ${color};
+            pointer-events:none;
+          "></div>
+          <svg width="38" height="38" viewBox="0 0 38 38" style="display:block;position:relative;z-index:2">
+            ${getFacilitySvgInner(category, 38)}
+          </svg>
         </div>
         <div style="
           width:0;height:0;border-left:7px solid transparent;
           border-right:7px solid transparent;
           border-top:9px solid ${color};margin-top:-1px;
+          position:relative;z-index:2;
           pointer-events:none"></div>
         ${chip}
       </div>`,
@@ -102,7 +109,13 @@ function buildDestinationIcon(
   })
 }
 
-export function RoadRouteLayer() {
+function getScaledEta(minutes: number, mode: 'car' | 'bike' | 'bus'): number {
+  if (mode === 'bike') return Math.round(minutes * 2.5)
+  if (mode === 'bus') return Math.round(minutes * 1.8)
+  return minutes
+}
+
+export function RoadRouteLayer({ travelMode }: { travelMode: 'car' | 'bike' | 'bus' }) {
   const map = useMap()
   const { activeTriage, recommendedId } = useMapContext()
   const layerRef = useRef<L.LayerGroup | null>(null)
@@ -142,14 +155,15 @@ export function RoadRouteLayer() {
 
     const ROUND = { lineCap: "round" as const, lineJoin: "round" as const, smoothFactor: 1 }
 
-    const shadow = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 18, opacity: 0.1 })
-    const main   = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 4,  opacity: 0.9 })
+    const shadow = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 16, opacity: 0.15 })
+    const casing = L.polyline(positions, { ...ROUND, color: "#061219", weight: 8,  opacity: 0.85 })
+    const main   = L.polyline(positions, { ...ROUND, color: "#48F6C1", weight: 4,  opacity: 1.0 })
     const flow   = L.polyline(positions, {
       ...ROUND,
-      color: "rgba(255,255,255,0.5)",
+      color: "rgba(255,255,255,0.75)",
       weight: 1.5,
       opacity: 1,
-      dashArray: "1 12",
+      dashArray: "8 16",
       className: "route-flow-line",
     })
 
@@ -158,15 +172,50 @@ export function RoadRouteLayer() {
       zIndexOffset: 100,
     })
 
-    const route    = routes.find(r => r.facilityId === recommendedFacility.id)
-    const etaLabel = route ? `${route.etaMinutes} min · ${route.distanceKm} km` : null
+    const route = routes.find(r => r.facilityId === recommendedFacility.id)
+    const scaledMinutes = route ? getScaledEta(route.etaMinutes, travelMode) : 0
+    const etaLabel = route ? `${scaledMinutes} min · ${route.distanceKm} km` : null
     const catStyle = CATEGORY_STYLES[recommendedFacility.category] ?? DEFAULT_STYLE
     const destMarker = L.marker([facilityLat, facilityLng], {
-      icon: buildDestinationIcon(catStyle.letter, catStyle.color, etaLabel),
+      icon: buildDestinationIcon(recommendedFacility.category, catStyle.color, etaLabel),
       zIndexOffset: 200,
     })
 
-    layerRef.current = L.layerGroup([shadow, main, flow, originMarker, destMarker])
+    // Draw secondary connectors to alternative recommendations
+    const secondaryCandidates = triageCandidates.filter(f => f.id !== recommendedFacility.id)
+    const secondaryLayers: L.Layer[] = []
+
+    secondaryCandidates.forEach(cand => {
+      const candRoute = routes.find(r => r.facilityId === cand.id)
+      const candEta = candRoute ? getScaledEta(candRoute.etaMinutes, travelMode) : null
+      const candEtaLabel = candEta ? `Alt: ${candEta} min` : null
+      const candStyle = CATEGORY_STYLES[cand.category] ?? DEFAULT_STYLE
+
+      const candLine = L.polyline([[userLat, userLng], [cand.lat, cand.lng]], {
+        ...ROUND,
+        color: "#7AA0B0",
+        weight: 2,
+        opacity: 0.65,
+        dashArray: "6 10",
+      })
+      secondaryLayers.push(candLine)
+
+      const candMarker = L.marker([cand.lat, cand.lng], {
+        icon: buildDestinationIcon(cand.category, candStyle.color, candEtaLabel),
+        zIndexOffset: 150,
+      })
+      secondaryLayers.push(candMarker)
+    })
+
+    layerRef.current = L.layerGroup([
+      shadow,
+      casing,
+      main,
+      flow,
+      originMarker,
+      destMarker,
+      ...secondaryLayers,
+    ])
     layerRef.current.addTo(map)
 
     const bounds = main.getBounds().extend([facilityLat, facilityLng])
@@ -184,7 +233,7 @@ export function RoadRouteLayer() {
         layerRef.current = null
       }
     }
-  }, [map, userCoords?.lat, userCoords?.lng, recommendedFacility?.lat, recommendedFacility?.lng, roadGeometry, routes.length])
+  }, [map, userCoords?.lat, userCoords?.lng, recommendedFacility?.lat, recommendedFacility?.lng, roadGeometry, routes.length, travelMode])
 
   return null
 }

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { LoginModal } from '../components/auth/LoginModal'
+import { useAuth } from '../auth/useAuth'
 import {
   MagnifyingGlass,
   Command,
@@ -95,6 +96,7 @@ function interpolatePath(path: { left: string; top: string }[], progress: number
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<'signin' | 'signup'>('signin')
 
@@ -287,11 +289,20 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-3 min-[360px]:gap-6">
-            <button onClick={openSignIn} className="text-xs min-[360px]:text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer">
-              Sign in
-            </button>
+            {user ? (
+              <button
+                onClick={() => navigate('/app')}
+                className="text-xs min-[360px]:text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer"
+              >
+                Go to App
+              </button>
+            ) : (
+              <button onClick={openSignIn} className="text-xs min-[360px]:text-label-md font-medium text-[#7AA0B0] hover:text-[#00D2FF] transition-colors cursor-pointer">
+                Sign in
+              </button>
+            )}
             <button
-              onClick={openSignUp}
+              onClick={user ? () => navigate('/app') : openSignUp}
               className="px-2.5 py-1.5 min-[360px]:px-4 min-[360px]:py-2 text-xs min-[360px]:text-label-md font-semibold text-[#061219] rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] shadow-sm transition-all duration-250 cursor-pointer active:scale-95"
             >
               Get started

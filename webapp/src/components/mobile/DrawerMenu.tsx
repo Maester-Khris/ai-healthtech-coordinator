@@ -114,7 +114,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
 
   const handleHome = () => {
     onClose()
-    navigate('/app')
+    navigate('/')
   }
 
   const handleProfile = () => {

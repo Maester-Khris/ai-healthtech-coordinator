@@ -141,7 +141,7 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
 
       {/* Footer */}
       <div
-        className="flex-none flex items-center justify-between px-8"
+        className="flex-none flex items-center justify-center px-8"
         style={{
           height: 28,
           fontSize: 11,
@@ -152,16 +152,6 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
         <span style={{ fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
           MediCoord AI · Health Tech Platform
         </span>
-        <Link
-          to="/sandbox"
-          className="flex items-center gap-1 no-underline transition-colors"
-          style={{ fontWeight: 600, color: '#7AA0B0' }}
-          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#E2F1F5')}
-          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#7AA0B0')}
-        >
-          <i className="ti ti-flask" style={{ fontSize: 12, color: '#F59E0B' }} />
-          Open Sandbox →
-        </Link>
       </div>
     </div>
   )

@@ -1,4 +1,5 @@
 import { LEGEND_ITEMS } from '../config/categories'
+import { getFacilitySvgInner } from '../config/icons'
 
 export function FacilityLegend({ verticalLegend }: { verticalLegend: boolean }) {
   return (
@@ -33,14 +34,26 @@ export function FacilityLegend({ verticalLegend }: { verticalLegend: boolean }) 
           <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             {'isPin' in item ? (
               <span style={{
-                width: 10,
-                height: 10,
+                position: 'relative',
+                width: 14,
+                height: 14,
                 borderRadius: '50%',
-                background: item.color,
-                display: 'inline-block',
+                background: 'white',
+                border: '2.5px solid #48F6C1',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 flexShrink: 0,
-                boxShadow: `0 0 6px ${item.color}66`,
-              }} />
+                boxShadow: `0 0 6px #48F6C188`,
+              }}>
+                <span style={{
+                  width: 4,
+                  height: 4,
+                  borderRadius: '50%',
+                  background: '#48F6C1',
+                  display: 'inline-block',
+                }} />
+              </span>
             ) : (
               <span style={{
                 width: 18,
@@ -50,13 +63,20 @@ export function FacilityLegend({ verticalLegend }: { verticalLegend: boolean }) 
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 9,
-                fontWeight: 700,
-                color: 'white',
                 flexShrink: 0,
                 boxShadow: `0 0 6px ${'color' in item ? item.color : ''}55`,
               }}>
-                {'letter' in item ? item.letter : ''}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  dangerouslySetInnerHTML={{
+                    __html: getFacilitySvgInner(
+                      item.letter === 'H' ? 'hospital' : item.letter === 'A' ? 'ambulatory' : 'residential',
+                      18
+                    )
+                  }}
+                />
               </span>
             )}
             <span style={{ fontSize: 11, fontWeight: 600, color: '#A0B8C4', lineHeight: 1 }}>
