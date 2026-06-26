@@ -38,6 +38,32 @@ export const userIcon = L.divIcon({
   popupAnchor: [0, -12],
 })
 
+export const manualPinIcon = L.divIcon({
+  className: '',
+  html: `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+    <!-- Outer pulsing ring -->
+    <circle cx="22" cy="22" r="19" fill="none" stroke="#F97316" stroke-width="1.5" opacity="0.5">
+      <animate attributeName="r"       values="19;26"   dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0"   dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Static mid ring -->
+    <circle cx="22" cy="22" r="17" fill="none" stroke="#F97316" stroke-width="1" opacity="0.35"/>
+    <!-- Filled centre circle -->
+    <circle cx="22" cy="22" r="11" fill="#F97316" filter="drop-shadow(0 2px 6px rgba(249,115,22,0.55))"/>
+    <!-- Crosshair lines -->
+    <line x1="22" y1="8"  x2="22" y2="15" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    <line x1="22" y1="29" x2="22" y2="36" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    <line x1="8"  y1="22" x2="15" y2="22" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    <line x1="29" y1="22" x2="36" y2="22" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    <!-- Centre dot -->
+    <circle cx="22" cy="22" r="3" fill="white"/>
+  </svg>`,
+  iconSize:    [44, 44],
+  iconAnchor:  [22, 22],
+  popupAnchor: [0, -26],
+})
+
+
 export function getFacilitySvgInner(category: string, size: number): string {
   if (category === 'hospital') {
     const pad = size * 0.25
