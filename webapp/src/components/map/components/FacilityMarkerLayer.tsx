@@ -71,6 +71,8 @@ export function FacilityMarkerLayer({ displayedFacilities, triageCandidates, pin
               name={facility.name}
               category={facility.category}
               address={facility.address}
+              phone={facility.phone}
+              weekday_hours={facility.weekday_hours}
             />
           </Popup>
         </Marker>
