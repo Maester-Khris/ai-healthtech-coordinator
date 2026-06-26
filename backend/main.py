@@ -3,11 +3,13 @@ import os
 import hashlib
 import json
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI, Depends, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response, JSONResponse
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from services.facilities import get_all_facilities
+from db import get_supabase_client
+from models import NearbyFacilityResult
 from middleware.auth import AuthMiddleware, get_current_user
 from cache import get_cached_facilities, set_cached_facilities
 from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
@@ -107,3 +109,27 @@ async def facilities(
         content=data,
         headers={"ETag": filtered_etag, "Cache-Control": "no-cache"},
     )
+
+
+@app.get("/facilities/nearby")
+async def facilities_nearby(
+    lat:      float,
+    lng:      float,
+    radius_m: int = 5000,
+    category: str | None = None,
+) -> list[NearbyFacilityResult]:
+    try:
+        client = get_supabase_client()
+        response = client.rpc(
+            "nearby_facilities",
+            {
+                "user_lat":       lat,
+                "user_lng":       lng,
+                "radius_m":       min(radius_m, 50000),
+                "facility_types": [category] if category else None,
+                "result_limit":   50,
+            },
+        ).execute()
+        return response.data or []
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"proximity search failed: {exc}") from exc

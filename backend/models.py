@@ -87,3 +87,17 @@ class SessionWithMessages(BaseModel):
 class PastConversationsResponse(BaseModel):
     sessions: list[SessionWithMessages]
     etag:     str
+
+
+class NearbyFacilityResult(BaseModel):
+    facility_id:     str
+    facility_name:   str
+    category:        str
+    address:         str
+    phone:           str | None
+    is_operational:  bool
+    distance_m:      int
+    eta_walk_min:    int
+    eta_transit_min: int
+    eta_drive_min:   int
+
