@@ -80,5 +80,5 @@ assets/
 .playwright-cli/
 
 
-.screenshots/
+artifacts/
 graphify-out/
