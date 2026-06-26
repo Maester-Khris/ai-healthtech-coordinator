@@ -39,6 +39,9 @@ export interface Facility {
   source?:              string;
   created_at?:          string;
   updated_at?:          string;
+  phone?:               string | null;
+  business_status?:     string | null;
+  weekday_hours?:       string[] | null;
 }
 
 export interface TriageRequest {

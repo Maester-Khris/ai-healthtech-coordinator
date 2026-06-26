@@ -29,6 +29,9 @@ class Facility(BaseModel):
     source:               str | None = None
     created_at:           datetime | None = None
     updated_at:           datetime | None = None
+    phone:                str | None = None
+    business_status:      str | None = None
+    weekday_hours:        list[str] | None = None
 
 
 class SessionBase(BaseModel):
