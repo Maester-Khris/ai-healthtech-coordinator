@@ -1,55 +1,53 @@
-import assert from 'node:assert/strict'
+import { describe, it, expect } from 'vitest'
 import { isOpen24h, isOpenWeekends } from './hoursUtils'
 
 // ── isOpen24h ────────────────────────────────────────────────────────────────
 
-assert.equal(isOpen24h(null), null, 'null input → null')
-assert.equal(isOpen24h(undefined), null, 'undefined input → null')
-assert.equal(isOpen24h([]), null, 'empty array → null')
+describe('isOpen24h', () => {
+  it('null input → null',      () => expect(isOpen24h(null)).toBeNull())
+  it('undefined input → null', () => expect(isOpen24h(undefined)).toBeNull())
+  it('empty array → null',     () => expect(isOpen24h([])).toBeNull())
 
-const allDay = [
-  'Monday: Open 24 hours', 'Tuesday: Open 24 hours', 'Wednesday: Open 24 hours',
-  'Thursday: Open 24 hours', 'Friday: Open 24 hours', 'Saturday: Open 24 hours',
-  'Sunday: Open 24 hours',
-]
-assert.equal(isOpen24h(allDay), true, 'all 7 days 24h → true')
-assert.equal(isOpen24h(['Monday: Open 24 hours']), true, 'single 24h entry → true')
+  const allDay = [
+    'Monday: Open 24 hours', 'Tuesday: Open 24 hours', 'Wednesday: Open 24 hours',
+    'Thursday: Open 24 hours', 'Friday: Open 24 hours', 'Saturday: Open 24 hours',
+    'Sunday: Open 24 hours',
+  ]
+  it('all 7 days 24h → true',   () => expect(isOpen24h(allDay)).toBe(true))
+  it('single 24h entry → true', () => expect(isOpen24h(['Monday: Open 24 hours'])).toBe(true))
 
-const mixed = ['Monday: 8:00 AM - 5:00 PM', 'Tuesday: Open 24 hours']
-assert.equal(isOpen24h(mixed), false, 'mixed hours → false')
+  it('mixed hours → false', () =>
+    expect(isOpen24h(['Monday: 8:00 AM - 5:00 PM', 'Tuesday: Open 24 hours'])).toBe(false))
 
-const weekdays = ['Monday: 8:00 AM - 5:00 PM', 'Friday: 8:00 AM - 5:00 PM', 'Saturday: Closed', 'Sunday: Closed']
-assert.equal(isOpen24h(weekdays), false, 'regular hours → false')
+  it('regular hours → false', () =>
+    expect(isOpen24h(['Monday: 8:00 AM - 5:00 PM', 'Saturday: Closed'])).toBe(false))
+})
 
 // ── isOpenWeekends ───────────────────────────────────────────────────────────
 
-assert.equal(isOpenWeekends(null), null, 'null input → null')
-assert.equal(isOpenWeekends([]), null, 'empty array → null')
+describe('isOpenWeekends', () => {
+  it('null input → null',         () => expect(isOpenWeekends(null)).toBeNull())
+  it('empty array → null',        () => expect(isOpenWeekends([])).toBeNull())
+  it('no weekend entries → null', () =>
+    expect(isOpenWeekends(['Monday: 8:00 AM - 5:00 PM', 'Friday: 8:00 AM - 5:00 PM'])).toBeNull())
 
-const noWeekend = ['Monday: 8:00 AM - 5:00 PM', 'Friday: 8:00 AM - 5:00 PM']
-assert.equal(isOpenWeekends(noWeekend), null, 'no weekend entries → null')
+  it('both weekend days open → true', () =>
+    expect(isOpenWeekends([
+      'Monday: 8:00 AM - 5:00 PM',
+      'Saturday: 9:00 AM - 5:00 PM',
+      'Sunday: 10:00 AM - 4:00 PM',
+    ])).toBe(true))
 
-const bothOpen = [
-  'Monday: 8:00 AM - 5:00 PM',
-  'Saturday: 9:00 AM - 5:00 PM',
-  'Sunday: 10:00 AM - 4:00 PM',
-]
-assert.equal(isOpenWeekends(bothOpen), true, 'both weekend days open → true')
+  it('only Saturday open → true',  () => expect(isOpenWeekends(['Saturday: 9:00 AM - 5:00 PM'])).toBe(true))
+  it('Sat open Sun closed → true', () =>
+    expect(isOpenWeekends(['Saturday: 9:00 AM - 5:00 PM', 'Sunday: Closed'])).toBe(true))
+  it('24h weekend entries → true', () =>
+    expect(isOpenWeekends(['Saturday: Open 24 hours', 'Sunday: Open 24 hours'])).toBe(true))
 
-const satOnly = ['Saturday: 9:00 AM - 5:00 PM']
-assert.equal(isOpenWeekends(satOnly), true, 'only Saturday open → true')
-
-const bothClosed = [
-  'Monday: 8:00 AM - 5:00 PM',
-  'Saturday: Closed',
-  'Sunday: Closed',
-]
-assert.equal(isOpenWeekends(bothClosed), false, 'both weekend days closed → false')
-
-const satOpenSunClosed = ['Saturday: 9:00 AM - 5:00 PM', 'Sunday: Closed']
-assert.equal(isOpenWeekends(satOpenSunClosed), true, 'Sat open Sun closed → true')
-
-const open24hWeekend = ['Saturday: Open 24 hours', 'Sunday: Open 24 hours']
-assert.equal(isOpenWeekends(open24hWeekend), true, '24h weekend entries → true')
-
-console.log('All hoursUtils tests passed ✓')
+  it('both weekend days closed → false', () =>
+    expect(isOpenWeekends([
+      'Monday: 8:00 AM - 5:00 PM',
+      'Saturday: Closed',
+      'Sunday: Closed',
+    ])).toBe(false))
+})
