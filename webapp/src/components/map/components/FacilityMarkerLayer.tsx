@@ -10,9 +10,10 @@ interface FacilityMarkerLayerProps {
   displayedFacilities: Facility[]
   triageCandidates:    FacilityCandidate[]
   pinnedIdRef:         MutableRefObject<string | null>
+  distanceMap?:        Map<string, number>
 }
 
-export function FacilityMarkerLayer({ displayedFacilities, triageCandidates, pinnedIdRef }: FacilityMarkerLayerProps) {
+export function FacilityMarkerLayer({ displayedFacilities, triageCandidates, pinnedIdRef, distanceMap }: FacilityMarkerLayerProps) {
   const { activeTriage, recommendedId, isMobile } = useMapContext()
 
   const facilityHandlers = (id: string) => ({
@@ -73,6 +74,7 @@ export function FacilityMarkerLayer({ displayedFacilities, triageCandidates, pin
               address={facility.address}
               phone={facility.phone}
               weekday_hours={facility.weekday_hours}
+              distanceKm={facility.id ? distanceMap?.get(facility.id) : undefined}
             />
           </Popup>
         </Marker>
