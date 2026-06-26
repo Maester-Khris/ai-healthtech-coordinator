@@ -14,6 +14,7 @@ import { MapSizeGuard } from './layers/MapSizeGuard'
 import { RoadRouteLayer } from './layers/RoadRouteLayer'
 import { FacilityMarkerLayer } from './components/FacilityMarkerLayer'
 import { FacilityLegend } from './components/FacilityLegend'
+import { isOpen24h, isOpenWeekends } from '../../utils/hoursUtils'
 
 interface MapPanelProps {
   facilities: Facility[]
@@ -48,6 +49,8 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
   const [openNow, setOpenNow] = useState(false)
   const [waitTime, setWaitTime] = useState<string>('all')
   const [proximity, setProximity] = useState<string>('all')
+  const [open24h, setOpen24h]           = useState(false)
+  const [openWeekends, setOpenWeekends] = useState(false)
 
   const [waitDropdownOpen, setWaitDropdownOpen] = useState(false)
   const [proxDropdownOpen, setProxDropdownOpen] = useState(false)
@@ -79,9 +82,14 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
     residential: facilities.filter(f => f.category === "residential").length,
   }
 
-  const displayedFacilities = categoryFilter === "all"
-    ? facilities
-    : facilities.filter(f => f.category === categoryFilter)
+  const displayedFacilities = facilities
+    .filter(f => categoryFilter === "all" || f.category === categoryFilter)
+    .filter(f => {
+      // null (unknown hours) always passes — shows with "Hours unavailable" in popup
+      if (open24h    && isOpen24h(f.weekday_hours)    === false) return false
+      if (openWeekends && isOpenWeekends(f.weekday_hours) === false) return false
+      return true
+    })
 
   return (
     <div className="relative h-full w-full isolate">
@@ -257,6 +265,56 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
             >
               <i className="ti ti-clock" style={{ fontSize: 12 }} />
               Open Now
+            </button>
+
+            {/* Open 24/7 toggle */}
+            <button
+              onClick={() => setOpen24h(!open24h)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 5,
+                padding: '5px 12px',
+                borderRadius: 999,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.02em',
+                border: `1px solid ${open24h ? '#48F6C1' : 'rgba(28,70,89,0.5)'}`,
+                background: open24h ? 'rgba(72,246,193,0.15)' : 'rgba(6,18,25,0.82)',
+                color: open24h ? '#48F6C1' : '#7AA0B0',
+                cursor: 'pointer',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <i className="ti ti-sun" style={{ fontSize: 12 }} />
+              Open 24/7
+            </button>
+
+            {/* Open weekends toggle */}
+            <button
+              onClick={() => setOpenWeekends(!openWeekends)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 5,
+                padding: '5px 12px',
+                borderRadius: 999,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.02em',
+                border: `1px solid ${openWeekends ? '#48F6C1' : 'rgba(28,70,89,0.5)'}`,
+                background: openWeekends ? 'rgba(72,246,193,0.15)' : 'rgba(6,18,25,0.82)',
+                color: openWeekends ? '#48F6C1' : '#7AA0B0',
+                cursor: 'pointer',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <i className="ti ti-calendar-week" style={{ fontSize: 12 }} />
+              Open weekends
             </button>
 
             {/* Wait Time Dropdown */}
