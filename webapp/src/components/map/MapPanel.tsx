@@ -1,11 +1,14 @@
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
+import { useEffect, useState, useRef, useMemo } from 'react'
+import { MapContainer, TileLayer, Marker, Tooltip, Popup } from 'react-leaflet'
+import { useMapEvents } from 'react-leaflet'
 import type { Facility, TriageUIState } from '../../../../shared/types'
 import { useBreakpoint } from '../../hooks/useBreakpoint'
 import { cnTowerPos, INACTIVE_TRIAGE, buildTriageCandidates } from './config/constants'
-import { cnTowerIcon, userIcon } from './config/icons'
+import { cnTowerIcon, userIcon, manualPinIcon } from './config/icons'
 import { useGeolocation } from '../../hooks/useGeolocation'
+import { useAnchor } from '../../hooks/useAnchor'
+import { useProximitySearch } from '../../hooks/useProximitySearch'
 import { useMap } from 'react-leaflet'
 import { type CategoryFilter, FILTER_OPTIONS } from './config/categories'
 import { MapProvider } from './context/MapContext'
@@ -49,8 +52,16 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
   const [openNow, setOpenNow] = useState(false)
   const [waitTime, setWaitTime] = useState<string>('all')
   const [proximity, setProximity] = useState<string>('all')
-  const [open24h, setOpen24h]           = useState(false)
+  const [open24h, setOpen24h] = useState(false)
   const [openWeekends, setOpenWeekends] = useState(false)
+
+  const { anchor, manualPin, placePin, clearPin } = useAnchor(geo.coords)
+  const { results: proximityResults, loading: proximityLoading } = useProximitySearch(anchor, proximity, categoryFilter)
+
+  const distanceMap = useMemo<Map<string, number>>(
+    () => new Map(proximityResults.map(r => [r.facility_id, r.distance_m / 1000])),
+    [proximityResults],
+  )
 
   const [waitDropdownOpen, setWaitDropdownOpen] = useState(false)
   const [proxDropdownOpen, setProxDropdownOpen] = useState(false)
@@ -82,14 +93,22 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
     residential: facilities.filter(f => f.category === "residential").length,
   }
 
-  const displayedFacilities = facilities
-    .filter(f => categoryFilter === "all" || f.category === categoryFilter)
-    .filter(f => {
-      // null (unknown hours) always passes — shows with "Hours unavailable" in popup
-      if (open24h    && isOpen24h(f.weekday_hours)    === false) return false
+  const displayedFacilities = useMemo(() => {
+    // When proximity results have loaded, they are already category-filtered by the DB.
+    // When proximity is not active, apply category filter here on the full list.
+    const proximityActive = proximity !== 'all' && !proximityLoading && proximityResults.length > 0
+
+    const list = proximityActive
+      ? facilities.filter(f => f.id != null && distanceMap.has(f.id))
+      : facilities.filter(f => categoryFilter === 'all' || f.category === categoryFilter)
+
+    // Hours filters always applied on the frontend (RPC has no hours column)
+    return list.filter(f => {
+      if (open24h      && isOpen24h(f.weekday_hours)      === false) return false
       if (openWeekends && isOpenWeekends(f.weekday_hours) === false) return false
       return true
     })
+  }, [facilities, proximity, proximityLoading, proximityResults, distanceMap, categoryFilter, open24h, openWeekends])
 
   return (
     <div className="relative h-full w-full isolate">
@@ -104,6 +123,44 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
           />
           <MapFitBounds />
           <MapSizeGuard sizeVersion={sizeVersion} />
+          <MapClickHandler onMapClick={placePin} />
+          <ProximityAnchorView anchor={anchor} proximity={proximity} />
+          {manualPin && (
+            <Marker position={[manualPin.lat, manualPin.lng]} icon={manualPinIcon}>
+              <Tooltip
+                direction="top"
+                permanent={false}
+                className="proximity-pin-tooltip"
+              >
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#F97316' }}>⊕ Search anchor</span>
+                <br />
+                <span style={{ fontSize: 10, color: '#6B7280', fontFamily: 'monospace' }}>
+                  {manualPin.lat.toFixed(4)}, {manualPin.lng.toFixed(4)}
+                </span>
+              </Tooltip>
+              <Popup>
+                <div style={{ textAlign: 'center', padding: '4px 0' }}>
+                  <p style={{ fontSize: 12, fontWeight: 600, margin: '0 0 6px', color: '#3D3A35' }}>
+                    Search from here
+                  </p>
+                  <button
+                    onClick={clearPin}
+                    style={{
+                      fontSize: 11,
+                      padding: '3px 10px',
+                      borderRadius: 4,
+                      border: '1px solid #F97316',
+                      background: 'transparent',
+                      color: '#F97316',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Remove pin
+                  </button>
+                </div>
+              </Popup>
+            </Marker>
+          )}
           <Marker position={cnTowerPos} icon={cnTowerIcon}>
             <Tooltip className="text-[13px] font-semibold" direction="top">CN Tower Area</Tooltip>
           </Marker>
@@ -112,6 +169,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
             displayedFacilities={displayedFacilities}
             triageCandidates={triageCandidates}
             pinnedIdRef={pinnedIdRef}
+            distanceMap={distanceMap}
           />
           {/* User Location marker */}
           {(activeTriage.userCoords || geo.coords) && (
@@ -164,14 +222,14 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
                 }}
                 onMouseEnter={e => {
                   if (!isActive) {
-                    ;(e.currentTarget as HTMLElement).style.background = 'rgba(72,246,193,0.08)'
-                    ;(e.currentTarget as HTMLElement).style.color = '#E2F1F5'
+                    ; (e.currentTarget as HTMLElement).style.background = 'rgba(72,246,193,0.08)'
+                      ; (e.currentTarget as HTMLElement).style.color = '#E2F1F5'
                   }
                 }}
                 onMouseLeave={e => {
                   if (!isActive) {
-                    ;(e.currentTarget as HTMLElement).style.background = 'transparent'
-                    ;(e.currentTarget as HTMLElement).style.color = '#A0B8C4'
+                    ; (e.currentTarget as HTMLElement).style.background = 'transparent'
+                      ; (e.currentTarget as HTMLElement).style.color = '#A0B8C4'
                   }
                 }}
               >
@@ -418,7 +476,11 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
                 }}
               >
                 <i className="ti ti-map-pin" style={{ fontSize: 12 }} />
-                {proximity === 'all' ? 'Proximity: All' : `Dist: ${proximity}`}
+                {proximityLoading
+                  ? 'Searching…'
+                  : proximity === 'all'
+                    ? 'Proximity: All'
+                    : `Dist: ${proximity}`}
                 <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transform: proxDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s ease', display: 'inline-block', verticalAlign: 'middle', marginLeft: 2 }}>
                   <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -443,8 +505,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
                     { value: 'all', label: 'All distances' },
                     { value: '10 km', label: '10 km' },
                     { value: '25 km', label: '25 km' },
-                    { value: '50 km', label: '50 km' },
-                    { value: '50 km+', label: '50 km+' },
+                    { value: '50+ km', label: '50+ km' },
                   ].map(opt => (
                     <button
                       key={opt.value}
@@ -513,12 +574,12 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
               transition: 'all 0.15s ease',
             }}
             onMouseEnter={e => {
-              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.28)'
-              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.80)'
+              ; (e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.28)'
+                ; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.80)'
             }}
             onMouseLeave={e => {
-              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.15)'
-              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.50)'
+              ; (e.currentTarget as HTMLElement).style.background = 'rgba(255, 123, 147, 0.15)'
+                ; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255, 123, 147, 0.50)'
             }}
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -560,6 +621,36 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
       <FacilityLegend verticalLegend={verticalLegend} />
     </div>
   )
+}
+
+function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click: (e) => onMapClick(e.latlng.lat, e.latlng.lng),
+  })
+  return null
+}
+
+function ProximityAnchorView({
+  anchor,
+  proximity,
+}: {
+  anchor:    { lat: number; lng: number; source: string }
+  proximity: string
+}) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (proximity === 'all') return
+    // Zoom level: 13 for tight radius (10km), 11 for wide (25/50km)
+    const zoom = proximity === '10 km' ? 13 : 11
+    map.setView([anchor.lat, anchor.lng], zoom, { animate: true, duration: 0.8 })
+  // Re-center whenever anchor coords OR the selected radius changes.
+  // anchor.source is intentionally NOT in the deps: we only re-center
+  // when the user actively changes radius or moves the anchor point.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anchor.lat, anchor.lng, proximity])
+
+  return null
 }
 
 function FocusUserButton({
