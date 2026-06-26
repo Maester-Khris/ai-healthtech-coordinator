@@ -311,40 +311,51 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
-## [Sprint 13 — Active] · UI / Product Reframe
+## [Sprint 13 — Closed] · UI / Product Reframe
 
-**Started — 2026-06-22 · branch: `ui/redesign`**
+**2026-06-22 → 2026-06-25 · branch: `ui/redesign` · merged to `preview` via PR #27**
 
-### Scope
-Current state: features work, but reads as a project, not a product. Goal: make Medicoord (and Commitr) look like something someone would pay for.
-
-- Landing page presenting product value — not a straight redirect to auth/app
-- Privacy policy page
-- Cookie management
-- User data collection disclosure
-- Design system selection (evaluating aura.build systems) — TBD for Medicoord
+### Delivered
+- Stratum/Aura design system tokens — color ramp, typography, spacing, severity palette
+- Landing page at `/` presenting product value — animated hero, interactive search, feature sections
+- Privacy policy, cookie management, and user data disclosure legal pages
+- `/for-investors` and `/for-engineers` audience pages with system flow diagrams
+- Plus Jakarta Sans font stack across all public pages
+- Web app re-skin: map+chat shell, WebNavBar, LoginModal, GettingStartedModal, footer
+- Mobile re-skin: top bar, Navigation Dock, map tab, AI assistant tab, DrawerMenu, BottomSheet
+- New mobile component suite for redesigned mobile shell; 6 retired components deleted
+- MobileNavBar replaced in SetupPage; breakpoint hook updated
+- SEO meta tags, FAQ structured data, `llms.txt`
+- Sandbox auth gate, `/sandbox` route mobile guard updated
 
 ---
 
-## [Sprint 14 — Planned] · Backend Update — DB Migration + Filtering
+## [Sprint 14 — Active] · Backend Update — DB Migration + Filtering
 
-**Not started. Planned starting week of 2026-06-22, per weekly plan.**
+**Started — 2026-06-26 · branch: `feat/advanced-filtering`**
 
-### Chores
-- DB migration: switch backend queries from `facilities` to `facilities_clean` (dbt model from Sprint 12)
-- Column rename alignment: `facility_id`, `facility_name`
+### Completed
+- DB migration: switched backend queries from `facilities` to `facilities_clean`
+- Column aliases in SQL (`facility_id→id`, `facility_name→name`) keep API contract stable
+- Silent `is_operational=true` filter — permanently closed facilities never returned
+- `phone`, `business_status`, `weekday_hours` now included in `GET /facilities` response
+- `weekday_hours` JSON-parsed on backend; frontend always receives `string[]`
+- `shared/types.ts` `Facility` interface extended with `phone`, `business_status`, `weekday_hours`
+- `hoursUtils.ts` — `isOpen24h` and `isOpenWeekends` pure functions with assertion tests
+- Facility popup: real phone (tel: link) and today's hours; "Hours unavailable" when empty
+- Map filter chips: "Open 24/7" and "Open weekends" — additive, wired to `hoursUtils`
+- Facilities with unknown hours (empty `weekday_hours`) always pass active filters
 
-### Feature — Augmented Filtering (business hours)
-- Integrate business hours + business data into facility popup/hover card
-- New filter options: open Mon–Fri, open after 5PM, open after 9AM, open weekends
-- Brainstorm session on full filter set before building
+### In Progress
+- Proximity search: PostGIS `ST_DWithin` + `ST_Distance` on `facilities_clean`, new `GET /facilities/nearby` endpoint accepting `lat`, `lng`, `radius_km`; frontend sends user location and renders distance-sorted results
+- Map UX: tap/click on map places a location pin and triggers proximity search from that point (desktop + mobile)
 
 ### Low priority — ER Wait Time Background Worker (carried over from Sprint 12)
 - Railway worker service: APScheduler cron scraping ERstat + howlongwilliwait.com every 5 min
 - Upsert `wait_times` table in Supabase
 - Invalidate/update Upstash Redis cache on each run
 - Backend reads from Redis cache with DB fallback
-- Rationale for low priority: feeds the same filtering feature above but adds external scraping dependency — DB migration + business-hours filtering ship value sooner on their own
+- Rationale for low priority: feeds the same filtering feature above but adds external scraping dependency
 
 ---
 
