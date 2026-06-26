@@ -44,6 +44,29 @@ export interface Facility {
   weekday_hours?:       string[] | null;
 }
 
+// ── Proximity ─────────────────────────────────────────────────────────────────
+
+export type AnchorSource = 'gps' | 'manual_pin' | 'default'
+
+export interface UserAnchor {
+  lat:    number
+  lng:    number
+  source: AnchorSource
+}
+
+export interface NearbyFacility {
+  facility_id:     string
+  facility_name:   string
+  category:        string
+  address:         string
+  phone:           string | null
+  is_operational:  boolean
+  distance_m:      number
+  eta_walk_min:    number
+  eta_transit_min: number
+  eta_drive_min:   number
+}
+
 export interface TriageRequest {
   message: string;
   lat:     number;
