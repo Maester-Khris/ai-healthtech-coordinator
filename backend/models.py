@@ -32,6 +32,7 @@ class Facility(BaseModel):
     phone:                str | None = None
     business_status:      str | None = None
     weekday_hours:        list[str] | None = None
+    wait_minutes:         int | None = None
 
 
 class SessionBase(BaseModel):
@@ -100,4 +101,5 @@ class NearbyFacilityResult(BaseModel):
     eta_walk_min:    int
     eta_transit_min: int
     eta_drive_min:   int
+    wait_minutes:    int | None = None
 
