@@ -98,3 +98,40 @@ class TestBuildFacilityMapIdempotency:
 
         assert result["clean name"] == "existing-fac-id"
         mock_insert.assert_called_once_with("https://x.supabase.co", {}, [])
+
+
+class TestNegativeCache:
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility")
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_skips_resolve_call_for_previously_unresolved_name(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = {"Clean Name"}
+
+        result = scraper.build_facility_map(
+            {"clean name": {"official_name": "Clean Name"}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        mock_resolve.assert_not_called()
+        assert "clean name" not in result
+
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility", return_value=None)
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_adds_to_negative_cache_on_resolve_failure(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        scraper.build_facility_map(
+            {"clean name": {"official_name": "Clean Name"}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")

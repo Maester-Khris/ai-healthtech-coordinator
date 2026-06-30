@@ -55,6 +55,10 @@ NEW_FACILITY_SOURCE_TYPE = "general"
 NEW_FACILITY_SEVERITY = ["emergent", "urgent", "moderate", "routine"]
 
 REDIS_HASH_KEY = "wait_times:current"
+# ponytail: no TTL — scraped hospital names are stable, and a stale
+# negative entry just costs one re-resolve if the API result changes.
+# Clear manually (SREM) if a name needs to be re-checked sooner.
+NEGATIVE_CACHE_KEY = "scraper:unresolved_places"
 FUZZY_THRESHOLD = 75  # minimum match score (0–100) to accept a facility link
 
 # Amalgamated City of Toronto bounding box — covers all six former
@@ -397,6 +401,7 @@ def build_facility_map(
     unmatched: list[str] = []
     new_facilities: list[dict] = []
     place_id_to_facility_id: dict[str, str] = fetch_existing_place_ids(url, headers)
+    cached_unresolved = redis_client.smembers(NEGATIVE_CACHE_KEY)
 
     for clean in all_scraped_names:
         result = fuzz_process.extractOne(clean, corpus_keys, score_cutoff=FUZZY_THRESHOLD)
@@ -410,9 +415,14 @@ def build_facility_map(
             or hlwiw_data.get(clean, {}).get("hlwiw_name")
             or clean
         )
+        if official in cached_unresolved:
+            unmatched.append(official)
+            continue
+
         created = resolve_unmatched_facility(official)
         if created is None:
             unmatched.append(official)
+            redis_client.sadd(NEGATIVE_CACHE_KEY, official)
             continue
 
         place_id = created["google_place_id"]
