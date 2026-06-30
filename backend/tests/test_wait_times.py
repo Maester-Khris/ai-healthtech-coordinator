@@ -73,3 +73,32 @@ class TestGetWaitMinutesMap:
         result = get_wait_minutes_map()  # must not raise
 
         assert result == {"fac-1": 20}
+
+
+class TestGetWaitMinutesMapDoubleFailure:
+    @patch("services.wait_times.supabase_rpc", side_effect=Exception("supabase down"))
+    @patch("services.wait_times.redis_client")
+    def test_redis_and_supabase_both_down_returns_empty_map(self, mock_redis, mock_rpc):
+        mock_redis.hgetall.return_value = {}
+
+        result = get_wait_minutes_map()  # must not raise
+
+        assert result == {}
+
+
+class TestGetWaitMinutesMapWritebackShape:
+    @patch("services.wait_times.supabase_rpc")
+    @patch("services.wait_times.redis_client")
+    def test_fallback_writeback_includes_raw_wait_and_source(self, mock_redis, mock_rpc):
+        mock_redis.hgetall.return_value = {}
+        mock_rpc.return_value = [
+            {"facility_id": "fac-1", "wait_minutes": 20, "raw_wait": "20 min", "source": "erstat", "recorded_at": "2026-06-30T00:00:00Z"},
+        ]
+
+        get_wait_minutes_map()
+
+        args, _ = mock_redis.hset.call_args
+        payload = json.loads(args[2])
+        assert payload["raw_wait"] == "20 min"
+        assert payload["source"] == "erstat"
+        assert payload["updated_at"] == "2026-06-30T00:00:00Z"

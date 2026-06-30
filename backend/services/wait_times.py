@@ -21,6 +21,9 @@ def get_wait_minutes_map() -> dict[str, int | None]:
     2. On Redis error or an empty hash (cold start before the first scrape),
        fall back to the latest_wait_times Supabase RPC and best-effort
        populate Redis for the next read.
+    3. If both Redis and the Supabase fallback fail, degrade to an empty
+       map rather than raising — missing wait data always passes filters,
+       same convention as the hours filters.
     """
     try:
         raw = redis_client.hgetall(REDIS_HASH_KEY)
@@ -29,12 +32,22 @@ def get_wait_minutes_map() -> dict[str, int | None]:
     except Exception:
         logger.warning("redis_unavailable_falling_back_to_supabase")
 
-    rows = supabase_rpc("latest_wait_times", {})
+    try:
+        rows = supabase_rpc("latest_wait_times", {})
+    except Exception:
+        logger.warning("wait_times_fallback_failed_returning_empty")
+        return {}
+
     wait_map = {r["facility_id"]: r["wait_minutes"] for r in rows}
 
     try:
-        for fid, minutes in wait_map.items():
-            redis_client.hset(REDIS_HASH_KEY, fid, json.dumps({"wait_minutes": minutes}))
+        for r in rows:
+            redis_client.hset(REDIS_HASH_KEY, r["facility_id"], json.dumps({
+                "wait_minutes": r["wait_minutes"],
+                "raw_wait": r.get("raw_wait"),
+                "source": r.get("source"),
+                "updated_at": r.get("recorded_at"),
+            }))
     except Exception:
         logger.warning("redis_populate_failed")
 
