@@ -56,3 +56,45 @@ class TestResolveUnmatchedFacility:
         result = scraper.resolve_unmatched_facility("the Scarborough Hospital - Grace Campus")
 
         assert result is not None
+
+
+class TestFetchExistingPlaceIds:
+    @patch("scraper.requests.get")
+    def test_returns_place_id_to_facility_id_map(self, mock_get):
+        mock_get.return_value = MagicMock(status_code=200)
+        mock_get.return_value.raise_for_status = lambda: None
+        mock_get.return_value.json = lambda: [
+            {"id": "fac-1", "google_place_id": "place-1"},
+            {"id": "fac-2", "google_place_id": "place-2"},
+        ]
+
+        result = scraper.fetch_existing_place_ids("https://x.supabase.co", {})
+
+        assert result == {"place-1": "fac-1", "place-2": "fac-2"}
+
+
+class TestBuildFacilityMapIdempotency:
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility")
+    @patch("scraper.fetch_existing_place_ids", return_value={"place-99": "existing-fac-id"})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_reuses_existing_facility_instead_of_recreating(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        mock_resolve.return_value = {
+            "facility_name": "New Name", "category": "hospital",
+            "source_facility_type": "general", "accepted_severity": ["emergent"],
+            "address": "x", "lat": 1.0, "lng": 1.0, "phone": None,
+            "google_place_id": "place-99", "business_status": "OPERATIONAL",
+            "weekday_hours": "[]",
+        }
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        result = scraper.build_facility_map(
+            {"clean name": {"official_name": "Clean Name"}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        assert result["clean name"] == "existing-fac-id"
+        mock_insert.assert_called_once_with("https://x.supabase.co", {}, [])

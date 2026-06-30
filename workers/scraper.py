@@ -147,6 +147,21 @@ def fetch_db_facilities(url: str, headers: dict) -> dict[str, str]:
     return corpus
 
 
+def fetch_existing_place_ids(url: str, headers: dict) -> dict[str, str]:
+    """
+    Returns {google_place_id: facility_id} for every facility that already
+    has one. Pre-seeds build_facility_map's dedup map so a name that
+    resolves to an already-created facility in a later run (facilities_clean
+    won't show it for up to ~7 days post-dbt-rebuild) reuses the existing
+    row instead of violating facilities_name_lat_lng_unique or creating a
+    silent duplicate.
+    """
+    endpoint = f"{url}/rest/v1/facilities?select=id,google_place_id&google_place_id=not.is.null"
+    r = requests.get(endpoint, headers=headers, timeout=10)
+    r.raise_for_status()
+    return {row["google_place_id"]: row["id"] for row in r.json()}
+
+
 # ── Step 2: scrapers ──────────────────────────────────────────────────────────
 
 def scrape_erstat() -> dict[str, dict]:
@@ -368,6 +383,7 @@ def build_facility_map(
     db_corpus: dict[str, str],  # {clean_db_name: uuid}
     url: str,
     headers: dict,
+    redis_client: redis.Redis,
 ) -> dict[str, str]:
     """
     Fuzzy-matches all scraped clean names against the DB corpus.
@@ -380,7 +396,7 @@ def build_facility_map(
     facility_map: dict[str, str] = {}
     unmatched: list[str] = []
     new_facilities: list[dict] = []
-    place_id_to_facility_id: dict[str, str] = {}
+    place_id_to_facility_id: dict[str, str] = fetch_existing_place_ids(url, headers)
 
     for clean in all_scraped_names:
         result = fuzz_process.extractOne(clean, corpus_keys, score_cutoff=FUZZY_THRESHOLD)
@@ -582,7 +598,7 @@ def main() -> None:
         sys.exit(1)
 
     # 3. Build name → uuid mapping via fuzzy match (creates new Toronto facilities on the fly)
-    facility_map = build_facility_map(erstat_data, hlwiw_data, db_corpus, SUPABASE_URL, SUPABASE_HEADERS)
+    facility_map = build_facility_map(erstat_data, hlwiw_data, db_corpus, SUPABASE_URL, SUPABASE_HEADERS, redis_client)
 
     # 4. Consolidate into one record per facility
     records = consolidate(erstat_data, hlwiw_data, facility_map)
