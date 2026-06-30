@@ -219,3 +219,25 @@ class TestBuildFacilityMapDropsFailedInserts:
 
         assert result == {"existing hospital": "fac-existing"}
         assert "1 matched, 0 newly created, 0 unmatched" in caplog.text
+
+
+class TestInsertNewFacilitiesPayloadShape:
+    @patch("scraper.requests.post")
+    def test_facilities_and_clean_rows_share_common_fields(self, mock_post):
+        ok = MagicMock(status_code=201)
+        ok.raise_for_status = lambda: None
+        mock_post.side_effect = [ok, ok]
+
+        scraper.insert_new_facilities("https://x.supabase.co", {}, [_RECORD])
+
+        facilities_payload = mock_post.call_args_list[0].kwargs["json"][0]
+        clean_payload = mock_post.call_args_list[1].kwargs["json"][0]
+
+        assert facilities_payload["id"] == "f1"
+        assert facilities_payload["name"] == "A"
+        assert facilities_payload["lat"] == 1.0
+        assert facilities_payload["source"] == "manual"
+        assert clean_payload["facility_id"] == "f1"
+        assert clean_payload["facility_name"] == "A"
+        assert clean_payload["is_operational"] is True
+        assert clean_payload["business_status"] == "OPERATIONAL"
