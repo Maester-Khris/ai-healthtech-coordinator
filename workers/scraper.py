@@ -317,30 +317,40 @@ def resolve_unmatched_facility(name: str) -> dict | None:
     }
 
 
-def insert_new_facilities(url: str, headers: dict, records: list[dict]) -> None:
+def insert_new_facilities(url: str, headers: dict, records: list[dict]) -> set[str]:
     """
     Persists newly-discovered Toronto hospitals into both `facilities` and
     `facilities_clean` so future scraper runs match them directly via the
     normal fuzzy-match corpus instead of re-resolving every time.
+
+    Returns the set of facility_ids whose `facilities` row was actually
+    persisted. wait_times.facility_id has an FK to facilities(id) (not
+    facilities_clean), so that row alone is what callers need to know
+    succeeded before publishing wait times for it.
     """
     if not records:
-        return
+        return set()
     now = datetime.now(timezone.utc).isoformat()
+
+    def _common(r: dict) -> dict:
+        return dict(
+            category=r["category"],
+            source_facility_type=r["source_facility_type"],
+            accepted_severity=r["accepted_severity"],
+            address=r["address"],
+            lat=r["lat"],
+            lng=r["lng"],
+            phone=r["phone"],
+            google_place_id=r["google_place_id"],
+            weekday_hours=r["weekday_hours"],
+            last_enriched_at=now,
+        )
 
     facilities_rows = [{
         "id": r["facility_id"],
         "name": r["facility_name"],
-        "category": r["category"],
-        "source_facility_type": r["source_facility_type"],
-        "accepted_severity": r["accepted_severity"],
-        "address": r["address"],
-        "lat": r["lat"],
-        "lng": r["lng"],
-        "phone": r["phone"],
-        "google_place_id": r["google_place_id"],
+        **_common(r),
         "business_status": r["business_status"],
-        "weekday_hours": r["weekday_hours"],
-        "last_enriched_at": now,
         "source": "manual",
     } for r in records]
 
@@ -349,23 +359,16 @@ def insert_new_facilities(url: str, headers: dict, records: list[dict]) -> None:
         resp.raise_for_status()
     except requests.RequestException as e:
         log.error("Insert into facilities failed, skipping facilities_clean too: %s", e)
-        return
+        return set()
+
+    succeeded_ids = {r["facility_id"] for r in records}
 
     clean_rows = [{
         "facility_id": r["facility_id"],
         "facility_name": r["facility_name"],
-        "category": r["category"],
-        "source_facility_type": r["source_facility_type"],
-        "accepted_severity": r["accepted_severity"],
-        "address": r["address"],
-        "lat": r["lat"],
-        "lng": r["lng"],
-        "phone": r["phone"],
-        "google_place_id": r["google_place_id"],
+        **_common(r),
         "business_status": (r["business_status"] or "").upper(),
         "is_operational": (r["business_status"] or "").upper() == "OPERATIONAL",
-        "weekday_hours": r["weekday_hours"],
-        "last_enriched_at": now,
         "dbt_run_at": now,
     } for r in records]
 
@@ -373,10 +376,11 @@ def insert_new_facilities(url: str, headers: dict, records: list[dict]) -> None:
         resp = requests.post(f"{url}/rest/v1/facilities_clean", headers=headers, json=clean_rows, timeout=10)
         resp.raise_for_status()
     except requests.RequestException as e:
-        log.error("Insert into facilities_clean failed: %s", e)
-        return
+        log.error("Insert into facilities_clean failed (facilities row still created): %s", e)
+        return succeeded_ids
 
     log.info("Created %d new Toronto facilities from unmatched scraped names", len(records))
+    return succeeded_ids
 
 
 # ── Step 3b: fuzzy match scraped names → facility UUIDs ──────────────────────
@@ -436,11 +440,17 @@ def build_facility_map(
         new_facilities.append(created)
         facility_map[clean] = facility_id
 
-    insert_new_facilities(url, headers, new_facilities)
+    matched = len(facility_map) - len(new_facilities)
+
+    succeeded_ids = insert_new_facilities(url, headers, new_facilities)
+    failed_ids = {f["facility_id"] for f in new_facilities} - succeeded_ids
+    if failed_ids:
+        facility_map = {k: v for k, v in facility_map.items() if v not in failed_ids}
+        log.warning("Dropped %d scraped name(s) mapped to facilities that failed to persist", len(failed_ids))
 
     log.info(
         "Mapping: %d matched, %d newly created, %d unmatched (threshold=%d)",
-        len(facility_map) - len(new_facilities), len(new_facilities), len(unmatched), FUZZY_THRESHOLD,
+        matched, len(succeeded_ids), len(unmatched), FUZZY_THRESHOLD,
     )
     for name in unmatched:
         log.warning("No DB match for scraped hospital: '%s'", name)

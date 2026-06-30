@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from unittest.mock import patch, MagicMock
@@ -5,6 +6,13 @@ from unittest.mock import patch, MagicMock
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import scraper
+
+_RECORD = {
+    "facility_id": "f1", "facility_name": "A", "category": "hospital",
+    "source_facility_type": "general", "accepted_severity": ["emergent"],
+    "address": "123 St", "lat": 1.0, "lng": 2.0, "phone": "555",
+    "google_place_id": "p1", "business_status": "OPERATIONAL", "weekday_hours": "[]",
+}
 
 
 def _places_responses(address, lat, lng):
@@ -135,3 +143,79 @@ class TestNegativeCache:
         )
 
         redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")
+
+
+class TestInsertNewFacilitiesReturnsSucceededIds:
+    @patch("scraper.requests.post")
+    def test_returns_facility_ids_on_full_success(self, mock_post):
+        ok = MagicMock(status_code=201)
+        ok.raise_for_status = lambda: None
+        mock_post.side_effect = [ok, ok]
+
+        result = scraper.insert_new_facilities("https://x.supabase.co", {}, [_RECORD])
+
+        assert result == {"f1"}
+
+    @patch("scraper.requests.post")
+    def test_returns_empty_set_when_facilities_insert_fails(self, mock_post):
+        mock_post.side_effect = scraper.requests.RequestException("boom")
+
+        result = scraper.insert_new_facilities("https://x.supabase.co", {}, [_RECORD])
+
+        assert result == set()
+
+    @patch("scraper.requests.post")
+    def test_returns_facility_ids_even_if_clean_insert_fails(self, mock_post):
+        ok = MagicMock(status_code=201)
+        ok.raise_for_status = lambda: None
+        mock_post.side_effect = [ok, scraper.requests.RequestException("clean failed")]
+
+        result = scraper.insert_new_facilities("https://x.supabase.co", {}, [_RECORD])
+
+        assert result == {"f1"}
+
+
+class TestBuildFacilityMapDropsFailedInserts:
+    @patch("scraper.insert_new_facilities")
+    @patch("scraper.resolve_unmatched_facility")
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_drops_facility_map_entries_for_facilities_that_failed_to_persist(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        mock_resolve.return_value = {
+            "facility_name": "New Hospital", "category": "hospital",
+            "source_facility_type": "general", "accepted_severity": ["emergent"],
+            "address": "x", "lat": 43.7, "lng": -79.4, "phone": None,
+            "google_place_id": "place-1", "business_status": "OPERATIONAL", "weekday_hours": "[]",
+        }
+        mock_insert.return_value = set()  # facilities insert failed
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        result = scraper.build_facility_map(
+            {"new hospital": {"official_name": "New Hospital"}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        assert "new hospital" not in result
+
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility", return_value=None)
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    def test_matched_count_excludes_within_run_dedup_hits(
+        self, mock_fetch_existing, mock_resolve, mock_insert, caplog
+    ):
+        db_corpus = {"existing hospital": "fac-existing"}
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        with patch("scraper.fuzz_process.extractOne", return_value=("existing hospital", 90, 0)), \
+             caplog.at_level(logging.INFO, logger="scraper"):
+            result = scraper.build_facility_map(
+                {"existing hospital": {"official_name": "Existing Hospital"}}, {}, db_corpus,
+                "https://x.supabase.co", {}, redis_client,
+            )
+
+        assert result == {"existing hospital": "fac-existing"}
+        assert "1 matched, 0 newly created, 0 unmatched" in caplog.text
