@@ -1,0 +1,2202 @@
+[
+    {
+        "hospital": "Hamilton General Hospital",
+        "city": "Hamilton",
+        "erstat_wait_mins": 1,
+        "howlongwilliwait_mins": 0,
+        "raw_data": {
+            "erstat": "-1m",
+            "howlongwilliwait": "0 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Hamilton Health Sciences - Mcmaster",
+        "city": "Hamilton",
+        "erstat_wait_mins": 1,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "-1m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Juravinski Hospital",
+        "city": "Hamilton",
+        "erstat_wait_mins": 1,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "-1m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "West Lincoln Memorial Hospital",
+        "city": "Grimsby",
+        "erstat_wait_mins": 1,
+        "howlongwilliwait_mins": 0,
+        "raw_data": {
+            "erstat": "-1m",
+            "howlongwilliwait": "0 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Chatham-Kent Health Alliance - Wallaceburg",
+        "city": "Wallaceburg",
+        "erstat_wait_mins": 0,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "0m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Chatham-Kent Health Alliance",
+        "city": "Chatham",
+        "erstat_wait_mins": 8,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "8m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Bluewater Health",
+        "city": "Sarnia",
+        "erstat_wait_mins": 13,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "13m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Windsor Regional Hospital - Ouellette Campus",
+        "city": "Windsor",
+        "erstat_wait_mins": 25,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "25m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Bluewater Health - Petrolia (Charlotte Eleanor Englehart Hospital)",
+        "city": "Petrolia",
+        "erstat_wait_mins": 26,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "26m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "London Health Sciences Centre - Children's Hospital",
+        "city": "London",
+        "erstat_wait_mins": 30,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "30m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Windsor Regional Hospital - Met Campus",
+        "city": "Windsor",
+        "erstat_wait_mins": 52,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "52m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lakeridge Health - Port Perry",
+        "city": "Port Perry",
+        "erstat_wait_mins": 62,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 2m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - Port Colborne General Site",
+        "city": "Port Colborne",
+        "erstat_wait_mins": 81,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 21m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "London Health Sciences Centre - Victoria",
+        "city": "London",
+        "erstat_wait_mins": 90,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 30m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Trillium Health Partners - Mississauga Hospital",
+        "city": "Mississauga",
+        "erstat_wait_mins": 90,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 30m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Erie Shores HealthCare",
+        "city": "Leamington",
+        "erstat_wait_mins": 91,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 31m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "William Osler Health System - Brampton Civic Hospital",
+        "city": "Brampton",
+        "erstat_wait_mins": 92,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 32m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Englehart and District Hospital Inc.",
+        "city": "Englehart",
+        "erstat_wait_mins": 96,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 36m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Kirkland and District Hospital",
+        "city": "Kirkland Lake",
+        "erstat_wait_mins": 97,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 37m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lakeridge Health - Bowmanville",
+        "city": "Bowmanville",
+        "erstat_wait_mins": 102,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 42m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - Douglas Memorial Hospital",
+        "city": "Fort Erie",
+        "erstat_wait_mins": 106,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 46m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Ross Memorial Hospital",
+        "city": "Lindsay",
+        "erstat_wait_mins": 115,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 55m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lakeridge Health Ajax Pickering Hospital",
+        "city": "Ajax",
+        "erstat_wait_mins": 119,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "1h 59m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Brantford General Hospital",
+        "city": "Brantford",
+        "erstat_wait_mins": 121,
+        "howlongwilliwait_mins": 106,
+        "raw_data": {
+            "erstat": "2h 1m",
+            "howlongwilliwait": "1 hr 46 min"
+        }
+    },
+    {
+        "hospital": "Willett Urgent Care Centre",
+        "city": "Paris",
+        "erstat_wait_mins": 135,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 15m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Demo General Hospital",
+        "city": "Anytown",
+        "erstat_wait_mins": 142,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 22m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Mary's General Hospital",
+        "city": "Kitchener",
+        "erstat_wait_mins": 156,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 36m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - Greater Niagara General Site",
+        "city": "Niagara Falls",
+        "erstat_wait_mins": 171,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 51m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Stevenson Memorial Hospital",
+        "city": "Alliston",
+        "erstat_wait_mins": 171,
+        "howlongwilliwait_mins": 210,
+        "raw_data": {
+            "erstat": "2h 51m",
+            "howlongwilliwait": "3 hr 30 min"
+        }
+    },
+    {
+        "hospital": "St. Joseph's Healthcare - Charlton Campus",
+        "city": "Hamilton",
+        "erstat_wait_mins": 177,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 57m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - St. Catharines",
+        "city": "St Catharines",
+        "erstat_wait_mins": 179,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "2h 59m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - Welland Hospital Site",
+        "city": "Welland",
+        "erstat_wait_mins": 184,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 4m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Halton Healthcare - Milton District Hospital",
+        "city": "Milton",
+        "erstat_wait_mins": 196,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 16m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Temiskaming Hospital",
+        "city": "New Liskeard",
+        "erstat_wait_mins": 196,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 16m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Sault Area Hospital",
+        "city": "Sault Ste Marie",
+        "erstat_wait_mins": 197,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 17m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Headwaters Health Care Centre - Headwaters Orangeville",
+        "city": "Orangeville",
+        "erstat_wait_mins": 200,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 20m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Georgetown Hospital",
+        "city": "Georgetown",
+        "erstat_wait_mins": 204,
+        "howlongwilliwait_mins": 204,
+        "raw_data": {
+            "erstat": "3h 24m",
+            "howlongwilliwait": "3 hr 24 min"
+        }
+    },
+    {
+        "hospital": "Halton Healthcare Services - Oakville",
+        "city": "Oakville",
+        "erstat_wait_mins": 208,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 28m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Health Sciences North - Ramsey Lake Health Centre",
+        "city": "Sudbury",
+        "erstat_wait_mins": 226,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 46m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Huronia District Hospital",
+        "city": "Midland",
+        "erstat_wait_mins": 226,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "3h 46m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "North Bay Regional Health Centre",
+        "city": "North Bay",
+        "erstat_wait_mins": 240,
+        "howlongwilliwait_mins": 240,
+        "raw_data": {
+            "erstat": "4h",
+            "howlongwilliwait": "4 hr  0 min"
+        }
+    },
+    {
+        "hospital": "Lakeridge Health - Oshawa",
+        "city": "Oshawa",
+        "erstat_wait_mins": 253,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "4h 13m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "London Health Sciences Centre - University Hospital",
+        "city": "London",
+        "erstat_wait_mins": 255,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "4h 15m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "University Health Network - Toronto Western Hospital",
+        "city": "Toronto",
+        "erstat_wait_mins": 292,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "4h 52m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Collingwood General and Marine Hospital",
+        "city": "Collingwood",
+        "erstat_wait_mins": 318,
+        "howlongwilliwait_mins": 300,
+        "raw_data": {
+            "erstat": "5h 18m",
+            "howlongwilliwait": "5 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Sunnybrook Health Sciences Centre",
+        "city": "Toronto",
+        "erstat_wait_mins": 366,
+        "howlongwilliwait_mins": 374,
+        "raw_data": {
+            "erstat": "6h 6m",
+            "howlongwilliwait": "6 hr 14 min"
+        }
+    },
+    {
+        "hospital": "West Parry Sound Health Centre",
+        "city": "Parry Sound",
+        "erstat_wait_mins": 372,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "6h 12m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Royal Victoria Regional Health Centre",
+        "city": "Barrie",
+        "erstat_wait_mins": 410,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "6h 50m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "University Health Network - Toronto General Hospital",
+        "city": "Toronto",
+        "erstat_wait_mins": 417,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "6h 57m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Credit Valley Hospital",
+        "city": "Mississauga",
+        "erstat_wait_mins": 438,
+        "howlongwilliwait_mins": 438,
+        "raw_data": {
+            "erstat": "7h 18m",
+            "howlongwilliwait": "7 hr 18 min"
+        }
+    },
+    {
+        "hospital": "TIMMINS AND DISTRICT HOSPITAL/L'H\u00d4PITAL DE TIMMINS ET DU DISTRICT",
+        "city": "Timmins",
+        "erstat_wait_mins": 553,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "9h 13m",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Alexandra Hospital",
+        "city": "Ingersoll",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Alexandra Marine and General Hospital",
+        "city": "Goderich",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Almonte General Hospital",
+        "city": "Almonte",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Anson General Hospital",
+        "city": "Iroquois Falls",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Arnprior Regional Health - Arnprior & District Memorial Hospital",
+        "city": "Arnprior",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "BROCKVILLE GENERAL - ST. VINCENT DE PAUL",
+        "city": "Brockville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Belleville General Hospital",
+        "city": "Belleville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Bingham Memorial Hospital",
+        "city": "Matheson",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Blind River District Health Centre",
+        "city": "Blind River",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Brockville General Hospital",
+        "city": "Brockville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Cambridge Memorial Hospital",
+        "city": "Cambridge",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 128,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": "2 hr 08 min"
+        }
+    },
+    {
+        "hospital": "Campbellford Memorial Hospital",
+        "city": "Campbellford",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Carleton Place and District Memorial Hospital",
+        "city": "Carleton Place",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Casey House Hospice",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Chapleau Health Services",
+        "city": "Chapleau",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Check Address for Confirmation",
+        "city": "Barrie",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Chesley Hospital",
+        "city": "Chesley",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Children's Hospital of Eastern Ontario",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Cornwall Community Hospital - Mcconnell Ave.",
+        "city": "Cornwall",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Cosmetic Surgery Hospital",
+        "city": "Woodbridge",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Deep River and District Hospital",
+        "city": "Deep River",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Don Mills Surgical Unit",
+        "city": "North York",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Dryden Regional Health Centre",
+        "city": "Dryden",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Durham Hospital",
+        "city": "Durham",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Emo Health Centre",
+        "city": "Emo",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Espanola General Hospital",
+        "city": "Espanola",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Four Counties Health Services Corporation",
+        "city": "Newbury",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Geraldton District Hospital",
+        "city": "Geraldton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Glengarry Memorial Hospital",
+        "city": "Alexandria",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Grand River Hospital",
+        "city": "Kitchener",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Grey Bruce Health Services (Corporate Headquarters) - Owen Sound",
+        "city": "Owen Sound",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Groves Memorial Community Hospital",
+        "city": "Fergus",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Guelph General Hospital",
+        "city": "Guelph",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Haldimand War Memorial Hospital",
+        "city": "Dunnville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Haliburton Highlands Health Services - Haliburton Hospital",
+        "city": "Haliburton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Hanover and District Hospital",
+        "city": "Hanover",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Hornepayne Community Hospital",
+        "city": "Hornepayne",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Hospital for Sick Children",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Hotel Dieu Hospital - Religious Hospitallers of Saint Joseph of the Hotel Dieu of Kingston",
+        "city": "Kingston",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Hotel Dieu Hospital of Cornwall",
+        "city": "Cornwall",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Humber River Hospital -York Finch",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Humber River Regional Hospital - Church St. Site",
+        "city": "Weston",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Huron Perth Healthcare Alliance - Clinton Public Hospital",
+        "city": "Clinton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "H\u00d4PITAL GENERAL DE HAWKESBURY AND DISTRICT GENERAL HOSPITAL INC.",
+        "city": "Hawkesbury",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "H\u00d4PITAL MONTFORT HOSPITAL",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "James Bay General Hospital - Attawapiskat",
+        "city": "Attawapiskat",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Joseph Brant Memorial Hospital",
+        "city": "Burlington",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Kemptville District Hospital",
+        "city": "Kemptville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Kincardine Hospital",
+        "city": "Kincardine",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Kingston General Hospital",
+        "city": "Kingston",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "La Verendrye Hospital",
+        "city": "Fort Frances",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lady Dunn Health Centre",
+        "city": "Wawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lady Minto Hospital",
+        "city": "Cochrane",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lake of the Woods District Hospital",
+        "city": "Kenora",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lakeridge Health - Whitby",
+        "city": "Whitby",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Leamington District Memorial Hospital",
+        "city": "Leamington",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lennox and Addington County General Hospital",
+        "city": "Napanee",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Lions Head Hospital",
+        "city": "Lion's Head",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Listowel Wingham Hospitals Alliance - Listowel Memorial Hospital",
+        "city": "Listowel",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Mackenzie Richmond Hill Hospital",
+        "city": "Richmond Hill",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Manitoulin Health Centre - Little Current Site",
+        "city": "Little Current",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Manitouwadge General Hospital",
+        "city": "Manitouwadge",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Markdale Hospital",
+        "city": "Markdale",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Markham Stouffville Hospital",
+        "city": "Markham",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 90,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": "1 hr 30 min"
+        }
+    },
+    {
+        "hospital": "Mattawa General Hospital Inc.",
+        "city": "Mattawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Matthews Memorial Hospital",
+        "city": "Richards Landing",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Meaford Hospital",
+        "city": "Meaford",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Michael Garron Hospital",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Mindemoya Hospital",
+        "city": "Mindemoya",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Mount Sinai Hospital",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Muskoka Algonquin Healthcare - Huntsville District Memorial Hospital Site",
+        "city": "Huntsville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Niagara Health System - Niagara-on-the-Lake Hospital Site",
+        "city": "Niagara-On-The-Lake",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Nipigon District Memorial Hospital",
+        "city": "Nipigon",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Norfolk General Hospital",
+        "city": "Simcoe",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "North Bay General Hospital - Mclaren Site",
+        "city": "North Bay",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "North Wellington Health Care - Louise Marshall Hospital",
+        "city": "Mount Forest",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "North York General Hospital - Branson Division",
+        "city": "North York",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Northumberland Hills Hospital",
+        "city": "Cobourg",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Notre-Dame Hospital - Hearst",
+        "city": "Hearst",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Orillia Soldiers' Memorial Hospital",
+        "city": "Orillia",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Pembroke Regional Hospital",
+        "city": "Pembroke",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Perth and Smiths Falls District Hospital",
+        "city": "Smiths Falls",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Peterborough Regional Health Centre",
+        "city": "Peterborough",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Queensway Carleton Hospital",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Quinte Health Care - North Hastings District Hospital",
+        "city": "Bancroft",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Quinte Health Care - Prince Edward County Memorial Hospital",
+        "city": "Picton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Quinte Healthcare Corporation - Trenton Memorial Hospital",
+        "city": "Trenton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Rainy River Health Centre",
+        "city": "Rainy River",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Red Lake Margaret Cochenour Memorial Hospital",
+        "city": "Red Lake",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Renfrew Victoria Hospital",
+        "city": "Renfrew",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Scarborough Health Network - Centenary Hospital",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Seaforth Community Hospital",
+        "city": "Seaforth",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Sensenbrenner Hospital",
+        "city": "Kapuskasing",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Sioux Lookout Meno Ya Win Health Centre",
+        "city": "Sioux Lookout",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Smooth Rock Falls Hospital",
+        "city": "Smooth Rock Falls",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "South Bruce Grey Health Centre - Walkerton",
+        "city": "Walkerton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "South Huron Hospital",
+        "city": "Exeter",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "South Muskoka Memorial Hospital",
+        "city": "Bracebridge",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Southampton Hospital",
+        "city": "Southampton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Southlake Regional Health Centre",
+        "city": "Newmarket",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St Marys Memorial Hospital",
+        "city": "St. Marys",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Francis Memorial Hospital",
+        "city": "Barrys Bay",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Joseph's General Hospital - Elliot Lake",
+        "city": "Elliot Lake",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Joseph's Health Care London - Parkwood",
+        "city": "London",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Joseph's Hospital - London",
+        "city": "London",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Joseph\u0092s Health Centre of Sudbury",
+        "city": "Sudbury",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Michael's Hospital - Bond St. Site",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "St. Thomas - Elgin General Hospital",
+        "city": "St Thomas",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Stratford General Hospital",
+        "city": "Stratford",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Strathroy Middlesex General Hospital",
+        "city": "Strathroy",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "THE OTTAWA HOSPITAL/L'H\u00d4PITAL D'OTTAWA - GENERAL CAMPUS",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Thessalon Hospital",
+        "city": "Thessalon",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Thunder Bay Regional Health Sciences Centre",
+        "city": "Thunder Bay",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Tillsonburg District Memorial Hospital",
+        "city": "Tillsonburg",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Trillium Health Partners - Queensway Health Centre",
+        "city": "Toronto",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Weeneebayko Area Health Authority - Attawapiskat",
+        "city": "Moose Factory",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Weeneebayko General Hospital",
+        "city": "Moose Factory",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Wellington Health Care Alliance - Palmerston and District Hospital",
+        "city": "Palmerston",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "West Haldimand General Hospital",
+        "city": "Hagersville",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "West Nipissing General Hospital",
+        "city": "Sturgeon Falls",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Wiarton Hospital",
+        "city": "Wiarton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "William Osler Health System - Etobicoke General Hospital",
+        "city": "Etobicoke",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "William Osler Health System - Peel Memorial Centre",
+        "city": "Brampton",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Wilson Memorial General Hospital",
+        "city": "Marathon",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Winchester District Memorial Hospital",
+        "city": "Winchester",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Woodstock General Hospital",
+        "city": "Woodstock",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "the Ottawa Hospital - Civic Campus",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "the Ottawa Hospital - Riverside Campus",
+        "city": "Ottawa",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "the Scarborough Hospital - General Campus",
+        "city": "Scarborough",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": "--",
+            "howlongwilliwait": null
+        }
+    },
+    {
+        "hospital": "Southlake",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 30,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "0 hr 30 min"
+        }
+    },
+    {
+        "hospital": "Mississauga (Trillium Health Partners)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 72,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 12 min"
+        }
+    },
+    {
+        "hospital": "Toronto General (University Health Network)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 416,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "6 hr 56 min"
+        }
+    },
+    {
+        "hospital": "Toronto Western (University Health Network)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 292,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "4 hr 52 min"
+        }
+    },
+    {
+        "hospital": "Windsor Regional Hospital - Oullette Campus",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Windsor Regional Hospital - Metropolitan Campus",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Timmins and District Hospital",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 508,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "8 hr 28 min"
+        }
+    },
+    {
+        "hospital": "West Parry Sound Hospital",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 360,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "6 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Georgian Bay, Midland",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "St. Mary\u2019s General, Kitchener",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 150,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "2 hr 30 min"
+        }
+    },
+    {
+        "hospital": "Childrens Hospital (London Health Sciences Centre)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 150,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "2 hr 30 min"
+        }
+    },
+    {
+        "hospital": "University Hospital (London Health Sciences Centre)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 240,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "4 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Victoria Hospital (London Health Sciences Centre)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 75,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 15 min"
+        }
+    },
+    {
+        "hospital": "Oshawa (Lakeridge Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 253,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "2 hr 20 min to 4 hr 13 min"
+        }
+    },
+    {
+        "hospital": "Ajax (Lakeridge Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 112,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 17 min to 1 hr 52 min"
+        }
+    },
+    {
+        "hospital": "Bowmanville (Lakeridge Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 102,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr or less to 1 hr 42 min"
+        }
+    },
+    {
+        "hospital": "Port Perry (Lakeridge Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 62,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr or less to 1 hr 2 min"
+        }
+    },
+    {
+        "hospital": "Etobicoke (William Osler Health System)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 80,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 20 min"
+        }
+    },
+    {
+        "hospital": "Brampton Civic (William Osler Health System)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 92,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 32 min"
+        }
+    },
+    {
+        "hospital": "Peel Memorial Urgent Care (William Osler Health System)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 85,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 25 min"
+        }
+    },
+    {
+        "hospital": "CHEO (Childrens Hospital of Eastern Ontario)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 292,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "4 hr 52 min"
+        }
+    },
+    {
+        "hospital": "King Campus Urgent Care, St. Joseph\u2019s Healthcare Hamilton",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 51,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "0 hr 51 min"
+        }
+    },
+    {
+        "hospital": "West End Urgent Care Centre",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 0,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "0 hr 0 min"
+        }
+    },
+    {
+        "hospital": "McMaster Children\u2019s Hospital",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 0,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "0 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Juravinski Hospital and Cancer Centre",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 0,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "0 hr 0 min"
+        }
+    },
+    {
+        "hospital": "St. Joseph\u2019s Healthcare Hamilton, Charlton Campus",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 177,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "2 hr 57 min"
+        }
+    },
+    {
+        "hospital": "St. Catherines (Niagara Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 180,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "3 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Niagara Falls (Niagara Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 150,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "2 hr 30 min"
+        }
+    },
+    {
+        "hospital": "Welland (Niagara Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 180,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "3 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Oakville Trafalgar Memorial (Halton Healthcare)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 208,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "3 hr 28 min"
+        }
+    },
+    {
+        "hospital": "Milton District (Halton Healthcare)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 196,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "3 hr 16 min"
+        }
+    },
+    {
+        "hospital": "Uxbridge (Oak Valley Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": 60,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "1 hr 0 min"
+        }
+    },
+    {
+        "hospital": "Joseph Brant Hospital, Burlington",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Cortellucci Vaughan (Mackenzie Health)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Humber River Hospital",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "St. Josephs Health Centre (Unity) Toronto",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "St. Michaels (Unity) Toronto",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "North York General",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Ottawa Civic (The Ottawa Hospital)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    },
+    {
+        "hospital": "Ottawa General (The Ottawa Hospital)",
+        "city": "Unknown / GTA",
+        "erstat_wait_mins": null,
+        "howlongwilliwait_mins": null,
+        "raw_data": {
+            "erstat": null,
+            "howlongwilliwait": "Not available"
+        }
+    }
+]
