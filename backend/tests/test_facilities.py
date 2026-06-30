@@ -85,3 +85,10 @@ class TestApplyWaitFilter:
 
         assert len(result) == 1
         assert result[0]["wait_minutes"] == 5
+
+    def test_does_not_mutate_original_records(self):
+        original = [{"id": "a"}]
+
+        apply_wait_filter(original, "id", None, {"a": 10})
+
+        assert "wait_minutes" not in original[0]

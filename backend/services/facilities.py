@@ -49,15 +49,15 @@ def apply_wait_filter(
     wait_map: dict[str, int | None],
 ) -> list[dict]:
     """
-    Annotates each record with wait_minutes from wait_map. When max_wait_minutes
-    is set, drops records whose wait_minutes exceeds it — records with no wait
-    data (None) always pass, same convention as the open_24h/open_weekends
-    hours filters (missing data never hides a result).
+    Returns new records annotated with wait_minutes from wait_map (never
+    mutates the input — callers may hold the same dict objects in a
+    shared cache). When max_wait_minutes is set, drops records whose
+    wait_minutes exceeds it — records with no wait data (None) always
+    pass, same convention as the open_24h/open_weekends hours filters.
     """
-    for r in records:
-        r["wait_minutes"] = wait_map.get(r[id_key])
+    annotated = [{**r, "wait_minutes": wait_map.get(r[id_key])} for r in records]
 
     if max_wait_minutes is None:
-        return records
+        return annotated
 
-    return [r for r in records if r["wait_minutes"] is None or r["wait_minutes"] <= max_wait_minutes]
+    return [r for r in annotated if r["wait_minutes"] is None or r["wait_minutes"] <= max_wait_minutes]
