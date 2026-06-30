@@ -24,6 +24,7 @@ import logging
 import os
 import re
 import sys
+import uuid
 from datetime import datetime, timezone
 
 import redis
@@ -45,9 +46,29 @@ log = logging.getLogger(__name__)
 SUPABASE_URL = os.environ["SUPABASE_URL"].strip()
 SUPABASE_KEY = os.environ["SUPABASE_SERVICE_ROLE_KEY"].strip()
 UPSTASH_REDIS_URL = os.environ["UPSTASH_REDIS_URL"].strip()
+GOOGLE_PLACES_KEY = os.environ["GOOGLE_PLACES_KEY"].strip()
+
+# Unmatched scraped hospitals get created with these — ER wait-time sources
+# only ever report on hospitals/ERs, so these mirror seed/run.py's hospital row.
+NEW_FACILITY_CATEGORY = "hospital"
+NEW_FACILITY_SOURCE_TYPE = "general"
+NEW_FACILITY_SEVERITY = ["emergent", "urgent", "moderate", "routine"]
 
 REDIS_HASH_KEY = "wait_times:current"
 FUZZY_THRESHOLD = 75  # minimum match score (0–100) to accept a facility link
+
+# Amalgamated City of Toronto bounding box — covers all six former
+# municipalities (incl. Scarborough, North York, Etobicoke). Real prod
+# addresses (e.g. "...scarborough on m1w 3w3") never contain the literal
+# word "toronto", so this replaces a substring match with geography.
+TORONTO_BOUNDS = {"min_lat": 43.58, "max_lat": 43.86, "min_lng": -79.64, "max_lng": -79.12}
+
+
+def _in_toronto_bounds(lat: float, lng: float) -> bool:
+    return (
+        TORONTO_BOUNDS["min_lat"] <= lat <= TORONTO_BOUNDS["max_lat"]
+        and TORONTO_BOUNDS["min_lng"] <= lng <= TORONTO_BOUNDS["max_lng"]
+    )
 
 # Supabase Data API headers
 SUPABASE_HEADERS = {
@@ -210,39 +231,190 @@ def scrape_howlongwilliwait() -> dict[str, dict]:
     return data
 
 
-# ── Step 3: fuzzy match scraped names → facility UUIDs ───────────────────────
+# ── Step 3a: resolve + create unmatched hospitals via Google Places ──────────
+
+def resolve_unmatched_facility(name: str) -> dict | None:
+    """
+    Mirrors pipeline/functions/places-enricher/handler.py's search+details calls.
+    Restricted to the Toronto routing region — returns None (not created) for
+    anything outside it, anything Google can't resolve, or on API failure.
+    """
+    try:
+        resp = requests.get(
+            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
+            params={
+                "input": f"{name} Ontario",
+                "inputtype": "textquery",
+                "fields": "place_id",
+                "key": GOOGLE_PLACES_KEY,
+            },
+            timeout=10,
+        )
+        resp.raise_for_status()
+        candidates = resp.json().get("candidates", [])
+    except requests.RequestException as e:
+        log.warning("Places search failed for '%s': %s", name, e)
+        return None
+    if not candidates:
+        return None
+    place_id = candidates[0]["place_id"]
+
+    try:
+        resp = requests.get(
+            "https://maps.googleapis.com/maps/api/place/details/json",
+            params={
+                "place_id": place_id,
+                "fields": "name,formatted_address,formatted_phone_number,opening_hours,business_status,geometry",
+                "key": GOOGLE_PLACES_KEY,
+            },
+            timeout=10,
+        )
+        resp.raise_for_status()
+        details = resp.json().get("result", {})
+    except requests.RequestException as e:
+        log.warning("Places details failed for '%s': %s", name, e)
+        return None
+
+    address = details.get("formatted_address", "")
+
+    location = details.get("geometry", {}).get("location", {})
+    if "lat" not in location or "lng" not in location:
+        return None
+    if not _in_toronto_bounds(location["lat"], location["lng"]):
+        return None  # outside the routing region — not a real "no match"
+
+    return {
+        "facility_name": (details.get("name") or name).strip(),
+        "category": NEW_FACILITY_CATEGORY,
+        "source_facility_type": NEW_FACILITY_SOURCE_TYPE,
+        "accepted_severity": NEW_FACILITY_SEVERITY,
+        "address": address,
+        "lat": location["lat"],
+        "lng": location["lng"],
+        "phone": details.get("formatted_phone_number"),
+        "google_place_id": place_id,
+        "business_status": details.get("business_status"),
+        "weekday_hours": json.dumps(details.get("opening_hours", {}).get("weekday_text", [])),
+    }
+
+
+def insert_new_facilities(url: str, headers: dict, records: list[dict]) -> None:
+    """
+    Persists newly-discovered Toronto hospitals into both `facilities` and
+    `facilities_clean` so future scraper runs match them directly via the
+    normal fuzzy-match corpus instead of re-resolving every time.
+    """
+    if not records:
+        return
+    now = datetime.now(timezone.utc).isoformat()
+
+    facilities_rows = [{
+        "id": r["facility_id"],
+        "name": r["facility_name"],
+        "category": r["category"],
+        "source_facility_type": r["source_facility_type"],
+        "accepted_severity": r["accepted_severity"],
+        "address": r["address"],
+        "lat": r["lat"],
+        "lng": r["lng"],
+        "phone": r["phone"],
+        "google_place_id": r["google_place_id"],
+        "business_status": r["business_status"],
+        "weekday_hours": r["weekday_hours"],
+        "last_enriched_at": now,
+        "source": "manual",
+    } for r in records]
+
+    try:
+        resp = requests.post(f"{url}/rest/v1/facilities", headers=headers, json=facilities_rows, timeout=10)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        log.error("Insert into facilities failed, skipping facilities_clean too: %s", e)
+        return
+
+    clean_rows = [{
+        "facility_id": r["facility_id"],
+        "facility_name": r["facility_name"],
+        "category": r["category"],
+        "source_facility_type": r["source_facility_type"],
+        "accepted_severity": r["accepted_severity"],
+        "address": r["address"],
+        "lat": r["lat"],
+        "lng": r["lng"],
+        "phone": r["phone"],
+        "google_place_id": r["google_place_id"],
+        "business_status": (r["business_status"] or "").upper(),
+        "is_operational": (r["business_status"] or "").upper() == "OPERATIONAL",
+        "weekday_hours": r["weekday_hours"],
+        "last_enriched_at": now,
+        "dbt_run_at": now,
+    } for r in records]
+
+    try:
+        resp = requests.post(f"{url}/rest/v1/facilities_clean", headers=headers, json=clean_rows, timeout=10)
+        resp.raise_for_status()
+    except requests.RequestException as e:
+        log.error("Insert into facilities_clean failed: %s", e)
+        return
+
+    log.info("Created %d new Toronto facilities from unmatched scraped names", len(records))
+
+
+# ── Step 3b: fuzzy match scraped names → facility UUIDs ──────────────────────
 
 def build_facility_map(
     erstat_data: dict[str, dict],
     hlwiw_data: dict[str, dict],
     db_corpus: dict[str, str],  # {clean_db_name: uuid}
+    url: str,
+    headers: dict,
 ) -> dict[str, str]:
     """
     Fuzzy-matches all scraped clean names against the DB corpus.
+    Unmatched names are resolved via Google Places and, if confirmed inside
+    the Toronto routing region, created as new facilities on the fly.
     Returns {clean_scraped_name: facility_uuid}.
-    Logs unmatched names as warnings.
     """
     all_scraped_names: set[str] = set(erstat_data.keys()) | set(hlwiw_data.keys())
     corpus_keys = list(db_corpus.keys())
     facility_map: dict[str, str] = {}
     unmatched: list[str] = []
+    new_facilities: list[dict] = []
+    place_id_to_facility_id: dict[str, str] = {}
 
     for clean in all_scraped_names:
         result = fuzz_process.extractOne(clean, corpus_keys, score_cutoff=FUZZY_THRESHOLD)
         if result:
             best_key, score, *_ = result
             facility_map[clean] = db_corpus[best_key]
-        else:
-            official = (
-                erstat_data.get(clean, {}).get("official_name")
-                or hlwiw_data.get(clean, {}).get("hlwiw_name")
-                or clean
-            )
+            continue
+
+        official = (
+            erstat_data.get(clean, {}).get("official_name")
+            or hlwiw_data.get(clean, {}).get("hlwiw_name")
+            or clean
+        )
+        created = resolve_unmatched_facility(official)
+        if created is None:
             unmatched.append(official)
+            continue
+
+        place_id = created["google_place_id"]
+        if place_id in place_id_to_facility_id:
+            facility_map[clean] = place_id_to_facility_id[place_id]
+            continue
+
+        facility_id = str(uuid.uuid4())
+        created["facility_id"] = facility_id
+        place_id_to_facility_id[place_id] = facility_id
+        new_facilities.append(created)
+        facility_map[clean] = facility_id
+
+    insert_new_facilities(url, headers, new_facilities)
 
     log.info(
-        "Mapping: %d matched, %d unmatched (threshold=%d)",
-        len(facility_map), len(unmatched), FUZZY_THRESHOLD,
+        "Mapping: %d matched, %d newly created, %d unmatched (threshold=%d)",
+        len(facility_map) - len(new_facilities), len(new_facilities), len(unmatched), FUZZY_THRESHOLD,
     )
     for name in unmatched:
         log.warning("No DB match for scraped hospital: '%s'", name)
@@ -302,21 +474,63 @@ def consolidate(
             "scraped_at": scraped_at,
         })
 
+    records = _merge_duplicate_facilities(records)
     log.info("Consolidated: %d records ready for publish", len(records))
     return records
 
 
-# ── Step 5: Supabase upsert ───────────────────────────────────────────────────
+def _merge_duplicate_facilities(records: list[dict]) -> list[dict]:
+    """
+    Differently-normalised name variants (e.g. ERstat vs HowLongWillIWait
+    spelling) can independently fuzzy-match to the same facility_id within
+    one run. wait_times has a unique (facility_id, scraped_at) index, so
+    collapse those into a single row before insert — same averaging
+    approach as the per-source merge above.
+    """
+    by_facility: dict[str, list[dict]] = {}
+    for r in records:
+        by_facility.setdefault(r["facility_id"], []).append(r)
 
-def upsert_wait_times(url: str, headers: dict, records: list[dict]) -> None:
+    merged: list[dict] = []
+    for facility_id, group in by_facility.items():
+        if len(group) == 1:
+            merged.append(group[0])
+            continue
+        mins = [g["wait_minutes"] for g in group if g["wait_minutes"] is not None]
+        merged.append({
+            "facility_id": facility_id,
+            "wait_minutes": round(sum(mins) / len(mins)) if mins else None,
+            "raw_wait": " / ".join(g["raw_wait"] for g in group if g["raw_wait"]),
+            "source": "+".join(dict.fromkeys(g["source"] for g in group if g["source"])),
+            "scraped_at": group[0]["scraped_at"],
+        })
+    return merged
+
+
+# ── Step 5: Supabase insert ───────────────────────────────────────────────────
+
+def insert_wait_times(url: str, headers: dict, records: list[dict]) -> None:
+    """
+    wait_times is an append-only history log (autoincrement id, recorded_at
+    default now()) — one new row per facility per scrape run, not a
+    current-value table. The current value lives in Redis (see update_redis).
+
+    wait_minutes is NOT NULL in this table; records with no parseable time
+    from either source (wait_minutes is None) carry no useful history-log
+    value and are skipped here, though they still reach Redis as "no data".
+    """
+    skipped = [r["facility_id"] for r in records if r["wait_minutes"] is None]
+    records = [r for r in records if r["wait_minutes"] is not None]
+    if skipped:
+        log.info("Skipping %d record(s) with no parsed wait time: %s", len(skipped), skipped)
+
     if not records:
-        log.info("Nothing to upsert.")
+        log.info("Nothing to insert.")
         return
-    endpoint = f"{url}/rest/v1/wait_times?on_conflict=facility_id"
-    upsert_headers = {**headers, "Prefer": "resolution=merge-duplicates"}
-    r = requests.post(endpoint, headers=upsert_headers, json=records, timeout=10)
+    endpoint = f"{url}/rest/v1/wait_times"
+    r = requests.post(endpoint, headers=headers, json=records, timeout=10)
     r.raise_for_status()
-    log.info("Supabase: upserted %d rows into wait_times", len(records))
+    log.info("Supabase: inserted %d rows into wait_times", len(records))
 
 
 # ── Step 6: Redis update ──────────────────────────────────────────────────────
@@ -367,14 +581,14 @@ def main() -> None:
         log.error("Both scrapers returned empty — aborting run.")
         sys.exit(1)
 
-    # 3. Build name → uuid mapping via fuzzy match
-    facility_map = build_facility_map(erstat_data, hlwiw_data, db_corpus)
+    # 3. Build name → uuid mapping via fuzzy match (creates new Toronto facilities on the fly)
+    facility_map = build_facility_map(erstat_data, hlwiw_data, db_corpus, SUPABASE_URL, SUPABASE_HEADERS)
 
     # 4. Consolidate into one record per facility
     records = consolidate(erstat_data, hlwiw_data, facility_map)
 
     # 5. Publish
-    upsert_wait_times(SUPABASE_URL, SUPABASE_HEADERS, records)
+    insert_wait_times(SUPABASE_URL, SUPABASE_HEADERS, records)
     update_redis(redis_client, records)
 
     log.info("═══ Scraper run complete — %d records published ═══", len(records))
