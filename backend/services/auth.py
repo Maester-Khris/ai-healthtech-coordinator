@@ -1,19 +1,20 @@
-from db import get_supabase_client
+import types
 from fastapi import HTTPException
+
+from db import supabase_auth_get_user
 
 
 def verify_token(token: str) -> object:
     """
-    Verify a Supabase JWT and return the user object.
-    Raises HTTPException 401 if the token is invalid or expired.
+    Verify a Supabase JWT and return a user object exposing .id and .email.
+    Raises HTTPException 401 if the token is invalid, expired, or unverifiable.
     """
     try:
-        client = get_supabase_client()
-        response = client.auth.get_user(token)
-        if not response.user:
-            raise HTTPException(status_code=401, detail="Invalid or expired token")
-        return response.user
-    except HTTPException:
-        raise
+        data = supabase_auth_get_user(token)
     except Exception as exc:
         raise HTTPException(status_code=401, detail="Token verification failed") from exc
+
+    if not data.get("id"):
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+    return types.SimpleNamespace(id=data["id"], email=data.get("email"))
