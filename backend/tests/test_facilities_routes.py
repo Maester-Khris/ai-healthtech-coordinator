@@ -65,3 +65,31 @@ class TestFacilitiesNearbyRoute:
             with pytest.raises(HTTPException) as exc_info:
                 asyncio.run(main.facilities_nearby(lat=43.6, lng=-79.4))
         assert exc_info.value.status_code == 500
+
+
+from fastapi.testclient import TestClient
+
+
+class TestFacilitiesNearbyAsgiStack:
+    def test_valid_rpc_response_passes_response_model_validation(self):
+        fake_rows = [{
+            "facility_id": "11111111-1111-1111-1111-111111111111",
+            "facility_name": "Test Hospital",
+            "category": "hospital",
+            "address": "123 Main St",
+            "phone": None,
+            "is_operational": True,
+            "distance_m": 100,
+            "eta_walk_min": 20,
+            "eta_transit_min": 10,
+            "eta_drive_min": 5,
+        }]
+        with patch("main.supabase_rpc", return_value=fake_rows), \
+             patch("main.get_wait_minutes_map", return_value={}):
+            with TestClient(main.app) as client:
+                resp = client.get("/facilities/nearby", params={"lat": 43.6, "lng": -79.4})
+
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body[0]["facility_id"] == "11111111-1111-1111-1111-111111111111"
+        assert body[0]["wait_minutes"] is None

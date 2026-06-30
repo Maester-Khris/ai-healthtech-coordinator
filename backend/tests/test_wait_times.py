@@ -5,6 +5,8 @@ from unittest.mock import patch, MagicMock
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+import redis
+
 from services.wait_times import get_wait_minutes_map
 
 
@@ -36,7 +38,7 @@ class TestGetWaitMinutesMap:
     @patch("services.wait_times.supabase_rpc")
     @patch("services.wait_times.redis_client")
     def test_redis_connection_error_falls_back_to_supabase_rpc(self, mock_redis, mock_rpc):
-        mock_redis.hgetall.side_effect = ConnectionError("redis down")
+        mock_redis.hgetall.side_effect = redis.exceptions.ConnectionError("redis down")
         mock_rpc.return_value = [
             {"facility_id": "fac-1", "wait_minutes": 30, "recorded_at": "2026-06-30T00:00:00Z"},
         ]
