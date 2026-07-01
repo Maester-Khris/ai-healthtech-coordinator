@@ -41,13 +41,15 @@ def get_wait_minutes_map() -> dict[str, int | None]:
     wait_map = {r["facility_id"]: r["wait_minutes"] for r in rows}
 
     try:
+        pipe = redis_client.pipeline()
         for r in rows:
-            redis_client.hset(REDIS_HASH_KEY, r["facility_id"], json.dumps({
+            pipe.hset(REDIS_HASH_KEY, r["facility_id"], json.dumps({
                 "wait_minutes": r["wait_minutes"],
                 "raw_wait": r.get("raw_wait"),
                 "source": r.get("source"),
                 "updated_at": r.get("recorded_at"),
             }))
+        pipe.execute()
     except Exception:
         logger.warning("redis_populate_failed")
 

@@ -57,8 +57,10 @@ class TestGetWaitMinutesMap:
 
         get_wait_minutes_map()
 
-        mock_redis.hset.assert_called_once()
-        args, _ = mock_redis.hset.call_args
+        mock_pipe = mock_redis.pipeline.return_value
+        mock_pipe.hset.assert_called_once()
+        mock_pipe.execute.assert_called_once()
+        args, _ = mock_pipe.hset.call_args
         assert args[0] == "wait_times:current"
         assert args[1] == "fac-1"
         assert json.loads(args[2])["wait_minutes"] == 20
@@ -67,7 +69,7 @@ class TestGetWaitMinutesMap:
     @patch("services.wait_times.redis_client")
     def test_redis_writeback_failure_does_not_raise(self, mock_redis, mock_rpc):
         mock_redis.hgetall.return_value = {}
-        mock_redis.hset.side_effect = ConnectionError("redis down")
+        mock_redis.pipeline.return_value.execute.side_effect = ConnectionError("redis down")
         mock_rpc.return_value = [
             {"facility_id": "fac-1", "wait_minutes": 20, "recorded_at": "2026-06-30T00:00:00Z"},
         ]
@@ -99,7 +101,7 @@ class TestGetWaitMinutesMapWritebackShape:
 
         get_wait_minutes_map()
 
-        args, _ = mock_redis.hset.call_args
+        args, _ = mock_redis.pipeline.return_value.hset.call_args
         payload = json.loads(args[2])
         assert payload["raw_wait"] == "20 min"
         assert payload["source"] == "erstat"
