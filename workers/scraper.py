@@ -410,7 +410,8 @@ def build_facility_map(
     facility_map: dict[str, str] = {}
     unmatched: list[str] = []
     new_facilities: list[dict] = []
-    place_id_to_facility_id: dict[str, str] = fetch_existing_place_ids(url, headers)
+    dedup_reused = 0
+    place_id_to_facility_id: dict[str, str] | None = None  # fetched lazily, only if a name resolves
     cached_unresolved = redis_client.smembers(NEGATIVE_CACHE_KEY)
 
     for clean in all_scraped_names:
@@ -425,7 +426,8 @@ def build_facility_map(
             or hlwiw_data.get(clean, {}).get("hlwiw_name")
             or clean
         )
-        if official in cached_unresolved:
+        cache_key = official.strip().lower()
+        if cache_key in cached_unresolved:
             unmatched.append(official)
             continue
 
@@ -436,13 +438,17 @@ def build_facility_map(
             continue
         if created is None:
             unmatched.append(official)
-            redis_client.sadd(NEGATIVE_CACHE_KEY, official)
+            redis_client.sadd(NEGATIVE_CACHE_KEY, cache_key)
             continue
+
+        if place_id_to_facility_id is None:
+            place_id_to_facility_id = fetch_existing_place_ids(url, headers)
 
         place_id = created["google_place_id"]
         if place_id in place_id_to_facility_id:
             facility_map[clean] = place_id_to_facility_id[place_id]
-            redis_client.sadd(NEGATIVE_CACHE_KEY, official)
+            redis_client.sadd(NEGATIVE_CACHE_KEY, cache_key)
+            dedup_reused += 1
             continue
 
         facility_id = str(uuid.uuid4())
@@ -451,7 +457,7 @@ def build_facility_map(
         new_facilities.append(created)
         facility_map[clean] = facility_id
 
-    matched = len(facility_map) - len(new_facilities)
+    matched = len(facility_map) - len(new_facilities) - dedup_reused
 
     succeeded_ids = insert_new_facilities(url, headers, new_facilities)
     failed_ids = {f["facility_id"] for f in new_facilities} - succeeded_ids
@@ -460,8 +466,8 @@ def build_facility_map(
         log.warning("Dropped %d scraped name(s) mapped to facilities that failed to persist", len(failed_ids))
 
     log.info(
-        "Mapping: %d matched, %d newly created, %d unmatched (threshold=%d)",
-        matched, len(succeeded_ids), len(unmatched), FUZZY_THRESHOLD,
+        "Mapping: %d matched, %d newly created, %d dedup-reused, %d unmatched (threshold=%d)",
+        matched, len(succeeded_ids), dedup_reused, len(unmatched), FUZZY_THRESHOLD,
     )
     for name in unmatched:
         log.warning("No DB match for scraped hospital: '%s'", name)

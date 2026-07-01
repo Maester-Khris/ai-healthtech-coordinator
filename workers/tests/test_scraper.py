@@ -89,6 +89,20 @@ class TestFetchExistingPlaceIds:
 
         assert result == {"place-1": "fac-1", "place-2": "fac-2"}
 
+    @patch("scraper.fetch_existing_place_ids")
+    @patch("scraper.fuzz_process.extractOne", return_value=("existing hospital", 90, 0))
+    def test_not_called_when_every_name_fuzzy_matches(self, mock_extract, mock_fetch_existing):
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        scraper.build_facility_map(
+            {"existing hospital": {"official_name": "Existing Hospital"}}, {},
+            {"existing hospital": "fac-existing"},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        mock_fetch_existing.assert_not_called()
+
 
 class TestBuildFacilityMapIdempotency:
     @patch("scraper.insert_new_facilities", return_value=set())
@@ -115,7 +129,7 @@ class TestBuildFacilityMapIdempotency:
 
         assert result["clean name"] == "existing-fac-id"
         mock_insert.assert_called_once_with("https://x.supabase.co", {}, [])
-        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")
+        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "clean name")
 
 
 class TestNegativeCache:
@@ -127,7 +141,7 @@ class TestNegativeCache:
         self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
     ):
         redis_client = MagicMock()
-        redis_client.smembers.return_value = {"Clean Name"}
+        redis_client.smembers.return_value = {"clean name"}
 
         result = scraper.build_facility_map(
             {"clean name": {"official_name": "Clean Name"}}, {}, {},
@@ -152,7 +166,24 @@ class TestNegativeCache:
             "https://x.supabase.co", {}, redis_client,
         )
 
-        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")
+        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "clean name")
+
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility", return_value=None)
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_negative_cache_key_is_normalized(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        scraper.build_facility_map(
+            {"clean name": {"official_name": "  Clean NAME  "}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "clean name")
 
     @patch("scraper.insert_new_facilities", return_value=set())
     @patch("scraper.resolve_unmatched_facility")
@@ -247,7 +278,33 @@ class TestBuildFacilityMapDropsFailedInserts:
             )
 
         assert result == {"existing hospital": "fac-existing"}
-        assert "1 matched, 0 newly created, 0 unmatched" in caplog.text
+        assert "1 matched, 0 newly created, 0 dedup-reused, 0 unmatched" in caplog.text
+
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility")
+    @patch("scraper.fetch_existing_place_ids", return_value={"place-99": "existing-fac-id"})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_matched_count_excludes_place_id_dedup_reuse(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert, caplog
+    ):
+        mock_resolve.return_value = {
+            "facility_name": "New Name", "category": "hospital",
+            "source_facility_type": "general", "accepted_severity": ["emergent"],
+            "address": "x", "lat": 1.0, "lng": 1.0, "phone": None,
+            "google_place_id": "place-99", "business_status": "OPERATIONAL",
+            "weekday_hours": "[]",
+        }
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        with caplog.at_level(logging.INFO, logger="scraper"):
+            result = scraper.build_facility_map(
+                {"clean name": {"official_name": "Clean Name"}}, {}, {},
+                "https://x.supabase.co", {}, redis_client,
+            )
+
+        assert result["clean name"] == "existing-fac-id"
+        assert "0 matched, 0 newly created, 1 dedup-reused, 0 unmatched" in caplog.text
 
 
 class TestInsertNewFacilitiesPayloadShape:
