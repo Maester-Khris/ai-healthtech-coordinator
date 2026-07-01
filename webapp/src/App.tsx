@@ -12,6 +12,7 @@ import DataDisclosurePage from './pages/DataDisclosurePage'
 import LandingPage from './pages/LandingPage'
 import ForInvestorsPage from './pages/ForInvestorsPage'
 import ForEngineersPage from './pages/ForEngineersPage'
+import EngineeringCaseStudyPage from './pages/EngineeringCaseStudyPage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -148,6 +149,7 @@ function App() {
             <Route path="/data-disclosure" element={<DataDisclosurePage />} />
             <Route path="/for-investors" element={<ForInvestorsPage />} />
             <Route path="/for-engineers" element={<ForEngineersPage />} />
+            <Route path="/for-engineers/:slug" element={<EngineeringCaseStudyPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
