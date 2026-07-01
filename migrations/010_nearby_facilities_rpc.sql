@@ -1,4 +1,4 @@
-_CREATE OR REPLACE FUNCTION nearby_facilities(
+CREATE OR REPLACE FUNCTION nearby_facilities(
   user_lat      double precision,
   user_lng      double precision,
   radius_m      int DEFAULT 5000,
