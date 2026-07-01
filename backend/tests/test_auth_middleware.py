@@ -1,0 +1,42 @@
+import os
+import sys
+from unittest.mock import patch
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from fastapi import FastAPI, HTTPException
+from starlette.responses import PlainTextResponse
+from starlette.testclient import TestClient
+
+from middleware.auth import AuthMiddleware
+
+
+def _make_client():
+    app = FastAPI()
+    app.add_middleware(AuthMiddleware)
+
+    @app.get("/probe")
+    async def probe():
+        return PlainTextResponse("ok")
+
+    return TestClient(app, raise_server_exceptions=False)
+
+
+class TestAuthMiddleware:
+    def test_propagates_503_when_auth_service_down(self):
+        with patch(
+            "middleware.auth.verify_token",
+            side_effect=HTTPException(503, "Auth service unavailable"),
+        ):
+            with _make_client() as client:
+                resp = client.get("/probe", headers={"Authorization": "Bearer tok"})
+        assert resp.status_code == 503
+
+    def test_swallows_401_and_treats_as_anonymous(self):
+        with patch(
+            "middleware.auth.verify_token",
+            side_effect=HTTPException(401, "invalid token"),
+        ):
+            with _make_client() as client:
+                resp = client.get("/probe", headers={"Authorization": "Bearer tok"})
+        assert resp.status_code == 200
