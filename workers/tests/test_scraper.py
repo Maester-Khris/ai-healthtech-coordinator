@@ -3,6 +3,8 @@ import os
 import sys
 from unittest.mock import patch, MagicMock
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import scraper
@@ -65,6 +67,13 @@ class TestResolveUnmatchedFacility:
 
         assert result is not None
 
+    @patch("scraper.requests.get")
+    def test_network_error_raises_transient_lookup_error(self, mock_get):
+        mock_get.side_effect = scraper.requests.ConnectionError("timeout")
+
+        with pytest.raises(scraper.TransientLookupError):
+            scraper.resolve_unmatched_facility("Test Hospital")
+
 
 class TestFetchExistingPlaceIds:
     @patch("scraper.requests.get")
@@ -106,6 +115,7 @@ class TestBuildFacilityMapIdempotency:
 
         assert result["clean name"] == "existing-fac-id"
         mock_insert.assert_called_once_with("https://x.supabase.co", {}, [])
+        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")
 
 
 class TestNegativeCache:
@@ -143,6 +153,25 @@ class TestNegativeCache:
         )
 
         redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "Clean Name")
+
+    @patch("scraper.insert_new_facilities", return_value=set())
+    @patch("scraper.resolve_unmatched_facility")
+    @patch("scraper.fetch_existing_place_ids", return_value={})
+    @patch("scraper.fuzz_process.extractOne", return_value=None)
+    def test_transient_lookup_error_does_not_add_to_negative_cache(
+        self, mock_extract, mock_fetch_existing, mock_resolve, mock_insert
+    ):
+        mock_resolve.side_effect = scraper.TransientLookupError("Clean Name")
+        redis_client = MagicMock()
+        redis_client.smembers.return_value = set()
+
+        result = scraper.build_facility_map(
+            {"clean name": {"official_name": "Clean Name"}}, {}, {},
+            "https://x.supabase.co", {}, redis_client,
+        )
+
+        redis_client.sadd.assert_not_called()
+        assert "clean name" not in result
 
 
 class TestInsertNewFacilitiesReturnsSucceededIds:

@@ -252,11 +252,17 @@ def scrape_howlongwilliwait() -> dict[str, dict]:
 
 # ── Step 3a: resolve + create unmatched hospitals via Google Places ──────────
 
+class TransientLookupError(Exception):
+    """Places API call failed for a reason likely to clear up on retry."""
+
+
 def resolve_unmatched_facility(name: str) -> dict | None:
     """
     Mirrors pipeline/functions/places-enricher/handler.py's search+details calls.
     Restricted to the Toronto routing region — returns None (not created) for
-    anything outside it, anything Google can't resolve, or on API failure.
+    anything outside it, anything Google can't resolve. Raises
+    TransientLookupError on network failure so callers don't treat a flaky
+    request the same as "this facility doesn't exist".
     """
     try:
         resp = requests.get(
@@ -273,7 +279,7 @@ def resolve_unmatched_facility(name: str) -> dict | None:
         candidates = resp.json().get("candidates", [])
     except requests.RequestException as e:
         log.warning("Places search failed for '%s': %s", name, e)
-        return None
+        raise TransientLookupError(name) from e
     if not candidates:
         return None
     place_id = candidates[0]["place_id"]
@@ -292,7 +298,7 @@ def resolve_unmatched_facility(name: str) -> dict | None:
         details = resp.json().get("result", {})
     except requests.RequestException as e:
         log.warning("Places details failed for '%s': %s", name, e)
-        return None
+        raise TransientLookupError(name) from e
 
     address = details.get("formatted_address", "")
 
@@ -423,7 +429,11 @@ def build_facility_map(
             unmatched.append(official)
             continue
 
-        created = resolve_unmatched_facility(official)
+        try:
+            created = resolve_unmatched_facility(official)
+        except TransientLookupError:
+            unmatched.append(official)
+            continue
         if created is None:
             unmatched.append(official)
             redis_client.sadd(NEGATIVE_CACHE_KEY, official)
@@ -432,6 +442,7 @@ def build_facility_map(
         place_id = created["google_place_id"]
         if place_id in place_id_to_facility_id:
             facility_map[clean] = place_id_to_facility_id[place_id]
+            redis_client.sadd(NEGATIVE_CACHE_KEY, official)
             continue
 
         facility_id = str(uuid.uuid4())
