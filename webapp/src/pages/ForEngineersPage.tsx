@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Broadcast, CaretRight, MagnifyingGlass, UserCircle } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, CaretRight, MagnifyingGlass } from '@phosphor-icons/react'
 import { CASE_STUDIES } from '../data/caseStudies'
 import { filterCaseStudies } from '../utils/caseStudyContent'
 
@@ -39,24 +39,19 @@ export default function ForEngineersPage() {
   return (
     <div className="bg-[#061219] min-h-screen flex flex-col font-static text-[#E2F1F5] overflow-x-hidden">
 
-      {/* Top utility header */}
-      <header className="w-full border-b border-[#1C4659]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
+      {/* Header */}
+      <header className="w-full border-b border-[#132A37]/80 bg-[#061219]/90 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg overflow-hidden border border-[#1C4659]/50 flex-none shadow-sm">
               <img src="/logo.png" alt="MediCoord AI" className="w-full h-full object-cover" />
             </div>
-            <span className="text-base font-bold text-white">Dispatch HQ</span>
+            <span className="text-xs font-bold tracking-wide text-white uppercase">MediCoord AI Engineering</span>
           </div>
-          <div className="flex items-center gap-4">
-            <div
-              aria-hidden="true"
-              className="w-8 h-8 rounded-full border border-[#1C4659]/60 text-[#7AA0B0] flex items-center justify-center"
-            >
-              <Broadcast className="w-4 h-4" />
-            </div>
-            <UserCircle className="w-8 h-8 text-[#7AA0B0]" aria-hidden="true" />
-          </div>
+          <Link to="/" className="flex items-center gap-1.5 text-xs text-[#7AA0B0] hover:text-white transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Back to overview
+          </Link>
         </div>
       </header>
 

@@ -1,8 +1,8 @@
 import type { ElementType } from 'react'
 import { TreeStructure, Compass, ChartLineUp } from '@phosphor-icons/react'
-import twoPassTriageDiagram from '../assets/case-studies/two-pass-tool-orchestration-symptom-triage.svg'
-import haversineProximityDiagram from '../assets/case-studies/haversine-proximity-severity-gated-eligibility.svg'
-import twoTierCacheDiagram from '../assets/case-studies/two-tier-facility-state-cache-redis-wait-times.svg'
+import twoPassTriageDiagram from '../assets/case-studies/two-pass-tool-orchestration-symptom-triage.png'
+import haversineProximityDiagram from '../assets/case-studies/haversine-proximity-severity-gated-eligibility.png'
+import twoTierCacheDiagram from '../assets/case-studies/two-tier-facility-state-cache-redis-wait-times.png'
 
 export interface DiagramStep {
   title: string
