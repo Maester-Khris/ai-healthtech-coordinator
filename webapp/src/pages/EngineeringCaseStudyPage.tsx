@@ -155,6 +155,12 @@ export default function EngineeringCaseStudyPage() {
             <p className="text-sm text-[#85A4B1] leading-relaxed">{caseStudy.summary}</p>
           </div>
 
+          {caseStudy.background && (
+            <p className="text-sm text-[#85A4B1] leading-relaxed border-t border-[#132A37]/80 pt-10">
+              {caseStudy.background}
+            </p>
+          )}
+
           <section className="flex flex-col gap-4 border-t border-[#132A37]/80 pt-10">
             <SectionHeading color="#FF7B93">The Problem</SectionHeading>
             <p className="text-sm text-[#85A4B1] leading-relaxed">{caseStudy.problem}</p>
@@ -197,10 +203,10 @@ export default function EngineeringCaseStudyPage() {
               })}
             </p>
 
-            {caseStudy.code && (
-              <div className="flex flex-col gap-3">
+            {(caseStudy.codeSamples ?? (caseStudy.code ? [caseStudy.code] : [])).map((sample) => (
+              <div key={sample.filename} className="flex flex-col gap-3">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7AA0B0]">
-                  {caseStudy.code.language.toUpperCase()} Sample
+                  {sample.language.toUpperCase()} Sample
                 </span>
                 <div className="border border-[#1C4659]/60 rounded-xl overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-2.5 bg-[#0D1B23] border-b border-[#1C4659]/60">
@@ -209,18 +215,44 @@ export default function EngineeringCaseStudyPage() {
                       <span className="w-2.5 h-2.5 rounded-full bg-[#48F6C1]" />
                       <span className="w-2.5 h-2.5 rounded-full bg-[#00D2FF]" />
                     </div>
-                    <span className="text-[11px] font-mono text-[#7AA0B0]">{caseStudy.code.filename}</span>
+                    <span className="text-[11px] font-mono text-[#7AA0B0]">{sample.filename}</span>
                   </div>
                   <pre className="bg-[#061219]/80 p-4 text-xs font-mono text-[#48F6C1] overflow-x-auto leading-relaxed">
-                    <code>{caseStudy.code.content}</code>
+                    <code>{sample.content}</code>
                   </pre>
                 </div>
               </div>
-            )}
+            ))}
           </section>
+
+          {caseStudy.alternativesConsidered && caseStudy.alternativesConsidered.length > 0 && (
+            <section className="flex flex-col gap-4 border-t border-[#132A37]/80 pt-10">
+              <SectionHeading color="#00D2FF">Alternatives Considered</SectionHeading>
+              <div className="flex flex-col gap-4">
+                {caseStudy.alternativesConsidered.map((alt) => (
+                  <div key={alt.title} className="border border-[#1C4659]/50 bg-[#0A1D27]/60 rounded-xl p-4 flex flex-col gap-1.5">
+                    <span className="text-xs font-bold text-white">{alt.title}</span>
+                    <p className="text-xs text-[#85A4B1] leading-relaxed">{alt.body}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="flex flex-col gap-3 border-t border-[#132A37]/80 pt-10">
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7AA0B0]">System Flow</span>
+            {caseStudy.diagramImage && (
+              <figure className="border border-[#1C4659]/60 rounded-xl overflow-hidden bg-[#0A1D27]/60">
+                <img
+                  src={caseStudy.diagramImage.src}
+                  alt={caseStudy.diagramImage.alt}
+                  className="w-full h-auto"
+                />
+                <figcaption className="px-4 py-2 text-[10px] font-mono text-[#7AA0B0] border-t border-[#1C4659]/60 uppercase tracking-widest">
+                  {caseStudy.diagramImage.caption}
+                </figcaption>
+              </figure>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {caseStudy.diagramSteps.map((step, idx) => (
                 <div key={step.title} className="relative flex flex-col gap-2 p-4 bg-[#0A1D27]/60 border border-[#1C4659]/40 rounded-xl">
@@ -234,6 +266,20 @@ export default function EngineeringCaseStudyPage() {
               ))}
             </div>
           </section>
+
+          {caseStudy.lessonsLearned && caseStudy.lessonsLearned.length > 0 && (
+            <section className="flex flex-col gap-4 border-t border-[#132A37]/80 pt-10">
+              <SectionHeading color="#48F6C1">Lessons Learned</SectionHeading>
+              <div className="flex flex-col gap-4">
+                {caseStudy.lessonsLearned.map((lesson) => (
+                  <div key={lesson.title} className="border border-[#1C4659]/50 bg-[#0A1D27]/60 rounded-xl p-4 flex flex-col gap-1.5">
+                    <span className="text-xs font-bold text-white">{lesson.title}</span>
+                    <p className="text-xs text-[#85A4B1] leading-relaxed">{lesson.body}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="flex flex-col gap-3 border-t border-[#132A37]/80 pt-10">
             <span className="text-[10px] font-mono font-bold text-[#7AA0B0] uppercase tracking-widest">Tradeoff</span>
