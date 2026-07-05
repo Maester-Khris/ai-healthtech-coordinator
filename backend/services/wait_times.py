@@ -17,7 +17,9 @@ def get_wait_minutes_map() -> dict[str, int | None]:
     """
     Cache-aside read of current ER wait times, keyed by facility_id.
 
-    1. Try the Redis hash workers/scraper.py writes every ~15 min.
+    1. Try the Redis hash workers/scraper.py writes every ~15 min. Each
+       entry is parsed independently so one malformed value doesn't
+       discard every other facility's good data for the request.
     2. On Redis error or an empty hash (cold start before the first scrape),
        fall back to the latest_wait_times Supabase RPC and best-effort
        populate Redis for the next read.
@@ -27,10 +29,18 @@ def get_wait_minutes_map() -> dict[str, int | None]:
     """
     try:
         raw = redis_client.hgetall(REDIS_HASH_KEY)
-        if raw:
-            return {fid: json.loads(v).get("wait_minutes") for fid, v in raw.items()}
     except Exception:
         logger.warning("redis_unavailable_falling_back_to_supabase")
+        raw = None
+
+    if raw:
+        wait_map: dict[str, int | None] = {}
+        for fid, v in raw.items():
+            try:
+                wait_map[fid] = json.loads(v).get("wait_minutes")
+            except (ValueError, AttributeError, TypeError):
+                logger.warning("wait_times_entry_malformed", extra={"facility_id": fid})
+        return wait_map
 
     try:
         rows = supabase_rpc("latest_wait_times", {})

@@ -22,6 +22,18 @@ class TestGetWaitMinutesMap:
 
         assert result == {"fac-1": 12, "fac-2": None}
 
+    @patch("services.wait_times.redis_client")
+    def test_one_malformed_entry_does_not_discard_others(self, mock_redis):
+        mock_redis.hgetall.return_value = {
+            "fac-1": json.dumps({"wait_minutes": 12, "source": "erstat"}),
+            "fac-2": "not-valid-json{{{",
+            "fac-3": json.dumps({"wait_minutes": 40, "source": "hlwiw"}),
+        }
+
+        result = get_wait_minutes_map()
+
+        assert result == {"fac-1": 12, "fac-3": 40}
+
     @patch("services.wait_times.supabase_rpc")
     @patch("services.wait_times.redis_client")
     def test_redis_empty_falls_back_to_supabase_rpc(self, mock_redis, mock_rpc):
