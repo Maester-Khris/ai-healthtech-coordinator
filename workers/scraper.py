@@ -97,6 +97,18 @@ def clean_hospital_name(name: str) -> str:
     return " ".join(name.split())
 
 
+def _normalize_hours(entries: list[str]) -> list[str]:
+    """Strip Google Places API typographic Unicode before storage (mirrors
+    workers/repopulate_facilities_clean.py's normalization so weekday_hours
+    is consistent regardless of which script created the facility)."""
+    return [
+        s.replace('\u202f', ' ')   # narrow no-break space
+         .replace('\u2009', ' ')   # thin space
+         .replace('\u2013', '-')   # en dash
+        for s in entries
+    ]
+
+
 # ── Time parsing ──────────────────────────────────────────────────────────────
 
 def parse_time_to_minutes(time_str: str) -> int | None:
@@ -319,7 +331,7 @@ def resolve_unmatched_facility(name: str) -> dict | None:
         "phone": details.get("formatted_phone_number"),
         "google_place_id": place_id,
         "business_status": details.get("business_status"),
-        "weekday_hours": json.dumps(details.get("opening_hours", {}).get("weekday_text", [])),
+        "weekday_hours": json.dumps(_normalize_hours(details.get("opening_hours", {}).get("weekday_text", []))),
     }
 
 

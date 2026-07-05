@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import sys
@@ -73,6 +74,32 @@ class TestResolveUnmatchedFacility:
 
         with pytest.raises(scraper.TransientLookupError):
             scraper.resolve_unmatched_facility("Test Hospital")
+
+    @patch("scraper.requests.get")
+    def test_normalizes_typographic_unicode_in_weekday_hours(self, mock_get):
+        search_resp = MagicMock(status_code=200)
+        search_resp.raise_for_status = lambda: None
+        search_resp.json = lambda: {"candidates": [{"place_id": "place-1"}]}
+
+        details_resp = MagicMock(status_code=200)
+        details_resp.raise_for_status = lambda: None
+        details_resp.json = lambda: {
+            "result": {
+                "name": "Test Hospital",
+                "formatted_address": "123 Main St, Toronto, ON",
+                "formatted_phone_number": "555-1234",
+                "opening_hours": {"weekday_text": ["Monday: 9:00 AM – 5:00 PM"]},
+                "business_status": "OPERATIONAL",
+                "geometry": {"location": {"lat": 43.70, "lng": -79.40}},
+            }
+        }
+        mock_get.side_effect = [search_resp, details_resp]
+
+        result = scraper.resolve_unmatched_facility("Test Hospital")
+
+        assert result is not None
+        hours = json.loads(result["weekday_hours"])
+        assert hours == ["Monday: 9:00 AM - 5:00 PM"]
 
 
 class TestFetchExistingPlaceIds:
