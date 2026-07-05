@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react'
 import type { NearbyFacility, UserAnchor } from '../../../shared/types'
+import { PROXIMITY_OPTIONS } from '../components/map/config/proximity'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000'
-
-// Matches the dropdown option values in MapPanel.tsx
-const RADIUS_MAP: Record<string, number> = {
-  '10 km':  10000,
-  '25 km':  25000,
-  '50 km':  50000,
-  '50+ km': 50000,  // MapPanel uses '50+ km' label
-}
 
 interface UseProximitySearchResult {
   results: NearbyFacility[]
@@ -26,7 +19,7 @@ export function useProximitySearch(
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState<string | null>(null)
 
-  const radiusM = RADIUS_MAP[proximity]
+  const radiusM = PROXIMITY_OPTIONS.find(opt => opt.value === proximity)?.radiusM
 
   useEffect(() => {
     if (radiusM === undefined) {

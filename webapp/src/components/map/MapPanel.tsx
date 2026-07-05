@@ -11,6 +11,7 @@ import { useAnchor } from '../../hooks/useAnchor'
 import { useProximitySearch } from '../../hooks/useProximitySearch'
 import { useMap } from 'react-leaflet'
 import { type CategoryFilter, FILTER_OPTIONS } from './config/categories'
+import { PROXIMITY_OPTIONS } from './config/proximity'
 import { MapProvider } from './context/MapContext'
 import { MapFitBounds } from './layers/MapFitBounds'
 import { MapSizeGuard } from './layers/MapSizeGuard'
@@ -507,9 +508,7 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
                 }}>
                   {[
                     { value: 'all', label: 'All distances' },
-                    { value: '10 km', label: '10 km' },
-                    { value: '25 km', label: '25 km' },
-                    { value: '50+ km', label: '50+ km' },
+                    ...PROXIMITY_OPTIONS,
                   ].map(opt => (
                     <button
                       key={opt.value}
