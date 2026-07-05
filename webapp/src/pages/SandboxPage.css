@@ -1,17 +1,18 @@
-/* Sandbox CSS vars — scoped to .sandbox-layout only, no global bleed */
+/* Sandbox CSS vars — scoped to .sandbox-layout only, no global bleed.
+   Palette aligns to design_document.md §2 dark base + amber accent for /sandbox. */
 .sandbox-layout {
-  --sb-bg-primary:     #0B0F19; /* Deep night blue */
-  --sb-bg-secondary:   #1E293B; /* Slate blue */
-  --sb-bg-tertiary:    #0F172A; /* Darker slate for contrast elements */
-  --sb-border:         rgba(255, 255, 255, 0.08); /* 1px solid crisp border */
-  --sb-text-primary:   #F1F5F9;
-  --sb-text-secondary: #94A3B8; /* Faint grey text */
-  --sb-text-muted:     #64748B;
-  --sb-accent:         #F59E0B; /* Vibrant amber yellow */
-  --sb-accent-dim:     rgba(245, 158, 11, 0.15);
+  --sb-bg-primary:     #061219; /* design_document.md color-bg-base */
+  --sb-bg-secondary:   #0A1D27; /* design_document.md color-bg-surface */
+  --sb-bg-tertiary:    #132E3C; /* design_document.md color-bg-surface-active */
+  --sb-border:         #1C4659; /* design_document.md color-border-subtle */
+  --sb-text-primary:   #E2F1F5; /* design_document.md text-primary */
+  --sb-text-secondary: #85A4B1; /* design_document.md text-secondary */
+  --sb-text-muted:     #7AA0B0; /* mid-tier muted */
+  --sb-accent:         #F59E0B; /* Amber yellow — sandbox-specific per design_proposition.md §2B */
+  --sb-accent-dim:     rgba(245, 158, 11, 0.12);
   --sb-teal:           #1D9E75;
-  --sb-blue:           #3B82F6;
-  --sb-red:            #EF4444;
+  --sb-blue:           #00D2FF; /* design_document.md color-accent-blue */
+  --sb-red:            #FF7B93; /* design_document.md severity-emergent */
 }
 
 /* Desktop-first defaults */

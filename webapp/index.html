@@ -7,21 +7,40 @@
   <link rel="apple-touch-icon" href="/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#185FA5" />
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#EAE5DF">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({
-        appId: "%VITE_ONESIGNAL_APP_ID%",
-        notifyButton: { enable: false },
-        allowLocalhostAsSecureOrigin: true
+    const appId = "%VITE_ONESIGNAL_APP_ID%";
+    if (appId && !appId.startsWith("%")) {
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: appId,
+          notifyButton: { enable: false },
+          allowLocalhostAsSecureOrigin: true
+        });
       });
-    });
+    } else {
+      console.warn("OneSignal app ID not configured or is placeholder");
+    }
   </script>
-  <title>Health coordinator</title>
+  <title>Find Urgent Care &amp; ERs Near You — MediCoord AI Toronto</title>
+  <meta name="description" content="Describe your symptoms and MediCoord AI finds the nearest clinic, urgent care, or ER in Toronto with real wait times. Know where to go before you go." />
+  <meta property="og:title" content="Find Urgent Care &amp; ERs Near You — MediCoord AI Toronto" />
+  <meta property="og:description" content="Describe your symptoms and MediCoord AI finds the nearest clinic, urgent care, or ER in Toronto with real wait times. Know where to go before you go." />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MediCoord AI",
+    "applicationCategory": "HealthApplication",
+    "description": "Describe your symptoms and get matched to the nearest right-fit healthcare facility, with live directions and arrival time.",
+    "url": "https://medicoordai.com"
+  }
+  </script>
 </head>
 
 <body>

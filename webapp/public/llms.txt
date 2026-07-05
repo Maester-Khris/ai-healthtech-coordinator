@@ -1,0 +1,18 @@
+# MediCoord AI
+
+MediCoord AI is a healthtech web app. Users describe symptoms in a chat
+interface; an AI model classifies the severity (routine, moderate, urgent,
+or emergent) and the app routes the user to the nearest healthcare facility
+equipped to treat them, showing a live map with driving directions and
+arrival time. Push notifications are available for follow-up.
+
+MediCoord AI does not provide medical diagnoses and is not a substitute for
+emergency services — for life-threatening emergencies, users should call
+emergency services directly.
+
+## Key pages
+
+- / — Landing page and product overview
+- /privacy — Privacy Policy
+- /cookies — Cookie Policy
+- /data-disclosure — Itemized data disclosure

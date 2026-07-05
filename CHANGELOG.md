@@ -311,6 +311,121 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
+## [Sprint 13 — Closed] · UI / Product Reframe
+
+**2026-06-22 → 2026-06-25 · branch: `ui/redesign` · merged to `preview` via PR #27**
+
+### Delivered
+- Stratum/Aura design system tokens — color ramp, typography, spacing, severity palette
+- Landing page at `/` presenting product value — animated hero, interactive search, feature sections
+- Privacy policy, cookie management, and user data disclosure legal pages
+- `/for-investors` and `/for-engineers` audience pages with system flow diagrams
+- Plus Jakarta Sans font stack across all public pages
+- Web app re-skin: map+chat shell, WebNavBar, LoginModal, GettingStartedModal, footer
+- Mobile re-skin: top bar, Navigation Dock, map tab, AI assistant tab, DrawerMenu, BottomSheet
+- New mobile component suite for redesigned mobile shell; 6 retired components deleted
+- MobileNavBar replaced in SetupPage; breakpoint hook updated
+- SEO meta tags, FAQ structured data, `llms.txt`
+- Sandbox auth gate, `/sandbox` route mobile guard updated
+
+---
+
+## [Sprint 14 — Closed] · Backend Update — DB Migration + Filtering
+
+**2026-06-26 → 2026-07-05 · branch: `feat/advanced-filtering` · merged to `preview` via PR #28**
+
+### Completed
+- DB migration: switched backend queries from `facilities` to `facilities_clean`
+- Column aliases in SQL (`facility_id→id`, `facility_name→name`) keep API contract stable
+- Silent `is_operational=true` filter — permanently closed facilities never returned
+- `phone`, `business_status`, `weekday_hours` now included in `GET /facilities` response
+- `weekday_hours` JSON-parsed on backend; frontend always receives `string[]`
+- `shared/types.ts` `Facility` interface extended with `phone`, `business_status`, `weekday_hours`
+- `hoursUtils.ts` — `isOpen24h` and `isOpenWeekends` pure functions with assertion tests
+- Facility popup: real phone (tel: link) and today's hours; "Hours unavailable" when empty
+- Map filter chips: "Open 24/7" and "Open weekends" — additive, wired to `hoursUtils`
+- Facilities with unknown hours (empty `weekday_hours`) always pass active filters
+
+### Completed — Proximity Search
+- PostGIS `ST_DWithin` + `ST_Distance` on `facilities_clean`, `GET /facilities/nearby` endpoint accepting `lat`, `lng`, `radius_km`
+- Tap/click on map places a location pin and triggers proximity search from that point (desktop + mobile), 3-tier anchor priority (`useAnchor`)
+- Frontend renders distance-sorted results via `useProximitySearch`
+
+### Completed — ER Wait Time Background Worker (carried over from Sprint 12)
+- Railway worker built: cron scraping ERstat + howlongwilliwait.com, `wait_minutes` filter added to `/facilities` and `/facilities/nearby`
+- Cache-aside read path: Redis first, Supabase RPC fallback
+- Migrated off `supabase-py` to direct PostgREST/GoTrue REST calls across auth, chat, and facilities services (unscoped bonus — simplifies the wait-time RPC fallback path)
+- Deployed to Railway as a native cron service (`workers/railway.toml`, `*/15 * * * *`), not an in-process APScheduler loop — `APScheduler`/`flask` deps commented out in `workers/requirements.txt` pending removal
+- Verified end-to-end via production run log (2026-07-05T03:08Z): 380 facilities loaded, 234 hospitals scraped across both sources, 162 matched + 1 newly created, 26 rows inserted to `wait_times`, 58 fields updated in Redis — no errors, run completed cleanly
+
+### Post-review fixes (applied 2026-07-01, same day as `/code-review high`)
+- Auth middleware no longer swallows non-401 failures (e.g. Supabase outage) as anonymous — re-raises as the original status
+- Scraper distinguishes transient lookup failures from permanent non-matches — no more permanent blacklisting on a flaky request
+- Place-id dedup reuse now also written to the negative cache, negative-cache keys normalized, dedup-reuse counted separately from fuzzy matches in logs
+- Wait-time Redis writeback batched into a pipeline instead of one round-trip per facility
+- Stray leading underscore in `migrations/010_nearby_facilities_rpc.sql` fixed (was causing `/facilities/nearby` 400s in production)
+
+### Post-review fixes (applied 2026-07-05, from `/code-review high` + security review on PR #29)
+- Security review: no HIGH/MEDIUM vulnerabilities found — clean
+- Map "Wait Time" filter dropdown was fully wired in the UI but never filtered anything; now filters via `meetsWaitTimeFilter` against each facility's already-annotated `wait_minutes`
+- Map "Open Now" toggle was likewise inert; added `isOpenNow` (with overnight-range handling) and wired it into the facility filter
+- Scraper no longer permanently blacklists a scraped name the first time it dedup-resolves to an existing facility via Google Places — that was silently stopping wait-time updates for that facility forever once `facilities_clean` lag masked the fuzzy match
+- Scraper's `resolve_unmatched_facility` now normalizes typographic Unicode in `weekday_hours` (matches `repopulate_facilities_clean.py`'s existing normalization), so scraper-created facilities don't get garbled hours strings
+- `verify_token` no longer crashes with an unhandled `AttributeError` on a non-dict GoTrue response — now treated as an invalid token (401)
+- `get_wait_minutes_map` parses each Redis hash entry independently — one malformed value no longer discards every other facility's good wait-time data for the request
+- Scraper's Supabase wait-time insert failure no longer prevents the independent Redis publish step from running
+- `/facilities` and `/facilities/nearby` now offload their blocking Redis/Supabase calls to a threadpool (`run_in_threadpool`) instead of blocking the async event loop
+- Deduplicated the proximity radius option list (`MapPanel.tsx` dropdown vs. `useProximitySearch`'s `RADIUS_MAP`) into a single shared `PROXIMITY_OPTIONS` constant, removing a dead unreachable `'50 km'` entry
+- Frontend test runner (`vitest`) properly wired for the first time — `webapp/package.json` had no `test` script or `vitest` dependency despite `hoursUtils.test.ts`/`useAnchor.test.ts` already existing and unrunnable
+- Full plan: `docs/superpowers/plans/2026-07-05-pr29-code-review-fixes.md`
+
+### Remaining before this branch merges to `preview`
+- [x] Add CI repo secrets for the backend test job: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_REDIS_URL`
+- [x] Apply `migrations/012_latest_wait_times_rpc_add_fields.sql` in the Supabase SQL editor (adds `raw_wait`, `source` to the `latest_wait_times()` RPC)
+- [x] Merge `feat/advanced-filtering` → `preview` (PR #28)
+- [x] Deploy the ER wait-time worker to Railway, verify end-to-end (cron → scrape → upsert → cache invalidate → frontend read)
+
+### Deferred
+- Wait-time worker optimization: `resolve_unmatched_facility` calls Google Places sequentially for every unmatched scraped name (~22s for 57 names in the verification run) — parallelize with `ThreadPoolExecutor`, same pattern the pipeline's `places-enricher` Lambda already uses (Sprint 12), if the unmatched count grows enough to crowd the 15-min cron interval
+
+### Production promotion
+- PR #29 open: `preview` → `main`, covers Sprint 13 (UI/product reframe), Sprint 14 (this sprint), and Sprint 14a (case-study rewrite) — awaiting final human review before merge
+
+---
+
+## [Sprint 14a — Closed] · `/for-engineers` Case Study Rewrite
+
+**2026-07-01 → 2026-07-02 · branch: `feat/advanced-filtering` (same branch as Sprint 14, unrelated scope)**
+
+### Delivered
+- Design spec written for a grounded rewrite of the `/for-engineers` case studies (`docs/superpowers/plans/2026-07-02-engineering-case-study-rewrite.md`)
+- Engineering case-study content extracted into a shared typed module, decoupled from page components
+- `CaseStudy` schema extended; all 3 case studies rewritten to be grounded in real code (not illustrative/placeholder copy)
+- Case-study filter, emphasis-split, and date-format helper utilities added
+- `/for-engineers` rebuilt as a filter-rail case-study index page
+- `/for-engineers/:slug` case-study detail page added
+- Hand-drawn Excalidraw-style diagrams added for all 3 case studies
+- `/for-engineers` navbar aligned with `/for-investors` page style
+
+### Notes
+- Content is static (no Supabase table) — deliberate decision, revisit only past ~15–20 entries or if a non-engineer editor workflow is needed
+- Not yet merged to `preview` — rides along with the rest of `feat/advanced-filtering`
+
+---
+
+## [Sprint 15 — Planned] · Graph RAG (Knowledge Graph)
+
+**Next priority this week, after Sprint 14 merges to `preview`.**
+
+Sequencing: finish the two Sprint 14 infra steps above (CI secrets, Supabase RPC update) →
+merge `feat/advanced-filtering` → `preview` → start Graph RAG work from `preview`.
+
+Scope not yet detailed — pick up from `project_kg_intent` context: KG is for grounding LLM
+follow-up questions and symptom understanding (conversational NLU), not diagnosis; Canadian
+sources preferred.
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**

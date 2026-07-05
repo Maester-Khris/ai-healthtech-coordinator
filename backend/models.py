@@ -29,6 +29,10 @@ class Facility(BaseModel):
     source:               str | None = None
     created_at:           datetime | None = None
     updated_at:           datetime | None = None
+    phone:                str | None = None
+    business_status:      str | None = None
+    weekday_hours:        list[str] | None = None
+    wait_minutes:         int | None = None
 
 
 class SessionBase(BaseModel):
@@ -84,3 +88,18 @@ class SessionWithMessages(BaseModel):
 class PastConversationsResponse(BaseModel):
     sessions: list[SessionWithMessages]
     etag:     str
+
+
+class NearbyFacilityResult(BaseModel):
+    facility_id:     str
+    facility_name:   str
+    category:        str
+    address:         str
+    phone:           str | None
+    is_operational:  bool
+    distance_m:      int
+    eta_walk_min:    int
+    eta_transit_min: int
+    eta_drive_min:   int
+    wait_minutes:    int | None = None
+

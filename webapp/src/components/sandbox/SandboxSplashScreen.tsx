@@ -53,7 +53,7 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
         justifyContent: "center",
         height: "100vh",
         width: "100vw",
-        background: "#0f1117",
+        background: "var(--sb-bg-primary)",
         opacity: fading ? 0 : 1,
         transition: "opacity 0.4s ease",
       }}
@@ -66,12 +66,12 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
           alignItems: "center",
           gap: 10,
           marginBottom: 32,
-          fontFamily: "monospace",
+          fontFamily: '"Fira Code", "JetBrains Mono", "SF Mono", monospace',
         }}>
-          <i className="ti ti-flask" style={{ fontSize: 18, color: "#EF9F27" }} aria-hidden="true" />
+          <i className="ti ti-flask" style={{ fontSize: 18, color: "var(--sb-accent)" }} aria-hidden="true" />
           <span style={{
             fontSize: 14,
-            color: "#EF9F27",
+            color: "var(--sb-accent)",
             fontWeight: 600,
             letterSpacing: "0.08em",
           }}>
@@ -79,18 +79,18 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
           </span>
           <span style={{
             fontSize: 11,
-            color: "#4a5068",
+            color: "var(--sb-text-muted)",
             fontWeight: 500,
             letterSpacing: "0.12em",
             paddingLeft: 8,
-            borderLeft: "1px solid #1e2536",
+            borderLeft: "1px solid var(--sb-border)",
           }}>
             SANDBOX v2.0
           </span>
         </div>
 
         {/* Terminal lines */}
-        <div style={{ fontFamily: "monospace", fontSize: 13, lineHeight: 1.9, color: "#94A3B8" }}>
+        <div style={{ fontFamily: '"Fira Code", "JetBrains Mono", "SF Mono", monospace', fontSize: 13, lineHeight: 1.9, color: "var(--sb-text-secondary)" }}>
           {STEPS.slice(0, visibleLines).map((step, i) => (
             <div
               key={i}
@@ -102,11 +102,11 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
               }}
             >
               <span>
-                <span style={{ color: "#EF9F27", marginRight: 10 }}>{">"}</span>
+                <span style={{ color: "var(--sb-accent)", marginRight: 10 }}>{">"}</span>
                 {step.text}
               </span>
               {i < completedLines ? (
-                <span style={{ color: "#EF9F27", fontSize: 14, marginLeft: "auto", paddingLeft: 16 }}>✓</span>
+                <span style={{ color: "var(--sb-accent)", fontSize: 14, marginLeft: "auto", paddingLeft: 16 }}>✓</span>
               ) : (
                 <span className="sandbox-cursor" style={{ marginLeft: 4 }} />
               )}
@@ -118,14 +118,14 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
         <div style={{ marginTop: 20 }}>
           <div style={{
             height: 2,
-            background: "#1e2536",
+            background: "var(--sb-border)",
             borderRadius: 1,
             overflow: "hidden",
           }}>
             <div style={{
               height: "100%",
               width: `${progress}%`,
-              background: "#EF9F27",
+              background: "var(--sb-accent)",
               borderRadius: 1,
               transition: "width 0.4s ease",
             }} />
@@ -144,9 +144,9 @@ export function SandboxSplashScreen({ onComplete }: { onComplete: () => void }) 
             right: 24,
             background: "none",
             border: "none",
-            color: "#4a5068",
+            color: "var(--sb-text-muted)",
             fontSize: 12,
-            fontFamily: "monospace",
+            fontFamily: '"Fira Code", "JetBrains Mono", "SF Mono", monospace',
             cursor: "pointer",
             display: "flex",
             alignItems: "center",

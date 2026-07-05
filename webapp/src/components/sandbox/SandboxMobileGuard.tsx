@@ -39,7 +39,7 @@ export function SandboxMobileGuard() {
         a laptop or desktop to access sandbox.
       </p>
       <a
-        href="/"
+        href="/app"
         style={{
           color: "var(--sb-accent)",
           fontSize: 14,

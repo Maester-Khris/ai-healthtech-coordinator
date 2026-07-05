@@ -1,11 +1,18 @@
 import * as Sentry from "@sentry/react"
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './Menucomponents/Home'
 import SetupPage from './pages/SetupPage'
 import TestLocationPage from './pages/TestLocationPage'
 import TestNotifPage from './pages/TestNotifPage'
 import SandboxPage from './pages/SandboxPage'
+import PrivacyPage from './pages/PrivacyPage'
+import CookiesPage from './pages/CookiesPage'
+import DataDisclosurePage from './pages/DataDisclosurePage'
+import LandingPage from './pages/LandingPage'
+import ForInvestorsPage from './pages/ForInvestorsPage'
+import ForEngineersPage from './pages/ForEngineersPage'
+import EngineeringCaseStudyPage from './pages/EngineeringCaseStudyPage'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -18,6 +25,18 @@ import { useBreakpoint } from './hooks/useBreakpoint'
 import { useGeolocation } from './hooks/useGeolocation'
 import { usePWAInstall } from './hooks/usePWAInstall'
 import { useNotificationPermission } from './hooks/useNotificationPermission'
+import { useAuth } from './auth/useAuth'
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
+  // ponytail: no loading guard — redirect on null, tolerate auth flash in phase 1
+  if (!user) return <Navigate to="/" replace />
+  return <>{children}</>
+}
+
+function LandingRoute() {
+  return <LandingPage />
+}
 
 function AppInner() {
   const isMobile = useBreakpoint()
@@ -51,7 +70,7 @@ function AppInner() {
   const showInstallModal =
     !installModalDismissed &&
     installState !== "standalone" &&
-    (isPushSupported || platform === "ios_safari" || isIosNonSafari) &&
+    (platform === "ios_safari" || platform === "android_chrome" || isIosNonSafari) &&
     !installConfirmed
 
   const showPermissionPrompt =
@@ -119,11 +138,19 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingRoute />} />
+            <Route path="/app" element={<AppInner />} />
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/testlocation" element={<TestLocationPage />} />
-            <Route path="/sandbox" element={<SandboxPage />} />
+            <Route path="/sandbox" element={<ProtectedRoute><SandboxPage /></ProtectedRoute>} />
             <Route path="/test-notif" element={<TestNotifPage />} />
-            <Route path="*" element={<AppInner />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/data-disclosure" element={<DataDisclosurePage />} />
+            <Route path="/for-investors" element={<ForInvestorsPage />} />
+            <Route path="/for-engineers" element={<ForEngineersPage />} />
+            <Route path="/for-engineers/:slug" element={<EngineeringCaseStudyPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

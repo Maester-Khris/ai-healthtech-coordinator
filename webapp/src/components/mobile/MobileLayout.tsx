@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+// webapp/src/components/mobile/MobileLayout.tsx
+import { useState, useCallback, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import type {
   Facility,
   Message,
@@ -7,13 +9,17 @@ import type {
   ChatMessageResponse,
   TriageResult,
 } from '@shared/types'
-import { MapTab } from './MapTab'
-import { AiAssistantTab } from './AiAssistantTab'
-import { MobileNavBar } from './MobileNavBar'
+import { MapPanel } from '../map'
+import { MobileTopBar } from './MobileTopBar'
+import { DrawerMenu } from './DrawerMenu'
+import { BottomNavBar, type MobileTab } from './BottomNavBar'
+import { BottomSheet } from './BottomSheet'
+import { StreamingLogStrip } from './StreamingLogStrip'
+import { FacilityCardPanel } from './FacilityCardPanel'
 import { useAuth } from '../../auth/useAuth'
-import { useProfile } from '../../hooks/useProfile'
 import { useGeolocation } from '../../hooks/useGeolocation'
 import { useTriageState } from '../../hooks/useTriageState'
+import { useNextActions } from '../../hooks/useNextActions'
 
 interface MobileLayoutProps {
   facilities: Facility[]
@@ -28,141 +34,206 @@ interface MobileLayoutProps {
   loadOlderMessages: (sessionId: string, beforeId: string) => Promise<Message[]>
 }
 
-type Tab = 'map' | 'ai'
+type ProgressStage = 'idle' | 'typing' | 'analyzing' | 'complete'
 
-function MapIcon() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
+function stripToolNarration(content: string): string {
+  return content
+    .replace(/I'm going to call[\s\S]*?triage_response\([^)]*\)\s*/gi, '')
+    .trim()
 }
 
-function ChatIcon() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const STATE_2_LOGS = [
+  { tag: 'ROUTE', message: 'OPTIMAL PATH VIA NEAREST FACILITY' },
+  { tag: 'CAPAC', message: 'WALK-IN AVAILABILITY: HIGH (EST. WAIT = 30 MIN)' },
+]
 
 export function MobileLayout({
   facilities,
   facilitiesLoading,
-  conversationsCache,
   sendMessage,
   createSession,
-  loadOlderMessages,
 }: MobileLayoutProps) {
   const { user } = useAuth()
-  const { profile } = useProfile()
   const geo = useGeolocation()
   const { triage, applyTriageResult, reset: triageReset } = useTriageState()
+  const { getDirections } = useNextActions(triage.severity)
 
-  const [activeTab, setActiveTab] = useState<Tab>('map')
-  const [sessionKey, setSessionKey] = useState(0)
-  const [symptomValue, setSymptomValue] = useState('')
+  // Chat state (previously in AiAssistantTab)
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [omniValue, setOmniValue] = useState('')
+  const [progressStage, setProgressStage] = useState<ProgressStage>('idle')
 
+  // Nav
+  const [activeTab, setActiveTab] = useState<MobileTab>('map')
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+  // Mode derived from triage state
+  const mode = triage.active ? 'recommendation' : 'browse'
+
+  // Reset on user logout
   useEffect(() => {
     if (!user) geo.setCoords(null)
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleNewConversation = () => {
+  const handleNewConversation = useCallback(() => {
     triageReset()
-    setSessionKey(k => k + 1)
-    setSymptomValue('')
-  }
+    setActiveSessionId(null)
+    setMessages([])
+    setOmniValue('')
+    setProgressStage('idle')
+  }, [triageReset])
 
-  const handleApplyTriage = async (
+  const handleApplyTriage = useCallback(async (
     result: TriageResult,
     coords: { lat: number; lng: number } | null
   ) => {
     await applyTriageResult(result, coords)
-    if (result.recommended_facility) {
-      setTimeout(() => setActiveTab('map'), 1200)
-    }
-  }
+  }, [applyTriageResult])
 
-  const handleMapSend = () => {
-    if (symptomValue.trim()) setActiveTab('ai')
-  }
+  const handleSend = useCallback(async () => {
+    if (!omniValue.trim() || !user) return
+    const text = omniValue.trim()
+    setOmniValue('')
+
+    let coords = geo.coords
+    if (!coords) coords = await geo.requestOnce()
+
+    let sid = activeSessionId
+    if (!sid) {
+      const session = await createSession(text)
+      if (!session) return
+      sid = session.id
+      setActiveSessionId(sid)
+    }
+
+    const optimisticMsg: Message = {
+      id: crypto.randomUUID(),
+      session_id: sid,
+      user_id: user.id,
+      role: 'user',
+      content: text,
+      created_at: new Date().toISOString(),
+    }
+    setMessages(prev => [...prev, optimisticMsg])
+    setProgressStage('typing')
+
+    const response = await sendMessage(sid, text, coords)
+    if (response) {
+      const cleaned = {
+        ...response.assistant_message,
+        content: stripToolNarration(response.assistant_message.content),
+      }
+      setMessages(prev => [
+        ...prev.filter(m => m.id !== optimisticMsg.id),
+        optimisticMsg,
+        cleaned,
+      ])
+      if (response.triage) {
+        setProgressStage('analyzing')
+        await handleApplyTriage(response.triage, coords)
+        setProgressStage('complete')
+        setTimeout(() => setProgressStage('idle'), 800)
+      } else {
+        setProgressStage('idle')
+      }
+    } else {
+      setProgressStage('idle')
+    }
+  }, [omniValue, user, geo, activeSessionId, createSession, sendMessage, handleApplyTriage])
+
+  const handleTabChange = useCallback((tab: MobileTab) => {
+    setActiveTab(tab)
+    if ((tab === 'chat' || tab === 'triage') && mode === 'recommendation') {
+      handleNewConversation()
+    }
+  }, [mode, handleNewConversation])
 
   return (
-    <div className="flex flex-col bg-[#F8FAFC]" style={{ height: '100dvh' }}>
-      <MobileNavBar />
-
-      {/* Tab bar — 36px */}
+    // Full-viewport shell — map underneath everything
+    <div
+      className="relative overflow-hidden"
+      style={{ width: '100vw', height: '100dvh' }}
+    >
+      {/* Map canvas — always mounted, fills space between top bar and bottom nav */}
       <div
-        className="flex-none flex bg-white border-b border-gray-100 z-10"
-        style={{ height: 46 }}
+        style={{
+          position: 'fixed',
+          top: 56,    // MobileTopBar height
+          bottom: 64, // BottomNavBar height
+          left: 0,
+          right: 0,
+          zIndex: 0,
+        }}
       >
-        {(['map', 'ai'] as Tab[]).map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-[12px] font-semibold transition-colors border-b-2 ${activeTab === tab
-              ? 'text-blue-600 border-blue-600'
-              : 'text-gray-400 border-transparent'
-              }`}
+        <MapPanel
+          facilities={facilities}
+          facilitiesLoading={facilitiesLoading}
+          triage={triage}
+          verticalLegend
+          sizeVersion={0}
+          onClear={handleNewConversation}
+        />
+      </div>
+
+      {/* Fixed top bar */}
+      <MobileTopBar
+        mode={mode}
+        severity={triage.severity}
+        onMenuOpen={() => setIsDrawerOpen(true)}
+      />
+
+      {/* State 1: BottomSheet (browse mode) */}
+      <AnimatePresence>
+        {mode === 'browse' && (
+          <motion.div
+            key="bottomsheet"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ position: 'fixed', inset: 0, zIndex: 20, pointerEvents: 'none' }}
           >
-            {tab === 'map' ? <MapIcon /> : <ChatIcon />}
-            {tab === 'map' ? 'Map view' : 'AI assistant'}
-          </button>
-        ))}
-      </div>
+            <div style={{ pointerEvents: 'auto' }}>
+              <BottomSheet
+                messages={messages}
+                omniValue={omniValue}
+                onOmniChange={setOmniValue}
+                onSend={handleSend}
+                inputDisabled={!user}
+                onChipSelect={v => { if (user) setOmniValue(v) }}
+                progressStage={progressStage}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Tab content — both mounted to keep Leaflet alive */}
-      <div className="flex-1 overflow-hidden relative">
-        <div
-          className="absolute inset-0"
-          style={{ display: activeTab === 'map' ? 'block' : 'none' }}
-        >
-          <MapTab
-            facilities={facilities}
-            facilitiesLoading={facilitiesLoading}
-            triage={triage}
-            symptomValue={symptomValue}
-            onSymptomChange={setSymptomValue}
-            onSymptomSend={handleMapSend}
-            inputDisabled={!user}
-            visible={activeTab === 'map'}
-            onClear={handleNewConversation}
-          />
-        </div>
+      {/* State 2: StreamingLogStrip + FacilityCardPanel (recommendation mode) */}
+      <AnimatePresence>
+        {mode === 'recommendation' && (
+          <motion.div
+            key="state2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ position: 'fixed', bottom: 64, left: 0, right: 0, zIndex: 20 }}
+          >
+            <StreamingLogStrip logs={STATE_2_LOGS} />
+            <FacilityCardPanel
+              triage={triage}
+              onGetDirections={(name, lat, lng) => getDirections(name, lat, lng)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        <div
-          className="absolute inset-0 flex flex-col"
-          style={{ display: activeTab === 'ai' ? 'flex' : 'none' }}
-        >
-          <AiAssistantTab
-            key={sessionKey}
-            user={user}
-            cache={conversationsCache}
-            sendMessage={sendMessage}
-            createSession={createSession}
-            loadOlderMessages={loadOlderMessages}
-            geo={geo}
-            profile={profile}
-            triage={triage}
-            onTriageResult={handleApplyTriage}
-            onNewConversation={handleNewConversation}
-            symptomValue={symptomValue}
-            onSymptomChange={setSymptomValue}
-          />
-        </div>
-      </div>
+      {/* Fixed bottom nav */}
+      <BottomNavBar activeTab={activeTab} onTabChange={handleTabChange} />
+
+      {/* Drawer menu */}
+      <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </div>
   )
 }

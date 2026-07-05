@@ -1,4 +1,4 @@
-from db import get_supabase_client
+from db import supabase_select, supabase_insert
 
 
 def generate_session_title(first_message: str) -> str:
@@ -7,23 +7,18 @@ def generate_session_title(first_message: str) -> str:
 
 
 def create_session(user_id: str, title: str) -> dict:
-    client = get_supabase_client()
-    response = client.table("sessions").insert({
-        "user_id": user_id,
-        "title": title,
-    }).execute()
-    return response.data[0]
+    rows = supabase_insert("sessions", [{"user_id": user_id, "title": title}])
+    return rows[0]
 
 
 def add_message(session_id: str, user_id: str, role: str, content: str) -> dict:
-    client = get_supabase_client()
-    response = client.table("messages").insert({
+    rows = supabase_insert("messages", [{
         "session_id": session_id,
         "user_id": user_id,
         "role": role,
         "content": content,
-    }).execute()
-    return response.data[0]
+    }])
+    return rows[0]
 
 
 def get_past_conversations(user_id: str, session_limit: int = 5, message_limit: int = 20) -> tuple[list, dict]:
@@ -32,27 +27,23 @@ def get_past_conversations(user_id: str, session_limit: int = 5, message_limit: 
     sessions_list: up to `session_limit` most recent sessions for the user.
     messages_dict: { session_id: [last `message_limit` messages, chronological] }
     """
-    client = get_supabase_client()
+    sessions = supabase_select("sessions", {
+        "select": "*",
+        "user_id": f"eq.{user_id}",
+        "order": "updated_at.desc",
+        "limit": str(session_limit),
+    }) or []
 
-    sessions_resp = client.table("sessions") \
-        .select("*") \
-        .eq("user_id", user_id) \
-        .order("updated_at", desc=True) \
-        .limit(session_limit) \
-        .execute()
-
-    sessions = sessions_resp.data or []
     messages: dict[str, list] = {}
-
     for session in sessions:
         sid = session["id"]
-        msgs_resp = client.table("messages") \
-            .select("*") \
-            .eq("session_id", sid) \
-            .order("created_at", desc=True) \
-            .limit(message_limit) \
-            .execute()
-        messages[sid] = list(reversed(msgs_resp.data or []))
+        msgs = supabase_select("messages", {
+            "select": "*",
+            "session_id": f"eq.{sid}",
+            "order": "created_at.desc",
+            "limit": str(message_limit),
+        }) or []
+        messages[sid] = list(reversed(msgs))
 
     return sessions, messages
 
@@ -62,27 +53,19 @@ def get_older_messages(session_id: str, before_id: str, limit: int = 20) -> list
     Cursor-based pagination — returns messages older than `before_id`.
     Always hits Supabase; older messages are not cached.
     """
-    client = get_supabase_client()
+    cursor = supabase_select("messages", {"select": "created_at", "id": f"eq.{before_id}"}, single=True)
 
-    # maybe_single() returns None when the cursor message is not found
-    # instead of raising PGRST116 like .single() does.
-    cursor_resp = client.table("messages") \
-        .select("created_at") \
-        .eq("id", before_id) \
-        .maybe_single() \
-        .execute()
-
-    if not cursor_resp.data:
+    if not cursor:
         return []
 
-    cursor_ts = cursor_resp.data["created_at"]
+    cursor_ts = cursor["created_at"]
 
-    resp = client.table("messages") \
-        .select("*") \
-        .eq("session_id", session_id) \
-        .lt("created_at", cursor_ts) \
-        .order("created_at", desc=True) \
-        .limit(limit) \
-        .execute()
+    msgs = supabase_select("messages", {
+        "select": "*",
+        "session_id": f"eq.{session_id}",
+        "created_at": f"lt.{cursor_ts}",
+        "order": "created_at.desc",
+        "limit": str(limit),
+    }) or []
 
-    return list(reversed(resp.data or []))
+    return list(reversed(msgs))
