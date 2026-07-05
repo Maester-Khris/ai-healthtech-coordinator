@@ -7,6 +7,7 @@ from fastapi import FastAPI, Depends, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response, JSONResponse
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from starlette.concurrency import run_in_threadpool
 from services.facilities import get_all_facilities, apply_wait_filter
 from services.wait_times import get_wait_minutes_map
 from db import supabase_rpc
@@ -102,7 +103,7 @@ async def facilities(
     if severity:
         data = [r for r in data if severity in r.get("accepted_severity", [])]
 
-    wait_map = get_wait_minutes_map()
+    wait_map = await run_in_threadpool(get_wait_minutes_map)
     data = apply_wait_filter(data, "id", max_wait_minutes, wait_map)
 
     filtered_etag = f'"{hashlib.sha256(json.dumps(data, sort_keys=True, default=str).encode()).hexdigest()[:32]}"'
@@ -125,7 +126,8 @@ async def facilities_nearby(
     max_wait_minutes: int | None = None,
 ) -> list[NearbyFacilityResult]:
     try:
-        data = supabase_rpc(
+        data = await run_in_threadpool(
+            supabase_rpc,
             "nearby_facilities",
             {
                 "user_lat":       lat,
@@ -138,5 +140,5 @@ async def facilities_nearby(
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"proximity search failed: {exc}") from exc
 
-    wait_map = get_wait_minutes_map()
+    wait_map = await run_in_threadpool(get_wait_minutes_map)
     return apply_wait_filter(data, "facility_id", max_wait_minutes, wait_map)

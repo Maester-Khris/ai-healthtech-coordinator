@@ -93,3 +93,34 @@ class TestFacilitiesNearbyAsgiStack:
         body = resp.json()
         assert body[0]["facility_id"] == "11111111-1111-1111-1111-111111111111"
         assert body[0]["wait_minutes"] is None
+
+
+class TestFacilitiesRouteUsesThreadpool:
+    async def _run_inline(self, fn, *args, **kwargs):
+        return fn(*args, **kwargs)
+
+    def test_wait_minutes_map_call_is_offloaded_to_threadpool(self):
+        fake_data = [{"id": "a", "category": "hospital", "accepted_severity": ["urgent"]}]
+        with patch("main.get_cached_facilities", return_value=(fake_data, None)), \
+             patch("main.get_wait_minutes_map", return_value={"a": 10}) as mock_get_wait, \
+             patch("main.run_in_threadpool", side_effect=self._run_inline) as mock_threadpool:
+            request = type("FakeRequest", (), {"headers": {}})()
+            asyncio.run(main.facilities(request))
+
+        mock_threadpool.assert_any_call(mock_get_wait)
+
+    def test_nearby_rpc_call_is_offloaded_to_threadpool(self):
+        fake_rows = [{"facility_id": "a", "distance_m": 100}]
+        with patch("main.supabase_rpc", return_value=fake_rows) as mock_rpc, \
+             patch("main.get_wait_minutes_map", return_value={"a": 10}), \
+             patch("main.run_in_threadpool", side_effect=self._run_inline) as mock_threadpool:
+            asyncio.run(main.facilities_nearby(lat=43.6, lng=-79.4))
+
+        mock_threadpool.assert_any_call(
+            mock_rpc,
+            "nearby_facilities",
+            {
+                "user_lat": 43.6, "user_lng": -79.4, "radius_m": 5000,
+                "facility_types": None, "result_limit": 50,
+            },
+        )
