@@ -52,6 +52,7 @@ Thumbs.db               # Windows
 # Local-only scripts
 personal.cmd.sh
 pipeline/perso-cmd.sh
+workers/repopulate_facilities_clean.py
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
