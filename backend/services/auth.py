@@ -22,7 +22,7 @@ def verify_token(token: str) -> object:
     except requests.RequestException as exc:
         raise HTTPException(status_code=503, detail="Auth service unavailable") from exc
 
-    if not data.get("id"):
+    if not isinstance(data, dict) or not data.get("id"):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
     return types.SimpleNamespace(id=data["id"], email=data.get("email"))

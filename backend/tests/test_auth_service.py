@@ -54,3 +54,11 @@ class TestVerifyToken:
         with pytest.raises(HTTPException) as exc_info:
             verify_token("token")
         assert exc_info.value.status_code == 503
+
+    @patch("services.auth.supabase_auth_get_user")
+    def test_non_dict_response_raises_401(self, mock_get_user):
+        mock_get_user.return_value = ["unexpected", "list", "response"]
+
+        with pytest.raises(HTTPException) as exc_info:
+            verify_token("weird-token")
+        assert exc_info.value.status_code == 401
