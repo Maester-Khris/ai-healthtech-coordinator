@@ -311,40 +311,97 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
-## [Sprint 13 — Active] · UI / Product Reframe
+## [Sprint 13 — Closed] · UI / Product Reframe
 
-**Started — 2026-06-22 · branch: `ui/redesign`**
+**2026-06-22 → 2026-06-25 · branch: `ui/redesign` · merged to `preview` via PR #27**
 
-### Scope
-Current state: features work, but reads as a project, not a product. Goal: make Medicoord (and Commitr) look like something someone would pay for.
-
-- Landing page presenting product value — not a straight redirect to auth/app
-- Privacy policy page
-- Cookie management
-- User data collection disclosure
-- Design system selection (evaluating aura.build systems) — TBD for Medicoord
+### Delivered
+- Stratum/Aura design system tokens — color ramp, typography, spacing, severity palette
+- Landing page at `/` presenting product value — animated hero, interactive search, feature sections
+- Privacy policy, cookie management, and user data disclosure legal pages
+- `/for-investors` and `/for-engineers` audience pages with system flow diagrams
+- Plus Jakarta Sans font stack across all public pages
+- Web app re-skin: map+chat shell, WebNavBar, LoginModal, GettingStartedModal, footer
+- Mobile re-skin: top bar, Navigation Dock, map tab, AI assistant tab, DrawerMenu, BottomSheet
+- New mobile component suite for redesigned mobile shell; 6 retired components deleted
+- MobileNavBar replaced in SetupPage; breakpoint hook updated
+- SEO meta tags, FAQ structured data, `llms.txt`
+- Sandbox auth gate, `/sandbox` route mobile guard updated
 
 ---
 
-## [Sprint 14 — Planned] · Backend Update — DB Migration + Filtering
+## [Sprint 14 — Active] · Backend Update — DB Migration + Filtering
 
-**Not started. Planned starting week of 2026-06-22, per weekly plan.**
+**Started — 2026-06-26 · branch: `feat/advanced-filtering`**
 
-### Chores
-- DB migration: switch backend queries from `facilities` to `facilities_clean` (dbt model from Sprint 12)
-- Column rename alignment: `facility_id`, `facility_name`
+### Completed
+- DB migration: switched backend queries from `facilities` to `facilities_clean`
+- Column aliases in SQL (`facility_id→id`, `facility_name→name`) keep API contract stable
+- Silent `is_operational=true` filter — permanently closed facilities never returned
+- `phone`, `business_status`, `weekday_hours` now included in `GET /facilities` response
+- `weekday_hours` JSON-parsed on backend; frontend always receives `string[]`
+- `shared/types.ts` `Facility` interface extended with `phone`, `business_status`, `weekday_hours`
+- `hoursUtils.ts` — `isOpen24h` and `isOpenWeekends` pure functions with assertion tests
+- Facility popup: real phone (tel: link) and today's hours; "Hours unavailable" when empty
+- Map filter chips: "Open 24/7" and "Open weekends" — additive, wired to `hoursUtils`
+- Facilities with unknown hours (empty `weekday_hours`) always pass active filters
 
-### Feature — Augmented Filtering (business hours)
-- Integrate business hours + business data into facility popup/hover card
-- New filter options: open Mon–Fri, open after 5PM, open after 9AM, open weekends
-- Brainstorm session on full filter set before building
+### Completed — Proximity Search
+- PostGIS `ST_DWithin` + `ST_Distance` on `facilities_clean`, `GET /facilities/nearby` endpoint accepting `lat`, `lng`, `radius_km`
+- Tap/click on map places a location pin and triggers proximity search from that point (desktop + mobile), 3-tier anchor priority (`useAnchor`)
+- Frontend renders distance-sorted results via `useProximitySearch`
 
-### Low priority — ER Wait Time Background Worker (carried over from Sprint 12)
-- Railway worker service: APScheduler cron scraping ERstat + howlongwilliwait.com every 5 min
-- Upsert `wait_times` table in Supabase
-- Invalidate/update Upstash Redis cache on each run
-- Backend reads from Redis cache with DB fallback
-- Rationale for low priority: feeds the same filtering feature above but adds external scraping dependency — DB migration + business-hours filtering ship value sooner on their own
+### Completed — ER Wait Time Background Worker (carried over from Sprint 12) — code only, not deployed
+- Railway worker built: APScheduler cron scraping ERstat + howlongwilliwait.com, `wait_minutes` filter added to `/facilities` and `/facilities/nearby`
+- Cache-aside read path: Redis first, Supabase RPC fallback
+- Migrated off `supabase-py` to direct PostgREST/GoTrue REST calls across auth, chat, and facilities services (unscoped bonus — simplifies the wait-time RPC fallback path)
+- **Not yet deployed to Railway** — worker code exists but is not running anywhere yet
+
+### Post-review fixes (applied 2026-07-01, same day as `/code-review high`)
+- Auth middleware no longer swallows non-401 failures (e.g. Supabase outage) as anonymous — re-raises as the original status
+- Scraper distinguishes transient lookup failures from permanent non-matches — no more permanent blacklisting on a flaky request
+- Place-id dedup reuse now also written to the negative cache, negative-cache keys normalized, dedup-reuse counted separately from fuzzy matches in logs
+- Wait-time Redis writeback batched into a pipeline instead of one round-trip per facility
+- Stray leading underscore in `migrations/010_nearby_facilities_rpc.sql` fixed (was causing `/facilities/nearby` 400s in production)
+
+### Remaining before this branch merges to `preview`
+- [x] Add CI repo secrets for the backend test job: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_REDIS_URL`
+- [x] Apply `migrations/012_latest_wait_times_rpc_add_fields.sql` in the Supabase SQL editor (adds `raw_wait`, `source` to the `latest_wait_times()` RPC)
+- [ ] Merge `feat/advanced-filtering` → `preview`
+- [ ] Deploy the ER wait-time worker to Railway, verify end-to-end (cron → scrape → upsert → cache invalidate → frontend read) — picked up from `preview` after merge
+
+---
+
+## [Sprint 14a — Closed] · `/for-engineers` Case Study Rewrite
+
+**2026-07-01 → 2026-07-02 · branch: `feat/advanced-filtering` (same branch as Sprint 14, unrelated scope)**
+
+### Delivered
+- Design spec written for a grounded rewrite of the `/for-engineers` case studies (`docs/superpowers/plans/2026-07-02-engineering-case-study-rewrite.md`)
+- Engineering case-study content extracted into a shared typed module, decoupled from page components
+- `CaseStudy` schema extended; all 3 case studies rewritten to be grounded in real code (not illustrative/placeholder copy)
+- Case-study filter, emphasis-split, and date-format helper utilities added
+- `/for-engineers` rebuilt as a filter-rail case-study index page
+- `/for-engineers/:slug` case-study detail page added
+- Hand-drawn Excalidraw-style diagrams added for all 3 case studies
+- `/for-engineers` navbar aligned with `/for-investors` page style
+
+### Notes
+- Content is static (no Supabase table) — deliberate decision, revisit only past ~15–20 entries or if a non-engineer editor workflow is needed
+- Not yet merged to `preview` — rides along with the rest of `feat/advanced-filtering`
+
+---
+
+## [Sprint 15 — Planned] · Graph RAG (Knowledge Graph)
+
+**Next priority this week, after Sprint 14 merges to `preview`.**
+
+Sequencing: finish the two Sprint 14 infra steps above (CI secrets, Supabase RPC update) →
+merge `feat/advanced-filtering` → `preview` → start Graph RAG work from `preview`.
+
+Scope not yet detailed — pick up from `project_kg_intent` context: KG is for grounding LLM
+follow-up questions and symptom understanding (conversational NLU), not diagnosis; Canadian
+sources preferred.
 
 ---
 
