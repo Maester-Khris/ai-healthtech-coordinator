@@ -17,7 +17,7 @@ import { MapSizeGuard } from './layers/MapSizeGuard'
 import { RoadRouteLayer } from './layers/RoadRouteLayer'
 import { FacilityMarkerLayer } from './components/FacilityMarkerLayer'
 import { FacilityLegend } from './components/FacilityLegend'
-import { isOpen24h, isOpenWeekends } from '../../utils/hoursUtils'
+import { isOpen24h, isOpenWeekends, isOpenNow } from '../../utils/hoursUtils'
 import { meetsWaitTimeFilter } from '../../utils/waitTimeUtils'
 
 interface MapPanelProps {
@@ -106,12 +106,13 @@ export function MapPanel({ facilities, facilitiesLoading, triage, verticalLegend
     // Hours and wait-time filters always applied on the frontend (RPC has no hours column,
     // and wait_minutes is already annotated on every facility regardless of proximity mode)
     return list.filter(f => {
+      if (openNow      && isOpenNow(f.weekday_hours)      === false) return false
       if (open24h      && isOpen24h(f.weekday_hours)      === false) return false
       if (openWeekends && isOpenWeekends(f.weekday_hours) === false) return false
       if (!meetsWaitTimeFilter(waitTime, f.wait_minutes)) return false
       return true
     })
-  }, [facilities, proximity, proximityLoading, proximityResults, distanceMap, categoryFilter, open24h, openWeekends, waitTime])
+  }, [facilities, proximity, proximityLoading, proximityResults, distanceMap, categoryFilter, openNow, open24h, openWeekends, waitTime])
 
   return (
     <div className="relative h-full w-full isolate">

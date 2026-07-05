@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { isOpen24h, isOpenWeekends } from './hoursUtils'
+import { isOpen24h, isOpenWeekends, isOpenNow } from './hoursUtils'
 
 // ── isOpen24h ────────────────────────────────────────────────────────────────
 
@@ -51,3 +51,52 @@ describe('isOpenWeekends', () => {
       'Sunday: Closed',
     ])).toBe(false))
 })
+
+// ── isOpenNow ────────────────────────────────────────────────────────────────
+
+describe('isOpenNow', () => {
+  it('null input → null',      () => expect(isOpenNow(null)).toBeNull())
+  it('undefined input → null', () => expect(isOpenNow(undefined)).toBeNull())
+  it('empty array → null',     () => expect(isOpenNow([])).toBeNull())
+
+  it('no entry for today → null', () => {
+    const monday10am = new Date('2026-07-06T10:00:00') // a Monday
+    expect(isOpenNow(['Tuesday: 8:00 AM - 5:00 PM'], monday10am)).toBeNull()
+  })
+
+  it('today closed → false', () => {
+    const monday10am = new Date('2026-07-06T10:00:00')
+    expect(isOpenNow(['Monday: Closed'], monday10am)).toBe(false)
+  })
+
+  it('today open 24 hours → true', () => {
+    const monday3am = new Date('2026-07-06T03:00:00')
+    expect(isOpenNow(['Monday: Open 24 hours'], monday3am)).toBe(true)
+  })
+
+  it('within same-day range → true', () => {
+    const monday10am = new Date('2026-07-06T10:00:00')
+    expect(isOpenNow(['Monday: 8:00 AM - 5:00 PM'], monday10am)).toBe(true)
+  })
+
+  it('before same-day range opens → false', () => {
+    const monday6am = new Date('2026-07-06T06:00:00')
+    expect(isOpenNow(['Monday: 8:00 AM - 5:00 PM'], monday6am)).toBe(false)
+  })
+
+  it('after same-day range closes → false', () => {
+    const monday7pm = new Date('2026-07-06T19:00:00')
+    expect(isOpenNow(['Monday: 8:00 AM - 5:00 PM'], monday7pm)).toBe(false)
+  })
+
+  it('overnight range, now after midnight before close → true', () => {
+    const monday1am = new Date('2026-07-06T01:00:00')
+    expect(isOpenNow(['Monday: 10:00 PM - 2:00 AM'], monday1am)).toBe(true)
+  })
+
+  it('overnight range, now in the afternoon → false', () => {
+    const monday3pm = new Date('2026-07-06T15:00:00')
+    expect(isOpenNow(['Monday: 10:00 PM - 2:00 AM'], monday3pm)).toBe(false)
+  })
+})
+
