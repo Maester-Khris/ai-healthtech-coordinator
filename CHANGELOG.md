@@ -330,9 +330,9 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
-## [Sprint 14 — Active] · Backend Update — DB Migration + Filtering
+## [Sprint 14 — Closed] · Backend Update — DB Migration + Filtering
 
-**Started — 2026-06-26 · branch: `feat/advanced-filtering`**
+**2026-06-26 → 2026-07-05 · branch: `feat/advanced-filtering` · merged to `preview` via PR #28**
 
 ### Completed
 - DB migration: switched backend queries from `facilities` to `facilities_clean`
@@ -351,11 +351,12 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Tap/click on map places a location pin and triggers proximity search from that point (desktop + mobile), 3-tier anchor priority (`useAnchor`)
 - Frontend renders distance-sorted results via `useProximitySearch`
 
-### Completed — ER Wait Time Background Worker (carried over from Sprint 12) — code only, not deployed
-- Railway worker built: APScheduler cron scraping ERstat + howlongwilliwait.com, `wait_minutes` filter added to `/facilities` and `/facilities/nearby`
+### Completed — ER Wait Time Background Worker (carried over from Sprint 12)
+- Railway worker built: cron scraping ERstat + howlongwilliwait.com, `wait_minutes` filter added to `/facilities` and `/facilities/nearby`
 - Cache-aside read path: Redis first, Supabase RPC fallback
 - Migrated off `supabase-py` to direct PostgREST/GoTrue REST calls across auth, chat, and facilities services (unscoped bonus — simplifies the wait-time RPC fallback path)
-- **Not yet deployed to Railway** — worker code exists but is not running anywhere yet
+- Deployed to Railway as a native cron service (`workers/railway.toml`, `*/15 * * * *`), not an in-process APScheduler loop — `APScheduler`/`flask` deps commented out in `workers/requirements.txt` pending removal
+- Verified end-to-end via production run log (2026-07-05T03:08Z): 380 facilities loaded, 234 hospitals scraped across both sources, 162 matched + 1 newly created, 26 rows inserted to `wait_times`, 58 fields updated in Redis — no errors, run completed cleanly
 
 ### Post-review fixes (applied 2026-07-01, same day as `/code-review high`)
 - Auth middleware no longer swallows non-401 failures (e.g. Supabase outage) as anonymous — re-raises as the original status
@@ -367,8 +368,11 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 ### Remaining before this branch merges to `preview`
 - [x] Add CI repo secrets for the backend test job: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_REDIS_URL`
 - [x] Apply `migrations/012_latest_wait_times_rpc_add_fields.sql` in the Supabase SQL editor (adds `raw_wait`, `source` to the `latest_wait_times()` RPC)
-- [ ] Merge `feat/advanced-filtering` → `preview`
-- [ ] Deploy the ER wait-time worker to Railway, verify end-to-end (cron → scrape → upsert → cache invalidate → frontend read) — picked up from `preview` after merge
+- [x] Merge `feat/advanced-filtering` → `preview` (PR #28)
+- [x] Deploy the ER wait-time worker to Railway, verify end-to-end (cron → scrape → upsert → cache invalidate → frontend read)
+
+### Deferred
+- Wait-time worker optimization: `resolve_unmatched_facility` calls Google Places sequentially for every unmatched scraped name (~22s for 57 names in the verification run) — parallelize with `ThreadPoolExecutor`, same pattern the pipeline's `places-enricher` Lambda already uses (Sprint 12), if the unmatched count grows enough to crowd the 15-min cron interval
 
 ---
 
