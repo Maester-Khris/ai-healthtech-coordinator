@@ -1,15 +1,23 @@
 # /end-sprint
 
 Commit all unstaged work on the current feature branch, push, and open a PR to `preview`.
+A second mode (`--postmerge`) handles the cleanup once that PR has been merged on GitHub.
 
 ## Invocation
 ```
 /end-sprint "<pr message>"
 # example: /end-sprint "facilities prefetch with in-memory cache and ETag"
+
+/end-sprint --postmerge [<branch>]
+# example: /end-sprint --postmerge
+# example: /end-sprint --postmerge feat/facilities-prefetch
 ```
 
-The PR message argument is required. If not provided, stop and report:
+The PR message argument is required for the default mode. If not provided, stop and report:
 `⛔ PR message required. Usage: /end-sprint "<message>"`
+
+If the first argument is `--postmerge`, skip Steps 1-7 below and go straight to
+**Post-merge mode** at the end of this file.
 
 ---
 
@@ -157,11 +165,71 @@ PR:      <URL returned by gh pr create>
 Target:  preview
 
 Next steps:
-  1. Review and merge the PR in GitHub
-  2. git switch preview && git pull origin preview
-  3. git branch -d <CURRENT_BRANCH>
-  4. git push origin --delete <CURRENT_BRANCH>
-  5. git checkout -b <next-branch> && git push -u origin <next-branch>
+  1. Review the PR in GitHub
+  2. Once approved/mergeable: /end-sprint --postmerge
+```
+
+---
+
+## Post-merge mode (`--postmerge`)
+
+Run this after the PR opened above has been reviewed and is mergeable. It merges the PR,
+syncs local `preview`, and deletes the feature branch both locally and on origin.
+
+`<TARGET_BRANCH>` is the optional `<branch>` argument, or `CURRENT_BRANCH` from
+`git branch --show-current` if omitted.
+
+### P1 — Find and validate the PR
+
+```bash
+gh pr view <TARGET_BRANCH> --json number,state,mergeable,mergeStateStatus,baseRefName
+```
+
+**If no open PR is found for `<TARGET_BRANCH>`:** stop and report:
+`⛔ No open PR found for '<TARGET_BRANCH>'. Run /end-sprint "<message>" first.`
+
+**If `baseRefName` is not `preview`:** stop and report:
+`⛔ PR for '<TARGET_BRANCH>' does not target preview. Resolve manually.`
+
+**If `mergeable` is not `MERGEABLE` or `mergeStateStatus` is not `CLEAN`:** stop and report:
+`⛔ PR #<number> is not cleanly mergeable (<mergeStateStatus>). Resolve conflicts/checks first.`
+
+### P2 — Merge
+
+```bash
+gh pr merge <number> --merge
+```
+
+If the merge fails (e.g. branch protection, failing required check), stop and report the error.
+Do not retry with `--admin` or force flags.
+
+### P3 — Sync local `preview`
+
+```bash
+git switch preview
+git pull origin preview
+```
+
+### P4 — Delete the feature branch
+
+```bash
+git branch -d <TARGET_BRANCH>
+git push origin --delete <TARGET_BRANCH>
+```
+
+If `git branch -d` fails because the branch isn't fully merged locally (stale local state),
+report the error and stop rather than forcing with `-D`.
+
+### P5 — Report outcome
+
+```
+✓ Post-merge complete
+
+PR:      #<number> merged into preview
+Local:   preview updated to <new HEAD short hash>
+Deleted: <TARGET_BRANCH> (local + origin)
+
+Next: git checkout -b <next-branch> && git push -u origin <next-branch>
 ```
 
 ---
@@ -170,8 +238,13 @@ Next steps:
 
 | Condition | Action |
 |---|---|
-| No PR message argument | Stop before doing anything |
-| Branch is `main` or `preview` | Stop before doing anything |
+| No PR message argument (default mode) | Stop before doing anything |
+| Branch is `main` or `preview` (default mode) | Stop before doing anything |
 | Push fails | Stop after push attempt — do not open PR |
 | `gh` CLI not authenticated | Report: `⛔ GitHub CLI not authenticated. Run: gh auth login` |
 | `gh pr create` fails because PR already exists | Report the existing PR URL and stop |
+| `--postmerge`: no open PR found for branch | Stop before doing anything |
+| `--postmerge`: PR not targeting `preview` | Stop before doing anything |
+| `--postmerge`: PR not cleanly mergeable | Stop before merging |
+| `--postmerge`: `gh pr merge` fails | Stop — do not retry with force/admin flags |
+| `--postmerge`: local branch delete fails (not fully merged) | Stop before deleting remote branch |
