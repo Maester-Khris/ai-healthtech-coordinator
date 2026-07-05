@@ -365,6 +365,20 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Wait-time Redis writeback batched into a pipeline instead of one round-trip per facility
 - Stray leading underscore in `migrations/010_nearby_facilities_rpc.sql` fixed (was causing `/facilities/nearby` 400s in production)
 
+### Post-review fixes (applied 2026-07-05, from `/code-review high` + security review on PR #29)
+- Security review: no HIGH/MEDIUM vulnerabilities found — clean
+- Map "Wait Time" filter dropdown was fully wired in the UI but never filtered anything; now filters via `meetsWaitTimeFilter` against each facility's already-annotated `wait_minutes`
+- Map "Open Now" toggle was likewise inert; added `isOpenNow` (with overnight-range handling) and wired it into the facility filter
+- Scraper no longer permanently blacklists a scraped name the first time it dedup-resolves to an existing facility via Google Places — that was silently stopping wait-time updates for that facility forever once `facilities_clean` lag masked the fuzzy match
+- Scraper's `resolve_unmatched_facility` now normalizes typographic Unicode in `weekday_hours` (matches `repopulate_facilities_clean.py`'s existing normalization), so scraper-created facilities don't get garbled hours strings
+- `verify_token` no longer crashes with an unhandled `AttributeError` on a non-dict GoTrue response — now treated as an invalid token (401)
+- `get_wait_minutes_map` parses each Redis hash entry independently — one malformed value no longer discards every other facility's good wait-time data for the request
+- Scraper's Supabase wait-time insert failure no longer prevents the independent Redis publish step from running
+- `/facilities` and `/facilities/nearby` now offload their blocking Redis/Supabase calls to a threadpool (`run_in_threadpool`) instead of blocking the async event loop
+- Deduplicated the proximity radius option list (`MapPanel.tsx` dropdown vs. `useProximitySearch`'s `RADIUS_MAP`) into a single shared `PROXIMITY_OPTIONS` constant, removing a dead unreachable `'50 km'` entry
+- Frontend test runner (`vitest`) properly wired for the first time — `webapp/package.json` had no `test` script or `vitest` dependency despite `hoursUtils.test.ts`/`useAnchor.test.ts` already existing and unrunnable
+- Full plan: `docs/superpowers/plans/2026-07-05-pr29-code-review-fixes.md`
+
 ### Remaining before this branch merges to `preview`
 - [x] Add CI repo secrets for the backend test job: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_REDIS_URL`
 - [x] Apply `migrations/012_latest_wait_times_rpc_add_fields.sql` in the Supabase SQL editor (adds `raw_wait`, `source` to the `latest_wait_times()` RPC)
@@ -373,6 +387,9 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ### Deferred
 - Wait-time worker optimization: `resolve_unmatched_facility` calls Google Places sequentially for every unmatched scraped name (~22s for 57 names in the verification run) — parallelize with `ThreadPoolExecutor`, same pattern the pipeline's `places-enricher` Lambda already uses (Sprint 12), if the unmatched count grows enough to crowd the 15-min cron interval
+
+### Production promotion
+- PR #29 open: `preview` → `main`, covers Sprint 13 (UI/product reframe), Sprint 14 (this sprint), and Sprint 14a (case-study rewrite) — awaiting final human review before merge
 
 ---
 
