@@ -45,7 +45,7 @@ class TestResolveUnmatchedFacility:
         result = scraper.resolve_unmatched_facility("Test Hospital")
 
         assert result is not None
-        assert result["lat"] == 43.70
+        assert result["lat"] == pytest.approx(43.70)
 
     @patch("scraper.requests.get")
     def test_outside_toronto_bounds_returns_none(self, mock_get):
@@ -129,7 +129,12 @@ class TestBuildFacilityMapIdempotency:
 
         assert result["clean name"] == "existing-fac-id"
         mock_insert.assert_called_once_with("https://x.supabase.co", {}, [])
-        redis_client.sadd.assert_called_once_with(scraper.NEGATIVE_CACHE_KEY, "clean name")
+        # Dedup-reused names must NOT be blacklisted: facilities_clean can lag
+        # the facilities table by up to ~7 days post-dbt-rebuild, so this name
+        # needs to keep being re-attempted every run until the corpus catches
+        # up — blacklisting it here would silently stop this facility's wait
+        # time from ever updating again.
+        redis_client.sadd.assert_not_called()
 
 
 class TestNegativeCache:
@@ -321,7 +326,7 @@ class TestInsertNewFacilitiesPayloadShape:
 
         assert facilities_payload["id"] == "f1"
         assert facilities_payload["name"] == "A"
-        assert facilities_payload["lat"] == 1.0
+        assert facilities_payload["lat"] == pytest.approx(1.0)
         assert facilities_payload["source"] == "manual"
         assert clean_payload["facility_id"] == "f1"
         assert clean_payload["facility_name"] == "A"

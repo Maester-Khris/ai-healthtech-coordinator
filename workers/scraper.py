@@ -446,8 +446,12 @@ def build_facility_map(
 
         place_id = created["google_place_id"]
         if place_id in place_id_to_facility_id:
+            # Dedup-reused: this name resolves to an existing facility via
+            # Places, but facilities_clean hasn't caught up yet (dbt lag).
+            # Do NOT blacklist — keep retrying every run so this facility's
+            # wait time doesn't silently stop updating if facilities_clean
+            # never picks up this specific name variant.
             facility_map[clean] = place_id_to_facility_id[place_id]
-            redis_client.sadd(NEGATIVE_CACHE_KEY, cache_key)
             dedup_reused += 1
             continue
 
