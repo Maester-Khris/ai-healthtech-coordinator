@@ -359,3 +359,24 @@ class TestInsertNewFacilitiesPayloadShape:
         assert clean_payload["facility_name"] == "A"
         assert clean_payload["is_operational"] is True
         assert clean_payload["business_status"] == "OPERATIONAL"
+
+
+class TestMainPublishIsolation:
+    @patch("scraper.update_redis")
+    @patch("scraper.insert_wait_times", side_effect=scraper.requests.HTTPError("supabase 503"))
+    @patch("scraper.consolidate", return_value=[{"facility_id": "f1", "wait_minutes": 10}])
+    @patch("scraper.build_facility_map", return_value={"clean": "f1"})
+    @patch("scraper.scrape_howlongwilliwait", return_value={"clean": {"wait_minutes": 10, "raw_wait": "10 min"}})
+    @patch("scraper.scrape_erstat", return_value={})
+    @patch("scraper.fetch_db_facilities", return_value={"clean": "f1"})
+    @patch("scraper.redis.from_url")
+    def test_supabase_insert_failure_does_not_prevent_redis_update(
+        self, mock_from_url, mock_fetch_db, mock_erstat, mock_hlwiw,
+        mock_build_map, mock_consolidate, mock_insert, mock_update_redis,
+    ):
+        mock_redis_client = MagicMock()
+        mock_from_url.return_value = mock_redis_client
+
+        scraper.main()  # must not raise, despite insert_wait_times raising
+
+        mock_update_redis.assert_called_once_with(mock_redis_client, [{"facility_id": "f1", "wait_minutes": 10}])

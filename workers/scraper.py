@@ -656,8 +656,13 @@ def main() -> None:
     # 4. Consolidate into one record per facility
     records = consolidate(erstat_data, hlwiw_data, facility_map)
 
-    # 5. Publish
-    insert_wait_times(SUPABASE_URL, SUPABASE_HEADERS, records)
+    # 5. Publish — Redis and Supabase are independent sinks; a failure in
+    # one must not prevent the other from receiving already-scraped data.
+    try:
+        insert_wait_times(SUPABASE_URL, SUPABASE_HEADERS, records)
+    except requests.RequestException as e:
+        log.error("Supabase insert failed, continuing to Redis publish: %s", e)
+
     update_redis(redis_client, records)
 
     log.info("═══ Scraper run complete — %d records published ═══", len(records))
