@@ -93,10 +93,19 @@ fetching of their own.
 
 ### Shells
 
-`GettingStartedModal.tsx` (desktop) and `SetupPage.tsx` (mobile) become thin shells
-around `useOnboardingFlow()` + the active step component, each extending its existing
-step-indicator UI from 2–3 dots to 4 (Location, Push, Emergency, Medical — mobile
-keeps its preceding "Account ✓" as a 5th, already-complete indicator).
+Correction from the original plan: the static-UI phase built these as **new**
+standalone components — `webapp/src/components/onboarding/OnboardingWizard.tsx`
+and `webapp/src/pages/ProfilePage.tsx` — reached via temporary `/preview/onboarding`
+and `/preview/profile` routes, rather than modifying `GettingStartedModal.tsx` /
+`SetupPage.tsx` in place. The workflow-integration work is therefore: wire
+`OnboardingWizard.tsx` to `useOnboardingFlow()` and real hooks, then retire
+`GettingStartedModal.tsx` / `SetupPage.tsx`'s old onboarding JSX in favor of it
+(desktop keeps a modal wrapper, mobile keeps the full-page route — `OnboardingWizard`
+already handles both via `useBreakpoint()` internally, so the two old components may
+collapse to thin route/modal wrappers around it, or be deleted outright if
+`OnboardingWizard` can mount directly at `/setup`). Same idea for `ProfilePage.tsx`
+at the real `/profile` route. Not "build shells from scratch" — the shells already
+exist; this is a wiring pass.
 
 Both are non-dismissible: the desktop modal's `onClose`/`onboardingDismissed` escape
 hatch is removed, since it didn't actually persist and only delayed the intended
@@ -196,3 +205,28 @@ this sprint's implementation scope:
   proxying OneSignal's REST API alongside the existing `POST /notifications/send`.
   `profile.push_enabled` is unaffected — it still answers "opted in during
   onboarding," a separate question from the live device list.
+
+## Known gaps from UI work, 2026-07-08 — not designed here
+
+Three things the Profile page's static UI ended up with that have no design or
+data model anywhere yet. Flagged, not solved — each needs its own scoping pass
+before workflow-integration touches them:
+
+- **"Delete my account."** Implies real Supabase auth-user deletion plus cleanup
+  of `profile`, `sessions`, `messages`, and any wait-time/facility data tied to the
+  user — and, since this is a Canadian product, a PIPEDA-style right-to-erasure
+  angle worth a compliance look, not just an engineering task. No backend endpoint,
+  no confirmation-flow design, no data-retention decision exists yet.
+- **"Preferred facility."** Undecided whether this is a real stored preference
+  (a `preferred_facility_id` a user explicitly picks) or just a live "nearest open
+  facility" readout computed from the proximity-search feature that already exists
+  (`GET /facilities/nearby`). The static UI shows a hardcoded example ("St.
+  Michael's Hospital") that doesn't correspond to either yet — decide which one
+  before wiring real data in.
+- **The "+ Add device" button doesn't map to anything real.** OneSignal
+  registers a device automatically when the browser grants push permission —
+  there's no user-facing "add an arbitrary device" action in real push
+  infrastructure. When wiring the device list to the live OneSignal query (see
+  above), this button either gets dropped, or repurposed as something that *does*
+  correspond to a real action (e.g. a "test notification" trigger, or a prompt
+  that re-runs the permission request on the current device).

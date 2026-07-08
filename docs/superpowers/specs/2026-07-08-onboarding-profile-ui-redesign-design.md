@@ -94,25 +94,44 @@ component state only (enough to demo interaction) — no submission goes anywher
 
 ## Screen B — Profile page shell (static)
 
-Same dark system, same field/toggle components as the onboarding steps, arranged as
-stacked editable sections with a single "Save changes" bar pinned at the bottom
-(desktop) or page end (mobile, scrollable). No real save action — button exists,
-visually responds to a click, does nothing yet.
+Mobile and desktop ended up with genuinely different layouts, not just different
+chrome — both are documented here as-shipped rather than forced into one shared
+description.
+
+**Mobile:** stacked editable sections, single "Save changes" bar pinned at the page
+end (scrollable). No real save action — button exists, visually responds to a
+click, does nothing yet.
 
 - Account header: email + "Member since {date}" placeholder text in small muted
   mono, avatar initials circle (no headshot photo)
 - Location preference (identical copy/options to onboarding step 1)
-- Push notifications: status toggle + a **device list** — one static placeholder
-  row per example device (e.g. "Chrome on Windows — active"), each with a "Remove"
-  button (no-op for now). No wearable devices, no battery percentages, no
-  "connected" health hardware of any kind.
-- Emergency contact (identical fields/toggle to onboarding step 3) — copy stays
-  scoped to "notify this contact," not "primary decision maker for medical care."
-- Medical profile (identical fields/toggle to onboarding step 4)
+- Preferred facility: a static card (name, address, "Get directions") for a
+  default everyday/OTC-care facility
+- Push notifications: status toggle + a **device list** — one placeholder row per
+  example device (e.g. "Chrome on Windows — active"), each with a "Remove" button,
+  plus an "+ Add device" button — all no-op for now. No wearable devices, no
+  battery percentages, no "connected" health hardware.
+- Emergency contact (fields + "Coming soon" auto-alert toggle) — copy stays scoped
+  to "notify this contact," not "primary decision maker for medical care."
+- Medical profile (fields + AI-assistant opt-in toggle)
 
-No map card, no facility/campus assignment section — this product routes to the
-nearest open facility fresh each session; it does not assign a patient to a
-hospital or campus.
+**Desktop:** a dashboard-style layout — top nav (wordmark, "AI Assistant" /
+"Profile" / "Health Data" links), a left sidebar (avatar + name/email, "My
+profile" / "Sign out"), and a 2-column grid of cards all sharing the same
+`minHeight` so no card looks accidentally short: Location preference, Preferred
+facility (now with a real small Leaflet map — dark CartoDB tiles, same tile
+source as `SandboxMap.tsx` — not the earlier stylized SVG), Device Connectivity
+(same device-list-with-add/remove as mobile), Emergency Contact (same fields +
+toggle as mobile), and a full-width Medical Profile card. A fixed bottom bar holds
+"Save changes" and a "Delete my account" link (rose accent, no-op for now — see
+Known gaps in the consolidation spec).
+
+Revision of the original guardrail: an earlier draft of this spec banned any
+facility/map card outright, reacting to a mockup round that used it to imply a
+patient was *assigned* to a specific hospital. The corrected version — a
+user's own preferred or nearest facility, shown with a real map, no "campus"
+language — is fine and is what shipped. The guardrail below is updated to reflect
+that distinction precisely, not to re-ban the whole concept.
 
 ## Navigation (visual only)
 
@@ -122,9 +141,17 @@ glass material. Visually trimmed to exactly 3 rows — Home, My profile, Sign ou
 Profile page ends up living. (Whether that's a route change from `/setup`, and
 whether "Test notifications" is actually removed from the live app, is a workflow
 decision for the consolidation spec/plan — this file only specifies what the drawer
-should look like.) No "Dashboard," "Health," or "Health Data" destinations anywhere
-— round 1 invented these on both the desktop top nav and a mobile bottom tab bar;
-the app has no such sections.
+should look like.)
+
+Desktop's Profile page ended up with its own two-tier nav instead of reusing
+`DrawerMenu`'s pattern: a top bar ("AI Assistant" → `/app`, "Profile" active,
+"Health Data" — a placeholder tab for a section that doesn't exist yet, not
+removed since a later pass may define it) and a left sidebar (account block +
+"My profile" / "Sign out," deliberately without a "Home" link since that's
+already reachable via the top bar — two nav surfaces both linking to `/app` was
+the redundancy this was correcting). This is a real, separate desktop nav
+pattern, distinct from `DrawerMenu` — not documented as "the same drawer,
+different chrome" as originally planned.
 
 ## Content guardrails
 
@@ -138,7 +165,10 @@ of a mockup screen:
   user's data; it is always "the AI assistant."
 - No fabricated government/insurance integration (Ontario Health Card/OHIP sync,
   private insurance network preferences) — none of that exists in this product.
-- No facility/campus assignment language.
+- Facility cards may show a real map + a facility name/address ("Preferred
+  facility" / "Local Care Center"), but must never imply the user is *assigned*
+  to that hospital ("current hospital," "primary/secondary campus"). Frame it as
+  the user's own preferred or nearest facility, not a clinical assignment.
 - Emergency contact is an SMS-alert contact, not a medical power-of-attorney.
 - Plain, reassuring, patient-facing tone throughout — this is an ordinary person
   using a self-triage chat tool, not clinical staff operating a dashboard. Existing
