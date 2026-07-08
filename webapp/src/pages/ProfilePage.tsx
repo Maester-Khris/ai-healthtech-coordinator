@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { useBreakpoint } from '../hooks/useBreakpoint'
+import { MobileTopBar } from '../components/mobile/MobileTopBar'
+import { WebNavBar } from '../components/WebNavBar'
+import { UserMenu } from '../components/auth/UserMenu'
+import { DrawerMenu } from '../components/mobile/DrawerMenu'
 import { RadioCard } from '../components/onboarding/fields/RadioCard'
 import { TextField } from '../components/onboarding/fields/TextField'
 import { SelectField } from '../components/onboarding/fields/SelectField'
@@ -28,6 +32,7 @@ function SectionCard({ title, children }: { title: string; children: ReactNode }
 
 export default function ProfilePage() {
   const isMobile = useBreakpoint()
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const [locationPref, setLocationPref] = useState<'always' | 'ask'>('ask')
   const [pushEnabled, setPushEnabled] = useState(true)
   const [devices, setDevices] = useState(PLACEHOLDER_DEVICES)
@@ -42,10 +47,22 @@ export default function ProfilePage() {
   const removeDevice = (id: string) => setDevices(current => current.filter(device => device.id !== id))
 
   return (
-    <div className="min-h-screen text-[13px]" style={{ background: '#061219', color: '#E2F1F5' }}>
+    <div className="min-h-screen flex flex-col text-[13px]" style={{ background: '#061219', color: '#E2F1F5' }}>
+      {isMobile ? (
+        <MobileTopBar mode="browse" severity={null} onMenuOpen={() => setDrawerOpen(true)} />
+      ) : (
+        <WebNavBar rightContent={<UserMenu />} />
+      )}
+
+      {isMobile && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
+
       <div
-        className="mx-auto flex flex-col gap-5"
-        style={{ maxWidth: isMobile ? undefined : 640, padding: isMobile ? '24px 16px 100px' : '40px 24px 120px' }}
+        className="mx-auto flex flex-col gap-5 w-full"
+        style={{
+          maxWidth: isMobile ? undefined : 640,
+          padding: isMobile ? '24px 16px 100px' : '40px 24px 120px',
+          marginTop: isMobile ? 56 : 0,
+        }}
       >
         <div className="flex items-center gap-4">
           <div
