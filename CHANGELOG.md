@@ -426,6 +426,24 @@ sources preferred.
 
 ---
 
+## [Sprint 16 — Active] · Onboarding Flow Consolidation
+
+**Started — 2026-07-07 · branch: `feat/onboarding-consolidation`**
+
+### Scope
+Desktop (`GettingStartedModal`) and mobile (`SetupPage`) currently duplicate the same
+location + emergency contact form with diverging code and inconsistent trigger behavior
+(mobile onboarding isn't auto-shown on first login). GPS and push permission handling
+also live as separate, unrelated app-wide popups with no persisted state. This sprint
+unifies both platforms onto one shared step flow (Location → Push → Emergency Contact →
+Medical Profile), adds `push_enabled`, `auto_alert_opt_in`, and medical fields
+(`allergies`, `conditions`, `blood_type`, `medical_chat_opt_in`) to `profile`, wires
+opted-in medical info into the triage chat context server-side, and updates the privacy
+pages to disclose the new data collection. Automated emergency-contact alert sending is
+explicitly deferred to a follow-up spec (opt-in is captured now, sending is not built).
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**
