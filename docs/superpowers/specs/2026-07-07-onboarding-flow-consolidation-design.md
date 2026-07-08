@@ -171,3 +171,28 @@ existing bar for prior onboarding UI tasks was "no tests, verify via `tsc -b`" f
 flat forms; this one has real branches worth one runnable check). No new backend
 tests beyond the existing `pytest` suite's coverage of `chat.py`, extended with one
 case asserting medical info is included/excluded based on `medical_chat_opt_in`.
+
+## Addendum — new functional elements from UI redesign, 2026-07-08
+
+Visual/copy decisions for the onboarding + profile redesign live in their own spec,
+`docs/superpowers/specs/2026-07-08-onboarding-profile-ui-redesign-design.md`. Only
+the new *functional* elements that spec surfaced are recorded here, since they change
+this sprint's implementation scope:
+
+- **New route `/profile`**, separate from `/setup`. `/setup` stays onboarding-only;
+  `/profile` is a standalone, non-wizard settings page reachable any time post-login,
+  reusing the onboarding step's field/toggle components. `DrawerMenu.tsx`'s "My
+  profile" and the desktop user-menu equivalent repoint from `/setup` to `/profile`.
+- **`DrawerMenu.tsx` drops its "Test notifications" row**, down to exactly 3 items
+  (Home, My profile, Sign out) — device/push testing now happens on `/profile`
+  directly.
+- **Push device list on `/profile`**, powered by a live OneSignal query rather than a
+  new Supabase table. Requires `useNotificationPermission.ts` to call
+  `OneSignal.login(user.id)` when permission is granted (it currently only stores
+  `player_id` in `localStorage`, with no server-side link to a MediCoord user — this
+  is new). New backend endpoints in `backend/routers/notifications.py`:
+  `GET /notifications/devices` (list by external id) and
+  `DELETE /notifications/devices/{player_id}` (unsubscribe one), both auth-gated and
+  proxying OneSignal's REST API alongside the existing `POST /notifications/send`.
+  `profile.push_enabled` is unaffected — it still answers "opted in during
+  onboarding," a separate question from the live device list.
