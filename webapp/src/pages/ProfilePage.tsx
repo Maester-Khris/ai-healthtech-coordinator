@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { useBreakpoint } from '../hooks/useBreakpoint'
 import { MobileTopBar } from '../components/mobile/MobileTopBar'
 import { WebNavBar } from '../components/WebNavBar'
@@ -15,6 +16,10 @@ const PLACEHOLDER_DEVICES = [
   { id: 'device-1', label: 'Chrome on Windows — active' },
   { id: 'device-2', label: 'Safari on iPhone — active' },
 ]
+
+const EMAIL = 'user@example.com'
+const DISPLAY_NAME = EMAIL.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+const INITIALS = EMAIL[0].toUpperCase()
 
 function SectionCard({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -56,29 +61,64 @@ export default function ProfilePage() {
 
       {isMobile && <DrawerMenu isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />}
 
+      {!isMobile && (
+        <div
+          className="flex items-center gap-6 px-8"
+          style={{ height: 44, borderBottom: '1px solid rgba(28, 70, 89, 0.4)' }}
+        >
+          <Link
+            to="/app"
+            className="text-[12px] font-semibold no-underline"
+            style={{ color: '#85A4B1', fontFamily: 'var(--font-sans)' }}
+          >
+            ← Home
+          </Link>
+          <span
+            className="text-[12px] font-bold"
+            style={{ color: '#48F6C1', fontFamily: 'var(--font-sans)', borderBottom: '2px solid #48F6C1', paddingBottom: 13 }}
+          >
+            Profile
+          </span>
+        </div>
+      )}
+
       <div
         className="mx-auto flex flex-col gap-5 w-full"
         style={{
           maxWidth: isMobile ? undefined : 640,
-          padding: isMobile ? '24px 16px 100px' : '40px 24px 120px',
+          padding: isMobile ? '24px 16px 120px' : '40px 24px 140px',
           marginTop: isMobile ? 56 : 0,
         }}
       >
-        <div className="flex items-center gap-4">
-          <div
-            className="rounded-full flex items-center justify-center flex-none"
-            style={{ width: 56, height: 56, background: '#35A7C4', color: '#061219', fontWeight: 700, fontSize: 20 }}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div
+              className="rounded-full flex items-center justify-center flex-none"
+              style={{ width: 64, height: 64, background: '#35A7C4', color: '#061219', fontWeight: 700, fontSize: 22 }}
+            >
+              {INITIALS}
+            </div>
+            <div>
+              <p className="text-[16px] font-bold" style={{ color: '#E2F1F5', fontFamily: 'var(--font-sans)' }}>
+                {DISPLAY_NAME}
+              </p>
+              <p className="text-[12px] mt-0.5" style={{ color: '#85A4B1', fontFamily: 'var(--font-sans)' }}>
+                Toronto, ON · {EMAIL}
+              </p>
+              <span
+                className="inline-block mt-2 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(72, 246, 193, 0.1)', color: '#48F6C1', fontFamily: 'var(--font-mono)' }}
+              >
+                Privacy protected
+              </span>
+            </div>
+          </div>
+          <span
+            className="text-[9px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full flex-none"
+            style={{ background: 'rgba(28, 70, 89, 0.5)', color: '#85A4B1', fontFamily: 'var(--font-mono)' }}
           >
-            U
-          </div>
-          <div>
-            <p className="text-[13px]" style={{ color: '#48F6C1', fontFamily: 'var(--font-sans)' }}>
-              user@example.com
-            </p>
-            <p className="text-[10px] mt-0.5" style={{ color: '#85A4B1', fontFamily: 'var(--font-mono)' }}>
-              Member since May 2024
-            </p>
-          </div>
+            Member since May 2024
+          </span>
         </div>
 
         <SectionCard title="Location preference">
@@ -95,6 +135,33 @@ export default function ProfilePage() {
               selected={locationPref === 'ask'}
               onSelect={() => setLocationPref('ask')}
             />
+          </div>
+        </SectionCard>
+
+        <SectionCard title="Preferred facility">
+          <p className="text-[12px] leading-snug" style={{ color: '#85A4B1', fontFamily: 'var(--font-sans)' }}>
+            Your default choice for everyday or over-the-counter care — used when we don't have a closer match from
+            your location.
+          </p>
+          <div
+            className="flex items-center justify-between px-4 py-3 rounded-xl"
+            style={{ background: 'rgba(19, 46, 60, 0.3)', border: '1px solid rgba(28, 70, 89, 0.4)' }}
+          >
+            <div>
+              <p className="text-[13px] font-semibold" style={{ color: '#E2F1F5', fontFamily: 'var(--font-sans)' }}>
+                St. Michael's Hospital
+              </p>
+              <p className="text-[11px] mt-0.5" style={{ color: '#85A4B1', fontFamily: 'var(--font-sans)' }}>
+                30 Bond St, Toronto, ON
+              </p>
+            </div>
+            <button
+              type="button"
+              className="text-[11px] font-semibold flex-none"
+              style={{ color: '#48F6C1', fontFamily: 'var(--font-sans)' }}
+            >
+              Get directions
+            </button>
           </div>
         </SectionCard>
 
@@ -165,7 +232,7 @@ export default function ProfilePage() {
       </div>
 
       <div
-        className="fixed bottom-0 left-0 right-0 flex justify-center"
+        className="fixed bottom-0 left-0 right-0 flex flex-col items-center gap-2"
         style={{
           background: 'rgba(6, 18, 25, 0.95)',
           backdropFilter: 'blur(16px)',
@@ -179,6 +246,13 @@ export default function ProfilePage() {
           style={{ maxWidth: isMobile ? undefined : 640, background: '#48F6C1', color: '#061219', padding: '12px 0', minHeight: 44 }}
         >
           Save changes
+        </button>
+        <button
+          type="button"
+          className="text-[11px] font-semibold"
+          style={{ color: '#FF7B93', fontFamily: 'var(--font-sans)' }}
+        >
+          Delete my account
         </button>
       </div>
     </div>
