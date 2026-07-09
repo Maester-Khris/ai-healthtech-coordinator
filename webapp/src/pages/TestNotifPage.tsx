@@ -19,7 +19,7 @@ interface SendResult {
 }
 
 export default function TestNotifPage() {
-  const { playerId, requesting, requestPermission, permissionState } = useNotificationPermission()
+  const { playerId, requesting, requestPermission, permissionState } = useNotificationPermission(null)
   const { platform, installState, isPushSupported, isIosVersionSupported, installModalDismissed, isStandalone } = usePWAInstall()
   const currentPlatform = detectPlatform()
   const isIosNotStandalone = platform === "ios_safari" && installState !== "standalone"
