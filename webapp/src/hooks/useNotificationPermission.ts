@@ -56,6 +56,20 @@ export function useNotificationPermission(
     }
     const perm = Notification.permission
     setPermissionState(perm === "default" ? "default" : perm as PermissionState)
+
+    // Keep in sync with the OS/browser permission even when it changes in a
+    // different hook instance (e.g. granted via the onboarding wizard's own
+    // instance) — avoids this instance showing stale pre-grant state.
+    let status: PermissionStatus | null = null
+    const handleChange = () => {
+      if (status) setPermissionState(status.state as PermissionState)
+    }
+    navigator.permissions?.query({ name: "notifications" as PermissionName }).then(s => {
+      status = s
+      status.addEventListener("change", handleChange)
+    }).catch(() => {})
+
+    return () => status?.removeEventListener("change", handleChange)
   }, [])
 
   const requestPermission = async () => {
