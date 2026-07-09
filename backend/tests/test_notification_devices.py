@@ -58,17 +58,34 @@ def test_list_devices_returns_empty_on_404():
     assert resp.json() == {"devices": []}
 
 
-def test_remove_device_success():
+def _mock_owned_devices_response():
     mock_response = MagicMock(spec=httpx.Response)
-    mock_response.status_code = 204
-    with patch("routers.notifications.httpx.delete", return_value=mock_response):
+    mock_response.status_code = 200
+    mock_response.json.return_value = {
+        "subscriptions": [{"id": "sub-1", "type": "ChromePush", "enabled": True}]
+    }
+    return mock_response
+
+
+def test_remove_device_success():
+    mock_delete_response = MagicMock(spec=httpx.Response)
+    mock_delete_response.status_code = 204
+    with patch("routers.notifications.httpx.get", return_value=_mock_owned_devices_response()), \
+         patch("routers.notifications.httpx.delete", return_value=mock_delete_response):
         resp = client.delete("/notifications/devices/sub-1")
     assert resp.status_code == 200
     assert resp.json() == {"status": "removed"}
 
 
 def test_remove_device_network_error():
-    with patch("routers.notifications.httpx.delete", side_effect=httpx.RequestError("timeout")):
+    with patch("routers.notifications.httpx.get", return_value=_mock_owned_devices_response()), \
+         patch("routers.notifications.httpx.delete", side_effect=httpx.RequestError("timeout")):
         resp = client.delete("/notifications/devices/sub-1")
     assert resp.status_code == 502
     assert "Failed to reach OneSignal" in resp.json()["detail"]
+
+
+def test_remove_device_rejects_unowned_subscription():
+    with patch("routers.notifications.httpx.get", return_value=_mock_owned_devices_response()):
+        resp = client.delete("/notifications/devices/sub-not-mine")
+    assert resp.status_code == 404
