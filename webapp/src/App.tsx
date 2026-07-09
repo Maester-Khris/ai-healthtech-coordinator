@@ -44,7 +44,7 @@ function LandingRoute() {
 function AppInner() {
   const isMobile = useBreakpoint()
   const { user } = useAuth()
-  const { profile } = useProfile()
+  const { profile, refetch: refetchProfile } = useProfile()
   const { facilities, loading: facilitiesLoading } = useFacilities()
   const { cache, sendMessage, createSession, loadOlderMessages } = useConversations()
   const geo = useGeolocation()
@@ -130,7 +130,7 @@ function AppInner() {
           onDismiss={() => setPermissionPromptDismissed(true)}
         />
       )}
-      {!isMobile && showOnboarding && <OnboardingOverlay />}
+      {!isMobile && showOnboarding && <OnboardingOverlay onComplete={refetchProfile} />}
       {isMobile
         ? <MobileLayout {...sharedProps} />
         : <Home {...sharedProps} />

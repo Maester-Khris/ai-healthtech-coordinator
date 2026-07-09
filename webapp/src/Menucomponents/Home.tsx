@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Facility, Message, Session, ConversationsCache, ChatMessageResponse } from '@shared/types'
 import { MapPanel } from '../components/map'
 import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
 import { WebNavBar } from '../components/WebNavBar'
-import { OnboardingOverlay } from '../components/onboarding/OnboardingOverlay'
 import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
 import { useGeolocation } from '../hooks/useGeolocation'
@@ -46,10 +45,14 @@ export default function Home({ facilities, facilitiesLoading, conversationsCache
   const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
 
+  useEffect(() => {
+    if (!user) geo.setCoords(null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
+
   return (
     <div className="flex flex-col h-screen" style={{ background: '#061219' }}>
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
-      {user && profile && !profile.getting_started_done && <OnboardingOverlay />}
 
       <WebNavBar
         rightContent={user ? (

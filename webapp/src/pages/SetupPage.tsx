@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom'
 import { OnboardingWizard } from '../components/onboarding/OnboardingWizard'
 
 export default function SetupPage() {
-  return <OnboardingWizard />
+  const navigate = useNavigate()
+  return <OnboardingWizard onComplete={() => navigate('/app')} />
 }

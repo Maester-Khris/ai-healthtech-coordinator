@@ -14,9 +14,10 @@ const STEP_LABELS = ['Location', 'Push', 'Emergency', 'Medical']
 
 interface OnboardingWizardProps {
   embedded?: boolean
+  onComplete?: () => void
 }
 
-export function OnboardingWizard({ embedded = false }: OnboardingWizardProps) {
+export function OnboardingWizard({ embedded = false, onComplete }: OnboardingWizardProps) {
   const isMobile = useBreakpoint()
   const { user } = useAuth()
   const geo = useGeolocation()
@@ -53,8 +54,8 @@ export function OnboardingWizard({ embedded = false }: OnboardingWizardProps) {
       name={flow.data.emergency_contact_name ?? ''}
       phone={flow.data.emergency_contact_phone ?? ''}
       autoAlertOptIn={flow.data.auto_alert_opt_in}
-      onNameChange={v => flow.setData({ emergency_contact_name: v.trim() || null })}
-      onPhoneChange={v => flow.setData({ emergency_contact_phone: v.trim() || null })}
+      onNameChange={v => flow.setData({ emergency_contact_name: v })}
+      onPhoneChange={v => flow.setData({ emergency_contact_phone: v })}
       onAutoAlertChange={v => flow.setData({ auto_alert_opt_in: v })}
       onNext={flow.next}
     />,
@@ -64,11 +65,11 @@ export function OnboardingWizard({ embedded = false }: OnboardingWizardProps) {
       conditions={flow.data.conditions ?? ''}
       bloodType={flow.data.blood_type ?? ''}
       chatOptIn={flow.data.medical_chat_opt_in}
-      onAllergiesChange={v => flow.setData({ allergies: v.trim() || null })}
-      onConditionsChange={v => flow.setData({ conditions: v.trim() || null })}
+      onAllergiesChange={v => flow.setData({ allergies: v })}
+      onConditionsChange={v => flow.setData({ conditions: v })}
       onBloodTypeChange={v => flow.setData({ blood_type: v || null })}
       onChatOptInChange={v => flow.setData({ medical_chat_opt_in: v })}
-      onFinish={() => { flow.submit() }}
+      onFinish={() => { flow.submit().then(ok => { if (ok) onComplete?.() }) }}
       submitting={flow.submitting}
       submitError={flow.submitError}
     />,

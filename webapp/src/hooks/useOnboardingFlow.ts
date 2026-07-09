@@ -1,6 +1,7 @@
 // webapp/src/hooks/useOnboardingFlow.ts
 import { useState } from 'react'
 import { useProfile } from './useProfile'
+import { trimOrNull } from '../lib/trimOrNull'
 
 export type OnboardingStep = 'location' | 'push' | 'emergency' | 'medical'
 
@@ -41,7 +42,14 @@ export function prevStepIndex(index: number): number {
 export function buildSubmitPayload(
   data: OnboardingData
 ): OnboardingData & { getting_started_done: true } {
-  return { ...data, getting_started_done: true }
+  return {
+    ...data,
+    emergency_contact_name: trimOrNull(data.emergency_contact_name),
+    emergency_contact_phone: trimOrNull(data.emergency_contact_phone),
+    allergies: trimOrNull(data.allergies),
+    conditions: trimOrNull(data.conditions),
+    getting_started_done: true,
+  }
 }
 
 export interface UseOnboardingFlowResult {
@@ -54,7 +62,7 @@ export interface UseOnboardingFlowResult {
   back: () => void
   submitting: boolean
   submitError: string | null
-  submit: () => Promise<void>
+  submit: () => Promise<boolean>
 }
 
 export function useOnboardingFlow(): UseOnboardingFlowResult {
@@ -75,8 +83,10 @@ export function useOnboardingFlow(): UseOnboardingFlowResult {
     setSubmitError(null)
     try {
       await updateProfile(buildSubmitPayload(data))
+      return true
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      return false
     } finally {
       setSubmitting(false)
     }

@@ -10,18 +10,21 @@ export function useProfile() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+  const refetch = async () => {
     if (!user) { setProfile(null); return }
     setLoading(true)
-    supabase
+    const { data } = await supabase
       .from('profile')
       .select('*')
       .eq('user_id', user.id)
       .single()
-      .then(({ data }) => {
-        setProfile(data)
-        setLoading(false)
-      })
+    setProfile(data)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   const updateProfile = async (updates: Partial<Profile>) => {
@@ -36,5 +39,5 @@ export function useProfile() {
     setProfile(data)
   }
 
-  return { profile, loading, updateProfile }
+  return { profile, loading, updateProfile, refetch }
 }
