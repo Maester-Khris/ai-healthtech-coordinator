@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
+import { formatDisplayName } from '../../lib/formatDisplayName'
 
 interface DrawerMenuProps {
   isOpen: boolean
@@ -88,9 +89,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
 
   const email = user?.email ?? ''
   const initials = email ? email[0].toUpperCase() : '?'
-  const displayName = email
-    ? email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-    : ''
+  const displayName = email ? formatDisplayName(email) : ''
 
   const handleHome = () => {
     onClose()

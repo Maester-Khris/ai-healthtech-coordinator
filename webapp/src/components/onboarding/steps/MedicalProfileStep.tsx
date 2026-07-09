@@ -2,6 +2,11 @@ import { TextField } from '../fields/TextField'
 import { SelectField } from '../fields/SelectField'
 import { ToggleRow } from '../fields/ToggleRow'
 
+export const AI_ASSISTANT_OPT_IN_COPY = {
+  label: 'Let the AI assistant use this during triage',
+  caption: 'Only shared with the assistant if enabled — see Privacy Policy.',
+}
+
 export const BLOOD_TYPE_OPTIONS = [
   { value: 'A+', label: 'A+' },
   { value: 'A-', label: 'A-' },
@@ -66,8 +71,7 @@ export function MedicalProfileStep({
       <div className="h-px" style={{ background: 'rgba(28, 70, 89, 0.4)' }} />
 
       <ToggleRow
-        label="Let the AI assistant use this during triage"
-        caption="Only shared with the assistant if enabled — see Privacy Policy."
+        {...AI_ASSISTANT_OPT_IN_COPY}
         checked={chatOptIn}
         onChange={onChatOptInChange}
       />

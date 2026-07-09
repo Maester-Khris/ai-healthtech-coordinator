@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../auth/useAuth"
+import { formatDisplayName } from "../../lib/formatDisplayName"
 
 function HomeIcon() {
   return (
@@ -77,9 +78,7 @@ export function UserMenu() {
 
   const email = user?.email ?? ""
   const initial = email.charAt(0).toUpperCase()
-  const displayName = email
-    ? email.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, c => c.toUpperCase())
-    : ""
+  const displayName = email ? formatDisplayName(email) : ""
 
   // Close on outside click — check both trigger and portal content
   useEffect(() => {

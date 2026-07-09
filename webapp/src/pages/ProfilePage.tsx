@@ -8,11 +8,13 @@ import { RadioCard } from '../components/onboarding/fields/RadioCard'
 import { TextField } from '../components/onboarding/fields/TextField'
 import { SelectField } from '../components/onboarding/fields/SelectField'
 import { ToggleRow } from '../components/onboarding/fields/ToggleRow'
-import { BLOOD_TYPE_OPTIONS } from '../components/onboarding/steps/MedicalProfileStep'
+import { BLOOD_TYPE_OPTIONS, AI_ASSISTANT_OPT_IN_COPY } from '../components/onboarding/steps/MedicalProfileStep'
 import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
 import { useNotificationPermission } from '../hooks/useNotificationPermission'
 import { apiFetch } from '../lib/apiClient'
+import { formatDisplayName } from '../lib/formatDisplayName'
+import { trimOrNull } from '../lib/trimOrNull'
 import type { NotificationDevice } from '@shared/types'
 import {
   User,
@@ -92,29 +94,36 @@ export default function ProfilePage() {
       .then(res => res.ok ? res.json() : { devices: [] })
       .then(data => setDevices(data.devices ?? []))
       .catch(() => setDevices([]))
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id])
 
   const removeDevice = async (subscriptionId: string) => {
+    const previous = devices
     setDevices(current => current.filter(d => d.subscription_id !== subscriptionId))
-    await apiFetch(`/notifications/devices/${subscriptionId}`, { method: 'DELETE' }).catch(() => {})
+    try {
+      const res = await apiFetch(`/notifications/devices/${subscriptionId}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error(`Failed to remove device (${res.status})`)
+    } catch {
+      setDevices(previous)
+      setSaveError('Could not remove that device. Please try again.')
+    }
   }
 
-  const displayName = user?.email
-    ? user.email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-    : ''
+  const displayName = user?.email ? formatDisplayName(user.email) : ''
   const initials = user?.email ? user.email[0].toUpperCase() : '?'
 
   const handleSaveChanges = async () => {
+    if (!profile) return
     setSaving(true)
     setSaveError(null)
     try {
       await updateProfile({
         location_preference: locationPref,
-        emergency_contact_name: contactName.trim() || null,
-        emergency_contact_phone: contactPhone.trim() || null,
+        emergency_contact_name: trimOrNull(contactName),
+        emergency_contact_phone: trimOrNull(contactPhone),
         auto_alert_opt_in: autoAlertOptIn,
-        allergies: allergies.trim() || null,
-        conditions: conditions.trim() || null,
+        allergies: trimOrNull(allergies),
+        conditions: trimOrNull(conditions),
         blood_type: bloodType || null,
         medical_chat_opt_in: chatOptIn,
       })
@@ -288,8 +297,7 @@ export default function ProfilePage() {
             />
             <SelectField label="Blood type" value={bloodType} onChange={setBloodType} options={BLOOD_TYPE_OPTIONS} placeholder="Select type" />
             <ToggleRow
-              label="Let the AI assistant use this during triage"
-              caption="Only shared with the assistant if enabled — see Privacy Policy."
+              {...AI_ASSISTANT_OPT_IN_COPY}
               checked={chatOptIn}
               onChange={setChatOptIn}
             />
@@ -309,7 +317,7 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={handleSaveChanges}
-            disabled={saving}
+            disabled={saving || !profile}
             className="w-full font-bold rounded-xl transition-all disabled:opacity-60"
             style={{ background: '#48F6C1', color: '#061219', padding: '12px 0', minHeight: 44 }}
           >
@@ -718,8 +726,7 @@ export default function ProfilePage() {
                 </div>
 
                 <ToggleRow
-                  label="Let the AI assistant use this during triage"
-                  caption="Only shared with the assistant if enabled — see Privacy Policy."
+                  {...AI_ASSISTANT_OPT_IN_COPY}
                   checked={chatOptIn}
                   onChange={setChatOptIn}
                 />
@@ -765,7 +772,7 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={handleSaveChanges}
-            disabled={saving}
+            disabled={saving || !profile}
             className="text-[12px] font-bold px-6 py-2.5 rounded-xl transition-all hover:opacity-90 disabled:opacity-60"
             style={{ background: '#48F6C1', color: '#061219' }}
           >
