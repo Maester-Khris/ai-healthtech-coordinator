@@ -426,9 +426,19 @@ sources preferred.
 
 ---
 
-## [Sprint 16 — Active] · Onboarding Flow Consolidation
+## [Sprint 16 — Active {in review}] · Onboarding Flow Consolidation
 
 **Started — 2026-07-07 · branch: `feat/onboarding-consolidation`**
+
+### Review — 2026-07-09
+Workflow-integration implementation (uncommitted) reviewed via `/code-review high`.
+10 findings, all CONFIRMED — 1 IDOR (unscoped device delete), 1 duplicate-onboarding-overlay
+regression, 1 stuck-on-`/setup`-after-finishing bug, 1 per-keystroke input-trimming bug, 1 silently
+swallowed profile-fetch error paired with migration 013 still marked `pending`, plus 5 lower-severity
+items (optimistic-update error swallowing, a dropped sign-out GPS reset, two blocking-I/O-in-async-route
+spots, and one triplicated display-name helper). Full findings + suggested fixes:
+`docs/superpowers/reviews/2026-07-09-onboarding-flow-consolidation-review.md`. Not yet fixed — pass
+that file to the next implementation session.
 
 ### Scope
 Desktop (`GettingStartedModal`) and mobile (`SetupPage`) currently duplicate the same
