@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useBreakpoint } from '../hooks/useBreakpoint'
@@ -9,6 +9,11 @@ import { TextField } from '../components/onboarding/fields/TextField'
 import { SelectField } from '../components/onboarding/fields/SelectField'
 import { ToggleRow } from '../components/onboarding/fields/ToggleRow'
 import { BLOOD_TYPE_OPTIONS } from '../components/onboarding/steps/MedicalProfileStep'
+import { useAuth } from '../auth/useAuth'
+import { useProfile } from '../hooks/useProfile'
+import { useNotificationPermission } from '../hooks/useNotificationPermission'
+import { apiFetch } from '../lib/apiClient'
+import type { NotificationDevice } from '@shared/types'
 import {
   User,
   SignOut,
@@ -35,15 +40,6 @@ const miniMapPinIcon = L.divIcon({
   iconAnchor: [7, 7],
 })
 
-const PLACEHOLDER_DEVICES = [
-  { id: 'device-1', label: 'Chrome on Windows — active' },
-  { id: 'device-2', label: 'Safari on iPhone — active' },
-]
-
-const EMAIL = 'user@example.com'
-const DISPLAY_NAME = EMAIL.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-const INITIALS = EMAIL[0].toUpperCase()
-
 function SectionCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div
@@ -61,20 +57,73 @@ function SectionCard({ title, children }: { title: string; children: ReactNode }
 export default function ProfilePage() {
   const isMobile = useBreakpoint()
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [locationPref, setLocationPref] = useState<'always' | 'ask'>('ask')
-  const [pushEnabled, setPushEnabled] = useState(true)
-  const [devices, setDevices] = useState(PLACEHOLDER_DEVICES)
-  const [contactName, setContactName] = useState('Sarah Jenkins')
-  const [contactPhone, setContactPhone] = useState('+1 (416) 555-0192')
-  const [autoAlertOptIn, setAutoAlertOptIn] = useState(false)
-  const [allergies, setAllergies] = useState('Penicillin')
-  const [conditions, setConditions] = useState('')
-  const [bloodType, setBloodType] = useState('A+')
-  const [chatOptIn, setChatOptIn] = useState(false)
 
-  const removeDevice = (id: string) => setDevices(current => current.filter(device => device.id !== id))
-  const addDevice = () =>
-    setDevices(current => [...current, { id: `device-${Date.now()}`, label: 'New device — pending' }])
+  const { user } = useAuth()
+  const { profile, updateProfile } = useProfile()
+  const { permissionState, requesting, requestPermission } = useNotificationPermission(user?.id ?? null)
+
+  const [locationPref, setLocationPref] = useState<'always' | 'ask'>('ask')
+  const [contactName, setContactName] = useState('')
+  const [contactPhone, setContactPhone] = useState('')
+  const [autoAlertOptIn, setAutoAlertOptIn] = useState(false)
+  const [allergies, setAllergies] = useState('')
+  const [conditions, setConditions] = useState('')
+  const [bloodType, setBloodType] = useState('')
+  const [chatOptIn, setChatOptIn] = useState(false)
+  const [devices, setDevices] = useState<NotificationDevice[]>([])
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!profile) return
+    setLocationPref(profile.location_preference)
+    setContactName(profile.emergency_contact_name ?? '')
+    setContactPhone(profile.emergency_contact_phone ?? '')
+    setAutoAlertOptIn(profile.auto_alert_opt_in)
+    setAllergies(profile.allergies ?? '')
+    setConditions(profile.conditions ?? '')
+    setBloodType(profile.blood_type ?? '')
+    setChatOptIn(profile.medical_chat_opt_in)
+  }, [profile])
+
+  useEffect(() => {
+    if (!user) return
+    apiFetch('/notifications/devices')
+      .then(res => res.ok ? res.json() : { devices: [] })
+      .then(data => setDevices(data.devices ?? []))
+      .catch(() => setDevices([]))
+  }, [user])
+
+  const removeDevice = async (subscriptionId: string) => {
+    setDevices(current => current.filter(d => d.subscription_id !== subscriptionId))
+    await apiFetch(`/notifications/devices/${subscriptionId}`, { method: 'DELETE' }).catch(() => {})
+  }
+
+  const displayName = user?.email
+    ? user.email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+    : ''
+  const initials = user?.email ? user.email[0].toUpperCase() : '?'
+
+  const handleSaveChanges = async () => {
+    setSaving(true)
+    setSaveError(null)
+    try {
+      await updateProfile({
+        location_preference: locationPref,
+        emergency_contact_name: contactName.trim() || null,
+        emergency_contact_phone: contactPhone.trim() || null,
+        auto_alert_opt_in: autoAlertOptIn,
+        allergies: allergies.trim() || null,
+        conditions: conditions.trim() || null,
+        blood_type: bloodType || null,
+        medical_chat_opt_in: chatOptIn,
+      })
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'Failed to save changes.')
+    } finally {
+      setSaving(false)
+    }
+  }
 
   if (isMobile) {
     return (
@@ -96,14 +145,14 @@ export default function ProfilePage() {
                 className="rounded-full flex items-center justify-center flex-none"
                 style={{ width: 64, height: 64, background: '#35A7C4', color: '#061219', fontWeight: 700, fontSize: 22 }}
               >
-                {INITIALS}
+                {initials}
               </div>
               <div>
                 <p className="text-[16px] font-bold" style={{ color: '#E2F1F5', fontFamily: 'var(--font-sans)' }}>
-                  {DISPLAY_NAME}
+                  {displayName}
                 </p>
                 <p className="text-[12px] mt-0.5" style={{ color: '#85A4B1', fontFamily: 'var(--font-sans)' }}>
-                  Toronto, ON · {EMAIL}
+                  {user?.email ?? ''}
                 </p>
                 <span
                   className="inline-block mt-2 text-[9px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
@@ -166,20 +215,24 @@ export default function ProfilePage() {
           </SectionCard>
 
           <SectionCard title="Push notifications">
-            <ToggleRow label="Push notifications" checked={pushEnabled} onChange={setPushEnabled} />
+            <ToggleRow
+              label="Push notifications"
+              checked={permissionState === 'granted'}
+              onChange={v => v ? requestPermission() : undefined}
+            />
             <div className="flex flex-col gap-2">
               {devices.map(device => (
                 <div
-                  key={device.id}
+                  key={device.subscription_id}
                   className="flex items-center justify-between px-4 py-2.5 rounded-xl"
                   style={{ background: 'rgba(19, 46, 60, 0.3)', border: '1px solid rgba(28, 70, 89, 0.4)' }}
                 >
                   <span className="text-[12px]" style={{ color: '#E2F1F5', fontFamily: 'var(--font-sans)' }}>
-                    {device.label}
+                    {device.device_type} — {device.active ? 'active' : 'inactive'}
                   </span>
                   <button
                     type="button"
-                    onClick={() => removeDevice(device.id)}
+                    onClick={() => removeDevice(device.subscription_id)}
                     className="text-[11px] font-semibold"
                     style={{ color: '#FF7B93', fontFamily: 'var(--font-sans)' }}
                   >
@@ -192,15 +245,18 @@ export default function ProfilePage() {
                   No devices registered.
                 </p>
               )}
-              <button
-                type="button"
-                onClick={addDevice}
-                className="flex items-center justify-center gap-1.5 text-[12px] font-semibold py-2.5 rounded-xl"
-                style={{ border: '1px dashed rgba(28, 70, 89, 0.6)', color: '#85A4B1', fontFamily: 'var(--font-sans)' }}
-              >
-                <Plus size={14} />
-                Add device
-              </button>
+              {permissionState !== 'granted' && (
+                <button
+                  type="button"
+                  onClick={requestPermission}
+                  disabled={requesting}
+                  className="flex items-center justify-center gap-1.5 text-[12px] font-semibold py-2.5 rounded-xl disabled:opacity-60"
+                  style={{ border: '1px dashed rgba(28, 70, 89, 0.6)', color: '#85A4B1', fontFamily: 'var(--font-sans)' }}
+                >
+                  <Plus size={14} />
+                  {requesting ? 'Enabling…' : 'Enable on this device'}
+                </button>
+              )}
             </div>
           </SectionCard>
 
@@ -252,11 +308,16 @@ export default function ProfilePage() {
         >
           <button
             type="button"
-            className="w-full font-bold rounded-xl transition-all"
+            onClick={handleSaveChanges}
+            disabled={saving}
+            className="w-full font-bold rounded-xl transition-all disabled:opacity-60"
             style={{ background: '#48F6C1', color: '#061219', padding: '12px 0', minHeight: 44 }}
           >
-            Save changes
+            {saving ? 'Saving…' : 'Save changes'}
           </button>
+          {saveError && (
+            <p className="text-[11px] text-center" style={{ color: '#FF7B93' }}>{saveError}</p>
+          )}
           <button
             type="button"
             className="text-[11px] font-semibold"
@@ -319,14 +380,14 @@ export default function ProfilePage() {
               className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px] flex-none"
               style={{ background: '#132E3C', color: '#E2F1F5' }}
             >
-              PU
+              {initials}
             </div>
             <div className="overflow-hidden">
               <p className="font-bold text-[13px] truncate" style={{ color: '#E2F1F5' }}>
-                Patient User
+                {displayName}
               </p>
               <p className="text-[11px] truncate mt-0.5" style={{ color: '#85A4B1' }}>
-                user@health.ca
+                {user?.email ?? ''}
               </p>
             </div>
           </div>
@@ -375,14 +436,14 @@ export default function ProfilePage() {
                   className="w-20 h-20 rounded-full flex items-center justify-center font-bold text-[28px] flex-none"
                   style={{ background: '#48F6C1', color: '#061219' }}
                 >
-                  PU
+                  {initials}
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <h1 className="text-[22px] font-bold" style={{ color: '#E2F1F5' }}>
-                    Patient User
+                    {displayName}
                   </h1>
                   <p className="text-[13px]" style={{ color: '#85A4B1' }}>
-                    Toronto, Ontario • user@health.ca
+                    {user?.email ?? ''}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
                     <span
@@ -508,19 +569,19 @@ export default function ProfilePage() {
                 <div className="flex flex-col gap-2">
                   {devices.map(device => (
                     <div
-                      key={device.id}
+                      key={device.subscription_id}
                       className="flex items-center justify-between p-3.5 rounded-xl"
                       style={{ background: 'rgba(19, 46, 60, 0.3)', border: '1px solid rgba(28, 70, 89, 0.4)' }}
                     >
                       <div className="flex items-center gap-3">
                         <DeviceMobile size={20} style={{ color: '#85A4B1' }} />
                         <p className="font-bold text-[13px]" style={{ color: '#E2F1F5' }}>
-                          {device.label}
+                          {device.device_type} — {device.active ? 'active' : 'inactive'}
                         </p>
                       </div>
                       <button
                         type="button"
-                        onClick={() => removeDevice(device.id)}
+                        onClick={() => removeDevice(device.subscription_id)}
                         className="text-[11px] font-semibold flex-none"
                         style={{ color: '#FF7B93', fontFamily: 'var(--font-sans)' }}
                       >
@@ -535,15 +596,18 @@ export default function ProfilePage() {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={addDevice}
-                  className="flex items-center justify-center gap-1.5 text-[12px] font-semibold py-2.5 rounded-xl"
-                  style={{ border: '1px dashed rgba(28, 70, 89, 0.6)', color: '#85A4B1', fontFamily: 'var(--font-sans)' }}
-                >
-                  <Plus size={14} />
-                  Add device
-                </button>
+                {permissionState !== 'granted' && (
+                  <button
+                    type="button"
+                    onClick={requestPermission}
+                    disabled={requesting}
+                    className="flex items-center justify-center gap-1.5 text-[12px] font-semibold py-2.5 rounded-xl disabled:opacity-60"
+                    style={{ border: '1px dashed rgba(28, 70, 89, 0.6)', color: '#85A4B1', fontFamily: 'var(--font-sans)' }}
+                  >
+                    <Plus size={14} />
+                    {requesting ? 'Enabling…' : 'Enable on this device'}
+                  </button>
+                )}
               </div>
 
               {/* Emergency Contact Card */}
@@ -692,6 +756,7 @@ export default function ProfilePage() {
           </button>
           <button
             type="button"
+            onClick={() => { if (profile) { setLocationPref(profile.location_preference); setContactName(profile.emergency_contact_name ?? ''); setContactPhone(profile.emergency_contact_phone ?? ''); setAutoAlertOptIn(profile.auto_alert_opt_in); setAllergies(profile.allergies ?? ''); setConditions(profile.conditions ?? ''); setBloodType(profile.blood_type ?? ''); setChatOptIn(profile.medical_chat_opt_in) } }}
             className="text-[12px] font-semibold px-5 py-2.5 rounded-xl border transition-colors hover:bg-[rgba(28,70,89,0.2)]"
             style={{ borderColor: 'rgba(28, 70, 89, 0.6)', color: '#E2F1F5', background: 'transparent' }}
           >
@@ -699,10 +764,12 @@ export default function ProfilePage() {
           </button>
           <button
             type="button"
-            className="text-[12px] font-bold px-6 py-2.5 rounded-xl transition-all hover:opacity-90"
+            onClick={handleSaveChanges}
+            disabled={saving}
+            className="text-[12px] font-bold px-6 py-2.5 rounded-xl transition-all hover:opacity-90 disabled:opacity-60"
             style={{ background: '#48F6C1', color: '#061219' }}
           >
-            Update Me
+            {saving ? 'Saving…' : 'Update Me'}
           </button>
         </div>
       </footer>
