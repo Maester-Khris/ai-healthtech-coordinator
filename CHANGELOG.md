@@ -426,31 +426,61 @@ sources preferred.
 
 ---
 
-## [Sprint 16 — Active {in review}] · Onboarding Flow Consolidation
+## [Sprint 16 — Closed] · Onboarding Flow Consolidation
 
-**Started — 2026-07-07 · branch: `feat/onboarding-consolidation`**
-
-### Review — 2026-07-09
-Workflow-integration implementation (uncommitted) reviewed via `/code-review high`.
-10 findings, all CONFIRMED — 1 IDOR (unscoped device delete), 1 duplicate-onboarding-overlay
-regression, 1 stuck-on-`/setup`-after-finishing bug, 1 per-keystroke input-trimming bug, 1 silently
-swallowed profile-fetch error paired with migration 013 still marked `pending`, plus 5 lower-severity
-items (optimistic-update error swallowing, a dropped sign-out GPS reset, two blocking-I/O-in-async-route
-spots, and one triplicated display-name helper). Full findings + suggested fixes:
-`docs/superpowers/reviews/2026-07-09-onboarding-flow-consolidation-review.md`. Not yet fixed — pass
-that file to the next implementation session.
+**2026-07-07 → 2026-07-09 · branch: `feat/onboarding-consolidation`**
 
 ### Scope
-Desktop (`GettingStartedModal`) and mobile (`SetupPage`) currently duplicate the same
+Desktop (`GettingStartedModal`) and mobile (`SetupPage`) previously duplicated the same
 location + emergency contact form with diverging code and inconsistent trigger behavior
-(mobile onboarding isn't auto-shown on first login). GPS and push permission handling
-also live as separate, unrelated app-wide popups with no persisted state. This sprint
-unifies both platforms onto one shared step flow (Location → Push → Emergency Contact →
-Medical Profile), adds `push_enabled`, `auto_alert_opt_in`, and medical fields
-(`allergies`, `conditions`, `blood_type`, `medical_chat_opt_in`) to `profile`, wires
-opted-in medical info into the triage chat context server-side, and updates the privacy
+(mobile onboarding wasn't auto-shown on first login). GPS and push permission handling
+also lived as separate, unrelated app-wide popups with no persisted state. This sprint
+unified both platforms onto one shared step flow (Location → Push → Emergency Contact →
+Medical Profile), added `push_enabled`, `auto_alert_opt_in`, and medical fields
+(`allergies`, `conditions`, `blood_type`, `medical_chat_opt_in`) to `profile`, wired
+opted-in medical info into the triage chat context server-side, and updated the privacy
 pages to disclose the new data collection. Automated emergency-contact alert sending is
 explicitly deferred to a follow-up spec (opt-in is captured now, sending is not built).
+Migration `013_profile_onboarding_extensions.sql` applied 2026-07-09.
+
+### Post-review fixes (applied 2026-07-09, from `/code-review high` on the workflow-integration diff)
+10 findings, all CONFIRMED. Fixes: `remove_device` now scopes deletion to the caller's own
+OneSignal subscriptions (was an unscoped IDOR); removed the duplicate `OnboardingOverlay` trigger
+in `Home.tsx`; `SetupPage`/`OnboardingWizard` now navigate away after a successful finish instead of
+stalling on the last step; onboarding text fields no longer trim mid-keystroke (trim moved to submit
+time); swallowed profile-fetch exception in `chat.py` now logged; `ProfilePage`'s optimistic device
+removal now rolls back and surfaces an error on failure; re-added the GPS-clear-on-signout effect to
+`Home.tsx`; OneSignal calls in `notifications.py` offloaded to a threadpool; deduplicated the
+triplicated `email → display name` helper into `webapp/src/lib/formatDisplayName.ts`.
+Full findings: `docs/superpowers/reviews/2026-07-09-onboarding-flow-consolidation-review.md`.
+
+### Post-review fixes, round 2 (applied 2026-07-09, from a second `/code-review high` re-review)
+10 more findings, all verified (6 via dedicated verifier agents, 4 self-verified). Two CRITICAL:
+patient-supplied `allergies`/`conditions` were concatenated raw into the trusted LLM system
+prompt with no isolation — a prompt-injection path that could suppress correct emergency
+classification; now wrapped in explicit `<patient_provided_medical_context>` delimiters with an
+instruction to treat the content as inert data. Separately, `useProfile()` has no shared state
+across component instances, so the desktop non-dismissible onboarding overlay never dismissed
+itself after a successful submit — `useProfile` gained a `refetch()`, threaded through
+`OnboardingOverlay`'s new `onComplete` prop. Also fixed: `ProfilePage`'s Save button could submit
+blank/default state if clicked before the initial profile fetch resolved; `chat.py`'s per-message
+profile fetch still wasn't offloaded to a threadpool; `useNotificationPermission` now subscribes to
+the Permissions API so granted-state stays in sync across hook instances instead of going stale;
+`ProfilePage`'s device-list effect keyed on the `user` object reference (refetched on every token
+refresh) instead of `user?.id`; extracted shared `_onesignal_credentials()`/`_onesignal_request()`
+helpers and added real Pydantic response models to `notifications.py`; deduplicated the
+trim-or-null and AI-assistant-opt-in-copy logic that had drifted into two/three copies.
+
+### End-to-end validation (2026-07-09, Playwright against local dev servers + disposable Supabase test accounts)
+Full desktop and mobile onboarding → profile → chat journeys driven live. Confirmed: the desktop
+overlay-dismissal fix (completed wizard correctly hands off to the next popup instead of sticking);
+the mobile `/setup` → `/app` redirect; mid-keystroke trimming is gone (multi-word input survives
+keystroke-by-keystroke typing); all onboarding fields round-trip correctly through Supabase into
+`ProfilePage`; the profile save flow persists edits; the chat/triage flow completes cleanly with the
+medical-context fetch and prompt-injection guard both in place, no backend exceptions. Found and
+fixed one additional bug live: the desktop `UserMenu`'s "My profile" link still pointed at `/setup`
+instead of `/profile`, sending a fully-onboarded user back through the entire wizard — missed by both
+review passes since `UserMenu.tsx` wasn't touched by the sprint's diff.
 
 ---
 
