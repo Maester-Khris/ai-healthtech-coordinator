@@ -133,6 +133,16 @@ export interface SendNotificationResponse {
   notification_id: string | null
 }
 
+export interface NotificationDevice {
+  subscription_id: string
+  device_type:     string
+  active:          boolean
+}
+
+export interface ListDevicesResponse {
+  devices: NotificationDevice[]
+}
+
 // ── Triage UI ─────────────────────────────────────────────────────────────────
 
 export interface RouteResult {

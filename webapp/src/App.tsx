@@ -42,6 +42,7 @@ function LandingRoute() {
 
 function AppInner() {
   const isMobile = useBreakpoint()
+  const { user } = useAuth()
   const { facilities, loading: facilitiesLoading } = useFacilities()
   const { cache, sendMessage, createSession, loadOlderMessages } = useConversations()
   const geo = useGeolocation()
@@ -62,7 +63,7 @@ function AppInner() {
     permissionState,
     requesting,
     requestPermission,
-  } = useNotificationPermission()
+  } = useNotificationPermission(user?.id ?? null)
 
   const [permissionPromptDismissed, setPermissionPromptDismissed] = useState(false)
   const [installConfirmed, setInstallConfirmed] = useState(installState === "standalone")
