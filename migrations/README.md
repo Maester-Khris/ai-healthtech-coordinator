@@ -20,6 +20,6 @@ Files must be run with sufficient privileges (service role or dashboard).
 | 010_nearby_facilities_rpc.sql | nearby_facilities PostGIS RPC (ST_DWithin + ST_Distance) | applied |
 | 011_latest_wait_times_rpc.sql | Latest wait_minutes per facility (DISTINCT ON), cache-aside fallback | applied — 2026-06-30 |
 | 012_latest_wait_times_rpc_add_fields.sql | Add is_operational, facility_name fields to latest_wait_times RPC | applied |
-| 013_profile_onboarding_extensions.sql | push_enabled, auto_alert_opt_in, allergies, conditions, blood_type, medical_chat_opt_in columns on profile | pending |
+| 013_profile_onboarding_extensions.sql | push_enabled, auto_alert_opt_in, allergies, conditions, blood_type, medical_chat_opt_in columns on profile | applied — 2026-07-09 |
 
 After running each file, update Status to `applied — YYYY-MM-DD`.
