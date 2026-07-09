@@ -15,6 +15,7 @@ import ForEngineersPage from './pages/ForEngineersPage'
 import EngineeringCaseStudyPage from './pages/EngineeringCaseStudyPage'
 import { OnboardingWizard } from './components/onboarding/OnboardingWizard'
 import ProfilePage from './pages/ProfilePage'
+import { OnboardingOverlay } from './components/onboarding/OnboardingOverlay'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { AuthProvider } from './auth/AuthContext'
 import { Notification } from './components/Notification'
@@ -28,6 +29,7 @@ import { useGeolocation } from './hooks/useGeolocation'
 import { usePWAInstall } from './hooks/usePWAInstall'
 import { useNotificationPermission } from './hooks/useNotificationPermission'
 import { useAuth } from './auth/useAuth'
+import { useProfile } from './hooks/useProfile'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
@@ -43,6 +45,7 @@ function LandingRoute() {
 function AppInner() {
   const isMobile = useBreakpoint()
   const { user } = useAuth()
+  const { profile } = useProfile()
   const { facilities, loading: facilitiesLoading } = useFacilities()
   const { cache, sendMessage, createSession, loadOlderMessages } = useConversations()
   const geo = useGeolocation()
@@ -68,13 +71,16 @@ function AppInner() {
   const [permissionPromptDismissed, setPermissionPromptDismissed] = useState(false)
   const [installConfirmed, setInstallConfirmed] = useState(installState === "standalone")
 
-  const showGpsModal = geo.permission === "denied" && !gpsModalDismissed
+  const showOnboarding = Boolean(user && profile && !profile.getting_started_done)
+
+  const showGpsModal = geo.permission === "denied" && !gpsModalDismissed && !showOnboarding
 
   const showInstallModal =
     !installModalDismissed &&
     installState !== "standalone" &&
     (platform === "ios_safari" || platform === "android_chrome" || isIosNonSafari) &&
-    !installConfirmed
+    !installConfirmed &&
+    !showOnboarding
 
   const showPermissionPrompt =
     !showInstallModal &&
@@ -82,7 +88,8 @@ function AppInner() {
     permissionState !== "granted" &&
     permissionState !== "denied" &&
     !permissionPromptDismissed &&
-    shouldShowPermissionPrompt()
+    shouldShowPermissionPrompt() &&
+    !showOnboarding
 
   const sharedProps = {
     facilities,
@@ -91,6 +98,10 @@ function AppInner() {
     sendMessage,
     createSession,
     loadOlderMessages,
+  }
+
+  if (isMobile && showOnboarding) {
+    return <Navigate to="/setup" replace />
   }
 
   return (
@@ -120,6 +131,7 @@ function AppInner() {
           onDismiss={() => setPermissionPromptDismissed(true)}
         />
       )}
+      {!isMobile && showOnboarding && <OnboardingOverlay />}
       {isMobile
         ? <MobileLayout {...sharedProps} />
         : <Home {...sharedProps} />
