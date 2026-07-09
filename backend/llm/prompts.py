@@ -51,3 +51,23 @@ When you have enough information: call triage_response immediately.
 
 def build_system_prompt(max_followups: int = 4) -> str:
     return TRIAGE_SYSTEM_PROMPT.format(max_followups=max_followups)
+
+
+def build_medical_context_block(
+    allergies: str | None,
+    conditions: str | None,
+    blood_type: str | None,
+) -> str:
+    """Returns a block appended to the system prompt when medical_chat_opt_in=True."""
+    lines = [
+        "\n## Patient Medical Context (provided by patient; use to improve triage accuracy)",
+    ]
+    if blood_type:
+        lines.append(f"- Blood type: {blood_type}")
+    if allergies:
+        lines.append(f"- Known allergies: {allergies}")
+    if conditions:
+        lines.append(f"- Pre-existing conditions: {conditions}")
+    if len(lines) == 1:
+        return ""
+    return "\n".join(lines)

@@ -117,12 +117,25 @@ async def send_message(
 
     try:
         from services.llm_agent import LLMAgent
+        from db import supabase_select
         agent = LLMAgent()
+
+        user_profile: dict | None = None
+        try:
+            user_profile = supabase_select(
+                "profile",
+                params={"user_id": f"eq.{user_id}", "select": "allergies,conditions,blood_type,medical_chat_opt_in"},
+                single=True,
+            )  # type: ignore[assignment]
+        except Exception:
+            pass  # profile fetch failure must not block triage
+
         result = agent.respond(
             user_message=body.content,
             history=history,
             lat=body.lat,
             lng=body.lng,
+            user_profile=user_profile,
         )
     except Exception as exc:
         import sentry_sdk
