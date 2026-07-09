@@ -24,6 +24,8 @@ interface MedicalProfileStepProps {
   onBloodTypeChange: (value: string) => void
   onChatOptInChange: (value: boolean) => void
   onFinish: () => void
+  submitting: boolean
+  submitError: string | null
 }
 
 export function MedicalProfileStep({
@@ -36,6 +38,8 @@ export function MedicalProfileStep({
   onBloodTypeChange,
   onChatOptInChange,
   onFinish,
+  submitting,
+  submitError,
 }: MedicalProfileStepProps) {
   return (
     <div className="flex flex-col gap-6">
@@ -71,11 +75,19 @@ export function MedicalProfileStep({
       <button
         type="button"
         onClick={onFinish}
-        className="w-full py-3.5 text-[14px] font-bold rounded-xl transition-all"
+        disabled={submitting}
+        className="w-full py-3.5 text-[14px] font-bold rounded-xl transition-all disabled:opacity-60"
         style={{ background: '#48F6C1', color: '#061219', minHeight: 44 }}
       >
-        Finish setup
+        {submitting ? 'Saving…' : 'Finish setup'}
       </button>
+
+      {submitError && (
+        <p className="text-[12px] text-center" style={{ color: '#FF7B93', fontFamily: 'var(--font-sans)' }}>
+          {submitError}
+        </p>
+      )}
     </div>
   )
 }
+
