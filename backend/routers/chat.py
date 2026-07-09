@@ -3,6 +3,7 @@ from datetime import datetime, date
 
 from fastapi import APIRouter, Depends, Request, Header
 from fastapi.responses import JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from middleware.auth import get_current_user
 from models import CreateSessionRequest, SendMessageRequest
@@ -122,13 +123,14 @@ async def send_message(
 
         user_profile: dict | None = None
         try:
-            user_profile = supabase_select(
+            user_profile = await run_in_threadpool(
+                supabase_select,
                 "profile",
                 params={"user_id": f"eq.{user_id}", "select": "allergies,conditions,blood_type,medical_chat_opt_in"},
                 single=True,
             )  # type: ignore[assignment]
-        except Exception:
-            pass  # profile fetch failure must not block triage
+        except Exception as exc:
+            logger.warning("profile_fetch_failed", extra={"request_id": request_id, "error": str(exc)})
 
         result = agent.respond(
             user_message=body.content,
