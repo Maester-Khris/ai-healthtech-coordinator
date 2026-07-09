@@ -13,7 +13,6 @@ import LandingPage from './pages/LandingPage'
 import ForInvestorsPage from './pages/ForInvestorsPage'
 import ForEngineersPage from './pages/ForEngineersPage'
 import EngineeringCaseStudyPage from './pages/EngineeringCaseStudyPage'
-import { OnboardingWizard } from './components/onboarding/OnboardingWizard'
 import ProfilePage from './pages/ProfilePage'
 import { OnboardingOverlay } from './components/onboarding/OnboardingOverlay'
 import { MobileLayout } from './components/mobile/MobileLayout'
@@ -155,13 +154,9 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingRoute />} />
             <Route path="/app" element={<AppInner />} />
-            <Route path="/setup" element={<SetupPage />} />
+            <Route path="/setup" element={<ProtectedRoute><SetupPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="/testlocation" element={<TestLocationPage />} />
-            {/* TEMPORARY — static UI preview only, removed when the workflow-integration
-                phase wires real /setup and /profile routing (see
-                2026-07-07-onboarding-flow-consolidation-design.md) */}
-            <Route path="/preview/onboarding" element={<OnboardingWizard />} />
-            <Route path="/preview/profile" element={<ProfilePage />} />
             <Route path="/sandbox" element={<ProtectedRoute><SandboxPage /></ProtectedRoute>} />
             <Route path="/test-notif" element={<TestNotifPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
