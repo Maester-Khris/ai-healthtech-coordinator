@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabaseClient"
 import { useAuth } from "../auth/useAuth"
+import type { Profile } from "@shared/types"
 
-export interface Profile {
-  id: string
-  user_id: string
-  getting_started_done: boolean
-  location_preference: 'always' | 'ask'
-  emergency_contact_name: string | null
-  emergency_contact_phone: string | null
-}
+export type { Profile }
 
 export function useProfile() {
   const { user } = useAuth()
@@ -32,13 +26,14 @@ export function useProfile() {
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('profile')
       .update(updates)
       .eq('user_id', user.id)
       .select()
       .single()
-    if (data) setProfile(data)
+    if (error) throw new Error(error.message)
+    setProfile(data)
   }
 
   return { profile, loading, updateProfile }

@@ -103,3 +103,18 @@ class NearbyFacilityResult(BaseModel):
     eta_drive_min:   int
     wait_minutes:    int | None = None
 
+
+class Profile(BaseModel):
+    id:                      UUID
+    user_id:                 UUID
+    getting_started_done:    bool
+    location_preference:     str
+    push_enabled:             bool
+    emergency_contact_name:  str | None = None
+    emergency_contact_phone: str | None = None
+    auto_alert_opt_in:       bool
+    allergies:               str | None = None
+    conditions:              str | None = None
+    blood_type:              str | None = None
+    medical_chat_opt_in:     bool
+
