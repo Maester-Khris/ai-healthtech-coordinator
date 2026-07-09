@@ -120,7 +120,7 @@ export function UserMenu() {
 
   const handleProfile = () => {
     setOpen(false)
-    navigate("/setup")
+    navigate("/profile")
   }
 
   const handleSignOut = async () => {
