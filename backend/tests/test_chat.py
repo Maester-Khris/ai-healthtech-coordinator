@@ -360,3 +360,108 @@ class TestSendMessage:
              patch("routers.chat.append_message_to_cache") as mock_append:
             self._post(client, "hi")
         assert mock_append.call_count == 2
+
+
+class TestSendMessageRoutingShadowDispatch:
+    def _fake_msg(self, role: str, content: str) -> dict:
+        return {
+            "id": "00000000-0000-0000-0000-000000000003",
+            "session_id": FAKE_SESSION_ID,
+            "user_id": FAKE_USER_ID_STR,
+            "role": role,
+            "content": content,
+            "created_at": "2024-01-15T10:00:00",
+        }
+
+    @pytest.fixture
+    def client(self):
+        return TestClient(_make_test_app(authenticated=True))
+
+    def test_shadow_call_dispatched_when_sampled_and_facility_present(self, client):
+        user_msg = self._fake_msg("user", "chest pain")
+        assistant_msg = self._fake_msg("assistant", "Go to Toronto General immediately.")
+        fake_facility = {
+            "id": "fac-001", "name": "Toronto General Hospital",
+            "category": "hospital", "address": "200 Elizabeth St",
+            "lat": 43.659, "lng": -79.388, "distanceKm": 1.2,
+        }
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent, \
+             patch("routers.chat.should_sample", return_value=True), \
+             patch("routers.chat.log_routing_comparison") as mock_log:
+            mock_instance = MagicMock()
+            mock_instance.respond.return_value = {
+                "response": "Go to Toronto General immediately.",
+                "severity": "emergent",
+                "reasoning": "Chest pain may indicate cardiac event.",
+                "recommended_facility": fake_facility,
+                "nearby_facilities": [],
+                "turn_type": "triage",
+            }
+            MockAgent.return_value = mock_instance
+            resp = client.post(
+                "/chat/message",
+                json={"session_id": FAKE_SESSION_ID, "content": "chest pain", "lat": 43.66, "lng": -79.38},
+            )
+
+        assert resp.status_code == 200
+        mock_log.assert_called_once_with(43.66, -79.38, fake_facility)
+
+    def test_shadow_call_not_dispatched_when_not_sampled(self, client):
+        user_msg = self._fake_msg("user", "chest pain")
+        assistant_msg = self._fake_msg("assistant", "Go to Toronto General immediately.")
+        fake_facility = {
+            "id": "fac-001", "name": "Toronto General Hospital",
+            "category": "hospital", "address": "200 Elizabeth St",
+            "lat": 43.659, "lng": -79.388, "distanceKm": 1.2,
+        }
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent, \
+             patch("routers.chat.should_sample", return_value=False), \
+             patch("routers.chat.log_routing_comparison") as mock_log:
+            mock_instance = MagicMock()
+            mock_instance.respond.return_value = {
+                "response": "Go to Toronto General immediately.",
+                "severity": "emergent",
+                "reasoning": "Chest pain may indicate cardiac event.",
+                "recommended_facility": fake_facility,
+                "nearby_facilities": [],
+                "turn_type": "triage",
+            }
+            MockAgent.return_value = mock_instance
+            resp = client.post(
+                "/chat/message",
+                json={"session_id": FAKE_SESSION_ID, "content": "chest pain", "lat": 43.66, "lng": -79.38},
+            )
+
+        assert resp.status_code == 200
+        mock_log.assert_not_called()
+
+    def test_shadow_call_not_dispatched_on_followup_turn(self, client):
+        user_msg = self._fake_msg("user", "hello")
+        assistant_msg = self._fake_msg("assistant", "Can you tell me more?")
+
+        with patch("routers.chat.add_message", side_effect=[user_msg, assistant_msg]), \
+             patch("services.llm_agent.LLMAgent") as MockAgent, \
+             patch("routers.chat.should_sample", return_value=True), \
+             patch("routers.chat.log_routing_comparison") as mock_log:
+            mock_instance = MagicMock()
+            mock_instance.respond.return_value = {
+                "response": "Can you tell me more?",
+                "severity": None,
+                "reasoning": None,
+                "recommended_facility": None,
+                "nearby_facilities": [],
+                "turn_type": "followup",
+            }
+            MockAgent.return_value = mock_instance
+            resp = client.post(
+                "/chat/message",
+                json={"session_id": FAKE_SESSION_ID, "content": "hello", "lat": 43.66, "lng": -79.38},
+            )
+
+        assert resp.status_code == 200
+        mock_log.assert_not_called()
+
