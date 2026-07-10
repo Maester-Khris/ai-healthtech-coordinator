@@ -118,3 +118,57 @@ class TestGetWaitMinutesMapWritebackShape:
         assert payload["raw_wait"] == "20 min"
         assert payload["source"] == "erstat"
         assert payload["updated_at"] == "2026-06-30T00:00:00Z"
+
+
+class TestCacheOutcomeMetrics:
+    def _get_count(self, outcome: str) -> float:
+        from services.wait_times import WAIT_TIMES_CACHE_OUTCOME
+        return WAIT_TIMES_CACHE_OUTCOME.labels(outcome=outcome)._value.get()
+
+    @patch("services.wait_times.redis_client")
+    def test_redis_hit_increments_redis_hit_counter(self, mock_redis):
+        mock_redis.hgetall.return_value = {
+            "fac-1": json.dumps({"wait_minutes": 12, "source": "erstat"}),
+        }
+        before = self._get_count("redis_hit")
+
+        get_wait_minutes_map()
+
+        assert self._get_count("redis_hit") == before + 1
+
+    @patch("services.wait_times.redis_client")
+    def test_all_malformed_entries_does_not_increment_redis_hit(self, mock_redis):
+        mock_redis.hgetall.return_value = {
+            "fac-1": "not-valid-json{{{",
+            "fac-2": "also-not-valid-json{{{",
+        }
+        before = self._get_count("redis_hit")
+
+        result = get_wait_minutes_map()
+
+        assert result == {}
+        assert self._get_count("redis_hit") == before
+
+    @patch("services.wait_times.supabase_rpc")
+    @patch("services.wait_times.redis_client")
+    def test_supabase_fallback_increments_fallback_counter(self, mock_redis, mock_rpc):
+        mock_redis.hgetall.return_value = {}
+        mock_rpc.return_value = [
+            {"facility_id": "fac-1", "wait_minutes": 20, "recorded_at": "2026-06-30T00:00:00Z"},
+        ]
+        before = self._get_count("supabase_fallback")
+
+        get_wait_minutes_map()
+
+        assert self._get_count("supabase_fallback") == before + 1
+
+    @patch("services.wait_times.supabase_rpc", side_effect=Exception("supabase down"))
+    @patch("services.wait_times.redis_client")
+    def test_double_failure_increments_total_failure_counter(self, mock_redis, mock_rpc):
+        mock_redis.hgetall.return_value = {}
+        before = self._get_count("total_failure")
+
+        get_wait_minutes_map()
+
+        assert self._get_count("total_failure") == before + 1
+
