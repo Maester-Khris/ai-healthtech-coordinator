@@ -5,7 +5,6 @@ import { ChatPanel } from './subcomponent/ChatPanel'
 import { LoginModal } from '../components/auth/LoginModal'
 import { UserMenu } from '../components/auth/UserMenu'
 import { WebNavBar } from '../components/WebNavBar'
-import { GettingStartedModal } from '../components/onboarding/GettingStartedModal'
 import { useAuth } from '../auth/useAuth'
 import { useProfile } from '../hooks/useProfile'
 import { useGeolocation } from '../hooks/useGeolocation'
@@ -31,44 +30,29 @@ const GLASS_PANEL: React.CSSProperties = {
 
 export default function Home({ facilities, facilitiesLoading, conversationsCache, sendMessage, createSession, loadOlderMessages }: HomeProps) {
   const { user } = useAuth()
-  const { profile, updateProfile } = useProfile()
+  const { profile } = useProfile()
   const geo = useGeolocation()
   const { triage, applyTriageResult, reset: triageReset } = useTriageState()
   const [sessionKey, setSessionKey] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<"signin" | "signup">("signin")
-  const [onboardingDismissed, setOnboardingDismissed] = useState(false)
 
   const handleNewConversation = () => {
     triageReset()
     setSessionKey(k => k + 1)
   }
 
-  useEffect(() => {
-    if (!user) geo.setCoords(null)
-  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleOnboardingComplete = async (data: {
-    location_preference: 'always' | 'ask'
-    emergency_contact_name: string | null
-    emergency_contact_phone: string | null
-  }) => {
-    await updateProfile({ ...data, getting_started_done: true })
-  }
-
   const openSignIn = () => { setModalTab("signin"); setIsModalOpen(true) }
   const openSignUp = () => { setModalTab("signup"); setIsModalOpen(true) }
+
+  useEffect(() => {
+    if (!user) geo.setCoords(null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   return (
     <div className="flex flex-col h-screen" style={{ background: '#061219' }}>
       <LoginModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} defaultTab={modalTab} />
-      {user && profile && !profile.getting_started_done && !onboardingDismissed && (
-        <GettingStartedModal
-          onComplete={handleOnboardingComplete}
-          onClose={() => setOnboardingDismissed(true)}
-          geo={geo}
-        />
-      )}
 
       <WebNavBar
         rightContent={user ? (

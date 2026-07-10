@@ -44,6 +44,13 @@ export default function DataDisclosurePage() {
       why: 'Used to route real-time travel alerts and queue updates to your device.',
       stored: 'Supabase database & OneSignal registry.',
       shared: 'Registered only with OneSignal push dispatch servers.'
+    },
+    {
+      data: 'Medical profile (allergies, conditions, blood type)',
+      badge: 'Optional / Opt-in',
+      why: 'Optionally provided during onboarding or in Profile. Sent to the AI triage engine only when the "Let the AI assistant use this" toggle is enabled.',
+      stored: 'Supabase secure cloud database.',
+      shared: 'Transmitted to the clinical AI language model only when opt-in is active. Never used for model training.'
     }
   ]
 

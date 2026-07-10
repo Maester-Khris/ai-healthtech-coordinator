@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/useAuth'
+import { formatDisplayName } from '../../lib/formatDisplayName'
 
 interface DrawerMenuProps {
   isOpen: boolean
@@ -42,26 +43,6 @@ function ProfileIcon() {
   )
 }
 
-function BellIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M13.73 21a2 2 0 01-3.46 0"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 
 function ChevronRightIcon() {
   return (
@@ -108,9 +89,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
 
   const email = user?.email ?? ''
   const initials = email ? email[0].toUpperCase() : '?'
-  const displayName = email
-    ? email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-    : ''
+  const displayName = email ? formatDisplayName(email) : ''
 
   const handleHome = () => {
     onClose()
@@ -119,12 +98,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
 
   const handleProfile = () => {
     onClose()
-    navigate('/setup')
-  }
-
-  const handleTestNotifications = () => {
-    onClose()
-    navigate('/test-notif')
+    navigate('/profile')
   }
 
   const handleSignOut = async () => {
@@ -252,34 +226,7 @@ export function DrawerMenu({ isOpen, onClose }: DrawerMenuProps) {
           </span>
         </button>
 
-        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
-        {/* Test notifications */}
-        <button
-          onClick={handleTestNotifications}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '0 20px',
-            minHeight: 44,
-            width: '100%',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            textAlign: 'left',
-            color: '#E2F1F5',
-            fontFamily: 'var(--font-sans)',
-          }}
-        >
-          <BellIcon />
-          <span style={{ flex: 1, fontSize: 14 }}>Test notifications</span>
-          <span style={{ color: '#85A4B1' }}>
-            <ChevronRightIcon />
-          </span>
-        </button>
-
-        <div style={{ height: 1, background: 'rgba(28, 70, 89, 0.40)', margin: '0 20px' }} />
 
         {/* Sign out */}
         <button

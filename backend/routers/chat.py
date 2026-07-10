@@ -3,6 +3,7 @@ from datetime import datetime, date
 
 from fastapi import APIRouter, Depends, Request, Header
 from fastapi.responses import JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from middleware.auth import get_current_user
 from models import CreateSessionRequest, SendMessageRequest
@@ -117,12 +118,26 @@ async def send_message(
 
     try:
         from services.llm_agent import LLMAgent
+        from db import supabase_select
         agent = LLMAgent()
+
+        user_profile: dict | None = None
+        try:
+            user_profile = await run_in_threadpool(
+                supabase_select,
+                "profile",
+                params={"user_id": f"eq.{user_id}", "select": "allergies,conditions,blood_type,medical_chat_opt_in"},
+                single=True,
+            )  # type: ignore[assignment]
+        except Exception as exc:
+            logger.warning("profile_fetch_failed", extra={"request_id": request_id, "error": str(exc)})
+
         result = agent.respond(
             user_message=body.content,
             history=history,
             lat=body.lat,
             lng=body.lng,
+            user_profile=user_profile,
         )
     except Exception as exc:
         import sentry_sdk
