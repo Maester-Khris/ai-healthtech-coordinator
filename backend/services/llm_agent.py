@@ -5,6 +5,7 @@ from llm.base import BaseLLMClient, LLMMessage
 from llm.tools import ALL_TOOLS, TRIAGE_RESPONSE
 from llm.prompts import build_system_prompt, build_medical_context_block
 from services.proximity import find_nearest_facilities
+from services.triage_eval import check_facility_groundedness
 
 logger = logging.getLogger(__name__)
 
@@ -143,7 +144,7 @@ class LLMAgent:
                             "turn_type": "followup",
                         }
 
-                    return self._handle_triage(tool_call, messages, lat, lng)
+                    return self._handle_triage(tool_call, messages, lat, lng, user_turns)
             logger.warning("unexpected_tool_call")
             return {
                 "response": "I need a bit more information. Can you describe your symptoms?",
@@ -170,6 +171,7 @@ class LLMAgent:
         messages: list[LLMMessage],
         lat: float | None,
         lng: float | None,
+        user_turns: int = 0,
     ) -> dict:
         args = json.loads(tool_call["arguments"])
         severity = args["severity"]
@@ -179,6 +181,7 @@ class LLMAgent:
             extra={
                 "severity": severity,
                 "information_sufficient": args.get("information_sufficient"),
+                "user_turns": user_turns,
             },
         )
         # Location is used whenever coordinates were provided by the client.
@@ -199,6 +202,17 @@ class LLMAgent:
             severity=severity,
             reasoning=reasoning,
             facility=recommended_facility,
+        )
+
+        grounding = check_facility_groundedness(response_text, recommended_facility)
+        logger.info(
+            "triage_grounding_checked",
+            extra={
+                "severity": severity,
+                "facility_provided": recommended_facility is not None,
+                "grounded": grounding["grounded"],
+                "user_turns": user_turns,
+            },
         )
 
         return {
