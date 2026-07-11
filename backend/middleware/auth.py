@@ -20,6 +20,12 @@ async def get_current_user(authorization: str = Header(...)) -> object:
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):  # type: ignore[override]
         request.state.user_id = None
+        if request.url.path == "/metrics":
+            # /metrics authenticates via its own static bearer secret
+            # (verify_metrics_token), not a Supabase JWT — running it through
+            # verify_token() here would reject it as a malformed token and
+            # surface as a 503, before the route's own check ever runs.
+            return await call_next(request)
         auth_header = request.headers.get("Authorization", "")
         if auth_header.startswith("Bearer "):
             token = auth_header.removeprefix("Bearer ").strip()
