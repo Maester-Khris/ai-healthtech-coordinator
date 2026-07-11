@@ -19,6 +19,10 @@ def _make_client():
     async def probe():
         return PlainTextResponse("ok")
 
+    @app.get("/metrics")
+    async def metrics():
+        return PlainTextResponse("ok")
+
     return TestClient(app, raise_server_exceptions=False)
 
 
@@ -40,3 +44,13 @@ class TestAuthMiddleware:
             with _make_client() as client:
                 resp = client.get("/probe", headers={"Authorization": "Bearer tok"})
         assert resp.status_code == 200
+
+    def test_metrics_path_bypasses_supabase_verification_entirely(self):
+        with patch(
+            "middleware.auth.verify_token",
+            side_effect=HTTPException(503, "Auth service unavailable"),
+        ) as mock_verify:
+            with _make_client() as client:
+                resp = client.get("/metrics", headers={"Authorization": "Bearer some-static-secret"})
+        assert resp.status_code == 200
+        mock_verify.assert_not_called()
