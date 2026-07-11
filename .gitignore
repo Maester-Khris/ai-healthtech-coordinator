@@ -85,3 +85,7 @@ assets/
 
 artifacts/
 graphify-out/
+
+# eval-env seed data — never commit exported PII-adjacent snapshots or test credentials
+backend/scripts/eval_seed/exports/
+backend/scripts/eval_seed/*_accounts.json
