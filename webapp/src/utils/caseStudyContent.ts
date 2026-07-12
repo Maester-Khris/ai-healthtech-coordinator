@@ -45,6 +45,33 @@ export function splitWithEmphasis(text: string, emphasis: [string, string]): Emp
   return segments
 }
 
+export interface MetricBullet {
+  text: string
+  bold?: string[]
+}
+
+export function splitWithBoldPhrases(bullet: MetricBullet): EmphasisSegment[] {
+  let segments: EmphasisSegment[] = [{ text: bullet.text, weight: 'plain' }]
+
+  for (const phrase of bullet.bold ?? []) {
+    if (!phrase) continue
+    segments = segments.flatMap((segment) => {
+      if (segment.weight !== 'plain') return [segment]
+      const idx = segment.text.indexOf(phrase)
+      if (idx === -1) return [segment]
+      const before = segment.text.slice(0, idx)
+      const after = segment.text.slice(idx + phrase.length)
+      const result: EmphasisSegment[] = []
+      if (before) result.push({ text: before, weight: 'plain' })
+      result.push({ text: phrase, weight: 'bold' })
+      if (after) result.push({ text: after, weight: 'plain' })
+      return result
+    })
+  }
+
+  return segments
+}
+
 export function formatPublishedDate(iso: string): string {
   const date = new Date(`${iso}T00:00:00`)
   return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(date)

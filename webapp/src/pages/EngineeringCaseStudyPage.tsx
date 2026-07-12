@@ -16,7 +16,28 @@ import {
   ThumbsUp,
 } from '@phosphor-icons/react'
 import { CASE_STUDIES, type NavSection } from '../data/caseStudies'
-import { formatPublishedDate, splitWithEmphasis } from '../utils/caseStudyContent'
+import { formatPublishedDate, splitWithEmphasis, splitWithBoldPhrases, type MetricBullet } from '../utils/caseStudyContent'
+
+function MetricBulletList({ items, ordered }: { items: MetricBullet[]; ordered?: boolean }) {
+  const ListTag = ordered ? 'ol' : 'ul'
+  return (
+    <ListTag className={`flex flex-col gap-2 text-xs text-[#85A4B1] leading-relaxed ${ordered ? 'list-decimal' : 'list-disc'} pl-4 marker:text-[#7AA0B0]`}>
+      {items.map((bullet, i) => (
+        <li key={i}>
+          {splitWithBoldPhrases(bullet).map((seg, j) =>
+            seg.weight === 'bold' ? (
+              <strong key={j} className="text-white font-bold">
+                {seg.text}
+              </strong>
+            ) : (
+              <span key={j}>{seg.text}</span>
+            ),
+          )}
+        </li>
+      ))}
+    </ListTag>
+  )
+}
 
 const ACCENT_HEX: Record<'mint' | 'blue', string> = {
   mint: '#48F6C1',
@@ -137,6 +158,15 @@ export default function EngineeringCaseStudyPage() {
                 <CalendarBlank className="w-3.5 h-3.5" />
                 Published: {formatPublishedDate(caseStudy.publishedDate)}
               </span>
+              {caseStudy.updatedDate && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span className="flex items-center gap-1.5">
+                    <ClockCounterClockwise className="w-3.5 h-3.5" />
+                    Updated: {formatPublishedDate(caseStudy.updatedDate)}
+                  </span>
+                </>
+              )}
               <span aria-hidden>·</span>
               <span className="flex items-center gap-1.5">
                 <PenNib className="w-3.5 h-3.5" />
@@ -242,13 +272,13 @@ export default function EngineeringCaseStudyPage() {
           <section className="flex flex-col gap-3 border-t border-[#132A37]/80 pt-10">
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7AA0B0]">System Flow</span>
             {caseStudy.diagramImage && (
-              <figure className="border border-[#1C4659]/60 rounded-xl overflow-hidden bg-[#0A1D27]/60">
+              <figure className="border border-[#1C4659]/60 rounded-xl overflow-hidden bg-[#0A1D27]/60 flex flex-col items-center">
                 <img
                   src={caseStudy.diagramImage.src}
                   alt={caseStudy.diagramImage.alt}
-                  className="w-full h-auto"
+                  className="max-w-2xl w-full h-auto mx-auto"
                 />
-                <figcaption className="px-4 py-2 text-[10px] font-mono text-[#7AA0B0] border-t border-[#1C4659]/60 uppercase tracking-widest">
+                <figcaption className="w-full text-center px-4 py-2 text-[10px] font-mono text-[#7AA0B0] border-t border-[#1C4659]/60 uppercase tracking-widest">
                   {caseStudy.diagramImage.caption}
                 </figcaption>
               </figure>
@@ -290,13 +320,22 @@ export default function EngineeringCaseStudyPage() {
 
           <section className="flex flex-col gap-2">
             <span className="text-[10px] font-mono font-bold text-[#00D2FF] uppercase tracking-widest">Result</span>
-            <div className="border border-dashed border-[#00D2FF]/30 bg-[#00D2FF]/5 rounded-xl p-4 flex items-start gap-3">
-              <span className="flex-none mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 uppercase tracking-wider whitespace-nowrap">
-                Pending
+            <div className="border border-dashed border-[#00D2FF]/30 bg-[#00D2FF]/5 rounded-xl p-4 flex flex-col gap-3">
+              <span className="flex-none self-start px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20 uppercase tracking-wider whitespace-nowrap">
+                {caseStudy.methodology ? 'Measured: Simulated Load' : 'Pending'}
               </span>
-              <p className="text-xs text-[#7AA0B0] leading-relaxed italic">{caseStudy.result}</p>
+              <MetricBulletList items={caseStudy.result} ordered={caseStudy.resultOrdered} />
             </div>
           </section>
+
+          {caseStudy.methodology && (
+            <section className="flex flex-col gap-2">
+              <span className="text-[10px] font-mono font-bold text-[#7AA0B0] uppercase tracking-widest">Methodology</span>
+              <div className="border border-[#1C4659]/50 bg-[#0A1D27]/60 rounded-xl p-4">
+                <MetricBulletList items={caseStudy.methodology} ordered={caseStudy.methodologyOrdered} />
+              </div>
+            </section>
+          )}
 
         </main>
       </div>
