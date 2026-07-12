@@ -179,6 +179,7 @@ else:
       "Two passes mean two LLM round trips instead of one, adding latency to every triage decision, acceptable for a chat interface, less so if this were a high-throughput batch job. The min-turns gate is also a blunt instrument: it counts user turns, not information content, so a chatty user who says a lot in one message still waits, and a terse user who needs more prompting can still get force-classified at the turn ceiling with information_sufficient: false. What's next: a knowledge-graph grounding step sourced from Canadian diagnostic data is in active development this week, aimed at the classification step itself. Today's two-pass design is the orchestration layer that step will plug into, not a replacement for it.",
     result: [
       { text: '0 hallucinated facilities across 106 grounded-response checks: 100% groundedness.', bold: ['0', '106', '100%'] },
+      { text: 'DeepEval Faithfulness score of 0.956 (96.6% pass rate at a 0.7 threshold) across 89 facility-grounded responses, complementing the deterministic exact-match check above: the lowest-scoring cases were genuine hallucinations a name-only check cannot see, like a wrong street address or a rehabilitation centre mischaracterized as an emergency department.', bold: ['0.956', '96.6%', '89'] },
       { text: 'Premature-classification rate is not yet measurable. The abandoned single-pass prototype was never instrumented, so no historical baseline exists to compare against.', bold: [] },
     ],
     methodologyOrdered: true,
@@ -186,6 +187,7 @@ else:
       { text: 'Deterministic groundedness check (check_facility_groundedness()): no LLM judge, exact facility-name substring match, logged on every Pass-2 response, zero cost.', bold: [] },
       { text: 'Two simulated-load runs against a dedicated eval environment seeded from real preview facility data, never live user traffic: a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run using emergent-sounding symptom messages.', bold: ['4-turn', '100-request'] },
       { text: '106 classifications had a facility present, and all 106 were grounded. Window: 2026-07-11, about 15 minutes total.', bold: ['106', '2026-07-11', '15 minutes'] },
+      { text: 'DeepEval FaithfulnessMetric (gpt-4o-mini judge) scored each facility-grounded response against a factual restatement of the facility fact injected pre-Pass-2 (name, address, distance) — catches fabricated details a name-only substring match would miss. Of 100 synthetic requests, 89 returned a recommended facility and were scored; the rest resolved to a clarifying follow-up question instead. Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['100', '89', '2026-07-12'] },
       { text: "Premature-classification rate needs a ground-truth label for whether the model should have asked another question. That label doesn't exist yet, and is scoped as a DeepEval question for Sprint 9's prompt-evaluation work.", bold: [] },
     ],
   },
