@@ -89,3 +89,7 @@ graphify-out/
 # eval-env seed data — never commit exported PII-adjacent snapshots or test credentials
 backend/scripts/eval_seed/exports/
 backend/scripts/eval_seed/*_accounts.json
+
+# Phase B DeepEval — generated transcripts and scoring results, regenerate via the scripts
+backend/scripts/triage_deepeval/transcripts/
+backend/scripts/triage_deepeval/results/
