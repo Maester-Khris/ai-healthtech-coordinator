@@ -18,6 +18,7 @@ import glob
 import json
 import os
 from datetime import datetime, timezone
+from typing import Any
 
 from deepeval.metrics import FaithfulnessMetric
 from deepeval.test_case import LLMTestCase
@@ -35,7 +36,7 @@ def build_retrieval_context(facility: dict) -> list[str]:
     ]
 
 
-def score_transcript(transcript: dict, metric) -> dict | None:
+def score_transcript(transcript: dict, metric: Any) -> dict | None:
     facility = transcript["recommended_facility"]
     if facility is None:
         return None
