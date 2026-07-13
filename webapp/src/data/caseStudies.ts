@@ -75,16 +75,16 @@ export const CASE_STUDIES: CaseStudy[] = [
     category: 'LLM Symptom Understanding',
     accent: 'mint',
     icon: TreeStructure,
-    tags: ['#AI-Agents', '#LLMTools', '#Groq'],
+    tags: ['#AI-Agents', '#LLMTools', '#Groq', '#Evals'],
     title: 'Two-Pass Tool Orchestration for Symptom Triage',
     readTimeMinutes: 7,
     publishedDate: '2026-05-10',
-    updatedDate: '2026-07-11',
+    updatedDate: '2026-07-12',
     author: 'MediCoord Core Platform Team',
     summary:
-      "Splitting LLM symptom triage into two forced passes: a tool-only severity classification, then a deterministic facility lookup, then a grounded response, so the model can never invent a facility name or commit to a severity before it has enough information.",
+      "Splitting LLM symptom triage into two forced passes: a tool-only severity classification, then a deterministic facility lookup, then a grounded response, so the model can never invent a facility name or commit to a severity before it has enough information — then proving it holds with two independent evaluation tracks: an online deterministic check against simulated live traffic, and an offline LLM-as-judge pass over a purpose-built dataset.",
     background:
-      "MediCoord's chat interface routes patients to the nearest appropriate facility based on a short symptom conversation. The riskiest part of that pipeline isn't the routing. It's the classification. A large language model asked to output severity directly, in one shot, will produce a confident, well-formatted answer whether or not it actually has enough information. We split triage into two passes so the model's linguistic fluency and Python's determinism each do the job they're actually good at.",
+      "MediCoord's chat interface routes patients to the nearest appropriate facility based on a short symptom conversation. The riskiest part of that pipeline isn't the routing. It's the classification. A large language model asked to output severity directly, in one shot, will produce a confident, well-formatted answer whether or not it actually has enough information. We split triage into two passes so the model's linguistic fluency and Python's determinism each do the job they're actually good at. Splitting the pipeline is a design decision; proving it holds is a separate discipline. An LLM's behavior can't be verified by reading the code that calls it, so evaluation isn't a QA afterthought bolted on at the end — it's built as two independent tracks that each catch a different failure mode: a zero-cost deterministic check that runs on every request against simulated live traffic, and an offline pass where a second model judges faithfulness against a dataset purpose-built to exercise this exact pipeline.",
     problem:
       "Two failure modes show up when you let a single LLM call do both classification and response generation. First, models are trained to be helpful, which means they'll often generate a plausible-sounding facility name and address instead of admitting they don't have one, and there's no reliable way to catch that after the fact once it's already in a patient-facing sentence. Second, models are eager: given three words of symptom description, an unconstrained model will confidently commit to a severity level rather than asking a clarifying question first. Both failure modes are worse than a slow response: a wrong facility name sends a patient to the wrong door, and a premature classification is either a false alarm or a missed one.",
     problemHighlights: [
@@ -178,16 +178,17 @@ else:
     tradeoff:
       "Two passes mean two LLM round trips instead of one, adding latency to every triage decision, acceptable for a chat interface, less so if this were a high-throughput batch job. The min-turns gate is also a blunt instrument: it counts user turns, not information content, so a chatty user who says a lot in one message still waits, and a terse user who needs more prompting can still get force-classified at the turn ceiling with information_sufficient: false. What's next: a knowledge-graph grounding step sourced from Canadian diagnostic data is in active development this week, aimed at the classification step itself. Today's two-pass design is the orchestration layer that step will plug into, not a replacement for it.",
     result: [
-      { text: '0 hallucinated facilities across 106 grounded-response checks: 100% groundedness.', bold: ['0', '106', '100%'] },
-      { text: 'DeepEval Faithfulness score of 0.956 (96.6% pass rate at a 0.7 threshold) across 89 facility-grounded responses, complementing the deterministic exact-match check above: the lowest-scoring cases were genuine hallucinations a name-only check cannot see, like a wrong street address or a rehabilitation centre mischaracterized as an emergency department.', bold: ['0.956', '96.6%', '89'] },
+      { text: 'Track A — online, deterministic: 0 hallucinated facilities across 106 grounded-response checks logged against simulated live traffic — 100% groundedness.', bold: ['Track A', '0', '106', '100%'] },
+      { text: 'Track B — offline, LLM-as-judge: DeepEval Faithfulness score of 0.956 (96.6% pass rate at a 0.7 threshold) across 89 facility-grounded responses replayed from a purpose-built transcript dataset — catches fabricated details a name-only match cannot see, like a wrong street address or a rehabilitation centre mischaracterized as an emergency department.', bold: ['Track B', '0.956', '96.6%', '89'] },
       { text: 'Premature-classification rate is not yet measurable. The abandoned single-pass prototype was never instrumented, so no historical baseline exists to compare against.', bold: [] },
     ],
     methodologyOrdered: true,
     methodology: [
-      { text: 'Deterministic groundedness check (check_facility_groundedness()): no LLM judge, exact facility-name substring match, logged on every Pass-2 response, zero cost.', bold: [] },
-      { text: 'Two simulated-load runs against a dedicated eval environment seeded from real preview facility data, never live user traffic: a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run using emergent-sounding symptom messages.', bold: ['4-turn', '100-request'] },
+      { text: 'Both tracks run against a dedicated staging eval environment — a separate Supabase project and preview backend seeded from real facility data, never live user traffic — so the same environment supports both a live simulated-load run and offline dataset construction without touching production.', bold: [] },
+      { text: 'Track A — online, deterministic: a systematic check (check_facility_groundedness()) runs on every Pass-2 response, no LLM judge, exact facility-name substring match, zero marginal cost. Exercised with two simulated-load runs: a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run using emergent-sounding symptom messages.', bold: ['Track A', '4-turn', '100-request'] },
       { text: '106 classifications had a facility present, and all 106 were grounded. Window: 2026-07-11, about 15 minutes total.', bold: ['106', '2026-07-11', '15 minutes'] },
-      { text: 'DeepEval FaithfulnessMetric (gpt-4o-mini judge) scored each facility-grounded response against a factual restatement of the facility fact injected pre-Pass-2 (name, address, distance) — catches fabricated details a name-only substring match would miss. Of 100 synthetic requests, 89 returned a recommended facility and were scored; the rest resolved to a clarifying follow-up question instead. Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['100', '89', '2026-07-12'] },
+      { text: "Track B — offline, LLM-as-judge: the same staging environment's 100-request run was replayed through the real /chat endpoints and saved as transcripts, forming a dataset built specifically for this pipeline. Scored offline with DeepEval's FaithfulnessMetric (gpt-4o-mini judge) against a factual restatement of the facility fact injected pre-Pass-2 (name, address, distance) — judging the entire response, not just the facility name.", bold: ['Track B'] },
+      { text: 'Of the 100 replayed requests, 89 returned a recommended facility and were scored; the rest resolved to a clarifying follow-up question instead. Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['89', '2026-07-12'] },
       { text: "Premature-classification rate needs a ground-truth label for whether the model should have asked another question. That label doesn't exist yet, and is scoped as a DeepEval question for Sprint 9's prompt-evaluation work.", bold: [] },
     ],
   },
