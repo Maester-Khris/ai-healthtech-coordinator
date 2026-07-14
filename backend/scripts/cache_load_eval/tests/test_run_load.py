@@ -36,3 +36,20 @@ class TestComputeHitRateStats:
             "total_failure_delta": 0,
             "hit_rate": 0.0,
         }
+
+    def test_all_redis_hits_treats_absent_label_as_zero_not_a_crash(self):
+        # A Prometheus Counter only emits a line for a label combination once
+        # it has been incremented at least once — supabase_fallback/total_failure
+        # are legitimately absent from the text on a backend that has only ever
+        # served redis_hit, not an error condition.
+        before = 'wait_times_cache_outcome_total{outcome="redis_hit"} 1.0\n'
+        after = 'wait_times_cache_outcome_total{outcome="redis_hit"} 21.0\n'
+
+        stats = compute_hit_rate_stats(before, after)
+
+        assert stats == {
+            "redis_hit_delta": 20,
+            "supabase_fallback_delta": 0,
+            "total_failure_delta": 0,
+            "hit_rate": 1.0,
+        }

@@ -31,14 +31,25 @@ logger = logging.getLogger(__name__)
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 
 
+def _parse_or_zero(metrics_text: str, name: str, labels: dict[str, str]) -> float:
+    # A Prometheus Counter only emits a line for a label combination once it has
+    # been incremented at least once in the process — an outcome that has never
+    # fired (e.g. no supabase_fallback yet on a freshly deployed, all-cache-hit
+    # backend) is legitimately absent from the exposition text, not an error.
+    try:
+        return parse_metric_value(metrics_text, name, labels)
+    except ValueError:
+        return 0.0
+
+
 def compute_hit_rate_stats(before_text: str, after_text: str) -> dict:
     outcomes = ("redis_hit", "supabase_fallback", "total_failure")
     deltas = {}
     for outcome in outcomes:
-        before = parse_metric_value(
+        before = _parse_or_zero(
             before_text, "wait_times_cache_outcome_total", {"outcome": outcome}
         )
-        after = parse_metric_value(
+        after = _parse_or_zero(
             after_text, "wait_times_cache_outcome_total", {"outcome": outcome}
         )
         deltas[f"{outcome}_delta"] = int(after - before)
