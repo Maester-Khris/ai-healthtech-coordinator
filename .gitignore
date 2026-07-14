@@ -94,3 +94,7 @@ backend/scripts/eval_seed/*_accounts.json
 backend/scripts/triage_deepeval/transcripts/
 backend/scripts/triage_deepeval/results/
 backend/.deepeval/
+
+# Sprint 17 Task 6 load-script output — regenerate via the scripts
+backend/scripts/routing_shadow_eval/results/
+backend/scripts/cache_load_eval/results/
