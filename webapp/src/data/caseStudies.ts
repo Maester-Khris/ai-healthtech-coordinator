@@ -202,7 +202,7 @@ else:
     title: 'Haversine Proximity + Severity-Gated Eligibility',
     readTimeMinutes: 7,
     publishedDate: '2026-05-17',
-    updatedDate: '2026-07-11',
+    updatedDate: '2026-07-14',
     author: 'MediCoord Core Platform Team',
     summary:
       'Filtering facilities by severity eligibility before ranking by distance, using a plain Haversine calculation over an in-process cache, fast enough for the inline triage path, with the ranked candidate list already shaped for a future travel-time upgrade.',
@@ -287,15 +287,13 @@ def find_nearest_facilities(lat, lng, severity, top_n=None) -> list[dict] | None
     tradeoff:
       "Haversine gives straight-line distance, and straight-line distance is a known approximation of how long it actually takes to get somewhere: a facility 1.5km away across a highway can be slower to reach than one 4km away with a direct route. That gap is real and we're not hiding it: it's exactly the gap the roadmap item below closes. In the meantime, the eligibility filter (can this facility even take this patient) is correct today; only the ranking within the eligible set is an approximation. What's next: the function already returns its full ranked candidate list to the frontend for this reason. A composite score combining real travel time from a routing API with live queue depth can replace the Haversine sort without changing this function's contract, once that data exists.",
     result: [
-      { text: '0.56 km average routing error (Haversine vs. real driving distance) across 11 shadow-call samples.', bold: ['0.56 km', '11'] },
-      { text: 'Measured from a single fixed test location only, not yet a representative average across routes.', bold: [] },
+      { text: '1.21 km average routing error (Haversine vs. real driving distance) across 30 shadow-call samples, spread across 400 triage requests at varied Toronto coordinates.', bold: ['1.21 km', '30', '400'] },
     ],
     methodologyOrdered: true,
     methodology: [
       { text: "Sampled live shadow-call to Geoapify's Route Matrix API at a 10% rate, dispatched as a fire-and-forget background task after the response is already sent, never on the request's critical path.", bold: ['10%'] },
-      { text: '11 real Geoapify comparisons sampled from 100 facility-recommending triage responses. Expected about 10 at a 10% sample rate, 11 observed.', bold: ['11', '100', 'about 10', '10%'] },
-      { text: 'All 11 samples: 0.59 km Haversine vs. 1.15 km real driving distance, 2.28 min drive time. Same fixed coordinates and facility throughout.', bold: ['11', '0.59 km', '1.15 km', '2.28 min'] },
-      { text: 'A representative average across varied routes needs a randomized-coordinate load run, not yet performed.', bold: [] },
+      { text: '400 triage requests fired via a ThreadPoolExecutor-based Python script against 12 scattered Toronto coordinates and eval test accounts — not a load-testing tool, request-volume for sample diversity, not throughput stress testing.', bold: ['400'] },
+      { text: '30 real Geoapify comparisons observed via the routing_shadow_error_km Prometheus summary metric (mean = sum/count, read directly off /metrics — no log scraping). Window: 2026-07-14, eval Supabase project.', bold: ['30', '2026-07-14'] },
     ],
   },
   {
@@ -308,7 +306,7 @@ def find_nearest_facilities(lat, lng, severity, top_n=None) -> list[dict] | None
     title: 'Two-Tier Facility State: In-Process Cache + Redis Wait Times',
     readTimeMinutes: 8,
     publishedDate: '2026-05-24',
-    updatedDate: '2026-07-11',
+    updatedDate: '2026-07-14',
     author: 'MediCoord Core Platform Team',
     summary:
       'Splitting facility state into two tiers that match their actual freshness and failure requirements: an in-process ETag cache for the rarely-changing facility directory, and a Redis cache-aside chain with a Supabase fallback for wait times that change every scrape cycle.',
@@ -412,15 +410,14 @@ def set_cached_facilities(data: list[dict]) -> str:
     tradeoff:
       "The facility-directory cache is explicitly a Phase 1 shortcut: it works for single-node deployment but doesn't survive horizontal scaling or process restarts. Every server instance would build its own independent view of the facility directory, with no invalidation signal between them. Wait times don't have that problem since Redis is already the shared store, but the two-tier split means the two data types have genuinely different consistency guarantees today, which is worth knowing if you're debugging why one field updated instantly and another didn't. What's next: moving the facility directory into the same shared store as wait times (Redis Cluster with AOF persistence) is the change that would let this run on more than one process. Priority-queue gating (routing emergent cases first, letting moderate/routine absorb remaining capacity) is also not backend logic yet; today that coordination is what Sandbox Mode visualizes on the frontend, not something this cache enforces server-side.",
     result: [
-      { text: 'Cache-aside mechanism confirmed correct end-to-end: 1st read after a cold Redis hash triggered supabase_fallback and repopulated Redis, 2nd read correctly hit redis_hit.', bold: ['1st', '2nd'] },
-      { text: 'Too few calls in this verification window to report a statistically meaningful hit rate. Sustained load is still required.', bold: [] },
+      { text: '100% cache hit rate across 300 wait-time reads (300 redis_hit, 0 supabase_fallback) under a sustained read burst.', bold: ['100%', '300'] },
+      { text: 'Cache-aside mechanism confirmed correct end-to-end in an earlier verification pass: 1st read after a cold Redis hash triggered supabase_fallback and repopulated Redis, 2nd read correctly hit redis_hit.', bold: ['1st', '2nd'] },
     ],
     methodologyOrdered: true,
     methodology: [
       { text: 'wait_times_cache_outcome_total: a Prometheus counter labeled by outcome (redis_hit, supabase_fallback, total_failure), incremented on the existing cache-aside branches inside get_wait_minutes_map(). Zero added latency, no new endpoint.', bold: [] },
-      { text: 'Verified 2026-07-11 against the eval environment with a freshly-cleared Redis hash.', bold: ['2026-07-11'] },
-      { text: '1st read: supabase_fallback incremented, Redis repopulated. 2nd read: redis_hit incremented, supabase_fallback unchanged.', bold: ['1st', 'supabase_fallback', '2nd', 'redis_hit'] },
-      { text: 'A real hit-rate percentage requires a sustained load run, not yet performed.', bold: [] },
+      { text: '300 unauthenticated GET /facilities requests fired via a ThreadPoolExecutor-based Python script against the eval-project preview backend — not a load-testing tool, same approach as case study 2.', bold: ['300'] },
+      { text: 'Hit rate computed by diffing wait_times_cache_outcome_total before and after the burst, read directly off /metrics. Window: 2026-07-14, eval Supabase project.', bold: ['2026-07-14'] },
     ],
   },
 ]
