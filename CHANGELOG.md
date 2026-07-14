@@ -523,7 +523,7 @@ review passes since `UserMenu.tsx` wasn't touched by the sprint's diff.
 
 ---
 
-## [Sprint 17 — Active] · System Evaluation — Production Metrics for Case Studies
+## [Sprint 17 — Closed] · System Evaluation — Production Metrics for Case Studies
 
 **Started — 2026-07-09 · branch: `feat/system-evaluation`**
 
@@ -592,6 +592,18 @@ Phase A — Instrumentation        Verify                Phase B — Run        
 
 - New case studies or new content sections
 - Sprint 9's prompt evaluation (DeepEval) — separate, still Planned
+
+### Delivered
+
+**Closed — 2026-07-14.**
+
+- Case study 1 (`two-pass-tool-orchestration-symptom-triage`): two independent evaluation tracks, published as Track A / Track B — an online deterministic groundedness check (0 hallucinated facilities / 106 checks / 100%) and an offline DeepEval Faithfulness LLM-as-judge pass (0.956 mean score, 96.6% pass rate, 89 facility-grounded responses). Deviates from the originally scoped metric (triage latency + tool-call success rate, never measured) in favor of groundedness/faithfulness — the more direct measure of this case study's own stated risk (hallucinated facilities), a conscious pivot made during Phase B, not silent drift.
+- Case study 2 (`haversine-proximity-severity-gated-eligibility`): 1.21 km average routing error across 30 shadow-call samples, measured via the new `routing_shadow_error_km` Prometheus summary metric.
+- Case study 3 (`two-tier-facility-state-cache-redis-wait-times`): 100% cache hit rate across 300 wait-time reads under a sustained read burst.
+- Load generation for Phase B ended up as a `concurrent.futures.ThreadPoolExecutor`-based Python script (`backend/scripts/routing_shadow_eval/`, `backend/scripts/cache_load_eval/`), not JMeter as originally planned — JMeter wasn't installed when Phase A's Verify stage needed a quick multi-request batch, and the ad hoc thread-based approach that unblocked Verify was kept and formalized for Phase B rather than introducing a new tool, since the actual need (request-volume for sample diversity against a free-tier backend) doesn't call for a dedicated load-testing tool's concurrency/throughput reporting.
+- Task 5's real-backend verify run surfaced and fixed a genuine bug: `wait_times_cache_outcome_total`'s `supabase_fallback`/`total_failure` labels are absent from `/metrics` entirely until first incremented (a Prometheus Counter quirk), which crashed the CS3 load script's stat computation on a backend that had only ever served `redis_hit` — fixed to treat an absent label as a legitimate zero.
+- Eval backend for this closeout ran on Railway (`medicoordai-staging-production.up.railway.app`), not Render as originally scoped — infra choice made mid-sprint, no impact on methodology.
+- Sprint 9's separate prompt-evaluation DeepEval work (premature-classification rate) remains out of scope, as originally stated.
 
 ---
 
