@@ -1,9 +1,11 @@
 import type { ElementType } from 'react'
-import { TreeStructure, Compass, ChartLineUp } from '@phosphor-icons/react'
+import { TreeStructure, Compass, ChartLineUp, FlowArrow, Gauge } from '@phosphor-icons/react'
 import type { MetricBullet } from '../utils/caseStudyContent'
 import twoPassTriageDiagram from '../assets/case-studies/two-pass-tool-orchestration-symptom-triage.png'
 import haversineProximityDiagram from '../assets/case-studies/haversine-proximity-severity-gated-eligibility.png'
 import twoTierCacheDiagram from '../assets/case-studies/two-tier-facility-state-cache-redis-wait-times.png'
+import eventDrivenFanOutDiagram from '../assets/case-studies/event-driven-fan-out-eventbridge-serverless-pipeline.png'
+import twoTrackEvalDiagram from '../assets/case-studies/two-track-llm-evaluation-groundedness-faithfulness.png'
 
 export interface DiagramStep {
   title: string
@@ -178,18 +180,10 @@ else:
     tradeoff:
       "Two passes mean two LLM round trips instead of one, adding latency to every triage decision, acceptable for a chat interface, less so if this were a high-throughput batch job. The min-turns gate is also a blunt instrument: it counts user turns, not information content, so a chatty user who says a lot in one message still waits, and a terse user who needs more prompting can still get force-classified at the turn ceiling with information_sufficient: false. What's next: a knowledge-graph grounding step sourced from Canadian diagnostic data is in active development this week, aimed at the classification step itself. Today's two-pass design is the orchestration layer that step will plug into, not a replacement for it.",
     result: [
-      { text: 'Track A — online, deterministic: 0 hallucinated facilities across 106 grounded-response checks logged against simulated live traffic — 100% groundedness.', bold: ['Track A', '0', '106', '100%'] },
-      { text: 'Track B — offline, LLM-as-judge: DeepEval Faithfulness score of 0.956 (96.6% pass rate at a 0.7 threshold) across 89 facility-grounded responses replayed from a purpose-built transcript dataset — catches fabricated details a name-only match cannot see, like a wrong street address or a rehabilitation centre mischaracterized as an emergency department.', bold: ['Track B', '0.956', '96.6%', '89'] },
-      { text: 'Premature-classification rate is not yet measurable. The abandoned single-pass prototype was never instrumented, so no historical baseline exists to compare against.', bold: [] },
+      { text: 'Validated by two independent evaluation tracks — a zero-cost deterministic groundedness check and an offline LLM-as-judge faithfulness score — see Case Study: Two-Track LLM Evaluation for full methodology and measured results.', bold: [] },
     ],
-    methodologyOrdered: true,
     methodology: [
-      { text: 'Both tracks run against a dedicated staging eval environment — a separate Supabase project and preview backend seeded from real facility data, never live user traffic — so the same environment supports both a live simulated-load run and offline dataset construction without touching production.', bold: [] },
-      { text: 'Track A — online, deterministic: a systematic check (check_facility_groundedness()) runs on every Pass-2 response, no LLM judge, exact facility-name substring match, zero marginal cost. Exercised with two simulated-load runs: a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run using emergent-sounding symptom messages.', bold: ['Track A', '4-turn', '100-request'] },
-      { text: '106 classifications had a facility present, and all 106 were grounded. Window: 2026-07-11, about 15 minutes total.', bold: ['106', '2026-07-11', '15 minutes'] },
-      { text: "Track B — offline, LLM-as-judge: the same staging environment's 100-request run was replayed through the real /chat endpoints and saved as transcripts, forming a dataset built specifically for this pipeline. Scored offline with DeepEval's FaithfulnessMetric (gpt-4o-mini judge) against a factual restatement of the facility fact injected pre-Pass-2 (name, address, distance) — judging the entire response, not just the facility name.", bold: ['Track B'] },
-      { text: 'Of the 100 replayed requests, 89 returned a recommended facility and were scored; the rest resolved to a clarifying follow-up question instead. Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['89', '2026-07-12'] },
-      { text: "Premature-classification rate needs a ground-truth label for whether the model should have asked another question. That label doesn't exist yet, and is scoped as a DeepEval question for Sprint 9's prompt-evaluation work.", bold: [] },
+      { text: 'See Case Study: Two-Track LLM Evaluation for full methodology.', bold: [] },
     ],
   },
   {
@@ -418,6 +412,267 @@ def set_cached_facilities(data: list[dict]) -> str:
       { text: 'wait_times_cache_outcome_total: a Prometheus counter labeled by outcome (redis_hit, supabase_fallback, total_failure), incremented on the existing cache-aside branches inside get_wait_minutes_map(). Zero added latency, no new endpoint.', bold: [] },
       { text: '300 unauthenticated GET /facilities requests fired via a ThreadPoolExecutor-based Python script against the eval-project preview backend — not a load-testing tool, same approach as case study 2.', bold: ['300'] },
       { text: 'Hit rate computed by diffing wait_times_cache_outcome_total before and after the burst, read directly off /metrics. Window: 2026-07-14, eval Supabase project.', bold: ['2026-07-14'] },
+    ],
+  },
+  {
+    slug: 'event-driven-fan-out-eventbridge-serverless-pipeline',
+    navSection: 'infrastructure',
+    category: 'Serverless Pipeline Orchestration',
+    accent: 'blue',
+    icon: FlowArrow,
+    tags: ['#AWS', '#IaC', '#EventBridge', '#Serverless'],
+    title: 'Event-Driven Fan-Out: S3 to Lambda to EventBridge to dbt',
+    readTimeMinutes: 7,
+    publishedDate: '2026-06-16',
+    updatedDate: '2026-07-14',
+    author: 'MediCoord Core Platform Team',
+    summary:
+      'Decoupling a multi-source ingestion pipeline into independent Lambda stages using native S3 and EventBridge event triggers instead of a Step Functions orchestrator or a polling coordinator — so a failure in one processor never blocks the others, and a completion signal from any of three independent sources fans into one shared transform-integrity-test-live-health checkpoint.',
+    background:
+      "Three independent external sources (Places, ER-wait, Open Data) each need fetch, S3 landing, process/upsert, and shared dbt transformation before the data is usable for triage routing. Coordinating three sources that get added, disabled, or moved independently over time (ER-wait was later moved to a Railway worker, Sprint 12) is a different problem than coordinating a single fixed pipeline.",
+    problem:
+      "A central orchestrator has to know about every source up front — adding or retiring a source means editing shared orchestration state, not just adding or removing an independent resource. And a failure in one source's processor shouldn't block or freeze the sources that are healthy.",
+    problemHighlights: [
+      {
+        heading: 'Central Orchestrator = Central Coupling',
+        body: "A Step Functions state machine (or any central coordinator) has to know about every source up front; adding a 4th source means editing the orchestrator's definition, not just adding an independent stack resource.",
+        accent: 'danger',
+      },
+      {
+        heading: "One Failure Shouldn't Freeze the Rest",
+        body: "If one source's processor starts failing, that can't block a healthy source's processor from running or the shared dbt-runner from firing on the sources that did succeed.",
+        accent: 'info',
+      },
+    ],
+    alternativesConsidered: [
+      {
+        title: 'Step Functions state machine',
+        body: "Its centralized definition doesn't match how sources actually get added or retired over time (ad hoc, sometimes disabled entirely, as ER-wait was). Editing a state machine to add or remove a branch is more coupling than the problem needs.",
+      },
+      {
+        title: 'Polling/cron-based coordinator',
+        body: 'A periodic Lambda or status-table poll adds latency and a dedicated moving part solely for coordination that S3/EventBridge already provides natively, at no extra cost.',
+      },
+    ],
+    approach:
+      "S3 Object Created events, filtered by key prefix (raw/places/, raw/er-wait/, raw/open-data/), trigger the matching processor Lambda directly — no orchestrator in between. Each processor publishes a custom ProcessorComplete event (status: SUCCESS, source medicoord.pipeline) to the default EventBridge bus after a successful Supabase upsert. One DbtRunnerRule matches that event pattern regardless of which of the three processors fired it, fanning all three into a single shared dbt-runner that never needs to know which source triggered it. Once triggered, dbt-runner runs three phases, not one: Phase 1 dbt run (transforms facilities_clean), Phase 2 dbt test (13 automated data-quality tests, 13/13 passing — an integrity gate, not just a transform), Phase 3 the medi_db_health_check Supabase RPC (dead tuples, long-running queries, deadlocks — a live database health check, not a pipeline-internal check). IAM backs the whole chain with three least-privilege roles: ingestion (SSM read + S3 write + logs), processor (S3 read + logs + EventBridge publish scoped to the default bus), dbt-runner (logs only — Supabase access is HTTPS with env-injected credentials, no AWS resource access needed). The pipeline is defined across two separate CloudFormation stacks, not one. s3-buckets.yaml (plain CloudFormation) defines the landing bucket with native EventBridgeConfiguration (S3-to-EventBridge without the manual console toggle that was tried first and abandoned), a 30-day lifecycle expiry (raw files are transient — cost hygiene, not an afterthought), and a full PublicAccessBlockConfiguration (this bucket is internal-only, stated explicitly rather than left to default). template.yaml (AWS SAM) defines the compute layer: 3 IAM roles, 4 processing/ingestion Lambdas plus dbt-runner, EventBridge rules. The S3 stack exports BucketName/BucketArn via CloudFormation Export; the compute stack consumes them via !ImportValue in every IAM policy and EventBridge rule that touches the bucket — one resource, one source of truth, zero hardcoded ARNs or duplicated bucket names across stacks.",
+    approachEmphasis: ['never needs to know which source triggered it', 'one source of truth, zero hardcoded ARNs'],
+    codeSamples: [
+      {
+        filename: 's3-buckets.yaml',
+        language: 'yaml',
+        content: `Outputs:
+  BucketName:
+    Description: Name of the raw ingestion bucket
+    Value: !Ref MedicoordRawBucket
+    Export:
+      Name: medicoord-ingestion-bucket-name
+
+  BucketArn:
+    Description: ARN of the raw ingestion bucket
+    Value: !GetAtt MedicoordRawBucket.Arn
+    Export:
+      Name: medicoord-ingestion-bucket-arn`,
+      },
+      {
+        filename: 'template.yaml',
+        language: 'yaml',
+        content: `# One rule covers all three processors — fires when any processor
+# publishes ProcessorComplete with status SUCCESS. dbt-runner never
+# knows which source triggered it.
+DbtRunnerRule:
+  Type: AWS::Events::Rule
+  Properties:
+    Name: medicoord-dbt-runner-rule
+    EventPattern:
+      source:
+        - medicoord.pipeline
+      detail-type:
+        - ProcessorComplete
+      detail:
+        status:
+          - SUCCESS
+    State: ENABLED
+    Targets:
+      - Id: DbtRunnerTarget
+        Arn: !GetAtt DbtRunner.Arn
+
+# Cross-stack reference — no hardcoded bucket ARN
+S3Write:
+  PolicyDocument:
+    Statement:
+      - Effect: Allow
+        Action: s3:PutObject
+        Resource: !Sub
+          - '\${BucketArn}/*'
+          - BucketArn: !ImportValue medicoord-ingestion-bucket-arn`,
+      },
+      {
+        filename: 'dbt-runner/handler.py',
+        language: 'python',
+        content: `logger.info("Phase 1 — dbt run")
+# ... run facilities_clean transform ...
+
+logger.info("Phase 2 — dbt test")
+# ... 13 automated data-quality tests, fails loudly on bad data ...
+
+logger.info("Phase 3 — DB health checks (RPC)")
+# ... medi_db_health_check: dead tuples, long-running queries, deadlocks ...`,
+      },
+    ],
+    diagramSteps: [
+      { title: 'Scheduled Ingestion', desc: 'An EventBridge Schedule rule fires an ingestion Lambda on a 7-day cadence, writes raw JSON to S3 under a source-specific prefix.', icon: 'ti ti-clock' },
+      { title: 'S3 Event Trigger', desc: 'S3 Object Created, filtered by key prefix, directly invokes the matching processor Lambda. No polling, no orchestrator.', icon: 'ti ti-cloud-upload' },
+      { title: 'Processor Fan-In Signal', desc: 'After a successful Supabase upsert, the processor publishes a ProcessorComplete/SUCCESS event to the default EventBridge bus.', icon: 'ti ti-git-merge' },
+      { title: 'Shared Verification Gate', desc: 'One rule matches ProcessorComplete from any of the three processors and invokes dbt-runner once: transform, then 13 data-quality tests, then a live Supabase health check.', icon: 'ti ti-shield-check' },
+    ],
+    diagramImage: {
+      src: eventDrivenFanOutDiagram,
+      alt: 'Diagram of the event-driven pipeline: scheduled ingestion writes to S3, an S3 event triggers the matching processor, the processor signals completion on EventBridge, and a shared rule fans all three sources into one dbt-runner verification gate',
+      caption: 'FIG 4.1: EVENT-DRIVEN FAN-OUT PIPELINE',
+    },
+    lessonsLearned: [
+      {
+        title: 'A stale bug stayed invisible for months because nothing was watching',
+        body: "places-processor 404'd on its Supabase upsert on roughly 48% of invocations (15 of 31) over a 90-day historical window, with zero downstream impact: dbt-runner kept running clean on whichever processors succeeded, and no other source was blocked. The event-driven design's resilience — failures don't cascade — is also exactly why the bug went unnoticed for so long. Decoupling contains a fault; it doesn't surface it. The fix has held for the most recent 21 days (10 invocations, 0 errors) as of this write-up.",
+      },
+    ],
+    tradeoff:
+      "Only 1 of 3 ingestion sources is actually active in this pipeline today — er-wait-scraper and open-data-sync's EventBridge Schedule rules are disabled; the team moved ER-wait ingestion to a Railway background worker instead during Sprint 12, to avoid near-real-time Lambda cost overhead. This is architecture built for three sources, one active — stated directly rather than implied by omission. Separately: because the DbtRunnerRule pattern matches ProcessorComplete from any processor, two processors completing within the same window could trigger dbt-runner twice back-to-back. Not a correctness problem — the dbt models and health-check RPC are idempotent/read-only — but worth knowing if duplicate CloudWatch log entries for dbt-runner show up close together.",
+    result: [
+      { text: '31 places-processor invocations over 90 days; 0 errors in the most recent 21 days (10 invocations) — a historical Supabase-upsert 404 bug is confirmed fixed.', bold: ['31', '0', '21 days', '10'] },
+      { text: '12 dbt-runner invocations over 90 days, 0 errors — the shared fan-in/verification gate holds regardless of which processor triggers it.', bold: ['12', '0'] },
+    ],
+    methodologyOrdered: true,
+    methodology: [
+      { text: 'CloudWatch GetMetricStatistics (AWS/Lambda, Invocations + Errors), 90-day window, weekly buckets, per function, live production AWS account.', bold: [] },
+      { text: "CloudWatch Logs filter-log-events on places-processor's log group confirmed the 404 root cause: a urllib.request.urlopen call inside upsert_facilities(), not a third-party API key issue.", bold: [] },
+      { text: 'A most-recent-21-days re-check (3 weekly buckets) confirmed the fix held: 10 invocations, 0 errors.', bold: ['21-days', '10', '0'] },
+    ],
+  },
+  {
+    slug: 'two-track-llm-evaluation-groundedness-faithfulness',
+    navSection: 'ai-models',
+    category: 'LLM Evaluation',
+    accent: 'mint',
+    icon: Gauge,
+    tags: ['#Evals', '#DeepEval', '#LLMAsJudge', '#RAG'],
+    title: 'Two-Track LLM Evaluation: Groundedness + Faithfulness',
+    readTimeMinutes: 7,
+    publishedDate: '2026-07-11',
+    updatedDate: '2026-07-14',
+    author: 'MediCoord Core Platform Team',
+    summary:
+      "An LLM's output can't be verified by reading the code that calls it, so Pass 2's generator output is checked by two independent tracks, each catching a different class of unfaithfulness: a zero-cost deterministic substring check running on every live response, and an offline LLM-as-judge pass scoring subtler fabrications a string match can't see.",
+    background:
+      "RAG evaluation frameworks like RAGAS conventionally split into two metric families: retriever-side (context precision, context recall — did retrieval fetch the right facts) and generator-side (faithfulness, answer relevancy — given those facts, did the model's output stay true to them). MediCoord's Pass 2 architecture makes this split unusually clean: retrieval isn't a semantic/embedding search with ranking uncertainty — it's a deterministic Python lookup (find_nearest_facilities()). The correct facility is a database fact, not a probabilistic retrieval result, which collapses the retriever-eval half of that framework to a non-problem: there's no ranking or recall to score because there's nothing to rank. What's left to evaluate is purely the generator: given a fact already known to be correct, does Pass 2's LLM stay faithful to it, or does it drift, paraphrase incorrectly, or invent details the fact never contained? That's a narrower, generator-only evaluation problem than most RAG eval guides assume — and it's why this pipeline needed two tailored approaches rather than adopting a generic metric suite wholesale. RAGAS is referenced here as the conceptual vocabulary source for the retriever-vs-generator split; the actual implementation uses DeepEval's FaithfulnessMetric, not the ragas library.",
+    problem:
+      "Two different failure classes need two different detection strategies for that generator-only faithfulness question. A wrong facility name is a simple, exact substitution — cheap to catch deterministically. A wrong address, or a rehab centre mischaracterized as an ER, is subtler unfaithfulness a substring match can't see, but running a judge-LLM call on every live production request adds a third round-trip's cost and latency to every triage response.",
+    problemHighlights: [
+      {
+        heading: 'Exact Substitution vs. Semantic Drift',
+        body: "A wrong name is a binary, checkable fact; a wrong address or mischaracterized category requires judgment a string match can't provide.",
+        accent: 'danger',
+      },
+      {
+        heading: "Judge Calls Aren't Free",
+        body: "A judge-LLM call in the live request path adds a third round-trip's worth of cost and latency to every triage response, on top of the two passes case study 1 already documents.",
+        accent: 'info',
+      },
+    ],
+    alternativesConsidered: [
+      {
+        title: 'LLM-as-judge on every live request',
+        body: 'Rejected: cost and latency — a third LLM call in the hot path.',
+      },
+      {
+        title: 'Deterministic-only, skip the judge entirely',
+        body: 'Rejected: catches wrong names, misses wrong addresses or category mischaracterizations that still misroute a patient.',
+      },
+      {
+        title: "Feed the full grounding-message text (with instructions) as DeepEval's retrieval_context",
+        body: 'Tried and rejected: DeepEval\'s FaithfulnessMetric extracts "truths" from retrieval_context via its own LLM call; instructional text like "use this exact name" pollutes that extraction. Rebuilt as a pure factual restatement (name, address, distance only).',
+      },
+    ],
+    approach:
+      "Two tracks, matched to what each failure class actually needs — not a generic RAGAS-style metric suite applied uniformly, but a cheap deterministic check for exact-fact grounding and an LLM-as-judge pass (DeepEval's FaithfulnessMetric, the generator-side metric RAGAS's vocabulary would call faithfulness) for the subtler cases only a semantic judge can catch. Track A (online, deterministic, zero marginal cost): check_facility_groundedness() runs on every Pass-2 response — exact facility-name substring match against the deterministic lookup result, no LLM involved. Track B (offline, LLM-as-judge): 100 requests replayed through the real /chat endpoint and saved as a purpose-built transcript dataset; 89 that resolved to a facility recommendation scored offline with DeepEval's FaithfulnessMetric (gpt-4o-mini judge — chosen for cost, bounded by a stated $5-credit constraint noted in the Sprint 17 discussion notes, not claimed as the best available judge) at a 0.7 pass threshold, against build_retrieval_context()'s facts-only restatement.",
+    approachEmphasis: ['zero marginal cost', 'pollute that extraction'],
+    codeSamples: [
+      {
+        filename: 'run_faithfulness_eval.py',
+        language: 'python',
+        content: `def build_retrieval_context(facility: dict) -> list[str]:
+    """
+    Pure factual restatement — name, address, distance only.
+    Deliberately NOT the full grounding-message text (which also
+    contains instructions like "use this exact name"): DeepEval's
+    FaithfulnessMetric extracts "truths" from retrieval_context via
+    its own LLM call, and instructional text would pollute that
+    extraction.
+    """
+    return [
+        f"{facility['name']} is located at {facility['address']}, "
+        f"{facility['distanceKm']} km away."
+    ]
+
+
+def score_transcript(transcript: dict, metric) -> dict | None:
+    facility = transcript.get("recommended_facility")
+    if facility is None:
+        return None
+
+    test_case = LLMTestCase(
+        input=transcript["message"],
+        actual_output=transcript["response_text"],
+        retrieval_context=build_retrieval_context(facility),
+    )
+    metric.measure(test_case)
+    return {
+        "message": transcript["message"],
+        "score": metric.score,
+        "success": metric.success,
+        "reason": metric.reason,
+    }
+
+
+def summarize_scores(results: list[dict]) -> dict:
+    if not results:
+        return {"count": 0, "mean_score": 0.0, "pass_rate": 0.0}
+    count = len(results)
+    mean_score = sum(r["score"] for r in results) / count
+    pass_rate = sum(1 for r in results if r["success"]) / count
+    return {"count": count, "mean_score": mean_score, "pass_rate": pass_rate}`,
+      },
+    ],
+    diagramSteps: [
+      { title: 'Live Response, Track A Gate', desc: 'Every Pass-2 response passes through check_facility_groundedness(), an exact substring match, zero LLM cost.', icon: 'ti ti-check' },
+      { title: 'Offline Replay', desc: '100 requests replayed through /chat, transcripts saved as a purpose-built dataset (89 scoreable).', icon: 'ti ti-player-play' },
+      { title: 'DeepEval Faithfulness Scoring', desc: 'Each transcript scored against a facts-only retrieval_context (name, address, distance) using gpt-4o-mini as judge.', icon: 'ti ti-scale' },
+      { title: 'Aggregate', desc: 'Mean score and pass rate computed at a 0.7 threshold.', icon: 'ti ti-chart-bar' },
+    ],
+    diagramImage: {
+      src: twoTrackEvalDiagram,
+      alt: 'Diagram of the two-track evaluation flow: a deterministic groundedness check on every live response, an offline replay building a transcript dataset, DeepEval faithfulness scoring against a facts-only context, and score aggregation',
+      caption: 'FIG 5.1: TWO-TRACK EVALUATION FLOW',
+    },
+    lessonsLearned: [
+      {
+        title: 'Retrieval-context pollution',
+        body: "Feeding the judge instructional text instead of pure facts corrupts its own truth-extraction step. A lesson about the eval instrumentation itself, not the system under test: what you feed a judge model as ground truth needs the same rigor as what you feed the system being judged.",
+      },
+    ],
+    tradeoff:
+      "Track B measures faithfulness at a point in time (an offline replay), not continuously — it doesn't run on live production traffic today. Premature-classification rate (whether the model should have asked another question instead of routing) still has no ground-truth label; that's explicitly deferred to Sprint 9's prompt-evaluation work, not silently dropped from scope.",
+    result: [
+      { text: 'Track A — 0 hallucinated facilities across 106 grounded-response checks — 100% groundedness.', bold: ['Track A', '0', '106', '100%'] },
+      { text: 'Track B — DeepEval Faithfulness score of 0.956 (96.6% pass rate at a 0.7 threshold) across 89 facility-grounded responses — catches fabricated details a name-only match cannot see.', bold: ['Track B', '0.956', '96.6%', '89'] },
+      { text: 'Premature-classification rate is not yet measurable — no historical baseline exists (the abandoned single-pass prototype was never instrumented).', bold: [] },
+    ],
+    methodologyOrdered: true,
+    methodology: [
+      { text: 'Both tracks run against a dedicated staging eval environment — a separate Supabase project and preview backend seeded from real facility data, never live user traffic.', bold: [] },
+      { text: 'Track A: 106 classifications had a facility present, all 106 grounded. Window: 2026-07-11, about 15 minutes, exercised via a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run.', bold: ['106', '2026-07-11', '15 minutes'] },
+      { text: 'Track B: of the 100 replayed requests, 89 returned a recommended facility and were scored (the rest resolved to a clarifying follow-up question instead). Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['89', '2026-07-12'] },
     ],
   },
 ]
