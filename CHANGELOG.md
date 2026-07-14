@@ -124,7 +124,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 7 — Active] · Profile Onboarding + Chat Foundation
+## [Sprint 7 — Closed] · Profile Onboarding + Chat Foundation
+
+**Closed — 2026-07-14.** All listed deliverables confirmed shipped: `useProfile`,
+`useConversations` hooks, migrations 001–003 (repo now at 009), RLS policies.
+`GettingStartedModal` no longer exists under that name — superseded by Sprint 16's
+consolidated onboarding wizard (`LocationStep`, `EmergencyContactStep`,
+`MedicalProfileStep`, `PushStep`), not a regression.
 
 **Started — 2026-05-17 · branch: `feat/profile-chat`**
 
@@ -156,7 +162,18 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 8 — Active] · Triage MVP — Working Product to Production
+## [Sprint 8 — Closed] · Triage MVP — Working Product to Production
+
+**Closed — 2026-07-14, with a stated gap.** Task 009 (LLM + routing) shipped and has
+since evolved well past this sprint's scope — it's the live system CS1
+(`two-pass-tool-orchestration-symptom-triage`) and CS2
+(`haversine-proximity-severity-gated-eligibility`) document with real production
+metrics. Task 010's next-action buttons did not ship as specified: `useNextActions.ts`
+exists but all four handlers (`call911`, `messageEmergencyContact`, `getDirections`,
+`saveRecommendation`) are no-op stubs with `TODO (separate task)` comments — no
+`tel:911`, `sms:`, or Google Maps deep link is implemented anywhere in the codebase.
+Closing the sprint on the strength of Task 009 rather than leaving it open
+indefinitely; the stub buttons remain a known, stated gap, not silently dropped.
 
 **Started — 2026-05-20 · branch: `feat/triage-mvp`**
 
