@@ -2,7 +2,7 @@ import { LegalPageLayout } from '../components/legal/LegalPageLayout'
 
 export default function PrivacyPage() {
   return (
-    <LegalPageLayout title="Privacy Policy" lastUpdated="June 24, 2026">
+    <LegalPageLayout title="Privacy Policy" lastUpdated="July 9, 2026">
       <p>
         Your health information is yours. This policy explains exactly what
         MediCoord AI collects when you use the app, why we need it, and how
@@ -15,6 +15,7 @@ export default function PrivacyPage() {
         <li><strong>What you describe in chat</strong> — the symptoms and messages you send, plus the severity assessment and facility recommendation generated in response.</li>
         <li><strong>Location</strong> — your device's location, only if you grant permission, used to find facilities near you and calculate travel time.</li>
         <li><strong>Emergency contact</strong> — a name and phone number you optionally provide, used only when you choose to message that contact yourself.</li>
+        <li><strong>Medical profile</strong> — allergies, pre-existing conditions, and blood type that you optionally enter during or after onboarding. This information is stored in your profile and sent to the AI assistant <em>only</em> if you enable the "Let the AI assistant use this during triage" toggle.</li>
         <li><strong>Device and usage data</strong> — basic error and performance data collected automatically to keep the app working (see "Error tracking" below).</li>
         <li><strong>Push notification subscription</strong> — if you enable notifications, a subscription identifier used to deliver them.</li>
       </ul>
@@ -27,7 +28,10 @@ export default function PrivacyPage() {
         secure and working reliably. Your symptom descriptions are sent to a
         third-party AI language model provider solely to generate the
         severity assessment and conversational response — they are not used
-        to train any model on our behalf.
+        to train any model on our behalf. If you have enabled the medical
+        profile opt-in, your allergies, conditions, and blood type are also
+        included in the context sent to the language model to improve
+        triage accuracy.
       </p>
 
       <h2>How we store your information</h2>

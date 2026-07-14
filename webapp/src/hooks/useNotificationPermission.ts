@@ -24,6 +24,7 @@ declare global {
         notifyButton?: { enable: boolean }
         allowLocalhostAsSecureOrigin?: boolean
       }) => Promise<void>
+      login: (externalId: string) => Promise<void>
       Notifications: {
         requestPermission: () => Promise<boolean>
       }
@@ -37,7 +38,9 @@ declare global {
   }
 }
 
-export function useNotificationPermission(): UseNotificationPermissionResult {
+export function useNotificationPermission(
+  externalUserId: string | null
+): UseNotificationPermissionResult {
   const [permissionState, setPermissionState] = useState<PermissionState>("unknown")
   const [playerId, setPlayerId] = useState<string | null>(null)
   const [requesting, setRequesting] = useState(false)
@@ -53,6 +56,20 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
     }
     const perm = Notification.permission
     setPermissionState(perm === "default" ? "default" : perm as PermissionState)
+
+    // Keep in sync with the OS/browser permission even when it changes in a
+    // different hook instance (e.g. granted via the onboarding wizard's own
+    // instance) — avoids this instance showing stale pre-grant state.
+    let status: PermissionStatus | null = null
+    const handleChange = () => {
+      if (status) setPermissionState(status.state as PermissionState)
+    }
+    navigator.permissions?.query({ name: "notifications" as PermissionName }).then(s => {
+      status = s
+      status.addEventListener("change", handleChange)
+    }).catch(() => {})
+
+    return () => status?.removeEventListener("change", handleChange)
   }, [])
 
   const requestPermission = async () => {
@@ -72,14 +89,17 @@ export function useNotificationPermission(): UseNotificationPermissionResult {
     setRequesting(true)
     try {
       await window.OneSignal.Notifications.requestPermission()
-      const userId = window.OneSignal.User.PushSubscription.id ?? null
+      const subscriptionId = window.OneSignal.User.PushSubscription.id ?? null
 
-      if (userId) {
-        localStorage.setItem(PLAYER_ID_KEY_PREFIX + detectPlatform(), userId)
+      if (subscriptionId) {
+        localStorage.setItem(PLAYER_ID_KEY_PREFIX + detectPlatform(), subscriptionId)
         localStorage.setItem(PLATFORM_KEY, detectPlatform())
         localStorage.setItem(GRANTED_KEY, "true")
-        setPlayerId(userId)
+        setPlayerId(subscriptionId)
         setPermissionState("granted")
+        if (externalUserId) {
+          await window.OneSignal.login(externalUserId)
+        }
       } else {
         setPermissionState(Notification.permission as PermissionState)
       }

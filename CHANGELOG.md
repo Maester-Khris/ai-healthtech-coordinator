@@ -46,7 +46,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Frontend: `LoginModal.tsx` — centered modal with Sign in / Sign up tabs
 - Frontend: `UserMenu.tsx` — avatar circle + dropdown with email and sign out
 - Frontend: `apiClient.ts` — fetch wrapper attaching Bearer token to every request
-- Frontend: `supabaseClient.ts` — browser Supabase client (anon key, VITE_ prefix)
+- Frontend: `supabaseClient.ts` — browser Supabase client (anon key, VITE\_ prefix)
 - Backend: `AuthMiddleware` — extracts `user_id` from Bearer token into `request.state`
 - Backend: `get_current_user` dependency — hard auth gate for protected routes
 - Backend: `services/auth.py` — `verify_token()` using Supabase `auth.get_user()`
@@ -82,6 +82,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 **Completed — merged to `preview`. Telemetry partially verified; may revisit.**
 
 ### Delivered
+
 - `prometheus-fastapi-instrumentator` instrumenting all FastAPI routes
 - `python-json-logger` — structured JSON stdout, forwarded to Grafana Loki via Render Log Streams
 - Sentry Python SDK — `SENTRY_DSN_BACKEND`, FastAPI + Starlette integrations, `capture_message` on startup
@@ -93,6 +94,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - All observability env vars documented in `.env.example` and stored in Doppler
 
 ### Known issues / deferred
+
 - Grafana metrics push: `'Response' object is not callable` — push handler bug, fix pending
 - Sentry frontend: sessions received (200 OK confirmed) but zero performance transactions —
   `tracesSampleRate` and `withProfiler` fix applied on `test/telemetry`, not yet merged
@@ -106,12 +108,14 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 **Completed — merged to `preview`.**
 
 ### Scope (revised from original plan)
+
 - ~~Vercel preview alias~~ — already using Vercel branch-specific URLs added to Doppler `ALLOWED_ORIGINS`; stable alias not needed at this stage
 - ~~Doppler CLI in CI~~ — `ALLOWED_ORIGINS` is managed manually in Doppler; no programmatic update needed right now
 - ~~Keep-alive in GitHub Actions~~ — cron-job.org retained; works reliably, no migration value
 - ~~IaC / Doppler Terraform~~ — deferred; no fit at current project stage
 
 ### What is actually being built
+
 - GitHub Actions workflow: trigger Render deploy webhook on push to `preview`
   **only when files under `backend/` changed** (path filter via `dorny/paths-filter`)
 - Vercel already handles frontend deploy automatically — no workflow needed
@@ -120,13 +124,20 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 7 — Active] · Profile Onboarding + Chat Foundation
+## [Sprint 7 — Closed] · Profile Onboarding + Chat Foundation
+
+**Closed — 2026-07-14.** All listed deliverables confirmed shipped: `useProfile`,
+`useConversations` hooks, migrations 001–003 (repo now at 009), RLS policies.
+`GettingStartedModal` no longer exists under that name — superseded by Sprint 16's
+consolidated onboarding wizard (`LocationStep`, `EmergencyContactStep`,
+`MedicalProfileStep`, `PushStep`), not a regression.
 
 **Started — 2026-05-17 · branch: `feat/profile-chat`**
 
 ### Scope
 
 **Task 007 — Profile + Onboarding (frontend + migrations)**
+
 - `migrations/` folder at repo root: `001_profile.sql`, `002_sessions.sql`, `003_messages.sql`
 - Profile table: `user_id`, `getting_started_done`, `location_preference`, `emergency_contact_name`, `emergency_contact_phone`
 - Supabase trigger: auto-create profile row on `auth.users` insert (`security definer`)
@@ -137,6 +148,7 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Chat panel shell: "New conversation" button, past conversations dropdown (stubbed), disabled state when unauthenticated
 
 **Task 008 — Chat Backend + Frontend Integration**
+
 - Backend: `cache_chat.py` — per-user in-memory cache (writer-updates-cache pattern)
 - Backend: `services/chat.py` — session creation, message write, past conversations fetch, cursor pagination
 - Backend: `routers/chat.py` — all chat endpoints with auth middleware and request ID logging
@@ -150,17 +162,30 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Sprint 8 — Active] · Triage MVP — Working Product to Production
+## [Sprint 8 — Closed] · Triage MVP — Working Product to Production
+
+**Closed — 2026-07-14, with a stated gap.** Task 009 (LLM + routing) shipped and has
+since evolved well past this sprint's scope — it's the live system CS1
+(`two-pass-tool-orchestration-symptom-triage`) and CS2
+(`haversine-proximity-severity-gated-eligibility`) document with real production
+metrics. Task 010's next-action buttons did not ship as specified: `useNextActions.ts`
+exists but all four handlers (`call911`, `messageEmergencyContact`, `getDirections`,
+`saveRecommendation`) are no-op stubs with `TODO (separate task)` comments — no
+`tel:911`, `sms:`, or Google Maps deep link is implemented anywhere in the codebase.
+Closing the sprint on the strength of Task 009 rather than leaving it open
+indefinitely; the stub buttons remain a known, stated gap, not silently dropped.
 
 **Started — 2026-05-20 · branch: `feat/triage-mvp`**
 
 ### Priority rationale
+
 Production app still shows the hackathon simulator. A working triage feature
 deployed to production takes precedence over AI engineering depth.
 Advanced LLM patterns (prompt evaluation, caching, embeddings, MCP) are
 deferred to Sprint 9 and will improve a working system, not a stub.
 
 ### Definition of done
+
 A logged-in user can describe symptoms in the chat panel, receive a severity
 classification and facility recommendation, see a route on the map, and get
 contextual next-action buttons — all deployed and working on `main`.
@@ -170,6 +195,7 @@ contextual next-action buttons — all deployed and working on `main`.
 Single endpoint handles the full triage loop in one request.
 
 **LLM call (Groq primary, Anthropic fallback):**
+
 - Provider selected via `LLM_PROVIDER` env var — implement both clients behind shared interface
 - System prompt: triage assistant persona with explicit severity classification instruction
 - Structured output: LLM returns JSON `{ severity, reasoning, response }` via tool call or forced JSON mode
@@ -178,16 +204,19 @@ Single endpoint handles the full triage loop in one request.
 - Graceful fallback: LLM failure returns safe user-facing error, never raw exception
 
 **Parallel tool execution (asyncio.gather):**
+
 - Tool 1a: LLM call → severity + conversational response (above)
 - Tool 1b: lat/lng already in request payload (browser sent with message)
 - Both fire simultaneously — Tool 2 waits on both results
 
 **Chained tool execution:**
+
 - Tool 2: Geoapify RouteMatrix → facilities filtered by `accepted_severity`,
   nearest selected, travel time + distance returned
 - New service: `backend/services/routing.py`
 
 **Extended request/response:**
+
 ```
 Request:  { session_id, content, lat?, lng? }
 Response: { user_message, assistant_message, triage? }
@@ -200,6 +229,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 ### Task 010 — Map + Chat UI (frontend, condensed)
 
 **Chat panel:**
+
 - Tool-call progress trace while processing:
   "Analyzing symptoms…" → "Locating facilities…" → "Route calculated"
 - Assistant message rendered with facility name, category, ETA when triage present
@@ -210,6 +240,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
   - All user-initiated — no autonomous actions, legal note in code comments
 
 **Map panel:**
+
 - User location pin (blue dot + pulse) placed on triage response
 - Dashed polyline from user pin to selected facility
 - Selected facility marker enlarged and highlighted
@@ -217,6 +248,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 - Map resets on "New conversation" click
 
 ### Production promotion (end of this sprint)
+
 - Doppler prod config created from staging config
 - Render production service created (separate from staging)
 - Vercel production domain configured
@@ -229,6 +261,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 **Not started. Depends on Sprint 8 shipping to production.**
 
 ### Planned — LLM engineering improvements on a working system
+
 - **Prompt evaluation**: DeepEval integration, eval dataset from real triage sessions
 - **Prompt caching**: Anthropic prompt caching on system prompt (reduces latency + cost)
 - **Multi-shot prompting**: few-shot examples in system prompt for edge case handling
@@ -250,6 +283,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 **2026-06-07 → 2026-06-11 · branch: `feat/sandbox-v2` · merged to `preview` via PR #19**
 
 ### Delivered
+
 - `/sandbox` route — static three-panel desktop-only layout (`SimulationPanel`, `SandboxMap`, `InspectorPanel`), guarded below 1024px viewport width (`SandboxMobileGuard`)
 - `SandboxHeader` — flask icon, "MediCoordAI · SANDBOX" badge, environment switcher (back to Production)
 - `SandboxMap` — dark CartoDB DarkMatter tiles, category filter dropdown, facility markers from `useFacilities()` with hardcoded mock-facility/active-node fallback when live data is unavailable
@@ -259,6 +293,7 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 - Architecture matches the original plan: `SandboxPage` is the sole hook owner; all child components are presentational
 
 ### Deferred / not wired
+
 - `SimulationPanel`'s System Shock toggles and playback (play/pause/stop, speed) controls are styled but not connected to any simulation engine (`TODO: wire simulation engine` in code)
 - Chat tab is still a mock (keyword-matched canned responses), not a real backend integration
 - No automated tests — verified via `tsc -b` only, per the original plan's explicit scope
@@ -270,12 +305,14 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 **2026-06-07 → 2026-06-19 · branch: `feat/push-notifications` · merged to `preview` via PR #20 (initial), #22, #23 (completion)**
 
 ### Delivered — initial build (2026-06-07–12)
+
 - PWA install gate — `PWAInstallModal` with iOS manual-steps, Android native-prompt, and desktop soft-gate variants
 - OneSignal Web SDK v16 integration, `usePWAInstall` / `useNotificationPermission` hooks, platform-scoped player ID capture to localStorage
 - `/notifications/send` backend endpoint proxying to the OneSignal REST API
 - `/test-notif` manual trigger page
 
 ### Delivered — completion pass (2026-06-18–19, see `docs/superpowers/plans/2026-06-18-pwa-push-notifications-completion.md`)
+
 - Fixed iOS Safari install never being proposed at all for non-Safari iOS browsers — added an "Open in Safari" guidance variant instead of silently showing nothing
 - Unified two diverging platform-detection implementations (`detectPlatform` vs `detectPlatformLabel`) that could mislabel Chrome-on-iOS as `ios_safari`
 - Fixed the install-modal dismiss flag being permanent with no expiry — now re-arms after 1 hour
@@ -285,9 +322,11 @@ triage:   { severity, facility, travelMinutes, distanceKm }
 - Discovered `npx tsc --noEmit` is a false-negative in this repo — `webapp/tsconfig.json` has `"files": []` with only `"references"`, so it checks an empty file set; must use `tsc -b` or `npm run build`
 
 ### Confirmed working end-to-end
+
 Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.4 — install → permission grant → notification delivery all succeeded), desktop Chrome, and correct fallback guidance on unsupported browsers. OneSignal dashboard shows active registered users across platforms.
 
 ### Deferred
+
 - A follow-on onboarding-flow feature (GPS preference + push opt-in as a 3rd step in `GettingStartedModal`, persisted to the `profile` table) was scoped but paused mid-design — picking up later, not yet a committed sprint
 
 ---
@@ -297,6 +336,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 **2026-06-10 → 2026-06-16 · branch: `feat/data-pipeline` · merged to `preview` via PR #21**
 
 ### Delivered
+
 - AWS SAM infrastructure: dedicated S3 stack, EventBridge rules, IAM roles (`pipeline/infra/`)
 - `places-enricher` Lambda — migrated from a static 11-facility list to a full DB fetch across all 404 facilities, with concurrent Google Places API calls via `ThreadPoolExecutor`
 - `places-processor` Lambda — fixed a Supabase upsert SQL error (not-null constraint on `name`), added Unicode normalization for `weekday_hours` (U+202F, U+2009, U+2013) at source
@@ -306,6 +346,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Full pipeline verified end-to-end in production as of 2026-06-16: enricher → S3 → processor → EventBridge → dbt runner
 
 ### Deferred
+
 - ER wait-time ingestion (ERstat + howlongwilliwait.com) — Lambda scaffolding exists (`pipeline/functions/er-wait-scraper`, `er-wait-processor`) but the team decided to move this specific piece to a Railway background worker (cron + scraper + Supabase + Upstash cache update) instead of AWS Lambda, to avoid near-real-time cost overhead. The `wait_times` table schema (migration 005) already exists ahead of this.
 - Redis/Upstash cache integration — deferred alongside the ER wait-time worker
 
@@ -316,6 +357,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 **2026-06-22 → 2026-06-25 · branch: `ui/redesign` · merged to `preview` via PR #27**
 
 ### Delivered
+
 - Stratum/Aura design system tokens — color ramp, typography, spacing, severity palette
 - Landing page at `/` presenting product value — animated hero, interactive search, feature sections
 - Privacy policy, cookie management, and user data disclosure legal pages
@@ -335,6 +377,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 **2026-06-26 → 2026-07-05 · branch: `feat/advanced-filtering` · merged to `preview` via PR #28**
 
 ### Completed
+
 - DB migration: switched backend queries from `facilities` to `facilities_clean`
 - Column aliases in SQL (`facility_id→id`, `facility_name→name`) keep API contract stable
 - Silent `is_operational=true` filter — permanently closed facilities never returned
@@ -347,11 +390,13 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Facilities with unknown hours (empty `weekday_hours`) always pass active filters
 
 ### Completed — Proximity Search
+
 - PostGIS `ST_DWithin` + `ST_Distance` on `facilities_clean`, `GET /facilities/nearby` endpoint accepting `lat`, `lng`, `radius_km`
 - Tap/click on map places a location pin and triggers proximity search from that point (desktop + mobile), 3-tier anchor priority (`useAnchor`)
 - Frontend renders distance-sorted results via `useProximitySearch`
 
 ### Completed — ER Wait Time Background Worker (carried over from Sprint 12)
+
 - Railway worker built: cron scraping ERstat + howlongwilliwait.com, `wait_minutes` filter added to `/facilities` and `/facilities/nearby`
 - Cache-aside read path: Redis first, Supabase RPC fallback
 - Migrated off `supabase-py` to direct PostgREST/GoTrue REST calls across auth, chat, and facilities services (unscoped bonus — simplifies the wait-time RPC fallback path)
@@ -359,6 +404,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Verified end-to-end via production run log (2026-07-05T03:08Z): 380 facilities loaded, 234 hospitals scraped across both sources, 162 matched + 1 newly created, 26 rows inserted to `wait_times`, 58 fields updated in Redis — no errors, run completed cleanly
 
 ### Post-review fixes (applied 2026-07-01, same day as `/code-review high`)
+
 - Auth middleware no longer swallows non-401 failures (e.g. Supabase outage) as anonymous — re-raises as the original status
 - Scraper distinguishes transient lookup failures from permanent non-matches — no more permanent blacklisting on a flaky request
 - Place-id dedup reuse now also written to the negative cache, negative-cache keys normalized, dedup-reuse counted separately from fuzzy matches in logs
@@ -366,6 +412,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Stray leading underscore in `migrations/010_nearby_facilities_rpc.sql` fixed (was causing `/facilities/nearby` 400s in production)
 
 ### Post-review fixes (applied 2026-07-05, from `/code-review high` + security review on PR #29)
+
 - Security review: no HIGH/MEDIUM vulnerabilities found — clean
 - Map "Wait Time" filter dropdown was fully wired in the UI but never filtered anything; now filters via `meetsWaitTimeFilter` against each facility's already-annotated `wait_minutes`
 - Map "Open Now" toggle was likewise inert; added `isOpenNow` (with overnight-range handling) and wired it into the facility filter
@@ -380,15 +427,18 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - Full plan: `docs/superpowers/plans/2026-07-05-pr29-code-review-fixes.md`
 
 ### Remaining before this branch merges to `preview`
+
 - [x] Add CI repo secrets for the backend test job: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `UPSTASH_REDIS_URL`
 - [x] Apply `migrations/012_latest_wait_times_rpc_add_fields.sql` in the Supabase SQL editor (adds `raw_wait`, `source` to the `latest_wait_times()` RPC)
 - [x] Merge `feat/advanced-filtering` → `preview` (PR #28)
 - [x] Deploy the ER wait-time worker to Railway, verify end-to-end (cron → scrape → upsert → cache invalidate → frontend read)
 
 ### Deferred
+
 - Wait-time worker optimization: `resolve_unmatched_facility` calls Google Places sequentially for every unmatched scraped name (~22s for 57 names in the verification run) — parallelize with `ThreadPoolExecutor`, same pattern the pipeline's `places-enricher` Lambda already uses (Sprint 12), if the unmatched count grows enough to crowd the 15-min cron interval
 
 ### Production promotion
+
 - PR #29 open: `preview` → `main`, covers Sprint 13 (UI/product reframe), Sprint 14 (this sprint), and Sprint 14a (case-study rewrite) — awaiting final human review before merge
 
 ---
@@ -398,6 +448,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 **2026-07-01 → 2026-07-02 · branch: `feat/advanced-filtering` (same branch as Sprint 14, unrelated scope)**
 
 ### Delivered
+
 - Design spec written for a grounded rewrite of the `/for-engineers` case studies (`docs/superpowers/plans/2026-07-02-engineering-case-study-rewrite.md`)
 - Engineering case-study content extracted into a shared typed module, decoupled from page components
 - `CaseStudy` schema extended; all 3 case studies rewritten to be grounded in real code (not illustrative/placeholder copy)
@@ -408,6 +459,7 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 - `/for-engineers` navbar aligned with `/for-investors` page style
 
 ### Notes
+
 - Content is static (no Supabase table) — deliberate decision, revisit only past ~15–20 entries or if a non-engineer editor workflow is needed
 - Not yet merged to `preview` — rides along with the rest of `feat/advanced-filtering`
 
@@ -426,20 +478,169 @@ sources preferred.
 
 ---
 
+## [Sprint 16 — Closed] · Onboarding Flow Consolidation
+
+**2026-07-07 → 2026-07-09 · branch: `feat/onboarding-consolidation`**
+
+### Scope
+
+Desktop (`GettingStartedModal`) and mobile (`SetupPage`) previously duplicated the same
+location + emergency contact form with diverging code and inconsistent trigger behavior
+(mobile onboarding wasn't auto-shown on first login). GPS and push permission handling
+also lived as separate, unrelated app-wide popups with no persisted state. This sprint
+unified both platforms onto one shared step flow (Location → Push → Emergency Contact →
+Medical Profile), added `push_enabled`, `auto_alert_opt_in`, and medical fields
+(`allergies`, `conditions`, `blood_type`, `medical_chat_opt_in`) to `profile`, wired
+opted-in medical info into the triage chat context server-side, and updated the privacy
+pages to disclose the new data collection. Automated emergency-contact alert sending is
+explicitly deferred to a follow-up spec (opt-in is captured now, sending is not built).
+Migration `013_profile_onboarding_extensions.sql` applied 2026-07-09.
+
+### Post-review fixes (applied 2026-07-09, from `/code-review high` on the workflow-integration diff)
+
+10 findings, all CONFIRMED. Fixes: `remove_device` now scopes deletion to the caller's own
+OneSignal subscriptions (was an unscoped IDOR); removed the duplicate `OnboardingOverlay` trigger
+in `Home.tsx`; `SetupPage`/`OnboardingWizard` now navigate away after a successful finish instead of
+stalling on the last step; onboarding text fields no longer trim mid-keystroke (trim moved to submit
+time); swallowed profile-fetch exception in `chat.py` now logged; `ProfilePage`'s optimistic device
+removal now rolls back and surfaces an error on failure; re-added the GPS-clear-on-signout effect to
+`Home.tsx`; OneSignal calls in `notifications.py` offloaded to a threadpool; deduplicated the
+triplicated `email → display name` helper into `webapp/src/lib/formatDisplayName.ts`.
+Full findings: `docs/superpowers/reviews/2026-07-09-onboarding-flow-consolidation-review.md`.
+
+### Post-review fixes, round 2 (applied 2026-07-09, from a second `/code-review high` re-review)
+
+10 more findings, all verified (6 via dedicated verifier agents, 4 self-verified). Two CRITICAL:
+patient-supplied `allergies`/`conditions` were concatenated raw into the trusted LLM system
+prompt with no isolation — a prompt-injection path that could suppress correct emergency
+classification; now wrapped in explicit `<patient_provided_medical_context>` delimiters with an
+instruction to treat the content as inert data. Separately, `useProfile()` has no shared state
+across component instances, so the desktop non-dismissible onboarding overlay never dismissed
+itself after a successful submit — `useProfile` gained a `refetch()`, threaded through
+`OnboardingOverlay`'s new `onComplete` prop. Also fixed: `ProfilePage`'s Save button could submit
+blank/default state if clicked before the initial profile fetch resolved; `chat.py`'s per-message
+profile fetch still wasn't offloaded to a threadpool; `useNotificationPermission` now subscribes to
+the Permissions API so granted-state stays in sync across hook instances instead of going stale;
+`ProfilePage`'s device-list effect keyed on the `user` object reference (refetched on every token
+refresh) instead of `user?.id`; extracted shared `_onesignal_credentials()`/`_onesignal_request()`
+helpers and added real Pydantic response models to `notifications.py`; deduplicated the
+trim-or-null and AI-assistant-opt-in-copy logic that had drifted into two/three copies.
+
+### End-to-end validation (2026-07-09, Playwright against local dev servers + disposable Supabase test accounts)
+
+Full desktop and mobile onboarding → profile → chat journeys driven live. Confirmed: the desktop
+overlay-dismissal fix (completed wizard correctly hands off to the next popup instead of sticking);
+the mobile `/setup` → `/app` redirect; mid-keystroke trimming is gone (multi-word input survives
+keystroke-by-keystroke typing); all onboarding fields round-trip correctly through Supabase into
+`ProfilePage`; the profile save flow persists edits; the chat/triage flow completes cleanly with the
+medical-context fetch and prompt-injection guard both in place, no backend exceptions. Found and
+fixed one additional bug live: the desktop `UserMenu`'s "My profile" link still pointed at `/setup`
+instead of `/profile`, sending a fully-onboarded user back through the entire wizard — missed by both
+review passes since `UserMenu.tsx` wasn't touched by the sprint's diff.
+
+---
+
+## [Sprint 17 — Closed] · System Evaluation — Production Metrics for Case Studies
+
+**Started — 2026-07-09 · branch: `feat/system-evaluation`**
+
+### Priority rationale
+
+Flagged high priority in the Week (06) plan: the 3 published `/for-engineers` case
+studies read as marketing copy without real numbers behind them. This ties directly
+into Content Pipeline Post B (GraphRAG deep-dive), which needs real evaluated metrics
+to be credible to recruiters/investors.
+
+### Scope
+
+Pull live production metrics for each of the 3 case studies and publish them into the
+case-study copy, replacing any illustrative/placeholder numbers:
+
+- `two-pass-tool-orchestration-symptom-triage` — triage latency (Pass 1 tool call +
+  Pass 2 grounded response), tool-call success rate
+- `haversine-proximity-severity-gated-eligibility` — facility count, eligible-facility
+  filter rate, ranking latency
+- `two-tier-facility-state-cache-redis-wait-times` — cache hit rate, Redis wait-time
+  row count, Supabase-fallback rate
+
+No real production traffic exists yet, so numbers come from simulated load against
+`preview` (never `main`), not live users: JMeter for the stateless routing/cache case
+studies (2 and 3), a Python script for the stateful multi-turn triage conversations
+(case study 1) feeding a separate offline DeepEval pass. Two-phase per case study —
+(A) instrumentation/logging ships and runs first, (B) evaluation + publish happens
+once a collection window has real data — not one combined diff.
+
+Transparency requirement: each published update states not just the metric but the
+methodology/protocol behind it (what was measured, how, sample size, environment,
+date) — same honesty standard the case studies already hold for `METRIC PENDING`.
+Numbers measured under simulated `preview` load must say so, not imply live prod
+traffic.
+
+### Process
+
+```
+Phase A — Instrumentation        Verify                Phase B — Run          Publish
+  build + deploy logging/    →   smoke-test on   →   execute full simulated → human review →
+  counters/shadow-calls to       preview: manual      load (JMeter for CS 2   caseStudies.ts
+  preview per case study         requests + check     & 3, Python+DeepEval    result +
+                                  Grafana/Loki/         for CS 1) through a     methodology,
+                                  Sentry land the        collection window,     replace
+                                  right values before     compute metrics        METRIC PENDING
+                                  trusting any data
+```
+
+1. **Phase A — Instrumentation**: ship the logging/counters/shadow-calls per case study
+   (design/plan below, one per case study), deploy to `preview`.
+2. **Verify**: before trusting any data the instrumentation produces, confirm it's
+   actually correct — small-batch manual requests against `preview`, inspect the
+   existing Grafana/Loki/Sentry stack (Sprint 5) to confirm counters and log fields
+   land with the right values, and a minimal unit test per new branch (the 3-way
+   Redis/Supabase/failure path, the facility-fact regex check) so a broken branch fails
+   loudly instead of silently producing wrong numbers later.
+3. **Phase B — Run**: once instrumentation is verified, execute the full simulated
+   load (JMeter for case studies 2 and 3, Python + offline DeepEval pass for case
+   study 1) against `preview`, let it run through a collection window, gather metric
+   values and methodology notes (sample size, environment, date).
+4. **Publish**: human review of the numbers and methodology, then update
+   `caseStudies.ts` — replace `METRIC PENDING` with the reviewed result and the new
+   methodology block, update the "Pending" badge in `EngineeringCaseStudyPage.tsx`.
+
+### Out of scope
+
+- New case studies or new content sections
+- Sprint 9's prompt evaluation (DeepEval) — separate, still Planned
+
+### Delivered
+
+**Closed — 2026-07-14.**
+
+- Case study 1 (`two-pass-tool-orchestration-symptom-triage`): two independent evaluation tracks, published as Track A / Track B — an online deterministic groundedness check (0 hallucinated facilities / 106 checks / 100%) and an offline DeepEval Faithfulness LLM-as-judge pass (0.956 mean score, 96.6% pass rate, 89 facility-grounded responses). Deviates from the originally scoped metric (triage latency + tool-call success rate, never measured) in favor of groundedness/faithfulness — the more direct measure of this case study's own stated risk (hallucinated facilities), a conscious pivot made during Phase B, not silent drift.
+- Case study 2 (`haversine-proximity-severity-gated-eligibility`): 1.21 km average routing error across 30 shadow-call samples, measured via the new `routing_shadow_error_km` Prometheus summary metric.
+- Case study 3 (`two-tier-facility-state-cache-redis-wait-times`): 100% cache hit rate across 300 wait-time reads under a sustained read burst.
+- Load generation for Phase B ended up as a `concurrent.futures.ThreadPoolExecutor`-based Python script (`backend/scripts/routing_shadow_eval/`, `backend/scripts/cache_load_eval/`), not JMeter as originally planned — JMeter wasn't installed when Phase A's Verify stage needed a quick multi-request batch, and the ad hoc thread-based approach that unblocked Verify was kept and formalized for Phase B rather than introducing a new tool, since the actual need (request-volume for sample diversity against a free-tier backend) doesn't call for a dedicated load-testing tool's concurrency/throughput reporting.
+- Task 5's real-backend verify run surfaced and fixed a genuine bug: `wait_times_cache_outcome_total`'s `supabase_fallback`/`total_failure` labels are absent from `/metrics` entirely until first incremented (a Prometheus Counter quirk), which crashed the CS3 load script's stat computation on a backend that had only ever served `redis_hit` — fixed to treat an absent label as a legitimate zero.
+- Eval backend for this closeout ran on Railway (`medicoordai-staging-production.up.railway.app`), not Render as originally scoped — infra choice made mid-sprint, no impact on methodology.
+- Sprint 9's separate prompt-evaluation DeepEval work (premature-classification rate) remains out of scope, as originally stated.
+
+---
+
 ## [Deferred — v2.1+] · Core Product Features
 
 **These are the next product milestones after Sprint 5 and 6 close.**
 
 ### Triage Chat Loop
+
 - Covered in Sprint 8 (MVP) and Sprint 9 (AI engineering depth)
 
 ### Auth + Session
+
 - Password reset / forgot password flow
 - Email verification enforcement
 - Protected frontend routes (React Router guards)
 - Persistent session history in Supabase
 
 ### Production Promotion (`preview` → `main`)
+
 - Doppler prod config environment created
 - Render production service created (separate from staging)
 - Vercel production domain configured
@@ -463,6 +664,7 @@ sources preferred.
 Initial demo build. Submitted as a working proof-of-concept.
 
 ### Added
+
 - React/Vite SPA with three-tab navigation: Smart Routing, In-house Scheduling, Predictive Analysis
 - Toronto health provider dataset (43 facilities) with coordinates and metadata
 - Geoapify Route Matrix API integration for real driving-time routing from patient to provider
@@ -477,6 +679,7 @@ Initial demo build. Submitted as a working proof-of-concept.
 - CN Tower landmark pin as map center reference
 
 ### Known Issues at Submission
+
 - Vertex AI fine-tuned endpoint (`8775805933163905024`) never successfully wired — deployed function substitutes `random.choice()` for model inference
 - Frontend and backend operate as fully isolated subsystems with no HTTP integration
 - Severity schema mismatch across layers

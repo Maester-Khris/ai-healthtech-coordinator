@@ -3,8 +3,9 @@ import os
 import logging
 from llm.base import BaseLLMClient, LLMMessage
 from llm.tools import ALL_TOOLS, TRIAGE_RESPONSE
-from llm.prompts import build_system_prompt
+from llm.prompts import build_system_prompt, build_medical_context_block
 from services.proximity import find_nearest_facilities
+from services.triage_eval import check_facility_groundedness
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ class LLMAgent:
         history: list[dict],
         lat: float | None = None,
         lng: float | None = None,
+        user_profile: dict | None = None,
     ) -> dict:
         """
         Main entry point. Returns:
@@ -62,7 +64,7 @@ class LLMAgent:
             "turn_type": "followup" | "triage",
         }
         """
-        messages = self._build_messages(user_message, history)
+        messages = self._build_messages(user_message, history, user_profile=user_profile)
         user_turns = sum(1 for m in history if m.get("role") == "user")
         force_classify = user_turns >= self._max_followups
 
@@ -73,10 +75,20 @@ class LLMAgent:
         )
 
     def _build_messages(
-        self, user_message: str, history: list[dict]
+        self, user_message: str, history: list[dict],
+        user_profile: dict | None = None,
     ) -> list[LLMMessage]:
+        system_prompt = build_system_prompt(self._max_followups)
+        if user_profile and user_profile.get("medical_chat_opt_in"):
+            medical_block = build_medical_context_block(
+                allergies=user_profile.get("allergies"),
+                conditions=user_profile.get("conditions"),
+                blood_type=user_profile.get("blood_type"),
+            )
+            if medical_block:
+                system_prompt += medical_block
         msgs = [
-            LLMMessage(role="system", content=build_system_prompt(self._max_followups))
+            LLMMessage(role="system", content=system_prompt)
         ]
         recent = history[-self._context_window:]
         for h in recent:
@@ -132,7 +144,7 @@ class LLMAgent:
                             "turn_type": "followup",
                         }
 
-                    return self._handle_triage(tool_call, messages, lat, lng)
+                    return self._handle_triage(tool_call, messages, lat, lng, user_turns)
             logger.warning("unexpected_tool_call")
             return {
                 "response": "I need a bit more information. Can you describe your symptoms?",
@@ -159,6 +171,7 @@ class LLMAgent:
         messages: list[LLMMessage],
         lat: float | None,
         lng: float | None,
+        user_turns: int = 0,
     ) -> dict:
         args = json.loads(tool_call["arguments"])
         severity = args["severity"]
@@ -168,6 +181,7 @@ class LLMAgent:
             extra={
                 "severity": severity,
                 "information_sufficient": args.get("information_sufficient"),
+                "user_turns": user_turns,
             },
         )
         # Location is used whenever coordinates were provided by the client.
@@ -188,6 +202,17 @@ class LLMAgent:
             severity=severity,
             reasoning=reasoning,
             facility=recommended_facility,
+        )
+
+        grounding = check_facility_groundedness(response_text, recommended_facility)
+        logger.info(
+            "triage_grounding_checked",
+            extra={
+                "severity": severity,
+                "facility_provided": recommended_facility is not None,
+                "grounded": grounding["grounded"],
+                "user_turns": user_turns,
+            },
         )
 
         return {

@@ -11,7 +11,7 @@ class AnthropicClient(BaseLLMClient):
         if not api_key:
             raise RuntimeError("ANTHROPIC_API_KEY is not set")
         self._client = anthropic.Anthropic(api_key=api_key)
-        self._model = os.environ.get("ANTHROPIC_MODEL", "claude-3-5-haiku-20241022")
+        self._model = os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5")
 
     @property
     def model_name(self) -> str:

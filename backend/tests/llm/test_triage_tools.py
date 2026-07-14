@@ -322,3 +322,91 @@ class TestTriageResultShape:
 
         assert result["recommended_facility"] is None
         assert result["nearby_facilities"] == []
+
+
+# -----------------------------------------------------------------------
+# LLMAgent — grounding check logging (Sprint 17 instrumentation)
+# -----------------------------------------------------------------------
+
+class TestTriageGroundingLogged:
+    def test_grounding_checked_and_logged_when_facility_present(self, caplog):
+        from services.llm_agent import LLMAgent
+        from llm.tools import TRIAGE_RESPONSE
+
+        mock_client = MagicMock()
+        mock_client.chat.side_effect = [
+            MagicMock(
+                finish_reason="tool_calls",
+                content=None,
+                tool_calls=[{
+                    "id": "tc1",
+                    "name": TRIAGE_RESPONSE.name,
+                    "arguments": json.dumps({
+                        "severity": "urgent",
+                        "reasoning": "High fever with pain",
+                    }),
+                }],
+            ),
+            MagicMock(
+                finish_reason="stop",
+                content="Please go to Bay Centre Walk-In Clinic.",
+                tool_calls=None,
+            ),
+        ]
+
+        history = [
+            {"role": "user",      "content": "I feel unwell"},
+            {"role": "assistant", "content": "Can you describe your symptoms?"},
+            {"role": "user",      "content": "I have a headache and fever"},
+            {"role": "assistant", "content": "How long have you had these symptoms?"},
+            {"role": "user",      "content": "Since this morning"},
+            {"role": "assistant", "content": "Any chills or nausea alongside the fever?"},
+        ]
+        agent = LLMAgent(client=mock_client)
+
+        with caplog.at_level("INFO"):
+            result = agent.respond("I have a high fever", history, lat=43.660, lng=-79.385)
+
+        assert result["turn_type"] == "triage"
+        grounding_records = [r for r in caplog.records if r.msg == "triage_grounding_checked"]
+        assert len(grounding_records) == 1
+        record = grounding_records[0]
+        assert record.facility_provided is True
+        assert record.user_turns == 3
+
+    def test_grounding_logged_as_none_when_no_facility(self, caplog):
+        from services.llm_agent import LLMAgent
+        from llm.tools import TRIAGE_RESPONSE
+
+        mock_client = MagicMock()
+        mock_client.chat.side_effect = [
+            MagicMock(
+                finish_reason="tool_calls",
+                content=None,
+                tool_calls=[{
+                    "id": "tc1",
+                    "name": TRIAGE_RESPONSE.name,
+                    "arguments": json.dumps({
+                        "severity": "routine",
+                        "reasoning": "Minor cold",
+                    }),
+                }],
+            ),
+            MagicMock(
+                finish_reason="stop",
+                content="See a walk-in when convenient.",
+                tool_calls=None,
+            ),
+        ]
+
+        # Empty history → 0 user turns; set TRIAGE_MIN_TURNS=0 so triage fires
+        # without the minimum-turn gate suppressing it.
+        with patch.dict(os.environ, {"TRIAGE_MIN_TURNS": "0"}):
+            agent = LLMAgent(client=mock_client)
+            with caplog.at_level("INFO"):
+                agent.respond("I have a cold", [], lat=None, lng=None)
+
+        grounding_records = [r for r in caplog.records if r.msg == "triage_grounding_checked"]
+        assert len(grounding_records) == 1
+        assert grounding_records[0].facility_provided is False
+        assert grounding_records[0].grounded is None

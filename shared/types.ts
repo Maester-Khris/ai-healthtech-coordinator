@@ -104,6 +104,23 @@ export interface ChatMessageResponse {
   triage:            TriageResult | null
 }
 
+// ── Profile ────────────────────────────────────────────────────────────────
+
+export interface Profile {
+  id:                       string
+  user_id:                  string
+  getting_started_done:     boolean
+  location_preference:      'always' | 'ask'
+  push_enabled:              boolean
+  emergency_contact_name:   string | null
+  emergency_contact_phone:  string | null
+  auto_alert_opt_in:        boolean
+  allergies:                string | null
+  conditions:               string | null
+  blood_type:               string | null
+  medical_chat_opt_in:      boolean
+}
+
 // ── Notifications ─────────────────────────────────────────────────────────────
 
 export interface SendNotificationRequest {
@@ -114,6 +131,16 @@ export interface SendNotificationRequest {
 
 export interface SendNotificationResponse {
   notification_id: string | null
+}
+
+export interface NotificationDevice {
+  subscription_id: string
+  device_type:     string
+  active:          boolean
+}
+
+export interface ListDevicesResponse {
+  devices: NotificationDevice[]
 }
 
 // ── Triage UI ─────────────────────────────────────────────────────────────────

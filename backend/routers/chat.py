@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime, date
 
-from fastapi import APIRouter, Depends, Request, Header
+from fastapi import APIRouter, Depends, Request, Header, BackgroundTasks
 from fastapi.responses import JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from middleware.auth import get_current_user
 from models import CreateSessionRequest, SendMessageRequest
@@ -10,6 +11,7 @@ from services.chat import (
     generate_session_title, create_session, add_message,
     get_past_conversations, get_older_messages,
 )
+from services.geoapify_shadow import should_sample, log_routing_comparison
 from cache_chat import (
     get_user_cache, set_user_cache,
     append_message_to_cache, append_session_to_cache,
@@ -96,6 +98,7 @@ async def create_new_session(
 async def send_message(
     body: SendMessageRequest,
     request: Request,
+    background_tasks: BackgroundTasks,
     current_user: object = Depends(get_current_user),
 ) -> dict:
     """
@@ -117,12 +120,26 @@ async def send_message(
 
     try:
         from services.llm_agent import LLMAgent
+        from db import supabase_select
         agent = LLMAgent()
+
+        user_profile: dict | None = None
+        try:
+            user_profile = await run_in_threadpool(
+                supabase_select,
+                "profile",
+                params={"user_id": f"eq.{user_id}", "select": "allergies,conditions,blood_type,medical_chat_opt_in"},
+                single=True,
+            )  # type: ignore[assignment]
+        except Exception as exc:
+            logger.warning("profile_fetch_failed", extra={"request_id": request_id, "error": str(exc)})
+
         result = agent.respond(
             user_message=body.content,
             history=history,
             lat=body.lat,
             lng=body.lng,
+            user_profile=user_profile,
         )
     except Exception as exc:
         import sentry_sdk
@@ -164,6 +181,15 @@ async def send_message(
             "recommended_facility": result["recommended_facility"],
             "nearby_facilities": result["nearby_facilities"],
         }
+
+    if (
+        triage
+        and triage["recommended_facility"]
+        and should_sample()
+    ):
+        background_tasks.add_task(
+            log_routing_comparison, body.lat, body.lng, triage["recommended_facility"],
+        )
 
     return _ser({"user_message": user_msg, "assistant_message": assistant_msg, "triage": triage})
 
