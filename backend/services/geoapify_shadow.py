@@ -10,10 +10,19 @@ import os
 import random
 
 import httpx
+from prometheus_client import Summary
+
+from observability import _registry
 
 logger = logging.getLogger(__name__)
 
 GEOAPIFY_ROUTEMATRIX_URL = "https://api.geoapify.com/v1/routematrix"
+
+ROUTING_SHADOW_ERROR_KM = Summary(
+    "routing_shadow_error_km",
+    "Absolute error between Haversine estimate and Geoapify real driving distance (km), sampled shadow calls",
+    registry=_registry,
+)
 
 
 def should_sample() -> bool:
@@ -68,8 +77,11 @@ async def fetch_travel_time_km(
 async def log_routing_comparison(lat: float, lng: float, facility: dict) -> None:
     """
     Compares the Haversine distance already computed for `facility` against a
-    live Geoapify Route Matrix lookup, logs the delta. No-ops silently if the
-    shadow call itself failed — there is nothing to compare in that case.
+    live Geoapify Route Matrix lookup, logs the delta and records it on
+    ROUTING_SHADOW_ERROR_KM so /metrics can report an average error across a
+    load run without needing to scrape logs (Sprint 17 Phase B, case study 2).
+    No-ops silently if the shadow call itself failed — there is nothing to
+    compare in that case.
     """
     real = await fetch_travel_time_km(lat, lng, facility["lat"], facility["lng"])
     if real is None:
@@ -77,6 +89,7 @@ async def log_routing_comparison(lat: float, lng: float, facility: dict) -> None
 
     haversine_km = facility["distanceKm"]
     error_km = round(abs(real["distanceKm"] - haversine_km), 2)
+    ROUTING_SHADOW_ERROR_KM.observe(error_km)
     logger.info(
         "routing_shadow_comparison",
         extra={

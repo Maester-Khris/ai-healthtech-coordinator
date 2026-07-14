@@ -89,3 +89,24 @@ class TestLogRoutingComparison:
 
         records = [r for r in caplog.records if r.msg == "routing_shadow_comparison"]
         assert len(records) == 0
+
+    @pytest.mark.asyncio
+    async def test_records_error_km_on_summary_metric(self):
+        from services.geoapify_shadow import ROUTING_SHADOW_ERROR_KM
+
+        facility = {"id": "fac-001", "lat": 43.65, "lng": -79.39, "distanceKm": 3.0}
+        before = ROUTING_SHADOW_ERROR_KM.collect()[0].samples
+        before_count = next(s.value for s in before if s.name.endswith("_count"))
+
+        with patch(
+            "services.geoapify_shadow.fetch_travel_time_km",
+            return_value={"distanceKm": 3.4, "travelMinutes": 8.0},
+        ):
+            await log_routing_comparison(43.66, -79.38, facility)
+
+        after = ROUTING_SHADOW_ERROR_KM.collect()[0].samples
+        after_count = next(s.value for s in after if s.name.endswith("_count"))
+        after_sum = next(s.value for s in after if s.name.endswith("_sum"))
+
+        assert after_count == before_count + 1
+        assert after_sum >= 0.4
