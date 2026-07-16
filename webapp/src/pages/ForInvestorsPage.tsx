@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ShieldCheck, ChartBar, Globe, Flask, PlayIcon, PauseIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 interface PipelineStep {
   id: string
@@ -293,6 +294,11 @@ function PatientFlowPipeline() {
 }
 
 export default function ForInvestorsPage() {
+  useDocumentHead(
+    'For Investors & Health System Operators',
+    "City-wide patient coordination, real-time and at scale. How MediCoord AI routes hundreds of patients simultaneously across Toronto's health network."
+  )
+
   return (
     <div className="bg-[#061219] min-h-screen flex flex-col font-static text-[#E2F1F5] overflow-x-hidden">
 

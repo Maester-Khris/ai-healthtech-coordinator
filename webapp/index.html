@@ -28,17 +28,39 @@
   </script>
   <title>Find Urgent Care &amp; ERs Near You — MediCoord AI Toronto</title>
   <meta name="description" content="Describe your symptoms and MediCoord AI finds the nearest clinic, urgent care, or ER in Toronto with real wait times. Know where to go before you go." />
+  <link rel="canonical" href="https://medicoord.nknext.dev/" />
   <meta property="og:title" content="Find Urgent Care &amp; ERs Near You — MediCoord AI Toronto" />
   <meta property="og:description" content="Describe your symptoms and MediCoord AI finds the nearest clinic, urgent care, or ER in Toronto with real wait times. Know where to go before you go." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://medicoord.nknext.dev/" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "MediCoord AI",
-    "applicationCategory": "HealthApplication",
-    "description": "Describe your symptoms and get matched to the nearest right-fit healthcare facility, with live directions and arrival time.",
-    "url": "https://medicoordai.com"
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "MediCoord AI",
+        "applicationCategory": "HealthApplication",
+        "description": "Describe your symptoms and get matched to the nearest right-fit healthcare facility, with live directions and arrival time.",
+        "url": "https://medicoord.nknext.dev"
+      },
+      {
+        "@type": "Organization",
+        "name": "MediCoord AI",
+        "url": "https://medicoord.nknext.dev",
+        "logo": "https://medicoord.nknext.dev/logo.png",
+        "description": "MediCoord AI is a health navigation platform that routes patients to the right facility using AI symptom triage, live wait queues, and real-time road routing.",
+        "areaServed": {
+          "@type": "City",
+          "name": "Toronto",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "ON",
+            "addressCountry": "CA"
+          }
+        }
+      }
+    ]
   }
   </script>
 </head>

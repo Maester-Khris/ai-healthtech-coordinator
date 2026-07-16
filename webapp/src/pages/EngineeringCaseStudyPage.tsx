@@ -17,6 +17,7 @@ import {
 } from '@phosphor-icons/react'
 import { CASE_STUDIES, type NavSection } from '../data/caseStudies'
 import { formatPublishedDate, splitWithEmphasis, splitWithBoldPhrases, type MetricBullet } from '../utils/caseStudyContent'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 function MetricBulletList({ items, ordered }: { items: MetricBullet[]; ordered?: boolean }) {
   const ListTag = ordered ? 'ol' : 'ul'
@@ -64,6 +65,9 @@ function SectionHeading({ color, children }: { color: string; children: ReactNod
 export default function EngineeringCaseStudyPage() {
   const { slug } = useParams<{ slug: string }>()
   const caseStudy = CASE_STUDIES.find((cs) => cs.slug === slug)
+
+  // Hooks must run unconditionally — call before the not-found early return.
+  useDocumentHead(caseStudy?.title ?? 'Case Study Not Found', caseStudy?.summary ?? '')
 
   if (!caseStudy) {
     return <Navigate to="/for-engineers" replace />

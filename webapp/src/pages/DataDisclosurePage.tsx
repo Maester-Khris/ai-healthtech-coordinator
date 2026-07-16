@@ -55,7 +55,11 @@ export default function DataDisclosurePage() {
   ]
 
   return (
-    <LegalPageLayout title="Data Disclosure" lastUpdated="June 24, 2026">
+    <LegalPageLayout
+      title="Data Disclosure"
+      description="An itemized breakdown of every piece of data MediCoord AI collects, why it's collected, where it's stored, and who it's shared with."
+      lastUpdated="June 24, 2026"
+    >
       <p className="text-sm md:text-body-md text-[#85A4B1] leading-relaxed">
         MediCoord AI is built on real Canadian public health data — no simulated locations, no synthetic wait times.
         This page shows exactly what we collect, where it lives, and who can see it. For your legal rights, see our <Link to="/privacy">Privacy Policy</Link>.
