@@ -118,6 +118,26 @@ const FAMILY_PATH = [
   { left: '58', top: '51' }
 ]
 
+type CookieSettings = { zoom: boolean; history: boolean; analytics: boolean }
+const COOKIE_CONSENT_KEY = 'medicoord_cookie_consent'
+
+function loadStoredConsent(): CookieSettings | null {
+  try {
+    const raw = localStorage.getItem(COOKIE_CONSENT_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function persistConsent(settings: CookieSettings) {
+  try {
+    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(settings))
+  } catch {
+    // localStorage unavailable (private browsing, etc.) — consent just won't persist across reloads
+  }
+}
+
 // Path interpolation function
 function interpolatePath(path: { left: string; top: string }[], progress: number) {
   if (progress <= 0) return path[0]
@@ -165,14 +185,12 @@ export default function LandingPage() {
   const [cookieBannerOpen, setCookieBannerOpen] = useState(false)
 
   useEffect(() => {
-    setCookieBannerOpen(true)
+    if (!loadStoredConsent()) setCookieBannerOpen(true)
   }, [])
   const [showPreferences, setShowPreferences] = useState(false)
-  const [cookieSettings, setCookieSettings] = useState({
-    zoom: true,
-    history: true,
-    analytics: false
-  })
+  const [cookieSettings, setCookieSettings] = useState<CookieSettings>(
+    () => loadStoredConsent() ?? { zoom: true, history: true, analytics: false }
+  )
   const [activeStep, setActiveStep] = useState(1)
 
   useDocumentHead(
@@ -1194,7 +1212,12 @@ export default function LandingPage() {
                 </button>
 
                 <button
-                  onClick={() => setCookieBannerOpen(false)}
+                  onClick={() => {
+                    const settings: CookieSettings = { zoom: true, history: true, analytics: true }
+                    setCookieSettings(settings)
+                    persistConsent(settings)
+                    setCookieBannerOpen(false)
+                  }}
                   className="px-4 py-1.5 rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] text-xs font-bold text-[#061219] shadow-sm transition-colors cursor-pointer"
                 >
                   Accept
@@ -1280,6 +1303,7 @@ export default function LandingPage() {
                   </button>
                   <button
                     onClick={() => {
+                      persistConsent(cookieSettings)
                       setShowPreferences(false)
                       setCookieBannerOpen(false)
                     }}
