@@ -111,7 +111,7 @@ export default function ForEngineersPage() {
             <span className="text-[10px] font-mono font-bold text-[#7AA0B0] uppercase tracking-widest">Status</span>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#48F6C1]" />
-              <span className="text-sm font-bold text-white">{CASE_STUDIES.length} Live Systems</span>
+              <span className="text-sm font-bold text-white">{`${CASE_STUDIES.length} Live Systems`}</span>
             </div>
           </div>
         </aside>
@@ -152,7 +152,7 @@ export default function ForEngineersPage() {
                         {cs.category}
                       </span>
                     </div>
-                    <span className="text-xs font-mono text-[#7AA0B0] whitespace-nowrap">{cs.readTimeMinutes} MIN READ</span>
+                    <span className="text-xs font-mono text-[#7AA0B0] whitespace-nowrap">{`${cs.readTimeMinutes} MIN READ`}</span>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">

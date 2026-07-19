@@ -76,7 +76,7 @@ export function LegalPageLayout({ title, description, lastUpdated, children }: L
               {title}
             </h1>
             <p className="text-xs font-mono text-[#85A4B1] mb-8 border-b border-[#1C4659]/30 pb-4">
-              Last updated: {lastUpdated}
+              {`Last updated: ${lastUpdated}`}
             </p>
 
             <div className="text-body-md text-[#85A4B1] space-y-6 [&_a]:text-[#48F6C1] [&_a]:no-underline [&_a:hover]:underline [&_h2]:text-[18px] [&_h2]:font-bold [&_h2]:text-white [&_h2]:tracking-wide [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:border-b [&_h2]:border-[#1C4659]/30 [&_h2]:pb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2 [&_table]:w-full [&_table]:border-collapse [&_table]:my-6 [&_th]:text-[11px] [&_th]:font-bold [&_th]:font-mono [&_th]:text-[#00D2FF] [&_th]:uppercase [&_th]:tracking-wider [&_th]:text-left [&_th]:border-b [&_th]:border-[#1C4659]/80 [&_th]:py-3 [&_th]:px-4 [&_td]:border-b [&_td]:border-[#1C4659]/40 [&_td]:py-3 [&_td]:px-4 [&_td]:align-top [&_td]:text-[#E2F1F5] [&_tr:hover]:bg-[#132E3C]/20 [&_strong]:text-white">

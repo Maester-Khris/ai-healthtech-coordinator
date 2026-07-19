@@ -160,26 +160,26 @@ export default function EngineeringCaseStudyPage() {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#7AA0B0]">
               <span className="flex items-center gap-1.5">
                 <CalendarBlank className="w-3.5 h-3.5" />
-                Published: {formatPublishedDate(caseStudy.publishedDate)}
+                {`Published: ${formatPublishedDate(caseStudy.publishedDate)}`}
               </span>
               {caseStudy.updatedDate && (
                 <>
                   <span aria-hidden>·</span>
                   <span className="flex items-center gap-1.5">
                     <ClockCounterClockwise className="w-3.5 h-3.5" />
-                    Updated: {formatPublishedDate(caseStudy.updatedDate)}
+                    {`Updated: ${formatPublishedDate(caseStudy.updatedDate)}`}
                   </span>
                 </>
               )}
               <span aria-hidden>·</span>
               <span className="flex items-center gap-1.5">
                 <PenNib className="w-3.5 h-3.5" />
-                Written by {caseStudy.author}
+                {`Written by ${caseStudy.author}`}
               </span>
               <span aria-hidden>·</span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
-                {caseStudy.readTimeMinutes} Min Read
+                {`${caseStudy.readTimeMinutes} Min Read`}
               </span>
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function EngineeringCaseStudyPage() {
             {(caseStudy.codeSamples ?? (caseStudy.code ? [caseStudy.code] : [])).map((sample) => (
               <div key={sample.filename} className="flex flex-col gap-3">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#7AA0B0]">
-                  {sample.language.toUpperCase()} Sample
+                  {`${sample.language.toUpperCase()} Sample`}
                 </span>
                 <div className="border border-[#1C4659]/60 rounded-xl overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-2.5 bg-[#0D1B23] border-b border-[#1C4659]/60">
@@ -290,7 +290,7 @@ export default function EngineeringCaseStudyPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {caseStudy.diagramSteps.map((step, idx) => (
                 <div key={step.title} className="relative flex flex-col gap-2 p-4 bg-[#0A1D27]/60 border border-[#1C4659]/40 rounded-xl">
-                  <div className="absolute top-3 right-3 text-xs font-mono font-bold text-[#7AA0B0]/40">0{idx + 1}</div>
+                  <div className="absolute top-3 right-3 text-xs font-mono font-bold text-[#7AA0B0]/40">{`0${idx + 1}`}</div>
                   <div className="text-[20px]" style={{ color: accentHex }}>
                     <i className={step.icon} />
                   </div>

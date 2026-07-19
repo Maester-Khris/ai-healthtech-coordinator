@@ -77,7 +77,7 @@ export default function CookiesPage() {
             <div className="flex items-start justify-between gap-3">
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-bold text-white leading-snug">{item.name}</span>
-                <span className="text-[10px] font-mono text-[#7AA0B0]">Service: {item.service}</span>
+                <span className="text-[10px] font-mono text-[#7AA0B0]">{`Service: ${item.service}`}</span>
               </div>
               <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${item.badgeClass}`}>
                 {item.badge}

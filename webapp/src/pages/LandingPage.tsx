@@ -181,12 +181,10 @@ export default function LandingPage() {
   const [parsedIntents, setParsedIntents] = useState<string[]>([])
   const [parseComplete, setParseComplete] = useState(false)
 
-  // Cookie Controller states
-  const [cookieBannerOpen, setCookieBannerOpen] = useState(false)
-
-  useEffect(() => {
-    if (!loadStoredConsent()) setCookieBannerOpen(true)
-  }, [])
+  // Cookie Controller states — synchronous lazy initializer (matches
+  // cookieSettings below) so the decision is made in the first render pass,
+  // not a post-mount effect: keeps prerendered HTML and hydration in sync.
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(() => !loadStoredConsent())
   const [showPreferences, setShowPreferences] = useState(false)
   const [cookieSettings, setCookieSettings] = useState<CookieSettings>(
     () => loadStoredConsent() ?? { zoom: true, history: true, analytics: false }
@@ -961,7 +959,7 @@ export default function LandingPage() {
                 </span>
               </div>
               <span className="text-[10px] font-mono text-[#7AA0B0] bg-[#132E3C]/60 px-2.5 py-1 rounded border border-[#1C4659]/50">
-                STAGE {activeStep} / 3
+                {`STAGE ${activeStep} / 3`}
               </span>
             </div>
 

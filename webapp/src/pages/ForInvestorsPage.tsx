@@ -236,7 +236,7 @@ function PatientFlowPipeline() {
                   className="text-[9px] font-mono uppercase tracking-wider"
                   style={{ color: step.color }}
                 >
-                  Step {activeStep + 1} of {PIPELINE_STEPS.length}
+                  {`Step ${activeStep + 1} of ${PIPELINE_STEPS.length}`}
                 </div>
                 <div className="text-sm font-bold text-white">{step.label}</div>
               </div>
@@ -386,7 +386,7 @@ export default function ForInvestorsPage() {
         {/* Main pitch */}
         <section className="border-t border-[#132A37]/80 pt-16 flex flex-col gap-8 max-w-3xl">
           <h2 className="text-2xl lg:text-3xl font-extrabold text-white leading-snug">
-            Most routing systems find the nearest facility.{' '}
+            {'Most routing systems find the nearest facility. '}
             <span className="text-[#48F6C1]">MediCoord AI coordinates across all of them.</span>
           </h2>
           <div className="flex flex-col gap-5 text-[#85A4B1] text-sm leading-relaxed">
