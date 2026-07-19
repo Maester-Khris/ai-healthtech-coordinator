@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CaretRight, MagnifyingGlass } from '@phosphor-icons/react'
 import { CASE_STUDIES } from '../data/caseStudies'
 import { filterCaseStudies } from '../utils/caseStudyContent'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 const ACCENT_STYLES = {
   mint: {
@@ -28,6 +29,11 @@ const ACCENT_STYLES = {
 const PRIMARY_TAGS = CASE_STUDIES.map((cs) => cs.tags[0])
 
 export default function ForEngineersPage() {
+  useDocumentHead(
+    'Engineering Blog',
+    'System deep-dives from the MediCoord AI engineering team: architecture, infrastructure, AI models, security, and what we learned building each.'
+  )
+
   const [query, setQuery] = useState('')
   const [activeTag, setActiveTag] = useState<string | null>(null)
 

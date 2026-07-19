@@ -2,7 +2,11 @@ import { LegalPageLayout } from '../components/legal/LegalPageLayout'
 
 export default function PrivacyPage() {
   return (
-    <LegalPageLayout title="Privacy Policy" lastUpdated="July 9, 2026">
+    <LegalPageLayout
+      title="Privacy Policy"
+      description="How MediCoord AI collects, uses, and protects your information — what we store, why we need it, and how it's secured."
+      lastUpdated="July 9, 2026"
+    >
       <p>
         Your health information is yours. This policy explains exactly what
         MediCoord AI collects when you use the app, why we need it, and how

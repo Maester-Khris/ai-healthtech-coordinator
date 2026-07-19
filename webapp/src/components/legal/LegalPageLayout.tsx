@@ -3,14 +3,18 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { LoginModal } from '../auth/LoginModal'
+import { useDocumentHead } from '../../hooks/useDocumentHead'
 
 interface LegalPageLayoutProps {
   title: string
+  description: string
   lastUpdated: string
   children: ReactNode
 }
 
-export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayoutProps) {
+export function LegalPageLayout({ title, description, lastUpdated, children }: LegalPageLayoutProps) {
+  useDocumentHead(title, description)
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTab, setModalTab] = useState<'signin' | 'signup'>('signin')
 
