@@ -46,8 +46,26 @@ export async function render(url: string): Promise<PrerenderResult> {
       // be copied onto globalThis — safe to skip, nothing here depends on them
     }
   }
-  setGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => setTimeout(() => cb(Date.now()), 16))
-  setGlobal('cancelAnimationFrame', (id: number) => clearTimeout(id))
+  // No-op, never invokes the callback: libraries like motion start animating
+  // (initial -> animate) via rAF on mount, and if it ticks even once before
+  // capture, the snapshot freezes mid-animation instead of at the true
+  // pre-animation initial state a fresh browser hydration always starts
+  // from — which is a real, reproducible hydration mismatch (confirmed:
+  // `opacity: 0.0036...` baked into prerendered HTML instead of `opacity: 0`).
+  let rafId = 0
+  setGlobal('requestAnimationFrame', () => ++rafId)
+  setGlobal('cancelAnimationFrame', () => {})
+
+  // Same reasoning, same fix, for setInterval: a real Node timer at 50ms can
+  // genuinely fire during the render+capture pass (module evaluation +
+  // act()'s microtask draining is not always faster than 50ms wall-clock,
+  // confirmed by a reproduced mismatch on the homepage's interval-driven
+  // hero timeline). No-op keeps every interval-driven useState frozen at
+  // its true initial value. setTimeout/clearTimeout stay real — jsdom's own
+  // internals and act() depend on them (overriding those recurses infinitely).
+  let intervalId = 0
+  setGlobal('setInterval', () => ++intervalId)
+  setGlobal('clearInterval', () => {})
   setGlobal('IS_REACT_ACT_ENVIRONMENT', true)
 
   // Imported after globals are set — App's module graph (leaflet, motion,
@@ -59,12 +77,15 @@ export async function render(url: string): Promise<PrerenderResult> {
   const container = dom.window.document.getElementById('root')!
   const root = createRoot(container)
 
+  // Capture immediately after the first act() — it already flushes every
+  // synchronous effect (useDocumentHead included). Do NOT wait an extra
+  // tick here: some routes (e.g. LandingPage's hero) start a setInterval
+  // in a useEffect on mount, and any additional wait risks letting it fire
+  // before capture — producing a snapshot frozen mid-animation instead of
+  // the true initial-mount state a real browser's hydration always starts
+  // from, which causes a genuine hydration mismatch on page load.
   await act(async () => {
     root.render(<App />)
-  })
-  // let effect-chained microtasks (useDocumentHead, useEffect->setState) settle
-  await act(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 0))
   })
 
   const title = dom.window.document.title
