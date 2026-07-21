@@ -622,9 +622,9 @@ Phase A — Instrumentation        Verify                Phase B — Run        
 
 ---
 
-## [Sprint 18 — Planned] · Symptom Understanding v1 — Static CTAS Retrieval
+## [Sprint 18 — Started] · Symptom Understanding v1 — Static CTAS Retrieval
 
-**Not started.**
+**Started — 2026-07-20 · branch: `feat/symptom-understanding-v1`**
 
 Scope:
 
