@@ -1,0 +1,51 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "name": "Resuscitation",
+      "target_response": "Immediate (physician assessment on arrival)",
+      "description": "Conditions that are life or limb threatening (or risk imminent deterioration) requiring immediate aggressive intervention. The paper states an 'immediate' response to life- or limb-threatening presentations 'doesn't need clarification.' Example modifiers discussed: presenting fetal parts/prolapsed cord, active seizure/postictal, core temperature >41C with severe dehydration (heat-related presentations)."
+    },
+    {
+      "level": 2,
+      "name": "Emergent",
+      "target_response": "Target ~15 minutes to physician assessment",
+      "description": "Conditions that are a potential threat to life, limb, or function, requiring rapid medical intervention. The paper cites a 15-minute target and gives examples: 'chest pain, cardiac features' warranting an ECG and physician review within 15 minutes to avoid missing an ST-elevation infarct; 'extremity weakness/symptoms of CVA' within the therapeutic window; high-risk mechanism-of-injury patients who are stable but at high risk of deterioration; sepsis with 3 SIRS criteria."
+    },
+    {
+      "level": 3,
+      "name": "Urgent",
+      "target_response": "Target ~30 minutes to physician assessment",
+      "description": "Conditions that could progress to a serious problem requiring emergency intervention, or are associated with significant discomfort affecting function. The paper cites a 30-minute target and gives examples: dislocations and displaced fractures; sepsis with 2 SIRS criteria ('looks unwell'); patients up-triaged via the new frailty modifier (normally CTAS 4/5) to protect vulnerable populations from long-wait deterioration."
+    },
+    {
+      "level": 4,
+      "name": "Less Urgent",
+      "target_response": "Not explicitly re-stated with a minute value in this paper (standard CTAS convention: ~60 minutes); paper confirms the CTAS 1-5 time targets 'will remain unchanged' from prior guidelines",
+      "description": "Patients who are, by definition, stable, though the paper notes admission rates for CTAS level 4 can be as high as 10%, indicating many still require careful workup. Conditions related to patient age, distress, or potential for deterioration that would benefit from intervention or reassurance within 1-2 hours."
+    },
+    {
+      "level": 5,
+      "name": "Non Urgent",
+      "target_response": "Not explicitly re-stated with a minute value in this paper (standard CTAS convention: ~120 minutes); paper confirms the CTAS 1-5 time targets 'will remain unchanged' from prior guidelines",
+      "description": "Patients who are, by definition, stable, though the paper notes admission rates for CTAS level 5 can be as high as 4%. Conditions that may be acute but non-urgent, or part of a chronic problem without evidence of deterioration; investigations or interventions could be delayed or referred."
+    }
+  ],
+  "revision_notes": [
+    "CTAS 1-5 acuity time targets remain unchanged despite pressure to lengthen them; proposed replacing the old 80-95% 'fractile response time' targets with 'benchmarking' ED performance metrics (goal: median 1 hour, 90th percentile 3 hours to physician initial assessment).",
+    "Explicit position that CTAS must not be used as a diversion/deferral tool to redirect CTAS level 4/5 patients from the ED to primary or urgent care -- no presentation-specific deferral algorithm exists to support this practice safely.",
+    "CEDIS complaint renamed: 'Bilateral leg swelling/edema' -> 'Leg swelling/edema' (Cardiovascular category).",
+    "New CEDIS complaint added: 'Heat related issue' (Environmental category), with new modifiers spanning CTAS levels 1-4 (respiratory distress, hemodynamic status, level of consciousness, pain score, frailty, core temperature thresholds >41C/39-41C, dehydration severity, heat cramps).",
+    "New CEDIS complaint added: 'Post partum issue' (Obstetrical-Gynaecological category), with an entirely new set of special modifiers spanning CTAS levels 1-4 (no prior complaint existed to compare against).",
+    "CEDIS complaints renamed: 'Major trauma - blunt' -> 'Multisystem trauma - blunt' and 'Major trauma - penetrating' -> 'Multisystem trauma - penetrating' (Trauma category).",
+    "New CEDIS complaint added: 'Return visit for therapy' (General and Minor category); 'Imaging test' renamed to 'Imaging test/blood test'; 'Abnormal lab values' renamed to 'Abnormal lab/imaging results'.",
+    "Two CEDIS complaints changed category: 'Cast check' moved from General and Minor to Orthopedic; 'Removal of staples/sutures' moved from General and Minor to Skin.",
+    "Pregnancy (Obstetrical) special modifiers revised and realigned with the new Obstetrical Triage Acuity Scale (OTAS), including changing the active-labour contraction-interval thresholds (previously <=2 min / >2 min) to <=5 min / >5 min, adjusting hypertension SBP/DBP thresholds, and adding modifiers such as 'unplanned/unattended birth,' 'high risk substance abuse,' 'decreased fetal movement,' and blunt/penetrating abdominal trauma in pregnancy >20 weeks.",
+    "New CTAS level 3 'frailty modifier' introduced to up-triage vulnerable patients (frail elderly, physically disabled, cognitively impaired limiting awareness, late-stage terminal illness, cachexia/general weakness, or age >80 unless robust) who would otherwise be scored CTAS level 4 or 5.",
+    "New geriatric triage educational component developed (in collaboration with the CAEP Geriatric Emergency Medicine Practice Committee) covering vital-sign interpretation changes with aging, pain-assessment challenges, atypical disease presentations, cognitive impairment/delirium recognition, falls/trauma under-triage risk, and polypharmacy -- an educational addition, not a scoring change.",
+    "Paediatric fever modifier age range narrowed: 'temperature >38.5C looks unwell' (CTAS 2) and 'temperature >38.5C looks well' (CTAS 3) now apply to children 3-18 months (previously 3-36 months), reflecting reduced serious-infection incidence from expanded immunization programs; the newborn (<3 months) fever modifier remains CTAS level 2, unchanged.",
+    "Paramedic Chiefs of Canada (PCC) added as the sixth member organization of the CTAS National Working Group, formalizing collaboration on Prehospital CTAS (Pre-CTAS) development.",
+    "Planned overhaul of CTAS education and certification: moving from a one-day instructor-led course to a blended model with online didactic modules (including a new geriatric section and per-CEDIS-complaint-group learning modules) followed by a 3-4 hour face-to-face case-based session, culminating in a competency-based certification rather than a certificate of attendance."
+  ],
+  "source": "Bullard MJ, Musgrave E, Warren D, Unger B, Skeldon T, Grierson R, van der Linde E, Swain J; CTAS National Working Group. Revisions to the Canadian Emergency Department Triage and Acuity Scale (CTAS) Guidelines 2016. CJEM 2017;19(S2):S18-S27. DOI 10.1017/cem.2017.365"
+}
