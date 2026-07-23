@@ -47,5 +47,12 @@
     "Paramedic Chiefs of Canada (PCC) added as the sixth member organization of the CTAS National Working Group, formalizing collaboration on Prehospital CTAS (Pre-CTAS) development.",
     "Planned overhaul of CTAS education and certification: moving from a one-day instructor-led course to a blended model with online didactic modules (including a new geriatric section and per-CEDIS-complaint-group learning modules) followed by a 3-4 hour face-to-face case-based session, culminating in a competency-based certification rather than a certificate of attendance."
   ],
-  "source": "Bullard MJ, Musgrave E, Warren D, Unger B, Skeldon T, Grierson R, van der Linde E, Swain J; CTAS National Working Group. Revisions to the Canadian Emergency Department Triage and Acuity Scale (CTAS) Guidelines 2016. CJEM 2017;19(S2):S18-S27. DOI 10.1017/cem.2017.365"
+  "source": "Bullard MJ, Musgrave E, Warren D, Unger B, Skeldon T, Grierson R, van der Linde E, Swain J; CTAS National Working Group. Revisions to the Canadian Emergency Department Triage and Acuity Scale (CTAS) Guidelines 2016. CJEM 2017;19(S2):S18-S27. DOI 10.1017/cem.2017.365",
+  "app_severity_mapping": {
+    "1": "emergent",
+    "2": "emergent",
+    "3": "urgent",
+    "4": "moderate",
+    "5": "routine"
+  }
 }

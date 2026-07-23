@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
+import pytest
 from scripts.reconcile_ctas_data import normalize_name, match_complaints
 
 COT_FIXTURE = [
@@ -52,6 +53,24 @@ def test_no_match_lands_in_cot_only():
 def test_no_match_lands_in_adult_only():
     result = match_complaints(COT_FIXTURE, ADULT_FIXTURE, alias_overrides={})
     assert any(e["presenting_complaint"] == "General weakness" for e in result.adult_only)
+
+
+def test_comparison_operators_are_not_stripped_to_the_same_key():
+    # Regression: "< 20 weeks" and "> 20 weeks" are clinically different
+    # complaints (early vs. late pregnancy) — must not normalize identically.
+    assert normalize_name("Pregnancy issue < 20 weeks") != normalize_name("Pregnancy issue > 20 weeks")
+
+
+def test_normalization_collision_between_distinct_complaints_raises():
+    # Punctuation-only difference that still collides after normalization —
+    # the guard must catch any two different original strings mapping to the
+    # same key, not just the specific </> case already fixed above.
+    colliding_adult = [
+        {"presenting_complaint": "Foo (Bar)"},
+        {"presenting_complaint": "Foo Bar"},
+    ]
+    with pytest.raises(ValueError, match="Normalization collision"):
+        match_complaints(COT_FIXTURE, colliding_adult, alias_overrides={})
 
 
 from scripts.reconcile_ctas_data import transform_entry, CTAS_TO_APP_SEVERITY
