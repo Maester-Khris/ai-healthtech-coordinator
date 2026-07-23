@@ -430,7 +430,7 @@ Run it once, then verify: `python -c "import json; print(json.load(open('triage/
 - [ ] **Step 3: Run the script against the real data**
 
 Run: `source /home/niki/Documents/workenv/pydev/bin/activate && cd backend && python scripts/reconcile_ctas_data.py`
-Expected output: `Wrote N canonical entries.` where N is between 165 and 180 (165 cot entries plus up to 15 previously-adult-only entries this alias table doesn't yet resolve — see Step 4).
+Expected output: `Wrote 165 canonical entries.` — every cot entry lands in exactly one of `matched`/`cot_only` (§ Task 1's `match_complaints`), so the canonical count always equals `len(cot_entries)` regardless of how many aliases are resolved. Adult-only entries never add to this count; they only ever supply aliases/questions for entries cot already has. `Matched:` should be well under 165 on this first run (`build_alias_overrides()` starts empty per Task 2) — that gap is expected and closed in Step 4 below.
 
 - [ ] **Step 4: Inspect the report, extend the alias table for any newly-visible near-misses**
 
