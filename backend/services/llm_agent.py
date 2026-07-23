@@ -1,9 +1,11 @@
 import json
 import os
 import logging
+from graph.base import GraphContextProvider
+from graph.factory import get_graph_provider
 from llm.base import BaseLLMClient, LLMMessage
 from llm.tools import ALL_TOOLS, TRIAGE_RESPONSE
-from llm.prompts import build_system_prompt, build_medical_context_block
+from llm.prompts import build_system_prompt, build_medical_context_block, build_graph_context_block
 from services.proximity import find_nearest_facilities
 from services.triage_eval import check_facility_groundedness
 
@@ -36,8 +38,13 @@ class LLMAgent:
               LLM generates grounded response with real facility name injected
     """
 
-    def __init__(self, client: BaseLLMClient | None = None) -> None:
+    def __init__(
+        self,
+        client: BaseLLMClient | None = None,
+        graph_provider: GraphContextProvider | None = None,
+    ) -> None:
         self._client = client or get_llm_client()
+        self._graph_provider = graph_provider or get_graph_provider()
         self._max_followups = int(os.environ.get("TRIAGE_MAX_FOLLOWUPS", "4"))
         self._min_turns_before_triage = int(os.environ.get("TRIAGE_MIN_TURNS", "3"))
         self._context_window = int(os.environ.get("TRIAGE_CONTEXT_WINDOW", "10"))
@@ -87,10 +94,29 @@ class LLMAgent:
             )
             if medical_block:
                 system_prompt += medical_block
+
+        recent = history[-self._context_window:]
+        recent_user_msgs = [h["content"] for h in recent if h["role"] == "user"]
+        graph_context = self._graph_provider.get_symptom_graph_context(
+            user_message, recent_user_msgs
+        )
+        if graph_context.matched:
+            # Design §6: Sprint 19 attributes a follow-up question back to the
+            # red flag that triggered it via this log line, not new instrumentation.
+            logger.info(
+                "graph_context_matched",
+                extra={
+                    "complaint_name": graph_context.complaint_name,
+                    "indicators": [rf.indicator for rf in graph_context.red_flags],
+                },
+            )
+        graph_block = build_graph_context_block(graph_context)
+        if graph_block:
+            system_prompt += graph_block
+
         msgs = [
             LLMMessage(role="system", content=system_prompt)
         ]
-        recent = history[-self._context_window:]
         for h in recent:
             msgs.append(LLMMessage(role=h["role"], content=h["content"]))
         msgs.append(LLMMessage(role="user", content=user_message))
