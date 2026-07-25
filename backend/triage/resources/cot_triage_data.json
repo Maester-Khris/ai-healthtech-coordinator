@@ -1,0 +1,7892 @@
+[
+  {
+    "nacrs_code": "003",
+    "name": "Chest pain (cardiac features)",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock",
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress",
+          "VS, PSC",
+          "2 Altered level of consciousness (GCS 10 - 13)",
+          "2 Hemodynamic compromise",
+          "evidence of potential lethal"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Moderate respiratory distress"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, PSP, chronicity",
+          "Acute onset, ongoing"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)",
+          "Chronic central severe pain (8-10)",
+          "Mild respiratory distress"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Chest pain, non cardiac"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )",
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "VS, PSC",
+      "2 Altered level of consciousness (GCS 10 - 13)",
+      "2 Hemodynamic compromise",
+      "evidence of potential lethal",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Moderate respiratory distress"
+    ],
+    "followup_questions": [
+      "Does the pain radiate to arm, jaw, or back?",
+      "Any shortness of breath or sweating?",
+      "Any palpitations or dizziness?"
+    ]
+  },
+  {
+    "nacrs_code": "004",
+    "name": "Chest pain (non cardiac features) Chest pain (non",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PS"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised",
+          "<3 mos, T < 36C OR >38C",
+          "Acute severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PS, chronicity"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)",
+          "Chronic severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PS, chronicity"
+        ],
+        "modifiers": [
+          "Chronic moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Chest pain, non cardiac"
+        ],
+        "modifiers": [
+          "Chronic mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "VS, PS",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised",
+      "<3 mos, T < 36C OR >38C",
+      "Acute severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Does pain radiate to arm, jaw, or back?",
+      "Any shortness of breath or diaphoresis?",
+      "Any palpitations?"
+    ]
+  },
+  {
+    "nacrs_code": "005",
+    "name": "Palpitations / Irregular heart beat Palpit ations",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Hemodynamic compromise",
+          "evidence of potential lethal"
+        ],
+        "modifiers": [
+          "Fever, immunocompromised",
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Acute onset, ongoing"
+        ],
+        "modifiers": [
+          "Vital signs outside the limits of normal",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "2 Hemodynamic compromise",
+      "evidence of potential lethal",
+      "Fever, immunocompromised",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "Any chest pain?",
+      "Syncope or near-syncope?",
+      "Regular or irregular beat?"
+    ]
+  },
+  {
+    "nacrs_code": "006",
+    "name": "Hypertension",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "VS, Severe dehydration"
+        ],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "with symptoms+ any of (SOB, chest",
+          "VS, Moderate dehydration"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "with no other presenting symptoms",
+          "130) with hypertensive symptoms",
+          "2 Moderate respiratory distress",
+          "Mild dehydration"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "130) with no symptoms",
+          "VS, Potential for dehydration",
+          "Chronic weakness"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "VS, Severe dehydration",
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "with symptoms+ any of (SOB, chest",
+      "VS, Moderate dehydration",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "007",
+    "name": "General weakness Gener",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, Moderate dehydration"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Mild dehydration"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic)",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, Potential for dehydration",
+          "Chronic weakness"
+        ],
+        "modifiers": [
+          ">36 mos, T >38.5 C & appearing well (non-toxic)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "VS, Moderate dehydration",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "Sudden or gradual onset?",
+      "One side or both?",
+      "Any difficulty speaking?"
+    ]
+  },
+  {
+    "nacrs_code": "008",
+    "name": "Syncope / Pre-syncope",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "irregular pulse &/or change in",
+          "No prodromal symptoms",
+          "Occurring during exercise"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "sudden position change"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "resolved"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "irregular pulse &/or change in",
+      "No prodromal symptoms",
+      "Occurring during exercise",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Did they lose consciousness completely?",
+      "Any palpitations before the episode?",
+      "Any chest pain?"
+    ]
+  },
+  {
+    "nacrs_code": "009",
+    "name": "Edema, generalized",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "2 Altered level of consciousness (GCS 10 - 13)"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "010",
+    "name": "Bilateral leg swelling / Edema",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP + chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Any recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "011",
+    "name": "Cool pulseless limb",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Cool Pulseless Limb"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Cool Pulseless Limb",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "012",
+    "name": "Unilateral reddened hot limb",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Extensive inflammation"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Localized inflammation"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "051",
+    "name": "Earache",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, + chronicity"
+        ],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Earache with mild pain"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "053",
+    "name": "Loss of hearing",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Hearing loss, gradual onset"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "054",
+    "name": "Tinnitus",
+    "triage_levels": [
+      {
+        "level": 4,
+        "criteria": [
+          "Tinnitus"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "055",
+    "name": "Discharge, ear",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "056",
+    "name": "Ear injury",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "Amputation"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP,",
+          "3 Pulse rate/pressure abnormal (hemodynamically stable)"
+        ],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP",
+          "3 Bleeding disorder (moderate or minor bleeds)"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Amputation",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "101",
+    "name": "Dental / Gum problems",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "PSP +"
+        ],
+        "modifiers": [
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "PSP + chronicity"
+        ],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "102",
+    "name": "Facial trauma",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "103",
+    "name": "Sore throat",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC",
+          "Drooling or stridor",
+          "2 Altered level of consciousness (GCS 10 - 13)"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC",
+          "Difficulty swallowing"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Chronic central severe pain (8-10)"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "VS, PSC",
+      "Drooling or stridor",
+      "2 Altered level of consciousness (GCS 10 - 13)",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "104",
+    "name": "Neck swelling / pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "chronic central mild pain"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "VS, PSC",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Is pain acute or chronic?",
+      "Does it radiate anywhere?"
+    ]
+  },
+  {
+    "nacrs_code": "105",
+    "name": "Neck trauma",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,",
+          "2 Moderate respiratory distress",
+          "Hoarseness and dysphasia"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "VS, PSC,",
+      "2 Moderate respiratory distress",
+      "Hoarseness and dysphasia",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "106",
+    "name": "Difficulty swallowing / Dysphagia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Drooling or stridor"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Possible foreign body",
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Drooling or stridor",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "107",
+    "name": "Facial pain (non-traumatic / non-dental)",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "PSP, chronicity"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "151",
+    "name": "Epistaxis",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "VS,",
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS,",
+          "3 Mild respiratory distress"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "2 Moderate respiratory distress"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "153",
+    "name": "Foreign body, nose",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "154",
+    "name": "URTI complaints",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Appears well, no fever"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "155",
+    "name": "Nasal trauma",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "(despite appropriate"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Looks septic (3 SIRS criteria)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP,"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "(despite appropriate",
+      "Moderate respiratory distress",
+      "Looks septic (3 SIRS criteria)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "201",
+    "name": "Frostbite / Cold injury",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "Blanching of skin"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "PSP, chronicity"
+        ],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Frostbite/cold injury"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "202",
+    "name": "Noxious inhalation",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Altered level of consciousness (GCS 10 - 13)"
+        ],
+        "modifiers": [
+          "Mild respiratory distress"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "203",
+    "name": "Electrical injury",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Obvious cutaneous injury"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PS",
+          "3 Pulse rate/pressure abnormal (hemodynamically stable)"
+        ],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "Obvious cutaneous injury",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "204",
+    "name": "Chemical exposure",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Major burn >25% BSA"
+        ],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress",
+          "Symptomatic eye 'splash'"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Major burn >25% BSA",
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Symptomatic eye 'splash'",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "205",
+    "name": "Hypothermia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Core temperature 32-35 \u00b0C"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "No frostbite, normal VS"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Shock",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "206",
+    "name": "Near Drowning",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Core temperature 32-35 \u00b0C"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "251",
+    "name": "Abdominal pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "VS, PSC",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Any blood in stool?",
+      "Any fever or chills?",
+      "Pain constant or colicky?"
+    ]
+  },
+  {
+    "nacrs_code": "252",
+    "name": "Anorexia",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Significant weight loss"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Anorexia, looks well"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "253",
+    "name": "Constipation",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Simple constipation"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "254",
+    "name": "Diarrhea",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, moderate dehydration"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Moderate respiratory distress",
+          "VS, Mild dehydration"
+        ],
+        "modifiers": [
+          "Mild respiratory distress"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, moderate dehydration",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "255",
+    "name": "Foreign body in rectum",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Foreign body in rectum"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "256",
+    "name": "Groin pain / mass",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Groin pain / mass"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Is pain acute or chronic?",
+      "Does it radiate anywhere?"
+    ]
+  },
+  {
+    "nacrs_code": "257",
+    "name": "Vomiting and/or nausea",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "1 Shock",
+          "VS, moderate dehydration"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, mild dehydration"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "1 Shock",
+      "VS, moderate dehydration",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "Any blood in vomit?",
+      "Signs of dehydration?",
+      "How many episodes?"
+    ]
+  },
+  {
+    "nacrs_code": "258",
+    "name": "Rectal / Perineal pain",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Mild respiratory distress"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Is pain acute or chronic?",
+      "Does it radiate anywhere?"
+    ]
+  },
+  {
+    "nacrs_code": "259",
+    "name": "Vomiting blood",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Looks septic (3 SIRS criteria)",
+          "3 Fever (looks unwell), < 3 SIRS criteria"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "Any blood in vomit?",
+      "Signs of dehydration?",
+      "How many episodes?"
+    ]
+  },
+  {
+    "nacrs_code": "260",
+    "name": "Blood in stool / Melena",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "3 Pulse rate/pressure abnormal (hemodynamically stable)"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Other 1st order modifiers"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "How much blood?",
+      "Bright red or dark/coffee ground?",
+      "Any dizziness or weakness?"
+    ]
+  },
+  {
+    "nacrs_code": "261",
+    "name": "Jaundice",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Jaundice, looks well"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "262",
+    "name": "Hiccoughs",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Fever (appears well), PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "263",
+    "name": "Abdominal mass / distention",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity",
+          "Persistent vomiting"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Pulse rate/pressure abnormal (hemodynamically stable)"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "264",
+    "name": "Anal / Rectal trauma",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Anal/rectal trauma"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "265",
+    "name": "Oral / Esophageal Foreign Body",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Hoarseness and dysphasia",
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC",
+          "Persistent vomiting"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hoarseness and dysphasia",
+      "VS, PSC",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "301",
+    "name": "Flank pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Chronic mild flank pain"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "VS, PSC",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Is pain acute or chronic?",
+      "Does it radiate anywhere?"
+    ]
+  },
+  {
+    "nacrs_code": "302",
+    "name": "Hematuria",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Fever, immunocompromised",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Hemodynamic compromise"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)",
+          "Chronic central severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic central moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "moderate to mild"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )",
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "VS, PSC,",
+      "Fever, immunocompromised",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "303",
+    "name": "Genital discharge / lesion",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Genital discharge / lesion"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "304",
+    "name": "Penile swelling",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "2 Hemodynamic compromise",
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Acute peripheral severe pain (8-10)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "2 Hemodynamic compromise",
+      "VS, PSP",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Any recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "305",
+    "name": "Scrotal pain and/or swelling",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Mild respiratory distress"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Is pain acute or chronic?",
+      "Does it radiate anywhere?"
+    ]
+  },
+  {
+    "nacrs_code": "306",
+    "name": "Urinary retention",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Urinary retention"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Any fever or back pain?",
+      "Blood in urine?",
+      "Unable to urinate at all?"
+    ]
+  },
+  {
+    "nacrs_code": "307",
+    "name": "UTI complaints",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "3 Mild respiratory distress"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "308",
+    "name": "Oliguria",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Oliguria"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "VS, PSC",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "309",
+    "name": "Polyuria",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Polyuria"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "310",
+    "name": "Genital trauma",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Sexual assault, stable",
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PS"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Genital trauma, no pain"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "VS, PSC,",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Any bleeding you can't control?"
+    ]
+  },
+  {
+    "nacrs_code": "351",
+    "name": "Depression / Suicidal / Deliberate self harm",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "active suicidal intent"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "suicidal ideation, no plan"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Uncertain"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "active suicidal intent"
+    ],
+    "followup_questions": [
+      "Do you have a plan?",
+      "Have you attempted before?",
+      "Do you have access to means?"
+    ]
+  },
+  {
+    "nacrs_code": "352",
+    "name": "Anxiety / Situational crisis",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "uncertain flight or safety risk"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "moderate anxiety / agitation"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "mild anxiety / agitation"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "uncertain flight or safety risk"
+    ],
+    "followup_questions": [
+      "Any thoughts of self-harm?",
+      "Any chest pain or palpitations?",
+      "Duration of episode?"
+    ]
+  },
+  {
+    "nacrs_code": "353",
+    "name": "Hallucinations / Delusions",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "uncertain flight or safety risk"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "paranoia"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, mild agitation, stable"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "mild anxiety / agitation, chronic hallucinations"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "uncertain flight or safety risk",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "354",
+    "name": "Insomnia",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Chronic insomnia"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "355",
+    "name": "Violent / Homicidal behaviour",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "violent ideation, no plan"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "356",
+    "name": "Social problem",
+    "triage_levels": [
+      {
+        "level": 4,
+        "criteria": [
+          "unable to cope"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "357",
+    "name": "Bizarre behaviour",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "controlled"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "harmless behaviour"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "in physical danger"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "401",
+    "name": "Altered level of consciousness",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Looks septic (3 SIRS criteria)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Looks septic (3 SIRS criteria)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What is their GCS?",
+      "Any recent head trauma?",
+      "Any drug or alcohol use?"
+    ]
+  },
+  {
+    "nacrs_code": "402",
+    "name": "Confusion",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "2 Hemodynamic compromise",
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "2 Hemodynamic compromise",
+      "2 Looks septic (3 SIRS criteria)",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "When did it start?",
+      "Any fever or stiff neck?",
+      "Any blood sugar issues?"
+    ]
+  },
+  {
+    "nacrs_code": "403",
+    "name": "Vertigo",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "404",
+    "name": "Headache",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "sudden, severe, worst ever",
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "sudden, severe, worst ever",
+      "VS, PSC",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Was the onset sudden (thunderclap)?",
+      "Any neck stiffness or fever?",
+      "Any vision changes or confusion?"
+    ]
+  },
+  {
+    "nacrs_code": "405",
+    "name": "Seizure",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Post-ictal",
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Fever, immunocompromised",
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Post-ictal",
+      "VS, PSC",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "First seizure ever?",
+      "Any confusion after the episode?",
+      "Any head injury?"
+    ]
+  },
+  {
+    "nacrs_code": "406",
+    "name": "Gait disturbance / Ataxia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "407",
+    "name": "Head injury",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC",
+          "History of LOC",
+          "3 Pulse rate/pressure abnormal (hemodynamically stable)"
+        ],
+        "modifiers": [
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "No history of LOC"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC,",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "408",
+    "name": "Tremor",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "409",
+    "name": "Extremity weakness / Symptoms of CVA",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Time of onset < 3 hours"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,",
+          "> 3 hours or resolved"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Time of onset < 3 hours",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "Sudden or gradual onset?",
+      "One side or both?",
+      "Any difficulty speaking?"
+    ]
+  },
+  {
+    "nacrs_code": "451",
+    "name": "Menstrual problems",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Menstrual problems"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "452",
+    "name": "Foreign body, vagina",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Foreign body, vagina"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSP",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "453",
+    "name": "Vaginal discharge",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Mild symptoms"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Any bleeding?",
+      "Amount of bleeding?",
+      "Any pain?"
+    ]
+  },
+  {
+    "nacrs_code": "454",
+    "name": "Sexual assault",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC",
+          "< 2 hours"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC",
+          ">= 2 hours and < 12 hours"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          ">= 12 hours; no injury"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC",
+      "< 2 hours",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "455",
+    "name": "Vaginal bleed",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,",
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "3 Fever (looks unwell), < 3 SIRS criteria"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC,",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "Any bleeding?",
+      "Amount of bleeding?",
+      "Any pain?"
+    ]
+  },
+  {
+    "nacrs_code": "456",
+    "name": "Labial swelling",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Labial swelling"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "457",
+    "name": "Pregnancy issues < 20 wks",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "3 Fever (looks unwell), < 3 SIRS criteria",
+          "2 Acute central severe pain (8-10)"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC,",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "How many weeks?",
+      "Any vaginal bleeding?",
+      "Fetal movement normal?"
+    ]
+  },
+  {
+    "nacrs_code": "458",
+    "name": "Pregnancy issues > 20 wks",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "1 Severe respiratory distress",
+          "Vaginal bleeding 3rd trimester"
+        ],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC, BD,",
+          "Active labor (contractions <2 min)",
+          "2 Looks septic (3 SIRS criteria)",
+          "headache+/- edema+/- abdo pain+/-",
+          "Post delivery"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,",
+          "Active labor (contractions > 2 min)",
+          "3 Bleeding disorder (moderate or minor bleeds)"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Pregnancy issues > 20 weeks"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "1 Severe respiratory distress",
+      "Vaginal bleeding 3rd trimester",
+      "Shock",
+      "VS, PSC, BD,",
+      "Active labor (contractions <2 min)",
+      "2 Looks septic (3 SIRS criteria)",
+      "headache+/- edema+/- abdo pain+/-",
+      "Post delivery",
+      "Hemodynamic compromise",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "How many weeks?",
+      "Any vaginal bleeding?",
+      "Fetal movement normal?"
+    ]
+  },
+  {
+    "nacrs_code": "460",
+    "name": "Vaginal pain / itch",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "503",
+    "name": "Foreign body, eye",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Acute peripheral mild pain"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "Vision loss?",
+      "Chemical exposure?",
+      "Foreign body sensation?"
+    ]
+  },
+  {
+    "nacrs_code": "505",
+    "name": "Eye pain",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "PSC, Chronicity"
+        ],
+        "modifiers": [
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "PSC, Chronicity"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Eye pain, chronic"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "506",
+    "name": "Red Eye, discharge",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Red eye / discharge, acute",
+          "PSP, Chronicity"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "Vision loss?",
+      "Chemical exposure?",
+      "Foreign body sensation?"
+    ]
+  },
+  {
+    "nacrs_code": "507",
+    "name": "Photophobia",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Photophobia"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "508",
+    "name": "Diplopia",
+    "triage_levels": [
+      {
+        "level": 4,
+        "criteria": [
+          "Chronic diplopia"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "509",
+    "name": "Periorbital swelling",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Periorbital swelling"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "510",
+    "name": "Eye trauma",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "chemical or direct thermal"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "PSC, BD,"
+        ],
+        "modifiers": [
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Pain"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "chemical or direct thermal"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "511",
+    "name": "Re-check eye",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Re-check eye"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "Vision loss?",
+      "Chemical exposure?",
+      "Foreign body sensation?"
+    ]
+  },
+  {
+    "nacrs_code": "551",
+    "name": "Back pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "1 Shock",
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Chronic central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Back pain"
+        ],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "1 Shock",
+      "VS, PSC",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "552",
+    "name": "Traumatic back / spine injury",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "1 Shock",
+          "VS, PSC, BD,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "1 Shock",
+      "VS, PSC, BD,",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "553",
+    "name": "Amputation",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, MOI,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Amputation"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "VS, MOI,",
+      "Hemodynamic compromise",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "554",
+    "name": "Upper extremity pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP",
+          "3 Mild respiratory distress"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, Chronicity",
+          "2 Bleeding disorder (life or limb threatening bleed)"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "4 Acute peripheral moderate pain ( 4- 7)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "2 Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "555",
+    "name": "Lower extremity pain",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "2 Bleeding disorder (life or limb threatening bleed)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "556",
+    "name": "Upper extremity injury",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, MOI,",
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Obvious deformity",
+          "VS, PSP,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "4 Chronic peripheral severe pain (8-10)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, MOI,",
+      "2 Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "557",
+    "name": "Lower extremity injury",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, BD,",
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Obvious deformity",
+          "VS, PSP,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "4 Chronic peripheral severe pain (8-10)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, BD,",
+      "2 Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "558",
+    "name": "Joint(s) swelling",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Joint swelling"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "601",
+    "name": "Feeding difficulties in newborn",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Refusing oral feeds"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "<3 mos, T < 36C OR >38C",
+          "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Decreased oral intake"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Vital signs outside the limits of normal",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Refusing oral feeds",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "<3 mos, T < 36C OR >38C",
+      "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "602",
+    "name": "Neonatal jaundice",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Infant < 7 days of age"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Infant > 7 days of age"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Infant < 7 days of age",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "603",
+    "name": "Inconsolable crying in infants",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Vital signs outside the limits of normal",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Irritable but consolable"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "Age in weeks?",
+      "Feeding normally?",
+      "Any fever?"
+    ]
+  },
+  {
+    "nacrs_code": "604",
+    "name": "Wheezing \u2013 no other complaints",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "<3 mos, T < 36C OR >38C",
+          "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Vital signs outside the limits of normal",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "<3 mos, T < 36C OR >38C",
+      "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "605",
+    "name": "Paediatric gait disorder / painful walk",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Limp problems with fever"
+        ],
+        "modifiers": [
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic)",
+          "Bleeding disorder (moderate or minor bleeds)",
+          "Acute moderate pain ( 4- 7) mod",
+          "Chronic severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PS",
+          "Walking with difficulty"
+        ],
+        "modifiers": [
+          ">36 mos, T >38.5 C & appearing well (non-toxic)",
+          "Acute mild pain ( < 4 )"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "PS, Chronicity"
+        ],
+        "modifiers": [
+          "Chronic mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "Rate pain 0-10?",
+      "Acute or chronic?",
+      "Does it radiate?"
+    ]
+  },
+  {
+    "nacrs_code": "606",
+    "name": "Apneic spells in infants",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "Infant < 7 days of age",
+          "with apnea or respiratory"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Infant < 7 days of age",
+      "with apnea or respiratory",
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "Age in weeks?",
+      "Feeding normally?",
+      "Any fever?"
+    ]
+  },
+  {
+    "nacrs_code": "608",
+    "name": "Concern for patient's welfare",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "and there is no acute"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "physical or sexual assault"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "and there is no acute"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Any relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "609",
+    "name": "Floppy child",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 <3 mos, T < 36C OR >38C"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Vital signs outside the limits of normal",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "2 Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "Age and weight?",
+      "Up to date on vaccinations?",
+      "Recent illness?"
+    ]
+  },
+  {
+    "nacrs_code": "610",
+    "name": "Stridor",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Airway compromise"
+        ],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Marked stridor"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "<3 mos, T < 36C OR >38C",
+          "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Audible stridor"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Vital signs outside the limits of normal",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Airway compromise",
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "Marked stridor",
+      "Hemodynamic compromise",
+      "<3 mos, T < 36C OR >38C",
+      "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "611",
+    "name": "Congenital problem in children",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Hemodynamic compromise",
+          "3 Vital signs outside the limits of normal"
+        ],
+        "modifiers": [
+          "<3 mos, T < 36C OR >38C"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "3 Bleeding disorder (moderate or minor bleeds)"
+        ],
+        "modifiers": [
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic) mod"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "congenital disease with"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "2 Hemodynamic compromise",
+      "3 Vital signs outside the limits of normal",
+      "<3 mos, T < 36C OR >38C"
+    ],
+    "followup_questions": [
+      "Age and weight?",
+      "Up to date on vaccinations?",
+      "Recent illness?"
+    ]
+  },
+  {
+    "nacrs_code": "651",
+    "name": "Shortness of breath",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "or PEFR <40% predicted"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "or PEFR 40-60% predicted"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "or PEFR >60% predicted",
+          "no distress"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "or PEFR <40% predicted",
+      "Hemodynamic compromise"
+    ],
+    "followup_questions": [
+      "Any bluish discoloration of lips?",
+      "Any coughing up blood?",
+      "Worse lying flat?"
+    ]
+  },
+  {
+    "nacrs_code": "653",
+    "name": "Cough / Congestion",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "congestion with normal"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Moderate respiratory distress",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "654",
+    "name": "Hyperventilation",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "655",
+    "name": "Hemoptysis",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Hemoptysis, appears well"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "656",
+    "name": "Respiratory foreign body",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC",
+          "Drooling or stridor",
+          "2 Hemodynamic compromise"
+        ],
+        "modifiers": [
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "mild pain, appears in no"
+        ],
+        "modifiers": [
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC",
+      "Drooling or stridor",
+      "2 Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "657",
+    "name": "Allergic reaction",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Previous severe reaction"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Previous severe reaction",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "Throat tightness or swelling?",
+      "Difficulty breathing?",
+      "Known allergen?"
+    ]
+  },
+  {
+    "nacrs_code": "701",
+    "name": "Bite",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Previous severe reaction"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Minor bite"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Previous severe reaction",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Animal or human bite?",
+      "Puncture or laceration?",
+      "Vaccination status?"
+    ]
+  },
+  {
+    "nacrs_code": "702",
+    "name": "Sting",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Previous severe reaction"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Sting"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Unconscious (GCS 3-9)",
+      "Previous severe reaction",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "703",
+    "name": "Abrasion",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Minor abrasion"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "704",
+    "name": "Laceration / Puncture",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP,",
+          "Active bleeding"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP",
+          "Sutures required"
+        ],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "No sutures required"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "How deep?",
+      "Any tendon or bone exposure?",
+      "Bleeding controlled?"
+    ]
+  },
+  {
+    "nacrs_code": "705",
+    "name": "Burn",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "2 Altered level of consciousness (GCS 10 - 13)"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP",
+          "Burn 5 -25% BSA"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Burn mild pain"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "2 Altered level of consciousness (GCS 10 - 13)",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "What caused the burn?",
+      "Estimated burn area size?",
+      "Any airway involvement?"
+    ]
+  },
+  {
+    "nacrs_code": "706",
+    "name": "Blood and body fluid exposure",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "known or suspected HIV or"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "defined as non hollow bore"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "known or suspected HIV or"
+    ],
+    "followup_questions": [
+      "How much blood?",
+      "Bright red or dark/coffee ground?",
+      "Any dizziness?"
+    ]
+  },
+  {
+    "nacrs_code": "707",
+    "name": "Pruritus",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Pruritis"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "708",
+    "name": "Rash",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "2 Hemodynamic compromise",
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP",
+          "Localized cellulitis"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Localized rash"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "2 Hemodynamic compromise",
+      "2 Looks septic (3 SIRS criteria)",
+      "Altered level of consciousness (GCS 10 - 13)"
+    ],
+    "followup_questions": [
+      "Any fever?",
+      "Any new medications?",
+      "Any itching?"
+    ]
+  },
+  {
+    "nacrs_code": "709",
+    "name": "Localized swelling / redness",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP",
+          "Localized cellulitis"
+        ],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Localized rash"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Unilateral or bilateral?",
+      "Any redness or warmth?",
+      "Recent injury?"
+    ]
+  },
+  {
+    "nacrs_code": "710",
+    "name": "Wound check",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Wound check"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "711",
+    "name": "Other skin conditions",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Other skin conditions"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "712",
+    "name": "Lumps, bumps, calluses",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Lumps, bumps calluses"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "713",
+    "name": "Redness / tenderness, breast",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "2 Looks septic (3 SIRS criteria)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "714",
+    "name": "Rule out infestation",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Rule out infestation"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "715",
+    "name": "Cyanosis",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Cyanosis"
+        ],
+        "modifiers": [
+          "Mild respiratory distress"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Unconscious (GCS 3-9)",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "716",
+    "name": "Spontaneous bruising",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Spontaneous bruising"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "717",
+    "name": "Foreign body, skin",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Foreign body, skin"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "751",
+    "name": "Substance misuse / Intoxication",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "752",
+    "name": "Overdose ingestion",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Suicidal ideation, no plan"
+        ],
+        "modifiers": [
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Overdose ingestion"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "What substance?",
+      "How much and when?",
+      "Any loss of consciousness?"
+    ]
+  },
+  {
+    "nacrs_code": "753",
+    "name": "Substance withdrawal",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Actively seizing"
+        ],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Severe anxiety/agitation"
+        ],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Moderate anxiety/agitation"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Mild anxiety/agitation"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Actively seizing",
+      "Shock",
+      "Severe anxiety/agitation",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "801",
+    "name": "Major trauma \u2013 penetrating",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC, BD,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Major trauma - penetrating"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC, BD,",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "802",
+    "name": "Major trauma \u2013 blunt",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "VS, PSC, BD,"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Major trauma-blunt"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "VS, PSC, BD,",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "803",
+    "name": "Isolated chest trauma \u2013 penetrating",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "804",
+    "name": "Isolated chest trauma \u2013 blunt",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "2 Fever, immunocompromised"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Shock",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "805",
+    "name": "Isolated abdominal trauma \u2013 penetrating",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "806",
+    "name": "Isolated abdominal trauma \u2013 blunt",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)",
+          "High risk mechanism of injury"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC,"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "2 Hemodynamic compromise"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)",
+      "High risk mechanism of injury"
+    ],
+    "followup_questions": [
+      "What was the mechanism?",
+      "Any loss of consciousness?",
+      "Uncontrolled bleeding?"
+    ]
+  },
+  {
+    "nacrs_code": "852",
+    "name": "Fever",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "Petechial rash"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Fever"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Petechial rash",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "Temperature?",
+      "Any immunocompromising conditions?",
+      "Any rash or neck stiffness?"
+    ]
+  },
+  {
+    "nacrs_code": "853",
+    "name": "Hyperglycemia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          ">18 mmol/L symptomatic"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Shock",
+      ">18 mmol/L symptomatic",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "854",
+    "name": "Hypoglycemia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Severe respiratory distress",
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [
+          "<3 mmol/L symptomatic"
+        ],
+        "modifiers": [
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "2 Moderate respiratory distress"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Severe respiratory distress",
+      "Shock",
+      "<3 mmol/L symptomatic",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "855",
+    "name": "Direct referral for consultation",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)",
+          "Chronic central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP, Chronicity"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic central moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )",
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Unconscious (GCS 3-9)",
+      "Hemodynamic compromise",
+      "Fever, immunocompromised",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "856",
+    "name": "Dressing change",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Dressing change"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "857",
+    "name": "Removal staples / sutures",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "858",
+    "name": "Cast check",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Cast check or cast change"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "860",
+    "name": "Medical device problem",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Looks septic (3 SIRS criteria)",
+          "Acute central severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, PSP"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "'asymptomatic' or 'no"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Looks septic (3 SIRS criteria)",
+      "Acute central severe pain (8-10)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "862",
+    "name": "Ring removal",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Ring removal"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "863",
+    "name": "Abnormal lab values",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Looks septic (3 SIRS criteria)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "Normal VS, critical value"
+        ],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "2 Fever, immunocompromised"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Looks septic (3 SIRS criteria)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "864",
+    "name": "Pallor / Anemia",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [],
+        "modifiers": [
+          "Shock"
+        ]
+      },
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Moderate respiratory distress",
+          "Hemodynamic compromise",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Fever, immunocompromised",
+          "Looks septic (3 SIRS criteria)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Mild respiratory distress",
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Pallor / Anemia"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Shock",
+      "Moderate respiratory distress",
+      "Hemodynamic compromise",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Fever, immunocompromised",
+      "Looks septic (3 SIRS criteria)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "865",
+    "name": "Post-operative complications",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Acute central severe pain (8-10)",
+          "Bleeding disorder (life or limb threatening bleed)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)",
+          "Bleeding disorder (moderate or minor bleeds)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [
+      "Hemodynamic compromise",
+      "Acute central severe pain (8-10)",
+      "Bleeding disorder (life or limb threatening bleed)"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "866",
+    "name": "Minor complaints NOS",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "clear suicide plan",
+          "active suicidal intent",
+          "Suicide intent",
+          "attempt",
+          "Altered level of consciousness (GCS 10 - 13)",
+          "Hemodynamic compromise",
+          "Moderate respiratory distress",
+          "Fever, immunocompromised",
+          "<3 mos, T < 36C OR >38C",
+          "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
+          "retractions, flaring, speaking phrases or clipped",
+          "common etiology; the signs of dehydration",
+          "combative; inconsolable, poor feeding in an infant; able to protect"
+        ],
+        "modifiers": [
+          "Hemodynamic compromise",
+          "Fever, immunocompromised",
+          "Acute central severe pain (8-10)",
+          "Looks septic (3 SIRS criteria)"
+        ]
+      },
+      {
+        "level": 3,
+        "criteria": [
+          "VS, PSC, PSP, Chronicity",
+          "2 Moderate respiratory distress",
+          "VS, Mild dehydration",
+          "suicidal ideation, no plan",
+          "Vital signs outside the limits of normal",
+          "Mild respiratory distress",
+          "3-36 mos, T 32-35C OR >38.5C & appearing well (non-toxic)",
+          ">36 mos, T >38.5C, & appearing unwell (toxic)",
+          "to speak in sentences; stridor without obvious airway",
+          "signs"
+        ],
+        "modifiers": [
+          "Pulse rate/pressure abnormal (hemodynamically stable)",
+          "Fever (looks unwell), < 3 SIRS criteria",
+          "Acute central moderate pain ( 4- 7)",
+          "Acute peripheral severe pain (8-10)",
+          "Chronic central severe pain (8-10)",
+          "Mild respiratory distress"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "VS, PSC, PSP, Chronicity",
+          ">36 mos, T >38.5 C & appearing well (non-toxic)"
+        ],
+        "modifiers": [
+          "Fever (appears well), 1 SIRS criteria (fever)",
+          "Acute central mild pain ( < 4 )",
+          "Acute peripheral moderate pain ( 4- 7)",
+          "Chronic central moderate pain ( 4- 7)",
+          "Chronic peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [],
+        "modifiers": [
+          "Chronic central mild pain ( < 4 )",
+          "Acute peripheral mild pain ( < 4 )",
+          "Chronic peripheral pain ( < 8 )"
+        ]
+      },
+      {
+        "level": 1,
+        "criteria": [
+          "Unconscious (GCS 3-9)",
+          "Shock",
+          "Severe respiratory distress",
+          "retractions, nasal flaring; grunting; absent or",
+          "tachycardia or bradycardia, ineffective",
+          "continuous seizing; progressive deterioration in level of"
+        ],
+        "modifiers": [
+          "Unconscious (GCS 3-9)"
+        ]
+      }
+    ],
+    "red_flags": [
+      "clear suicide plan",
+      "active suicidal intent",
+      "Suicide intent",
+      "attempt",
+      "Altered level of consciousness (GCS 10 - 13)",
+      "Hemodynamic compromise",
+      "Moderate respiratory distress",
+      "Fever, immunocompromised",
+      "<3 mos, T < 36C OR >38C",
+      "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
+      "retractions, flaring, speaking phrases or clipped",
+      "common etiology; the signs of dehydration",
+      "combative; inconsolable, poor feeding in an infant; able to protect",
+      "Acute central severe pain (8-10)",
+      "Looks septic (3 SIRS criteria)",
+      "Unconscious (GCS 3-9)",
+      "Shock",
+      "Severe respiratory distress",
+      "retractions, nasal flaring; grunting; absent or",
+      "tachycardia or bradycardia, ineffective",
+      "continuous seizing; progressive deterioration in level of"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "869",
+    "name": "Newly Born",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "Newly Born"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Newly Born"
+    ],
+    "followup_questions": [
+      "When did this start?",
+      "Any associated symptoms?",
+      "Relevant medical history?"
+    ]
+  },
+  {
+    "nacrs_code": "001",
+    "name": "Cardiac arrest (non traumatic)",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Cardiac arrest (non-traumatic)"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Cardiac arrest (non-traumatic)"
+    ],
+    "followup_questions": [
+      "Is the person breathing and do they have a pulse?",
+      "Was this witnessed and when did it start?",
+      "Has CPR been started?"
+    ]
+  },
+  {
+    "nacrs_code": "002",
+    "name": "Cardiac arrest (traumatic)",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Cardiac arrest (traumatic)"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Cardiac arrest (traumatic)"
+    ],
+    "followup_questions": [
+      "Is the person breathing and do they have a pulse?",
+      "What caused the injury?",
+      "Has CPR been started?"
+    ]
+  },
+  {
+    "nacrs_code": "052",
+    "name": "Foreign body ear",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral severe pain (8-10)"
+        ]
+      },
+      {
+        "level": 4,
+        "criteria": [],
+        "modifiers": [
+          "Acute peripheral moderate pain ( 4- 7)"
+        ]
+      },
+      {
+        "level": 5,
+        "criteria": [
+          "Foreign body ear, mild pain (<4)"
+        ],
+        "modifiers": [
+          "Acute peripheral mild pain ( < 4 )"
+        ]
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "What is stuck in the ear?",
+      "How severe is the pain?",
+      "Any bleeding or hearing loss?"
+    ]
+  },
+  {
+    "nacrs_code": "152",
+    "name": "Nasal congestion / Hay fever",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Nasal congestion / hay fever"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did this start?",
+      "Any fever or facial pain?",
+      "Any known allergies?"
+    ]
+  },
+  {
+    "nacrs_code": "410",
+    "name": "Sensory loss / Paresthesias",
+    "triage_levels": [
+      {
+        "level": 3,
+        "criteria": [
+          "New onset sensory loss/paresthesias"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Chronic sensory loss/paresthesias"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "When did the numbness start?",
+      "Is it one-sided or affecting the face?",
+      "Any weakness, slurred speech, or vision changes?"
+    ]
+  },
+  {
+    "nacrs_code": "502",
+    "name": "Chemical exposure, eye",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "Chemical exposure, eye"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Chemical exposure, eye"
+    ],
+    "followup_questions": [
+      "What chemical was involved?",
+      "Has the eye been rinsed with water?",
+      "Any vision changes or ongoing pain?"
+    ]
+  },
+  {
+    "nacrs_code": "504",
+    "name": "Visual disturbance",
+    "triage_levels": [
+      {
+        "level": 2,
+        "criteria": [
+          "Acute or abrupt change in vision"
+        ],
+        "modifiers": []
+      },
+      {
+        "level": 4,
+        "criteria": [
+          "Chronic/gradual change in vision"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Acute or abrupt change in vision"
+    ],
+    "followup_questions": [
+      "Did this come on suddenly or gradually?",
+      "Is it in one eye or both?",
+      "Any eye pain, headache, or trauma?"
+    ]
+  },
+  {
+    "nacrs_code": "652",
+    "name": "Respiratory arrest",
+    "triage_levels": [
+      {
+        "level": 1,
+        "criteria": [
+          "Respiratory arrest"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [
+      "Respiratory arrest"
+    ],
+    "followup_questions": [
+      "Is the person breathing at all?",
+      "Was this witnessed and when did it start?",
+      "Has rescue breathing or CPR been started?"
+    ]
+  },
+  {
+    "nacrs_code": "851",
+    "name": "Exposure to communicable disease",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Exposure to communicable disease"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "What was the exposure and when did it happen?",
+      "Any symptoms since the exposure?",
+      "Any relevant vaccination history?"
+    ]
+  },
+  {
+    "nacrs_code": "859",
+    "name": "Imaging tests",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Imaging test"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "What imaging was ordered and by whom?",
+      "Is this for a new or ongoing issue?",
+      "Any symptoms that need urgent attention?"
+    ]
+  },
+  {
+    "nacrs_code": "861",
+    "name": "Prescription / Medication request",
+    "triage_levels": [
+      {
+        "level": 5,
+        "criteria": [
+          "Prescription / medication request"
+        ],
+        "modifiers": []
+      }
+    ],
+    "red_flags": [],
+    "followup_questions": [
+      "What medication do you need?",
+      "When did your last prescription run out?",
+      "Any new or worsening symptoms?"
+    ]
+  }
+]

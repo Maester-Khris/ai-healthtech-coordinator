@@ -1,0 +1,1820 @@
+[
+  {
+    "presenting_complaint": "Cardiac arrest (non traumatic)",
+    "aliases": ["no pulse", "not breathing", "collapsed", "unresponsive, no vital signs"],
+    "red_flags": [
+      {"indicator": "No pulse / no breathing / unresponsive", "ctas_level": 1, "followup_question": "Is the person breathing and do they have a pulse?"}
+    ],
+    "ctas_level_guidance": {"1": "Cardiac arrest is a single-level complaint - always CTAS 1, requires immediate resuscitation."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17, p.55"
+  },
+  {
+    "presenting_complaint": "Cardiac arrest (traumatic)",
+    "aliases": ["no pulse after injury", "collapsed after trauma"],
+    "red_flags": [
+      {"indicator": "No pulse / no breathing following traumatic injury", "ctas_level": 1, "followup_question": "Did the person collapse after an injury, and are they breathing or moving?"}
+    ],
+    "ctas_level_guidance": {"1": "Traumatic cardiac arrest is always CTAS 1."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Chest pain (cardiac features)",
+    "aliases": ["heart attack symptoms", "cardiac chest pain", "angina"],
+    "red_flags": [
+      {"indicator": "Heavy, central, substernal chest pain, possibly with radiation, associated with SOB, diaphoresis, nausea", "ctas_level": 2, "followup_question": "Is the pain a heavy pressure or tightness in the center of your chest, and does it spread to your arm, jaw, or back?"},
+      {"indicator": "Hemodynamic compromise or moderate/severe respiratory distress accompanying chest pain", "ctas_level": 1, "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"},
+      {"indicator": "Resolved chest pain, normal vital signs, cardiac features", "ctas_level": 2, "followup_question": "Even if the pain has gone away now, how long did it last and how severe was it at its worst?"}
+    ],
+    "ctas_level_guidance": {
+      "1": "Chest pain with cardiac arrest or shock.",
+      "2": "Chest pain, cardiac features (e.g. 1-hour history of heavy central chest pain, even if now resolved) - CTAS 2 case example in manual.",
+      "3": "Milder cardiac-type discomfort with stable vitals may be downgraded per pain severity table if peripheral/chronic, but central acute pain typically stays CTAS 2-3."
+    },
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18"
+  },
+  {
+    "presenting_complaint": "Chest pain (non cardiac features)",
+    "aliases": ["chest pain not from the heart", "musculoskeletal chest pain"],
+    "red_flags": [
+      {"indicator": "Ripping or tearing chest pain (concern for aortic dissection)", "ctas_level": 2, "followup_question": "Does the pain feel like ripping or tearing, and did it start suddenly?"},
+      {"indicator": "Severe (8-10/10) central acute pain without ripping/tearing quality", "ctas_level": 2, "followup_question": "On a scale of 0-10, how severe is the chest pain, and did it start suddenly or build up gradually?"},
+      {"indicator": "Moderate central pain (4-7/10)", "ctas_level": 3, "followup_question": "Would you describe the pain as moderate, and is it in the center of your chest or off to one side?"}
+    ],
+    "ctas_level_guidance": {
+      "2": "Other significant chest pain, ripping or tearing (2nd order modifier).",
+      "3": "Moderate central pain or peripheral severe pain.",
+      "4": "Mild pain."
+    },
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27, p.31"
+  },
+  {
+    "presenting_complaint": "Bilateral leg swelling / edema",
+    "aliases": ["swollen legs", "both legs swollen"],
+    "red_flags": [
+      {"indicator": "Signs of hemodynamic compromise or respiratory distress (e.g. suspected heart failure, PE)", "ctas_level": 2, "followup_question": "Are you also short of breath or feeling lightheaded along with the leg swelling?"},
+      {"indicator": "Stable vital signs, new or worsening swelling", "ctas_level": 3, "followup_question": "When did the swelling start and has it been getting worse?"},
+      {"indicator": "Chronic, stable swelling", "ctas_level": 4, "followup_question": "Is this the same swelling you usually have, or is it new/different?"}
+    ],
+    "ctas_level_guidance": {"2": "Concerning if associated with cardiorespiratory compromise.", "3": "New/worsening, stable vitals.", "4": "Chronic, unchanged."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Cool pulseless limb",
+    "aliases": ["cold limb with no pulse", "ischemic limb"],
+    "red_flags": [
+      {"indicator": "Cold, pulseless limb (frostbite/cold injury pattern)", "ctas_level": 2, "followup_question": "Is the limb cold, pale, and can you feel a pulse in it?"}
+    ],
+    "ctas_level_guidance": {"2": "Frostbite/cold injury with cold pulseless limb is CTAS 2 (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Edema, generalized",
+    "aliases": ["whole body swelling", "swelling all over"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise, respiratory distress or altered LOC with generalized edema", "ctas_level": 2, "followup_question": "Along with the swelling, are you short of breath, feeling faint, or confused?"},
+      {"indicator": "Stable vital signs", "ctas_level": 3, "followup_question": "How long has the swelling been present and is it affecting your breathing?"}
+    ],
+    "ctas_level_guidance": {"2": "With cardiorespiratory compromise.", "3": "Stable, new onset.", "4": "Chronic, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign modifiers applied)"
+  },
+  {
+    "presenting_complaint": "General weakness",
+    "aliases": ["feeling weak", "generalized weakness", "tired all over"],
+    "red_flags": [
+      {"indicator": "Severe dehydration with signs of shock", "ctas_level": 1, "followup_question": "Do you feel like you might pass out, and has your urine output dropped a lot?"},
+      {"indicator": "Moderate dehydration - dry mouth, tachycardia, decreased urine output", "ctas_level": 2, "followup_question": "Is your mouth very dry and has your heart been racing?"},
+      {"indicator": "Mild dehydration - stable vitals, increasing thirst, concentrated urine, reduced intake/increased losses", "ctas_level": 3, "followup_question": "Have you been drinking less or losing more fluids than usual (vomiting, diarrhea, sweating)?"},
+      {"indicator": "No dehydration signs but ongoing risk factor", "ctas_level": 4, "followup_question": "Is there an ongoing reason you might be losing fluids or not keeping them down?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe dehydration/shock.", "2": "Moderate dehydration.", "3": "Mild dehydration.", "4": "Potential dehydration only."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.30 (Dehydration Severity 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Hypertension",
+    "aliases": ["high blood pressure"],
+    "red_flags": [
+      {"indicator": "SBP>220 or DBP>130 with any related symptoms (headache, nausea, SOB, chest pain)", "ctas_level": 2, "followup_question": "What is your blood pressure reading, and do you have a headache, chest pain, or shortness of breath with it?"},
+      {"indicator": "SBP>220 or DBP>130, no symptoms", "ctas_level": 3, "followup_question": "Do you have any symptoms at all right now, or is it just a high reading?"},
+      {"indicator": "SBP 200-220 or DBP 110-130 with symptoms", "ctas_level": 3, "followup_question": "Is your blood pressure between 200-220 systolic, and do you have any symptoms?"},
+      {"indicator": "SBP 200-220 or DBP 110-130, no symptoms", "ctas_level": 4, "followup_question": "Is this an incidental finding with no symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Very high BP with symptoms.", "3": "Very high BP no symptoms, or high BP with symptoms.", "4": "High BP no symptoms.", "5": "High BP no symptoms."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Hypertension/Blood Pressure in adults 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Palpitations / irregular heart beat",
+    "aliases": ["heart racing", "skipped heartbeats", "fluttering heart"],
+    "red_flags": [
+      {"indicator": "History of documented lethal arrhythmia", "ctas_level": 2, "followup_question": "Have you ever been diagnosed with a dangerous heart rhythm problem before?"},
+      {"indicator": "New palpitations, stable vital signs, no cardiac history", "ctas_level": 3, "followup_question": "Did the palpitations start suddenly, and are you feeling dizzy, short of breath, or having chest pain?"}
+    ],
+    "ctas_level_guidance": {"2": "Palpitations with history of documented lethal arrhythmia (Selected Special Complaints table).", "3": "New/uncomplicated, stable vitals."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Syncope / pre-syncope",
+    "aliases": ["fainting", "passed out", "almost passed out", "blackout"],
+    "red_flags": [
+      {"indicator": "Syncope with no prodromal (warning) symptoms", "ctas_level": 2, "followup_question": "Did you have any warning before you fainted, like dizziness or nausea, or did it happen without warning?"},
+      {"indicator": "Typical vasovagal syncope with clear prodrome, now resolved, stable vitals", "ctas_level": 3, "followup_question": "Did you feel warm, sweaty, or lightheaded right before you fainted?"}
+    ],
+    "ctas_level_guidance": {"2": "No prodromal symptoms (Selected Special Complaints table) - concerning for cardiac cause.", "3": "Typical prodrome, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Unilateral reddened hot limb",
+    "aliases": ["red hot swollen leg/arm", "cellulitis symptoms"],
+    "red_flags": [
+      {"indicator": "Localized inflammation, otherwise stable", "ctas_level": 4, "followup_question": "Is the redness spreading quickly, and do you have a fever with it?"},
+      {"indicator": "Signs of sepsis, rapidly spreading redness, severe pain out of proportion, or dark/black skin discoloration (concern for necrotizing fasciitis)", "ctas_level": 2, "followup_question": "Is the pain much worse than the redness would suggest, or is any of the skin turning dark or black?"}
+    ],
+    "ctas_level_guidance": {"2": "Suspected necrotizing fasciitis / sepsis - up-triage per Triage Pitfalls guidance.", "4": "Localized, uncomplicated cellulitis (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55, p.60 (Potential Triage Pitfalls)"
+  },
+  {
+    "presenting_complaint": "Discharge, ear",
+    "aliases": ["ear drainage", "fluid from ear"],
+    "red_flags": [
+      {"indicator": "Fever with systemic illness or severe pain", "ctas_level": 3, "followup_question": "Do you have a fever, and how severe is the ear pain?"},
+      {"indicator": "Mild symptoms, no fever", "ctas_level": 4, "followup_question": "How long has the discharge been present and is there any pain?"}
+    ],
+    "ctas_level_guidance": {"3": "Fever or significant pain.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (generic temperature/pain modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Earache",
+    "aliases": ["ear pain"],
+    "red_flags": [
+      {"indicator": "Severe pain (8-10/10)", "ctas_level": 3, "followup_question": "On a scale of 0-10, how bad is the ear pain?"},
+      {"indicator": "Mild-moderate pain, well-appearing", "ctas_level": 4, "followup_question": "Is the pain mild or does it come and go?"}
+    ],
+    "ctas_level_guidance": {"3": "Severe pain.", "4": "Mild-moderate pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Ear Injury",
+    "aliases": ["injured ear", "ear trauma"],
+    "red_flags": [
+      {"indicator": "Uncontrolled bleeding or high-risk mechanism of injury", "ctas_level": 2, "followup_question": "Is there uncontrolled bleeding, and how did the injury happen?"},
+      {"indicator": "Minor laceration, controlled bleeding", "ctas_level": 4, "followup_question": "Is the bleeding controlled and how deep does the cut look?"}
+    ],
+    "ctas_level_guidance": {"2": "Uncontrolled bleeding or high-risk MOI.", "3": "Moderate/minor bleeds.", "4": "Minor, controlled."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-29 (Bleeding Disorder / Mechanism of Injury modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Foreign body, ear",
+    "aliases": ["object in ear", "something stuck in ear"],
+    "red_flags": [
+      {"indicator": "Live insect in ear or significant pain/bleeding", "ctas_level": 3, "followup_question": "Is there an insect in your ear, or is there bleeding or severe pain?"},
+      {"indicator": "Stable, no distress", "ctas_level": 4, "followup_question": "Is the object causing any pain right now?"}
+    ],
+    "ctas_level_guidance": {"3": "Painful or distressing foreign body.", "4": "Stable, no distress."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Loss of hearing",
+    "aliases": ["hearing loss", "can't hear"],
+    "red_flags": [
+      {"indicator": "Sudden hearing loss", "ctas_level": 4, "followup_question": "Did the hearing loss come on suddenly or gradually?"},
+      {"indicator": "Gradual hearing loss", "ctas_level": 5, "followup_question": "How long has the hearing loss been developing?"}
+    ],
+    "ctas_level_guidance": {"4": "Sudden onset.", "5": "Gradual loss (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Tinnitus",
+    "aliases": ["ringing in ears"],
+    "red_flags": [
+      {"indicator": "Associated with sudden hearing loss, vertigo, or head injury", "ctas_level": 3, "followup_question": "Did the ringing start with any hearing loss, dizziness, or a head injury?"},
+      {"indicator": "Chronic, isolated tinnitus", "ctas_level": 5, "followup_question": "Has this ringing been going on for a long time without other symptoms?"}
+    ],
+    "ctas_level_guidance": {"3": "Associated with other acute neuro/ENT symptoms.", "5": "Chronic, isolated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Dental / gum problem",
+    "aliases": ["toothache", "gum pain", "dental pain"],
+    "red_flags": [
+      {"indicator": "Facial swelling with airway concern (Ludwig's angina pattern)", "ctas_level": 2, "followup_question": "Is your face or the floor of your mouth swelling up, and is it hard to swallow or breathe?"},
+      {"indicator": "Severe pain, facial swelling, fever", "ctas_level": 3, "followup_question": "How severe is the pain, and is there any facial swelling or fever?"},
+      {"indicator": "Mild-moderate pain, no swelling", "ctas_level": 4, "followup_question": "Is the pain manageable and is there any swelling?"}
+    ],
+    "ctas_level_guidance": {"2": "Airway-threatening swelling.", "3": "Severe pain/infection signs.", "4": "Mild-moderate, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 26-27 (Respiratory Distress / Pain Severity modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Difficulty swallowing / dysphagia",
+    "aliases": ["trouble swallowing", "can't swallow", "food stuck"],
+    "red_flags": [
+      {"indicator": "Drooling or stridor", "ctas_level": 2, "followup_question": "Are you drooling because you can't swallow your saliva, or do you hear a high-pitched sound when you breathe?"},
+      {"indicator": "Possible foreign body / food bolus impaction", "ctas_level": 3, "followup_question": "Does it feel like food or an object is stuck, and can you still swallow your own saliva?"}
+    ],
+    "ctas_level_guidance": {"2": "Drooling or stridor (2nd order modifier).", "3": "Possible foreign body (2nd order modifier)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Other Selected 2nd Order Modifiers)"
+  },
+  {
+    "presenting_complaint": "Facial pain (non-traumatic / non-dental)",
+    "aliases": ["facial pain"],
+    "red_flags": [
+      {"indicator": "Severe pain (8-10/10) with neurological symptoms", "ctas_level": 2, "followup_question": "Is the pain severe, and do you have any numbness, weakness, or vision changes with it?"},
+      {"indicator": "Moderate pain, stable", "ctas_level": 3, "followup_question": "On a scale of 0-10, how bad is the facial pain?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe pain with neuro symptoms.", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Facial trauma",
+    "aliases": ["face injury"],
+    "red_flags": [
+      {"indicator": "High-risk mechanism of injury (assault with blunt object, MVC ejection, fall >3ft/1m or 5 stairs)", "ctas_level": 2, "followup_question": "How did the injury happen - was it a fall, assault, or vehicle collision, and from what height or speed?"},
+      {"indicator": "Uncontrolled bleeding / deep laceration", "ctas_level": 2, "followup_question": "Is there uncontrolled bleeding from the injury?"},
+      {"indicator": "Stable, minor injury", "ctas_level": 4, "followup_question": "Is the swelling or bruising your main concern, without heavy bleeding?"}
+    ],
+    "ctas_level_guidance": {"2": "High-risk MOI or uncontrolled bleeding.", "4": "Minor, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-29 (Bleeding Disorder / Mechanism of Injury modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Neck swelling / pain",
+    "aliases": ["swollen neck", "neck pain (non-traumatic)"],
+    "red_flags": [
+      {"indicator": "Airway compromise, stridor, or rapidly expanding swelling", "ctas_level": 1, "followup_question": "Is it becoming hard to breathe or is the swelling growing quickly?"},
+      {"indicator": "Significant pain or moderate swelling, stable airway", "ctas_level": 3, "followup_question": "How severe is the pain and is the swelling getting bigger?"},
+      {"indicator": "Mild, chronic swelling", "ctas_level": 4, "followup_question": "How long has this swelling or pain been present?"}
+    ],
+    "ctas_level_guidance": {"1": "Airway compromise.", "3": "Significant pain/swelling.", "4": "Mild, chronic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 26-27 (Respiratory Distress / Pain Severity modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Neck trauma",
+    "aliases": ["neck injury"],
+    "red_flags": [
+      {"indicator": "High-risk MOI: MVC ejection/rollover/high speed unrestrained driver, fall >3ft(1m) or 5 stairs, axial load to head", "ctas_level": 2, "followup_question": "Was there a high-speed collision, a fall from a height, or a direct impact to the top of your head?"},
+      {"indicator": "Neurological deficit (numbness, weakness) after neck injury", "ctas_level": 2, "followup_question": "Do you have any numbness, tingling, or weakness in your arms or legs since the injury?"},
+      {"indicator": "Sore neck, no neuro deficit, low-risk mechanism", "ctas_level": 3, "followup_question": "Is there any loss of feeling or movement, or is it just soreness?"}
+    ],
+    "ctas_level_guidance": {"2": "High-risk MOI (Neck Trauma table) or neuro deficit.", "3": "Low-risk mechanism, no deficit."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29 (Mechanism of Injury - Neck Trauma)"
+  },
+  {
+    "presenting_complaint": "Sore throat",
+    "aliases": ["throat pain", "pharyngitis"],
+    "red_flags": [
+      {"indicator": "Drooling, stridor, or muffled 'hot potato' voice (epiglottitis pattern)", "ctas_level": 2, "followup_question": "Are you drooling, having trouble breathing, or does your voice sound muffled?"},
+      {"indicator": "Severe pain with difficulty swallowing, fever, well-appearing otherwise", "ctas_level": 3, "followup_question": "How severe is the pain and are you able to swallow fluids?"},
+      {"indicator": "Mild pain, no swallowing difficulty", "ctas_level": 4, "followup_question": "Are you able to eat and drink normally?"}
+    ],
+    "ctas_level_guidance": {"2": "Airway signs (drooling/stridor).", "3": "Severe pain, dysphagia.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 31 (Respiratory Distress / Dysphagia modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Epistaxis",
+    "aliases": ["nosebleed"],
+    "red_flags": [
+      {"indicator": "Uncontrolled or heavy bleeding, especially on anticoagulants or with bleeding disorder", "ctas_level": 3, "followup_question": "Is the bleeding heavy or not stopping with pressure, and are you on any blood thinners?"},
+      {"indicator": "Minor, controlled bleeding", "ctas_level": 4, "followup_question": "Has the bleeding slowed down or stopped with pressure?"}
+    ],
+    "ctas_level_guidance": {"3": "Nose bleeds are classified as moderate/minor bleeds (CTAS 3) under Bleeding Disorder modifier.", "4": "Minor, controlled."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier)"
+  },
+  {
+    "presenting_complaint": "Foreign body, nose",
+    "aliases": ["object in nose"],
+    "red_flags": [
+      {"indicator": "Button battery (caustic, risk of tissue damage even if asymptomatic)", "ctas_level": 3, "followup_question": "Is the object a button battery, and how long has it been in there?"},
+      {"indicator": "Respiratory distress from obstruction", "ctas_level": 2, "followup_question": "Is it affecting your breathing at all?"},
+      {"indicator": "Stable, no distress", "ctas_level": 4, "followup_question": "Is there any pain, bleeding, or difficulty breathing?"}
+    ],
+    "ctas_level_guidance": {"2": "Respiratory compromise.", "3": "Button battery, no symptoms.", "4": "Stable, no distress."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.52 (Button battery 2nd order modifier - applies across foreign body complaints)"
+  },
+  {
+    "presenting_complaint": "Nasal congestion / hay fever",
+    "aliases": ["stuffy nose", "allergies"],
+    "red_flags": [
+      {"indicator": "None - non-urgent by nature", "ctas_level": 5, "followup_question": "Are you having any trouble breathing, or is it just a stuffy/runny nose?"}
+    ],
+    "ctas_level_guidance": {"5": "Nasal congestion/hay fever is a single-level complaint (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Nasal trauma",
+    "aliases": ["broken nose", "nose injury"],
+    "red_flags": [
+      {"indicator": "Uncontrolled bleeding or septal hematoma concern, deformity", "ctas_level": 3, "followup_question": "Is there ongoing bleeding, and does the nose look visibly deformed?"},
+      {"indicator": "Minor swelling/bruising, controlled", "ctas_level": 4, "followup_question": "Is the bleeding controlled and is breathing through your nose still possible?"}
+    ],
+    "ctas_level_guidance": {"3": "Uncontrolled bleeding/deformity.", "4": "Minor, controlled."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-29 (Bleeding Disorder / MOI modifiers applied)"
+  },
+  {
+    "presenting_complaint": "URTI complaints",
+    "aliases": ["cold symptoms", "upper respiratory infection"],
+    "red_flags": [
+      {"indicator": "Looks septic / 3+ SIRS criteria or respiratory distress", "ctas_level": 2, "followup_question": "Do you have a fever with chills, and are you having trouble breathing?"},
+      {"indicator": "Looks unwell, 1-2 SIRS criteria", "ctas_level": 3, "followup_question": "Do you look and feel unwell, or mostly just congested?"},
+      {"indicator": "Fever only, looks well", "ctas_level": 4, "followup_question": "Aside from the fever, do you feel comfortable and not in distress?"}
+    ],
+    "ctas_level_guidance": {"2": "Septic appearance.", "3": "Unwell appearance.", "4": "Well-appearing with fever.", "5": "Mild, no fever."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature/SIRS modifier)"
+  },
+  {
+    "presenting_complaint": "Chemical exposure",
+    "aliases": ["chemical burn", "chemical spill exposure"],
+    "red_flags": [
+      {"indicator": "Respiratory distress, airway involvement, or significant body surface area exposure", "ctas_level": 2, "followup_question": "Is any part of your airway or breathing affected, and how much of your body was exposed?"},
+      {"indicator": "Localized exposure, decontaminated, stable", "ctas_level": 3, "followup_question": "Has the area been rinsed/decontaminated, and are you having any pain or breathing trouble?"}
+    ],
+    "ctas_level_guidance": {"2": "Airway/respiratory involvement.", "3": "Localized, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Electrical injury",
+    "aliases": ["electrocution", "electric shock"],
+    "red_flags": [
+      {"indicator": "Cardiac arrest, loss of consciousness, or arrhythmia after electrical exposure", "ctas_level": 1, "followup_question": "Did you lose consciousness or have any irregular heartbeat after the shock?"},
+      {"indicator": "High-voltage exposure or entry/exit burn wounds", "ctas_level": 2, "followup_question": "Was this a high-voltage source, and do you see any burn marks where the current entered or exited?"},
+      {"indicator": "Low-voltage, brief exposure, no symptoms", "ctas_level": 3, "followup_question": "Was it a brief, low-voltage shock with no ongoing symptoms?"}
+    ],
+    "ctas_level_guidance": {"1": "Cardiac arrest/arrhythmia.", "2": "High-voltage or burns.", "3": "Low-voltage, asymptomatic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Frostbite / cold injury",
+    "aliases": ["frostbite", "cold-damaged skin"],
+    "red_flags": [
+      {"indicator": "Cold, pulseless limb", "ctas_level": 2, "followup_question": "Is the affected area cold and numb with no pulse felt in it?"},
+      {"indicator": "Core temperature <32.0C", "ctas_level": 2, "followup_question": "Do you feel very cold all over, confused, or unusually sleepy?"},
+      {"indicator": "Core temperature 32.0-35.0C", "ctas_level": 3, "followup_question": "Are you shivering and feeling cold but still alert?"},
+      {"indicator": "Core temperature >35.0C, no frostbite, normal vitals", "ctas_level": 4, "followup_question": "Is it just a small area of skin affected, without feeling generally cold?"}
+    ],
+    "ctas_level_guidance": {"2": "Cold pulseless limb, or core temp <32C.", "3": "Core temp 32-35C.", "4": "Core temp >35C, no frostbite."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55-56 (Environmental Exposure 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Hypothermia",
+    "aliases": ["low body temperature", "very cold"],
+    "red_flags": [
+      {"indicator": "Core temperature <32.0C", "ctas_level": 2, "followup_question": "Do you know your core temperature, or are you confused, shivering uncontrollably, or unusually drowsy?"},
+      {"indicator": "Core temperature 32.0-35.0C", "ctas_level": 3, "followup_question": "Are you cold and shivering but still thinking clearly?"},
+      {"indicator": "Core temperature >35.0C, no frostbite, normal vital signs", "ctas_level": 4, "followup_question": "Are you feeling only mildly chilled with no other symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Core temp <32C - invasive rewarming may be needed.", "3": "Core temp 32-35C.", "4": "Core temp >35C, normal vitals."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.56 (Environmental Exposure 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Noxious inhalation",
+    "aliases": ["smoke inhalation", "toxic fume exposure", "gas inhalation"],
+    "red_flags": [
+      {"indicator": "Respiratory distress, altered LOC, or suspected CO/cyanide poisoning", "ctas_level": 1, "followup_question": "Are you having severe trouble breathing or feeling confused/drowsy since the exposure?"},
+      {"indicator": "Moderate respiratory distress or exposure in enclosed space", "ctas_level": 2, "followup_question": "Did this happen in an enclosed space, and are you coughing or short of breath?"},
+      {"indicator": "Mild/no symptoms, brief exposure", "ctas_level": 3, "followup_question": "Are you having any breathing symptoms now, even mild ones?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe respiratory distress/altered LOC.", "2": "Moderate distress/enclosed space exposure.", "3": "Mild or resolved symptoms."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Near drowning",
+    "aliases": ["submersion injury", "almost drowned"],
+    "red_flags": [
+      {"indicator": "Respiratory arrest, altered LOC, or hypothermia <32.0C", "ctas_level": 1, "followup_question": "Did the person stop breathing, lose consciousness, or feel extremely cold after the incident?"},
+      {"indicator": "Respiratory distress or core temp 32.0-35.0C", "ctas_level": 2, "followup_question": "Are they coughing, having trouble breathing, or shivering significantly?"},
+      {"indicator": "Asymptomatic after brief submersion, normal vitals", "ctas_level": 3, "followup_question": "Are they breathing normally now with no cough or distress?"}
+    ],
+    "ctas_level_guidance": {"1": "Respiratory arrest/severe hypothermia.", "2": "Respiratory distress/moderate hypothermia.", "3": "Asymptomatic, observation warranted."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 56 (Respiratory Distress / Environmental Exposure modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Abdominal mass / distention",
+    "aliases": ["swollen belly", "abdominal bloating"],
+    "red_flags": [
+      {"indicator": "Severe pain, hemodynamic compromise, or rigid abdomen", "ctas_level": 2, "followup_question": "Is the pain severe and does your abdomen feel hard or rigid?"},
+      {"indicator": "Moderate pain, stable vitals", "ctas_level": 3, "followup_question": "How severe is the discomfort, and has it been getting worse?"},
+      {"indicator": "Mild or chronic, no acute distress", "ctas_level": 4, "followup_question": "Has this been present for a while without much change?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe pain / hemodynamic compromise.", "3": "Moderate pain.", "4": "Mild, chronic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 26-27 (Hemodynamic / Pain Severity modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Abdominal pain",
+    "aliases": ["stomach pain", "belly pain", "tummy ache"],
+    "red_flags": [
+      {"indicator": "Severe pain (8/10) - CTAS Level 2 case example in manual", "ctas_level": 2, "followup_question": "On a scale of 0-10, how severe is the pain right now?"},
+      {"indicator": "Hemodynamic compromise or shock signs with abdominal pain", "ctas_level": 1, "followup_question": "Are you feeling faint, very weak, or looking pale and sweaty?"},
+      {"indicator": "Moderate pain (4-7/10), stable vitals - CTAS Level 3 case example", "ctas_level": 3, "followup_question": "Is the pain moderate, and has it been getting worse over the past several hours?"},
+      {"indicator": "Mild pain, no distress", "ctas_level": 4, "followup_question": "Would you rate the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock.", "2": "Severe pain 8-10/10 (case example: sudden onset, severe).", "3": "Moderate pain 4-7/10 (case example: worsening over 12 hours).", "4": "Mild pain.", "5": "Minimal/no pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18, 26-27 (CTAS Level case examples, Pain Severity modifier)"
+  },
+  {
+    "presenting_complaint": "Anal / rectal trauma",
+    "aliases": ["rectal injury"],
+    "red_flags": [
+      {"indicator": "Uncontrolled/major bleeding or high-risk mechanism (e.g. sexual assault, penetrating trauma)", "ctas_level": 2, "followup_question": "Is there heavy bleeding, and can you tell me how the injury happened?"},
+      {"indicator": "Minor bleeding, controlled", "ctas_level": 3, "followup_question": "Is the bleeding light and controlled?"}
+    ],
+    "ctas_level_guidance": {"2": "Major/uncontrolled bleeding.", "3": "Minor bleeding."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier applied)"
+  },
+  {
+    "presenting_complaint": "Anorexia",
+    "aliases": ["loss of appetite", "not eating"],
+    "red_flags": [
+      {"indicator": "Signs of severe dehydration/shock", "ctas_level": 1, "followup_question": "Do you feel like you might faint, or has your urine output dropped significantly?"},
+      {"indicator": "Moderate dehydration signs", "ctas_level": 2, "followup_question": "Is your mouth dry and has your heart been racing?"},
+      {"indicator": "Mild, stable, decreased intake only", "ctas_level": 4, "followup_question": "How long have you not been eating well, and are you still drinking fluids?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe dehydration.", "2": "Moderate dehydration.", "4": "Mild, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.30 (Dehydration Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Blood in stool / melena",
+    "aliases": ["rectal bleeding", "black stool", "bloody stool"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise or shock with GI bleeding", "ctas_level": 2, "followup_question": "Are you feeling dizzy, weak, or faint along with the bleeding?"},
+      {"indicator": "Small amount of rectal bleeding, otherwise stable", "ctas_level": 4, "followup_question": "How much blood have you noticed, and is it a small amount or a lot?"}
+    ],
+    "ctas_level_guidance": {"2": "With hemodynamic compromise.", "4": "Small amount, stable (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Constipation",
+    "aliases": ["can't pass stool", "bowel blockage"],
+    "red_flags": [
+      {"indicator": "Severe abdominal pain, distention, or vomiting (concern for obstruction)", "ctas_level": 3, "followup_question": "Do you have severe belly pain, bloating, or vomiting along with the constipation?"},
+      {"indicator": "Mild pain (<4/10) - CTAS Level 4 case example", "ctas_level": 4, "followup_question": "On a scale of 0-10, how uncomfortable are you?"}
+    ],
+    "ctas_level_guidance": {"3": "Severe pain or obstruction signs.", "4": "Mild pain <4/10 (case example in manual)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19 (CTAS Level 4 case example)"
+  },
+  {
+    "presenting_complaint": "Diarrhea",
+    "aliases": ["loose stools"],
+    "red_flags": [
+      {"indicator": "Severe dehydration with shock signs", "ctas_level": 1, "followup_question": "Do you feel like you might pass out, or has urination almost stopped?"},
+      {"indicator": "Uncontrolled bloody diarrhea", "ctas_level": 3, "followup_question": "Is the diarrhea bloody and hard to control?"},
+      {"indicator": "Mild dehydration - increasing thirst, concentrated urine, reduced intake", "ctas_level": 3, "followup_question": "Are you feeling thirstier than usual or noticing darker urine?"},
+      {"indicator": "Mild, no dehydration signs", "ctas_level": 5, "followup_question": "Are you still able to keep fluids down and urinate normally?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe dehydration.", "2": "Moderate dehydration.", "3": "Uncontrolled bloody diarrhea, or mild dehydration.", "5": "Mild, no dehydration (case example in manual)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18-19, 30 (CTAS level examples, Dehydration Severity modifier)"
+  },
+  {
+    "presenting_complaint": "Foreign body in rectum",
+    "aliases": ["object in rectum"],
+    "red_flags": [
+      {"indicator": "Severe pain, bleeding, or signs of perforation (rigid abdomen, fever)", "ctas_level": 2, "followup_question": "Do you have severe pain, bleeding, or a fever along with this?"},
+      {"indicator": "Stable, mild discomfort", "ctas_level": 4, "followup_question": "Are you in much pain or having any bleeding?"}
+    ],
+    "ctas_level_guidance": {"2": "Perforation/severe pain signs.", "4": "Stable, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Groin pain / mass",
+    "aliases": ["groin lump", "groin swelling"],
+    "red_flags": [
+      {"indicator": "Severe pain with a hernia that will not reduce, or discoloration (strangulation concern)", "ctas_level": 2, "followup_question": "Is there a bulge that won't push back in, and is the skin over it discolored or very tender?"},
+      {"indicator": "Moderate pain, reducible mass", "ctas_level": 3, "followup_question": "Does the lump go away when you lie down or push on it?"},
+      {"indicator": "Mild, chronic", "ctas_level": 4, "followup_question": "How long has this lump or discomfort been present?"}
+    ],
+    "ctas_level_guidance": {"2": "Strangulated hernia concern.", "3": "Reducible, moderate pain.", "4": "Mild, chronic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Hiccoughs",
+    "aliases": ["hiccups"],
+    "red_flags": [
+      {"indicator": "Persistent hiccups with chest pain, dysphagia, or neurological symptoms", "ctas_level": 3, "followup_question": "Do you have any chest pain, trouble swallowing, or other new symptoms with the hiccups?"},
+      {"indicator": "Isolated, brief", "ctas_level": 5, "followup_question": "How long have the hiccups lasted and are there any other symptoms?"}
+    ],
+    "ctas_level_guidance": {"3": "Associated concerning symptoms.", "5": "Isolated, brief."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Jaundice",
+    "aliases": ["yellow skin/eyes"],
+    "red_flags": [
+      {"indicator": "Altered LOC, hemodynamic compromise, or signs of severe sepsis (concern for cholangitis/liver failure)", "ctas_level": 2, "followup_question": "Are you confused, feeling very unwell, or have you had fever and chills?"},
+      {"indicator": "New jaundice, otherwise well, stable vitals", "ctas_level": 3, "followup_question": "When did you first notice the yellowing, and do you have abdominal pain or fever?"},
+      {"indicator": "Chronic, known cause", "ctas_level": 4, "followup_question": "Is this a known, ongoing condition?"}
+    ],
+    "ctas_level_guidance": {"2": "Sepsis/altered LOC signs.", "3": "New onset, stable.", "4": "Chronic, known."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.24-25 (LOC / Temperature modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Oral / esophageal foreign body",
+    "aliases": ["swallowed object", "food stuck in throat", "swallowed something"],
+    "red_flags": [
+      {"indicator": "Drooling or stridor (airway/complete esophageal obstruction)", "ctas_level": 2, "followup_question": "Are you drooling and unable to swallow your saliva, or having any trouble breathing?"},
+      {"indicator": "Button battery ingestion, no symptoms", "ctas_level": 3, "followup_question": "Was the object swallowed a button battery, and how long ago?"},
+      {"indicator": "Able to swallow saliva, no respiratory symptoms", "ctas_level": 3, "followup_question": "Can you still swallow your own saliva comfortably?"}
+    ],
+    "ctas_level_guidance": {"2": "Drooling/stridor.", "3": "Possible foreign body/button battery, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31, 52 (Dysphagia 2nd order modifier, Button battery modifier)"
+  },
+  {
+    "presenting_complaint": "Rectal / perineal pain",
+    "aliases": ["perineal pain", "anal pain"],
+    "red_flags": [
+      {"indicator": "Severe pain, fever, or dark/black skin discoloration in the perineum (concern for necrotizing fasciitis / Fournier's gangrene)", "ctas_level": 2, "followup_question": "Is the pain severe and out of proportion to what you can see, and is any of the skin turning dark or black?"},
+      {"indicator": "Moderate pain, no systemic signs", "ctas_level": 3, "followup_question": "How severe is the pain, and do you have any fever?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you describe the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Necrotizing fasciitis/Fournier's disease concern - explicitly flagged as a Potential Triage Pitfall in the manual (perineal complaints are high-risk and easily under-triaged).", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.60 (Potential Triage Pitfalls - perineal complaints)"
+  },
+  {
+    "presenting_complaint": "Vomiting and/or nausea",
+    "aliases": ["throwing up", "feeling sick to stomach"],
+    "red_flags": [
+      {"indicator": "Severe dehydration with shock signs", "ctas_level": 1, "followup_question": "Do you feel faint or extremely weak, and has your urine output dropped a lot?"},
+      {"indicator": "Vomiting blood, dizzy on sitting up", "ctas_level": 2, "followup_question": "Have you vomited any blood, and do you feel dizzy when you sit up?"},
+      {"indicator": "Moderate dehydration - dry mouth, tachycardia", "ctas_level": 2, "followup_question": "Is your mouth very dry and has your heart rate felt fast?"},
+      {"indicator": "Mild dehydration - increasing thirst, reduced intake", "ctas_level": 3, "followup_question": "Are you able to keep any fluids down, and how long has this been going on?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe dehydration/shock.", "2": "Vomiting blood with dizziness on standing (case example), or moderate dehydration.", "3": "Mild dehydration.", "4": "Potential dehydration only."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18, 30 (CTAS Level 2 case example, Dehydration Severity modifier)"
+  },
+  {
+    "presenting_complaint": "Vomiting blood",
+    "aliases": ["hematemesis", "blood in vomit"],
+    "red_flags": [
+      {"indicator": "Dizzy on sitting up (postural symptoms) - CTAS Level 2 case example", "ctas_level": 2, "followup_question": "Do you feel dizzy or lightheaded when you sit up or stand?"},
+      {"indicator": "Hemodynamic compromise / shock", "ctas_level": 1, "followup_question": "Are you feeling extremely weak, confused, or like you might pass out?"},
+      {"indicator": "Small amount, stable vital signs", "ctas_level": 3, "followup_question": "How much blood did you notice, and do you feel otherwise well?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock.", "2": "Dizzy on sitting up (manual case example).", "3": "Stable, small amount."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18"
+  },
+  {
+    "presenting_complaint": "Flank pain",
+    "aliases": ["side pain", "kidney pain"],
+    "red_flags": [
+      {"indicator": "Severe pain (8-10/10) with fever (concern for infected obstructing kidney stone/pyelonephritis)", "ctas_level": 2, "followup_question": "Is the pain severe, and do you have a fever or chills with it?"},
+      {"indicator": "Moderate pain, no fever", "ctas_level": 3, "followup_question": "How severe is the pain and is there any fever?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you rate this as mild discomfort?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe pain with fever.", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (Temperature/Pain Severity modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Genital discharge / lesion",
+    "aliases": ["genital sore", "STI symptoms"],
+    "red_flags": [
+      {"indicator": "Severe pain or systemic symptoms (fever)", "ctas_level": 3, "followup_question": "Do you have severe pain or a fever along with the discharge/lesion?"},
+      {"indicator": "Mild, no systemic symptoms", "ctas_level": 4, "followup_question": "Is the discomfort mild without fever?"}
+    ],
+    "ctas_level_guidance": {"3": "Severe pain/systemic symptoms.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Genital trauma",
+    "aliases": ["genital injury"],
+    "red_flags": [
+      {"indicator": "Uncontrolled bleeding or high-risk mechanism", "ctas_level": 2, "followup_question": "Is there heavy bleeding, and how did the injury occur?"},
+      {"indicator": "Minor injury, controlled bleeding", "ctas_level": 4, "followup_question": "Is the bleeding minor and controlled?"}
+    ],
+    "ctas_level_guidance": {"2": "Uncontrolled bleeding.", "4": "Minor, controlled."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier applied)"
+  },
+  {
+    "presenting_complaint": "Hematuria",
+    "aliases": ["blood in urine"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise or heavy clots causing retention", "ctas_level": 2, "followup_question": "Are you passing large clots or feeling faint/dizzy, or unable to urinate?"},
+      {"indicator": "Visible blood, stable vitals", "ctas_level": 3, "followup_question": "How much blood have you noticed and do you have any pain?"},
+      {"indicator": "Microscopic/incidental, no symptoms", "ctas_level": 4, "followup_question": "Was this found incidentally on a test, with no visible blood or symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Hemodynamic compromise/retention.", "3": "Visible blood, stable.", "4": "Incidental finding."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 27-28 (Hemodynamic / Bleeding Disorder modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Oliguria",
+    "aliases": ["decreased urination", "not urinating much"],
+    "red_flags": [
+      {"indicator": "Signs of severe dehydration/shock or acute kidney injury", "ctas_level": 2, "followup_question": "Have you had almost no urine output, along with feeling very weak or dizzy?"},
+      {"indicator": "Mild reduction, stable vitals", "ctas_level": 3, "followup_question": "How much has your urine output decreased, and over what time period?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe dehydration/AKI signs.", "3": "Mild reduction, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.30 (Dehydration Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Penile swelling",
+    "aliases": ["swollen penis"],
+    "red_flags": [
+      {"indicator": "Suspected paraphimosis or priapism (urologic emergency)", "ctas_level": 2, "followup_question": "Is this a persistent erection, or is the foreskin stuck and unable to be pulled back?"},
+      {"indicator": "Mild swelling, no urologic emergency signs", "ctas_level": 4, "followup_question": "Are you able to urinate normally, and is there severe pain?"}
+    ],
+    "ctas_level_guidance": {"2": "Paraphimosis/priapism.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Polyuria",
+    "aliases": ["excessive urination", "urinating a lot"],
+    "red_flags": [
+      {"indicator": "Blood glucose >18mmol/L with dyspnea, dehydration, tachypnea, thirst, weakness (DKA/HHS pattern)", "ctas_level": 2, "followup_question": "Are you also very thirsty, short of breath, or feeling weak, and do you know your blood sugar level?"},
+      {"indicator": "Blood glucose >18mmol/L, no symptoms", "ctas_level": 3, "followup_question": "Do you know your blood sugar reading, and are you otherwise feeling okay?"}
+    ],
+    "ctas_level_guidance": {"2": "High glucose with symptoms.", "3": "High glucose, asymptomatic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29-30 (Blood Glucose Level 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Scrotal pain and/or swelling",
+    "aliases": ["testicle pain", "swollen testicle"],
+    "red_flags": [
+      {"indicator": "Sudden severe pain (concern for testicular torsion - time-sensitive)", "ctas_level": 2, "followup_question": "Did the pain start suddenly and is it severe? This can be a time-critical emergency."},
+      {"indicator": "Moderate pain, gradual onset", "ctas_level": 3, "followup_question": "Did the pain come on gradually, and how severe is it?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you describe the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Sudden severe pain - torsion concern requires urgent assessment.", "3": "Moderate, gradual pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Urinary retention",
+    "aliases": ["can't urinate", "unable to pee"],
+    "red_flags": [
+      {"indicator": "Severe suprapubic pain, distended bladder, complete inability to void", "ctas_level": 3, "followup_question": "How long have you been unable to urinate, and how severe is the lower abdominal pain?"},
+      {"indicator": "Partial retention, mild discomfort", "ctas_level": 4, "followup_question": "Are you able to pass some urine, even if not completely?"}
+    ],
+    "ctas_level_guidance": {"3": "Complete retention, significant pain.", "4": "Partial, mild discomfort."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "UTI complaints",
+    "aliases": ["urinary tract infection", "burning with urination", "dysuria"],
+    "red_flags": [
+      {"indicator": "Looks septic / fever with 3+ SIRS criteria (concern for pyelonephritis/urosepsis)", "ctas_level": 2, "followup_question": "Do you have a fever with chills, back pain, and are you feeling very unwell?"},
+      {"indicator": "Looks unwell, 1-2 SIRS criteria, or flank pain with fever", "ctas_level": 3, "followup_question": "Do you have flank/back pain along with fever?"},
+      {"indicator": "Mild dysuria - CTAS Level 4 case example", "ctas_level": 4, "followup_question": "Is it mainly a burning sensation with urination, without fever or back pain?"}
+    ],
+    "ctas_level_guidance": {"2": "Septic appearance.", "3": "Unwell/flank pain with fever.", "4": "Mild dysuria (manual example)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19, 25 (CTAS Level 4 case example, Temperature/SIRS modifier)"
+  },
+  {
+    "presenting_complaint": "Anxiety / situational crisis",
+    "aliases": ["panic attack", "anxious", "situational stress"],
+    "red_flags": [
+      {"indicator": "Severe anxiety/agitation - extreme unease with signs of excessive circulating catecholamines, dangerously agitated/uncooperative, does not calm down when asked", "ctas_level": 2, "followup_question": "Are you feeling extremely on edge and unable to calm down, with a racing heart or shaking?"},
+      {"indicator": "Uncertain flight or safety risk", "ctas_level": 2, "followup_question": "Do you feel unsafe staying here, or are you having any thoughts of hurting yourself or others?"},
+      {"indicator": "Moderate anxiety/agitation - clear unease but calms with reassurance", "ctas_level": 3, "followup_question": "Does it help when someone reassures you, even if you're still anxious?"},
+      {"indicator": "Mild anxiety/agitation - can be reassured, cooperative", "ctas_level": 4, "followup_question": "Would you say your anxiety is mild and you feel able to cooperate with care?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe anxiety/agitation or safety risk.", "3": "Moderate anxiety/agitation.", "4": "Mild anxiety/agitation."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58-59 (Mental Health 2nd order modifiers and definitions)"
+  },
+  {
+    "presenting_complaint": "Bizarre / behaviour",
+    "aliases": ["bizarre behaviour", "strange behavior", "acting strangely"],
+    "red_flags": [
+      {"indicator": "Uncontrolled - bizarre, disoriented, or irrational behaviour not controlled by verbal communication/reasoning, placing patient or others in physical danger", "ctas_level": 1, "followup_question": "Is the person's behaviour so unpredictable or dangerous that they cannot be safely reasoned with right now?"},
+      {"indicator": "Uncertain flight or safety risk", "ctas_level": 2, "followup_question": "Might they try to leave, or is there a safety concern for them or others?"},
+      {"indicator": "Controlled - viewed as threatening but controllable through verbal support/reasoning, accompanied by family/friend", "ctas_level": 3, "followup_question": "Are they currently calm enough to be reasoned with, especially with support from someone they know?"},
+      {"indicator": "Harmless behaviour - eccentric, longstanding, no recent change, no threat", "ctas_level": 4, "followup_question": "Is this behaviour typical for them, without any recent change or danger?"}
+    ],
+    "ctas_level_guidance": {"1": "Uncontrolled bizarre behaviour placing self/others at risk.", "2": "Uncertain flight/safety risk.", "3": "Controlled with support.", "4": "Harmless, longstanding.", "5": "Chronic, non-urgent."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58-59 (Mental Health 2nd order modifiers and definitions)"
+  },
+  {
+    "presenting_complaint": "Concern for the patient's welfare",
+    "aliases": ["concern for patient safety", "possible abuse/neglect"],
+    "red_flags": [
+      {"indicator": "Conflict or unstable situation - active/ongoing danger", "ctas_level": 1, "followup_question": "Are you in immediate danger right now?"},
+      {"indicator": "Risk of flight or ongoing abuse", "ctas_level": 2, "followup_question": "Are you currently in an unsafe living situation or relationship?"},
+      {"indicator": "Suspected physical or sexual assault", "ctas_level": 3, "followup_question": "Has something happened recently that has left you feeling unsafe or hurt?"},
+      {"indicator": "History/signs of abuse or maltreatment, not acutely unsafe", "ctas_level": 4, "followup_question": "Is this about something that happened in the past, and are you safe currently?"}
+    ],
+    "ctas_level_guidance": {"1": "Active conflict/unstable situation.", "2": "Risk of flight/ongoing abuse.", "3": "Suspected assault.", "4": "History of abuse, currently safe. Covers sexual abuse, elder abuse, psychological abuse, neglect - applicable to adults as well as children."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.40-41, 58 (Mental Health 2nd order modifiers)"
+  },
+  {
+    "presenting_complaint": "Depression / suicidal / deliberate self harm",
+    "aliases": ["suicidal thoughts", "self-harm", "depression"],
+    "red_flags": [
+      {"indicator": "Attempted suicide or clear plan (self-injurious behaviour with non-fatal outcome and explicit/implicit evidence of intent to die)", "ctas_level": 2, "followup_question": "Have you made an attempt to harm yourself, or do you have a specific plan to end your life?"},
+      {"indicator": "Active suicidal intent - subjective expectation and desire for a self-destructive act ending in death", "ctas_level": 2, "followup_question": "Are you currently wanting to end your life?"},
+      {"indicator": "Uncertain flight or safety risk", "ctas_level": 2, "followup_question": "Do you feel you might leave before being seen, or feel unsafe staying here?"},
+      {"indicator": "Suicidal ideation, no plan", "ctas_level": 3, "followup_question": "Have you had thoughts of ending your life, even without a specific plan?"},
+      {"indicator": "Depressed, no suicidal ideation", "ctas_level": 4, "followup_question": "Are you feeling low or depressed but without any thoughts of harming yourself?"}
+    ],
+    "ctas_level_guidance": {"2": "Attempt/clear plan, active intent, or flight/safety risk.", "3": "Ideation without plan.", "4": "Depressed mood, no suicidal ideation."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58-59 (Mental Health 2nd order modifiers and definitions)"
+  },
+  {
+    "presenting_complaint": "Hallucinations / delusions",
+    "aliases": ["hearing voices", "seeing things", "psychosis"],
+    "red_flags": [
+      {"indicator": "Acute psychosis - extreme self-neglect, disordered/impaired reality testing, hallucinatory or delusional thoughts, possibly with hostility", "ctas_level": 2, "followup_question": "Are you experiencing new hallucinations or beliefs that others might not share, and are you able to care for yourself right now?"},
+      {"indicator": "Severe anxiety/agitation or uncertain flight/safety risk", "ctas_level": 2, "followup_question": "Are you feeling very agitated, or is there a safety concern for you or others?"},
+      {"indicator": "Moderate anxiety/agitation or with paranoia (persecutory delusions - being followed, poisoned, harmed)", "ctas_level": 3, "followup_question": "Do you feel like people are following you, watching you, or trying to harm you?"},
+      {"indicator": "Mild agitation, stable", "ctas_level": 4, "followup_question": "Are you feeling calm enough right now, even with these experiences?"},
+      {"indicator": "Mild anxiety, chronic hallucinations with no recent change", "ctas_level": 5, "followup_question": "Are these hallucinations a long-standing experience for you with no recent change?"}
+    ],
+    "ctas_level_guidance": {"2": "Acute psychosis or severe agitation/safety risk.", "3": "Moderate agitation/paranoia.", "4": "Mild, stable.", "5": "Chronic, unchanged."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58-59 (Mental Health 2nd order modifiers and definitions)"
+  },
+  {
+    "presenting_complaint": "Insomnia",
+    "aliases": ["can't sleep", "sleeplessness"],
+    "red_flags": [
+      {"indicator": "Acute onset", "ctas_level": 4, "followup_question": "Is this a new problem, or has it been going on for a long time?"},
+      {"indicator": "Chronic", "ctas_level": 5, "followup_question": "Has this been a long-standing sleep issue for you?"}
+    ],
+    "ctas_level_guidance": {"4": "Acute insomnia.", "5": "Chronic insomnia."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58 (Mental Health 2nd order modifiers)"
+  },
+  {
+    "presenting_complaint": "Social problem",
+    "aliases": ["social crisis", "housing/social issue"],
+    "red_flags": [
+      {"indicator": "Physical or mental abuse, high emotional stress", "ctas_level": 3, "followup_question": "Are you currently experiencing abuse or extreme stress that you need help with today?"},
+      {"indicator": "Unable to cope", "ctas_level": 4, "followup_question": "Are you feeling unable to manage your current situation on your own?"},
+      {"indicator": "Chronic, non-urgent condition", "ctas_level": 5, "followup_question": "Is this an ongoing situation rather than a new crisis?"}
+    ],
+    "ctas_level_guidance": {"3": "Abuse/high emotional stress.", "4": "Unable to cope.", "5": "Chronic, non-urgent."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.58 (Mental Health 2nd order modifiers)"
+  },
+  {
+    "presenting_complaint": "Violent / homicidal behaviour",
+    "aliases": ["violent behavior", "homicidal thoughts"],
+    "red_flags": [
+      {"indicator": "Imminent harm to self or others, or specific plans", "ctas_level": 1, "followup_question": "Do you have a specific plan to hurt yourself or someone else right now?"},
+      {"indicator": "Uncertain flight or safety risk", "ctas_level": 2, "followup_question": "Is there a chance you might act on these thoughts or leave before getting help?"},
+      {"indicator": "Violent/homicidal ideation, no plan", "ctas_level": 3, "followup_question": "Have you had thoughts of hurting someone else, even without a specific plan?"}
+    ],
+    "ctas_level_guidance": {"1": "Imminent harm/specific plans (single-level complaint - Selected Special Complaints table).", "2": "Uncertain flight/safety risk.", "3": "Ideation, no plan."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55, 58"
+  },
+  {
+    "presenting_complaint": "Altered level of consciousness",
+    "aliases": ["confused", "not making sense", "unresponsive but breathing", "drowsy"],
+    "red_flags": [
+      {"indicator": "Unconscious - GCS 3-9, unable to protect airway, continuous seizure or progressive deterioration", "ctas_level": 1, "followup_question": "Is the person able to be woken up, and are they protecting their own airway?"},
+      {"indicator": "Altered LOC - GCS 10-13, new confusion, disorientation, agitation", "ctas_level": 2, "followup_question": "Is this a new change in their thinking or alertness compared to normal?"},
+      {"indicator": "Blood glucose <3mmol/L with confusion, diaphoresis, behavioural change, seizure, or focal deficits", "ctas_level": 2, "followup_question": "Do you know their blood sugar level, and are they sweaty or having any seizure-like movements?"},
+      {"indicator": "Normal GCS 14-15, baseline mental status", "ctas_level": 3, "followup_question": "Is this person's thinking and alertness back to their normal baseline?"}
+    ],
+    "ctas_level_guidance": {"1": "GCS 3-9 (case example in manual).", "2": "GCS 10-13, or hypoglycemia/hyperglycemia with symptoms.", "3": "GCS 14-15, other modifiers apply."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17, 24, 29-30 (Level of Consciousness / Blood Glucose modifiers)"
+  },
+  {
+    "presenting_complaint": "Confusion",
+    "aliases": ["disoriented", "can't think clearly"],
+    "red_flags": [
+      {"indicator": "New onset confusion (acute delirium) - explicitly flagged as a triage pitfall if mistaken for a mental health issue", "ctas_level": 2, "followup_question": "Is this a sudden change from how they normally think and act?"},
+      {"indicator": "Chronic confusion, no change from usual state - CTAS Level 4 case example", "ctas_level": 4, "followup_question": "Is this their usual baseline level of confusion, unchanged recently?"}
+    ],
+    "ctas_level_guidance": {"2": "New onset/acute delirium - a documented Potential Triage Pitfall (new-onset bizarre behaviour/confusion should be treated as an acute medical problem, not simple mental health).", "4": "Chronic, no change (manual case example)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19, 60 (CTAS Level 4 case example, Potential Triage Pitfalls)"
+  },
+  {
+    "presenting_complaint": "Extremity weakness / symptoms of CVA",
+    "aliases": ["stroke symptoms", "one-sided weakness", "facial droop"],
+    "red_flags": [
+      {"indicator": "Time of onset of symptoms < 4.5 hours (within thrombolysis window)", "ctas_level": 2, "followup_question": "When did the weakness or symptoms start - was it less than 4.5 hours ago?"},
+      {"indicator": "Onset > 4.5 hours or symptoms resolved", "ctas_level": 3, "followup_question": "Did the symptoms start more than 4.5 hours ago, or have they since gone away?"}
+    ],
+    "ctas_level_guidance": {"2": "Onset <4.5 hours (2nd order modifier - time-critical for thrombolysis).", "3": "Onset >4.5 hours or resolved."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Other Selected 2nd Order Modifiers)"
+  },
+  {
+    "presenting_complaint": "Gait disturbance / ataxia",
+    "aliases": ["unsteady walking", "trouble walking", "loss of balance"],
+    "red_flags": [
+      {"indicator": "Sudden onset ataxia with other neuro symptoms (headache, vision changes, slurred speech)", "ctas_level": 2, "followup_question": "Did this come on suddenly, and do you have any headache, vision changes, or slurred speech?"},
+      {"indicator": "Gradual, chronic gait disturbance", "ctas_level": 4, "followup_question": "Has this been a gradual change over time rather than sudden?"}
+    ],
+    "ctas_level_guidance": {"2": "Sudden onset with neuro symptoms.", "3": "Subacute, no other red flags.", "4": "Chronic, gradual."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign/LOC modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Head injury",
+    "aliases": ["head trauma", "hit head", "concussion"],
+    "red_flags": [
+      {"indicator": "Unconscious - GCS 3-9", "ctas_level": 1, "followup_question": "Is the person unconscious or very difficult to wake up?"},
+      {"indicator": "Altered LOC - GCS 10-13, or high-risk MOI (MVC ejection, fall >3ft/1m or 5 stairs, assault with blunt object)", "ctas_level": 2, "followup_question": "Did they lose consciousness or seem confused, and how did the head injury happen?"},
+      {"indicator": "GCS 14-15, loss of consciousness but now alert", "ctas_level": 3, "followup_question": "Did they briefly lose consciousness but are now back to normal and alert?"},
+      {"indicator": "No loss of consciousness, minor injury", "ctas_level": 4, "followup_question": "Was there any loss of consciousness at all?"}
+    ],
+    "ctas_level_guidance": {"1": "GCS 3-9.", "2": "GCS 10-13 or high-risk MOI.", "3": "GCS 14-15 with brief LOC.", "4": "No LOC, minor."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.24, 29 (Level of Consciousness / Mechanism of Injury - Head Trauma modifiers)"
+  },
+  {
+    "presenting_complaint": "Headache",
+    "aliases": ["head pain", "migraine"],
+    "red_flags": [
+      {"indicator": "Sudden, severe, worst headache of life - CTAS Level 2 case example (thunderclap headache, concern for subarachnoid hemorrhage)", "ctas_level": 2, "followup_question": "Did this headache come on suddenly and is it the worst you've ever had?"},
+      {"indicator": "Altered LOC or neurological deficit accompanying headache", "ctas_level": 2, "followup_question": "Do you have any confusion, weakness, or vision changes with the headache?"},
+      {"indicator": "Moderate pain (4-7/10) - CTAS Level 3 case example", "ctas_level": 3, "followup_question": "On a scale of 0-10, how severe is the headache?"},
+      {"indicator": "Mild, typical/chronic headache pattern", "ctas_level": 4, "followup_question": "Is this similar to headaches you've had before?"}
+    ],
+    "ctas_level_guidance": {"2": "Sudden, severe, worst-ever (manual case example).", "3": "Moderate pain 4-7/10.", "4": "Mild, typical pattern."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.18, 26-27 (CTAS Level case examples, Pain Severity modifier)"
+  },
+  {
+    "presenting_complaint": "Seizure",
+    "aliases": ["convulsion", "fit"],
+    "red_flags": [
+      {"indicator": "Actively seizing", "ctas_level": 1, "followup_question": "Is the person seizing right now?"},
+      {"indicator": "Seizure prior to arrival, now alert (postictal recovered)", "ctas_level": 3, "followup_question": "Has the seizure stopped and are they alert and back to normal now?"}
+    ],
+    "ctas_level_guidance": {"1": "Actively seizing (single-level complaint, Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Sensory loss / paresthesias",
+    "aliases": ["numbness", "tingling"],
+    "red_flags": [
+      {"indicator": "New onset with other stroke symptoms (weakness, facial droop, slurred speech), onset <4.5 hours", "ctas_level": 2, "followup_question": "Did this start suddenly, and is there any weakness or trouble speaking along with it? When exactly did it start?"},
+      {"indicator": "Chronic, stable sensory changes", "ctas_level": 4, "followup_question": "Has this numbness been present for a while without significant change?"}
+    ],
+    "ctas_level_guidance": {"2": "Acute onset with stroke-pattern symptoms.", "4": "Chronic, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Extremity weakness/CVA modifier applied by analogy)"
+  },
+  {
+    "presenting_complaint": "Tremor",
+    "aliases": ["shaking", "trembling"],
+    "red_flags": [
+      {"indicator": "New onset with altered LOC or other neuro symptoms", "ctas_level": 2, "followup_question": "Is this new, and are they confused or having any other new symptoms?"},
+      {"indicator": "Chronic, known tremor disorder", "ctas_level": 4, "followup_question": "Is this a known, longstanding tremor?"}
+    ],
+    "ctas_level_guidance": {"2": "Acute onset with neuro symptoms.", "4": "Chronic, known cause."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign/LOC modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Vertigo",
+    "aliases": ["dizziness", "room spinning"],
+    "red_flags": [
+      {"indicator": "Vertigo with other neurological symptoms (double vision, slurred speech, weakness, ataxia) - concern for central cause", "ctas_level": 2, "followup_question": "Along with the spinning sensation, do you have any double vision, slurred speech, or weakness?"},
+      {"indicator": "Positional vertigo, no other neuro symptoms", "ctas_level": 3, "followup_question": "Does the spinning happen with certain head movements, and are you otherwise neurologically normal?"}
+    ],
+    "ctas_level_guidance": {"2": "With other neuro symptoms - central cause concern.", "3": "Positional, no other neuro symptoms (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Foreign body, vagina",
+    "aliases": ["object in vagina"],
+    "red_flags": [
+      {"indicator": "Significant pain, bleeding, or signs of toxic shock (fever, rash)", "ctas_level": 3, "followup_question": "Do you have significant pain, bleeding, or fever along with this?"},
+      {"indicator": "Stable, mild discomfort", "ctas_level": 4, "followup_question": "Are you having much pain or bleeding?"}
+    ],
+    "ctas_level_guidance": {"3": "Significant pain/bleeding/systemic signs.", "4": "Stable, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Labial swelling",
+    "aliases": ["swollen labia"],
+    "red_flags": [
+      {"indicator": "Severe pain, spreading redness, or systemic symptoms (fever) - concern for abscess/infection", "ctas_level": 3, "followup_question": "Is the pain severe and do you have a fever with the swelling?"},
+      {"indicator": "Mild, localized swelling", "ctas_level": 4, "followup_question": "Is the swelling mild without much pain?"}
+    ],
+    "ctas_level_guidance": {"3": "Severe pain/infection signs.", "4": "Mild, localized."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Menstrual problems",
+    "aliases": ["period problems", "irregular periods", "menorrhagia"],
+    "red_flags": [
+      {"indicator": "Menorrhagia with hemodynamic compromise or signs of significant blood loss", "ctas_level": 2, "followup_question": "Are you soaking through pads very quickly, or feeling dizzy/faint from the bleeding?"},
+      {"indicator": "Menorrhagia (heavy bleeding), stable vitals - classified as a moderate/minor bleed", "ctas_level": 3, "followup_question": "How heavy is the bleeding, and are you otherwise feeling stable?"},
+      {"indicator": "Mild, typical menstrual symptoms", "ctas_level": 4, "followup_question": "Is this similar to your usual periods, without heavy bleeding?"}
+    ],
+    "ctas_level_guidance": {"2": "Hemodynamic compromise from bleeding.", "3": "Menorrhagia (Bleeding Disorder modifier - moderate/minor bleeds).", "4": "Mild, typical."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier)"
+  },
+  {
+    "presenting_complaint": "Pregnancy issue < 20 weeks",
+    "aliases": ["early pregnancy complication", "miscarriage symptoms"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise or shock with vaginal bleeding/abdominal pain (concern for ruptured ectopic pregnancy)", "ctas_level": 2, "followup_question": "Are you feeling faint, very weak, or having severe abdominal pain along with the bleeding?"},
+      {"indicator": "Moderate bleeding or pain, stable vitals", "ctas_level": 3, "followup_question": "How would you describe the bleeding and pain - severe, moderate, or mild?"},
+      {"indicator": "Mild spotting, no pain, stable", "ctas_level": 4, "followup_question": "Is it light spotting without significant pain?"}
+    ],
+    "ctas_level_guidance": {"2": "Shock/hemodynamic compromise - ectopic pregnancy concern.", "3": "Moderate symptoms, stable.", "4": "Mild, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 26-27 (Hemodynamic/Pain Severity modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Pregnancy issue > 20 weeks",
+    "aliases": ["late pregnancy complication", "labour", "third trimester bleeding"],
+    "red_flags": [
+      {"indicator": "Presenting fetal parts or prolapsed cord", "ctas_level": 1, "followup_question": "Can you see or feel any part of the baby or the umbilical cord?"},
+      {"indicator": "Vaginal bleeding, 3rd trimester", "ctas_level": 1, "followup_question": "Are you bleeding vaginally, and how far along is the pregnancy?"},
+      {"indicator": "Active labour (contractions <=2 min apart)", "ctas_level": 2, "followup_question": "How far apart are your contractions right now?"},
+      {"indicator": "No fetal movement / no fetal heart tones", "ctas_level": 2, "followup_question": "Have you noticed the baby moving recently?"},
+      {"indicator": "Headache +/- edema +/- abdominal pain +/- hypertension (pre-eclampsia pattern)", "ctas_level": 2, "followup_question": "Do you have a headache, swelling, high blood pressure, or abdominal pain along with the pregnancy?"},
+      {"indicator": "Post delivery", "ctas_level": 2, "followup_question": "Have you just given birth?"},
+      {"indicator": "Active labour (contractions >2 min apart)", "ctas_level": 3, "followup_question": "Are your contractions more than 2 minutes apart?"},
+      {"indicator": "Possible leaking amniotic fluid", "ctas_level": 3, "followup_question": "Do you think your water may have broken?"}
+    ],
+    "ctas_level_guidance": {"1": "Presenting fetal parts/prolapsed cord, or 3rd trimester bleeding.", "2": "Active labour <=2min, absent fetal movement/heart tones, pre-eclampsia signs, or post-delivery.", "3": "Active labour >2min, or possible ruptured membranes."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.57 (Obstetrical patients with complications of pregnancy >20 weeks gestation 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Sexual assault",
+    "aliases": ["sexual assault victim"],
+    "red_flags": [
+      {"indicator": "Recent assault (<12 hours) or with injury", "ctas_level": 3, "followup_question": "Did this happen within the last 12 hours, or do you have any injuries?"},
+      {"indicator": "Assault occurred >=12 hours ago, no injury", "ctas_level": 4, "followup_question": "Did this happen 12 hours ago or more, and are you physically injured?"}
+    ],
+    "ctas_level_guidance": {"3": "Recent (<12h) or with injury - forensic evidence time-sensitive.", "4": ">=12 hours, no injury (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Vaginal bleeding",
+    "aliases": ["bleeding not during period"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise / heavy bleeding with shock signs", "ctas_level": 2, "followup_question": "Are you feeling faint, dizzy, or very weak with the bleeding?"},
+      {"indicator": "Pregnant, 3rd trimester bleeding", "ctas_level": 1, "followup_question": "Are you pregnant, and if so how far along?"},
+      {"indicator": "Moderate bleeding, stable vitals", "ctas_level": 3, "followup_question": "How heavy is the bleeding, and are you pregnant?"},
+      {"indicator": "Mild spotting", "ctas_level": 4, "followup_question": "Is it just light spotting?"}
+    ],
+    "ctas_level_guidance": {"1": "3rd trimester pregnancy bleeding.", "2": "Hemodynamic compromise.", "3": "Moderate, stable.", "4": "Mild spotting."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 57 (Hemodynamic modifier, Pregnancy >20 weeks modifier)"
+  },
+  {
+    "presenting_complaint": "Vaginal discharge",
+    "aliases": ["abnormal vaginal discharge"],
+    "red_flags": [
+      {"indicator": "Fever, severe pelvic pain (concern for PID/abscess)", "ctas_level": 3, "followup_question": "Do you have fever or severe lower abdominal pain along with the discharge?"},
+      {"indicator": "Mild, no systemic symptoms", "ctas_level": 4, "followup_question": "Is the discomfort mild without fever?"}
+    ],
+    "ctas_level_guidance": {"3": "Fever/severe pain.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Vaginal pain / itch",
+    "aliases": ["vaginal pain", "vaginal itching"],
+    "red_flags": [
+      {"indicator": "Severe pain with systemic symptoms", "ctas_level": 3, "followup_question": "How severe is the pain, and do you have any fever?"},
+      {"indicator": "Mild discomfort/itch", "ctas_level": 4, "followup_question": "Would you describe this as mild irritation or itching?"}
+    ],
+    "ctas_level_guidance": {"3": "Severe pain.", "4": "Mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Chemical exposure, eye",
+    "aliases": ["chemical splash in eye", "eye chemical burn"],
+    "red_flags": [
+      {"indicator": "Any chemical exposure to the eye", "ctas_level": 2, "followup_question": "Has the eye been rinsed with water yet, and what chemical was involved?"}
+    ],
+    "ctas_level_guidance": {"2": "Chemical exposure, eye is a single-level complaint (Selected Special Complaints table) - requires urgent irrigation."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Diplopia",
+    "aliases": ["double vision"],
+    "red_flags": [
+      {"indicator": "Sudden onset with other neuro symptoms (concern for stroke/aneurysm)", "ctas_level": 2, "followup_question": "Did the double vision start suddenly, and do you have any other new symptoms like weakness or slurred speech?"},
+      {"indicator": "Gradual, isolated onset", "ctas_level": 3, "followup_question": "Did this develop gradually without other symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Sudden onset with neuro symptoms.", "3": "Gradual/isolated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Eye pain",
+    "aliases": ["painful eye"],
+    "red_flags": [
+      {"indicator": "Severe pain (8-10/10) with vision loss (concern for acute angle closure glaucoma or globe injury)", "ctas_level": 2, "followup_question": "Is the pain severe, and have you noticed any change in your vision?"},
+      {"indicator": "Moderate pain", "ctas_level": 3, "followup_question": "How severe is the eye pain, on a scale of 0-10?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you describe the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Severe pain with vision loss.", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Eye trauma",
+    "aliases": ["eye injury"],
+    "red_flags": [
+      {"indicator": "Suspected globe rupture, penetrating injury, or high-risk mechanism", "ctas_level": 2, "followup_question": "Could there be a penetrating injury to the eye, and how did it happen?"},
+      {"indicator": "Minor abrasion/foreign body sensation, no vision change", "ctas_level": 4, "followup_question": "Is your vision unaffected, and is this more of a scratchy/foreign body feeling?"}
+    ],
+    "ctas_level_guidance": {"2": "Globe rupture/penetrating injury.", "3": "Moderate injury.", "4": "Minor, no vision change."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-29 (Bleeding Disorder / MOI modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Foreign body, eye",
+    "aliases": ["object in eye"],
+    "red_flags": [
+      {"indicator": "Suspected penetrating/embedded foreign body or vision change", "ctas_level": 2, "followup_question": "Could the object have gone into the eye itself, and has your vision changed?"},
+      {"indicator": "Superficial foreign body sensation, normal vision", "ctas_level": 4, "followup_question": "Does it feel superficial, like something on the surface of the eye?"}
+    ],
+    "ctas_level_guidance": {"2": "Penetrating/embedded FB.", "4": "Superficial."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Red eye / discharge",
+    "aliases": ["pink eye", "conjunctivitis"],
+    "red_flags": [
+      {"indicator": "Severe pain, vision loss, or photophobia (concern for keratitis/uveitis)", "ctas_level": 3, "followup_question": "Do you have significant pain, sensitivity to light, or vision changes with the redness?"},
+      {"indicator": "Mild redness/discharge, no pain or vision change", "ctas_level": 4, "followup_question": "Is it mainly redness and discharge without pain or vision changes?"}
+    ],
+    "ctas_level_guidance": {"3": "Pain/vision changes/photophobia.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Periorbital swelling",
+    "aliases": ["swelling around the eye"],
+    "red_flags": [
+      {"indicator": "Vision changes, painful eye movement, or fever (concern for orbital cellulitis)", "ctas_level": 3, "followup_question": "Does it hurt to move your eye, or have you noticed any vision changes or fever?"},
+      {"indicator": "Mild swelling, no vision/movement changes", "ctas_level": 4, "followup_question": "Is your vision and eye movement normal?"}
+    ],
+    "ctas_level_guidance": {"3": "Orbital cellulitis concern.", "4": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25-27 (Temperature/Pain modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Photophobia",
+    "aliases": ["light sensitivity"],
+    "red_flags": [
+      {"indicator": "With fever, neck stiffness, or severe headache (concern for meningitis)", "ctas_level": 2, "followup_question": "Do you have a fever, neck stiffness, or severe headache with the light sensitivity?"},
+      {"indicator": "Isolated, mild", "ctas_level": 4, "followup_question": "Is this happening without any other symptoms like fever or headache?"}
+    ],
+    "ctas_level_guidance": {"2": "With meningitis-concerning symptoms.", "4": "Isolated, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature/SIRS modifier applied)"
+  },
+  {
+    "presenting_complaint": "Re-check eye",
+    "aliases": ["eye follow-up visit"],
+    "red_flags": [
+      {"indicator": "Worsening vision or new severe pain since last visit", "ctas_level": 3, "followup_question": "Has your vision or pain gotten worse since your last visit?"},
+      {"indicator": "Scheduled recheck, stable/improving", "ctas_level": 5, "followup_question": "Is this a scheduled follow-up and are things improving?"}
+    ],
+    "ctas_level_guidance": {"3": "Worsening.", "5": "Stable, scheduled recheck."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Visual disturbance",
+    "aliases": ["blurry vision", "vision changes", "loss of vision"],
+    "red_flags": [
+      {"indicator": "Sudden vision loss or curtain-like visual field loss (concern for retinal detachment/stroke)", "ctas_level": 2, "followup_question": "Did the vision change happen suddenly, or does it feel like a curtain coming across your vision?"},
+      {"indicator": "Gradual change, no other neuro symptoms", "ctas_level": 3, "followup_question": "Has this developed gradually rather than suddenly?"}
+    ],
+    "ctas_level_guidance": {"2": "Sudden vision loss.", "3": "Gradual, isolated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Amputation",
+    "aliases": ["severed limb/digit", "traumatic amputation"],
+    "red_flags": [
+      {"indicator": "Traumatic amputation of a digit", "ctas_level": 2, "followup_question": "Which digit or body part was amputated, and is the bleeding controlled?"},
+      {"indicator": "Major limb amputation with hemorrhage/shock", "ctas_level": 1, "followup_question": "Is there major uncontrolled bleeding, or are they feeling faint or losing consciousness?"}
+    ],
+    "ctas_level_guidance": {"1": "Major amputation with shock/uncontrolled hemorrhage.", "2": "Traumatic amputation of a digit (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Back pain",
+    "aliases": ["backache"],
+    "red_flags": [
+      {"indicator": "Severe pain with fever, saddle anesthesia, bowel/bladder dysfunction (cauda equina concern), or pulsatile abdominal mass (AAA concern)", "ctas_level": 2, "followup_question": "Do you have any numbness in the groin area, loss of bladder/bowel control, fever, or a pulsing sensation in your abdomen?"},
+      {"indicator": "Moderate pain (4-7/10), no red flags", "ctas_level": 3, "followup_question": "How severe is the pain, and is there any numbness or weakness in your legs?"},
+      {"indicator": "Mild pain, chronic/typical pattern", "ctas_level": 4, "followup_question": "Is this similar to back pain you've had before?"}
+    ],
+    "ctas_level_guidance": {"2": "Cauda equina or AAA red flags.", "3": "Moderate pain, no red flags.", "4": "Mild, typical."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Cast check",
+    "aliases": ["cast problem", "check my cast"],
+    "red_flags": [
+      {"indicator": "Tight cast with neurovascular symptoms (numbness, pallor, severe pain, no pulse distally)", "ctas_level": 3, "followup_question": "Do you have numbness, color change, or severe pain in the limb under the cast?"},
+      {"indicator": "No neurovascular symptoms, routine check", "ctas_level": 5, "followup_question": "Are you having any numbness, tingling, or color changes below the cast?"}
+    ],
+    "ctas_level_guidance": {"3": "Tight cast with neurovascular symptoms (Selected Special Complaints table).", "5": "Routine, no symptoms."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Joint(s) swelling",
+    "aliases": ["swollen joint"],
+    "red_flags": [
+      {"indicator": "Fever with a single hot, swollen, severely painful joint (concern for septic arthritis)", "ctas_level": 2, "followup_question": "Is the joint very hot, swollen, and do you have a fever?"},
+      {"indicator": "Hemarthrosis (joint bleeding) - moderate/minor bleed", "ctas_level": 3, "followup_question": "Do you have a bleeding disorder or are you on blood thinners, and did the joint swell suddenly after minor trauma?"},
+      {"indicator": "Mild, chronic joint swelling", "ctas_level": 4, "followup_question": "Has this swelling been present for a while without significant pain or fever?"}
+    ],
+    "ctas_level_guidance": {"2": "Suspected septic arthritis.", "3": "Hemarthrosis or moderate acute swelling.", "4": "Chronic, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25, 27-28 (Temperature/Bleeding Disorder modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Lower extremity injury",
+    "aliases": ["leg injury"],
+    "red_flags": [
+      {"indicator": "Obvious deformity", "ctas_level": 3, "followup_question": "Does the leg look visibly deformed or out of place?"},
+      {"indicator": "High-risk mechanism of injury or neurovascular compromise (no pulse/sensation distally)", "ctas_level": 2, "followup_question": "Can you feel and move your toes, and how did the injury happen?"},
+      {"indicator": "No deformity, mild swelling", "ctas_level": 4, "followup_question": "Is there any visible deformity, or mainly pain and swelling?"}
+    ],
+    "ctas_level_guidance": {"2": "Neurovascular compromise/high-risk MOI.", "3": "Obvious deformity (2nd order modifier).", "4": "No deformity, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Upper/lower extremity injury 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Lower extremity pain",
+    "aliases": ["leg pain"],
+    "red_flags": [
+      {"indicator": "Sudden severe pain with pallor/coolness/pulselessness (acute limb ischemia)", "ctas_level": 2, "followup_question": "Is the leg pale, cold, or numb along with the pain?"},
+      {"indicator": "Moderate pain, no vascular compromise", "ctas_level": 3, "followup_question": "How severe is the pain, and is there any swelling or redness?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you describe the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Vascular compromise.", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Traumatic back / spine injury",
+    "aliases": ["spine injury", "back injury"],
+    "red_flags": [
+      {"indicator": "High-risk mechanism of injury (MVC ejection/rollover, fall >18ft/6m, axial load) or neurological deficit", "ctas_level": 2, "followup_question": "Do you have any numbness, weakness, or loss of bladder/bowel control since the injury, and how did it happen?"},
+      {"indicator": "Prolonged spinal immobilization needed after major blunt trauma, otherwise stable", "ctas_level": 3, "followup_question": "Are you currently immobilized on a spine board, with no other severe injuries found?"},
+      {"indicator": "Low-risk mechanism, no neuro deficit", "ctas_level": 4, "followup_question": "Is there any numbness or weakness, or just localized pain?"}
+    ],
+    "ctas_level_guidance": {"2": "High-risk MOI or neuro deficit.", "3": "Prolonged spinal immobilization (Selected Special Complaints table).", "4": "Low-risk, no deficit."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29, 55 (Mechanism of Injury modifier, Selected Special Complaints table)"
+  },
+  {
+    "presenting_complaint": "Upper extremity injury",
+    "aliases": ["arm injury"],
+    "red_flags": [
+      {"indicator": "Obvious deformity", "ctas_level": 3, "followup_question": "Does the arm look visibly deformed?"},
+      {"indicator": "Neurovascular compromise (no pulse/sensation distally)", "ctas_level": 2, "followup_question": "Can you feel and move your fingers normally?"},
+      {"indicator": "No deformity, mild swelling", "ctas_level": 4, "followup_question": "Is there any visible deformity, or mainly pain and swelling?"}
+    ],
+    "ctas_level_guidance": {"2": "Neurovascular compromise.", "3": "Obvious deformity (2nd order modifier).", "4": "No deformity, mild."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.31 (Upper/lower extremity injury 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Upper extremity pain",
+    "aliases": ["arm pain"],
+    "red_flags": [
+      {"indicator": "Pain with signs of compartment syndrome (severe pain out of proportion, tense swelling)", "ctas_level": 2, "followup_question": "Is the pain much worse than expected, with tight, tense swelling?"},
+      {"indicator": "Moderate pain", "ctas_level": 3, "followup_question": "How severe is the pain, on a scale of 0-10?"},
+      {"indicator": "Mild pain", "ctas_level": 4, "followup_question": "Would you describe the pain as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Compartment syndrome concern.", "3": "Moderate pain.", "4": "Mild pain."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Allergic reaction",
+    "aliases": ["allergy", "hives"],
+    "red_flags": [
+      {"indicator": "Airway swelling, stridor, severe respiratory distress, or hemodynamic compromise (anaphylaxis)", "ctas_level": 1, "followup_question": "Is your throat or tongue swelling, or are you having severe trouble breathing?"},
+      {"indicator": "Moderate respiratory distress, significant hives/swelling", "ctas_level": 2, "followup_question": "Are you having any difficulty breathing or swallowing along with the rash/swelling?"},
+      {"indicator": "Mild hives/itching, no respiratory or systemic symptoms", "ctas_level": 4, "followup_question": "Is it just skin symptoms like itching or hives, without any breathing difficulty?"}
+    ],
+    "ctas_level_guidance": {"1": "Anaphylaxis with airway/hemodynamic compromise.", "2": "Moderate distress.", "3": "Mild distress.", "4": "Skin symptoms only."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Cough / congestion",
+    "aliases": ["cough", "chest congestion"],
+    "red_flags": [
+      {"indicator": "Moderate-severe respiratory distress (O2 sat <92%, increased work of breathing)", "ctas_level": 2, "followup_question": "Are you working hard to breathe, or is your oxygen level low if you've checked it?"},
+      {"indicator": "Mild respiratory distress, O2 92-94%", "ctas_level": 3, "followup_question": "Are you short of breath with activity, but able to speak in full sentences?"},
+      {"indicator": "No respiratory distress, O2 >94%", "ctas_level": 4, "followup_question": "Is your breathing comfortable at rest and with mild activity?"}
+    ],
+    "ctas_level_guidance": {"2": "Moderate distress.", "3": "Mild distress.", "4": "None/well-appearing."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier)"
+  },
+  {
+    "presenting_complaint": "Hemoptysis",
+    "aliases": ["coughing up blood"],
+    "red_flags": [
+      {"indicator": "Large volume hemoptysis or associated respiratory distress", "ctas_level": 2, "followup_question": "How much blood have you coughed up, and are you having any trouble breathing?"},
+      {"indicator": "Small amount (blood-streaked sputum), stable", "ctas_level": 3, "followup_question": "Is it just a small streak of blood in your sputum?"}
+    ],
+    "ctas_level_guidance": {"2": "Large volume/respiratory distress.", "3": "Small amount, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 27-28 (Respiratory Distress / Bleeding Disorder modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Hyperventilation",
+    "aliases": ["breathing too fast", "overbreathing"],
+    "red_flags": [
+      {"indicator": "Significant respiratory distress, chest pain, or altered LOC (rule out organic cause before attributing to anxiety)", "ctas_level": 2, "followup_question": "Along with the fast breathing, do you have chest pain, numbness, or feel confused?"},
+      {"indicator": "Situational, associated with anxiety, no other symptoms", "ctas_level": 3, "followup_question": "Does this happen with stress or anxiety, without chest pain or other symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Organic cause suspected.", "3": "Situational/anxiety-related."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 60 (Respiratory Distress modifier, Potential Triage Pitfalls - avoid assuming anxiety without ruling out physiologic findings)"
+  },
+  {
+    "presenting_complaint": "Respiratory arrest",
+    "aliases": ["stopped breathing", "not breathing"],
+    "red_flags": [
+      {"indicator": "Not breathing", "ctas_level": 1, "followup_question": "Is the person breathing at all right now?"}
+    ],
+    "ctas_level_guidance": {"1": "Respiratory arrest is a single-level complaint - always CTAS 1."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17, 55"
+  },
+  {
+    "presenting_complaint": "Respiratory foreign body",
+    "aliases": ["choking", "object in airway"],
+    "red_flags": [
+      {"indicator": "Airway compromise / unable to speak or cough", "ctas_level": 1, "followup_question": "Can the person speak, cough, or make any sound right now?"},
+      {"indicator": "Partial obstruction with stridor/marked distress", "ctas_level": 2, "followup_question": "Do you hear a high-pitched sound when they breathe, and are they very distressed?"},
+      {"indicator": "No respiratory distress, suspected aspiration", "ctas_level": 3, "followup_question": "Are they breathing comfortably now, even if something may have gone down the wrong way?"}
+    ],
+    "ctas_level_guidance": {"1": "Airway compromise.", "2": "Partial obstruction with marked distress.", "3": "No respiratory distress currently."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Shortness of breath",
+    "aliases": ["SOB", "difficulty breathing", "can't breathe", "dyspnea"],
+    "red_flags": [
+      {"indicator": "Severe respiratory distress: fatigue, cyanosis, single-word speech, unable to speak, upper airway obstruction, lethargic/confused, O2 sat <90%", "ctas_level": 1, "followup_question": "Can you speak in full sentences, or only single words or not at all?"},
+      {"indicator": "Moderate respiratory distress: increased work of breathing, speaking phrases/clipped sentences, O2 sat <92%", "ctas_level": 2, "followup_question": "Are you working hard to breathe or using extra muscles to breathe?"},
+      {"indicator": "Mild respiratory distress: dyspnea/tachypnea on exertion, able to speak in sentences, O2 sat 92-94%", "ctas_level": 3, "followup_question": "Are you short of breath mainly with activity but able to speak normally at rest?"},
+      {"indicator": "No respiratory distress, O2 sat >94%", "ctas_level": 4, "followup_question": "Is your breathing comfortable right now?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe respiratory distress (manual case example).", "2": "Moderate respiratory distress (manual case example).", "3": "Mild respiratory distress (manual case example).", "4": "None."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17-19, 22 (CTAS Level examples, Respiratory Distress modifier table)"
+  },
+  {
+    "presenting_complaint": "Stridor",
+    "aliases": ["noisy breathing", "high-pitched breathing sound"],
+    "red_flags": [
+      {"indicator": "Airway compromise - stridor hard to hear with extreme indrawing and distress", "ctas_level": 1, "followup_question": "Is the breathing sound very faint but with severe struggling to breathe?"},
+      {"indicator": "Marked stridor - inspiratory and expiratory stridor with indrawing", "ctas_level": 2, "followup_question": "Do you hear the sound both when breathing in and out, with visible chest indrawing?"},
+      {"indicator": "Audible stridor - easily heard at rest", "ctas_level": 3, "followup_question": "Can you easily hear the high-pitched sound while resting?"}
+    ],
+    "ctas_level_guidance": {"1": "Airway compromise.", "2": "Marked stridor.", "3": "Audible stridor at rest."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.52 (Stridor 2nd order modifier definitions)"
+  },
+  {
+    "presenting_complaint": "Wheezing – no other complaints",
+    "aliases": ["wheezing"],
+    "red_flags": [
+      {"indicator": "Moderate-severe respiratory distress with wheeze", "ctas_level": 2, "followup_question": "Are you working hard to breathe along with the wheezing?"},
+      {"indicator": "Mild wheeze, able to speak in sentences", "ctas_level": 3, "followup_question": "Are you able to speak in full sentences despite the wheezing?"},
+      {"indicator": "No distress", "ctas_level": 4, "followup_question": "Is your breathing otherwise comfortable?"}
+    ],
+    "ctas_level_guidance": {"2": "Moderate-severe distress.", "3": "Mild distress.", "4": "No distress."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Abrasion",
+    "aliases": ["scrape", "skin scrape"],
+    "red_flags": [
+      {"indicator": "Large surface area or high-risk mechanism of injury", "ctas_level": 3, "followup_question": "How large is the abraded area and how did the injury happen?"},
+      {"indicator": "Small, superficial, uncomplicated", "ctas_level": 5, "followup_question": "Is it a small, superficial scrape?"}
+    ],
+    "ctas_level_guidance": {"3": "Extensive/high-risk MOI.", "4": "Moderate.", "5": "Small, superficial (classified as an abrasion under moderate/minor bleeds)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier - abrasions and superficial lacerations classified as moderate/minor bleeds)"
+  },
+  {
+    "presenting_complaint": "Bite",
+    "aliases": ["animal bite", "insect bite", "human bite"],
+    "red_flags": [
+      {"indicator": "Deep bite with significant tissue loss, uncontrolled bleeding, or high-risk animal (rabies concern)", "ctas_level": 3, "followup_question": "How deep is the bite, and was it from an animal that might carry rabies (e.g. bat, unknown/wild animal)?"},
+      {"indicator": "Minor bite with mild acute peripheral pain", "ctas_level": 5, "followup_question": "Is this a minor bite without heavy bleeding?"}
+    ],
+    "ctas_level_guidance": {"3": "Deep/high-risk bite.", "5": "Minor bites +/- mild acute peripheral pain (level 5 example in manual)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19 (CTAS Level 5 case example)"
+  },
+  {
+    "presenting_complaint": "Blood and body fluid exposure",
+    "aliases": ["needlestick injury", "bodily fluid exposure"],
+    "red_flags": [
+      {"indicator": "High-risk exposure (e.g. known positive source, mucous membrane/deep percutaneous exposure)", "ctas_level": 2, "followup_question": "Was the exposure to a known high-risk source, or a deep needlestick or mucous membrane splash?"},
+      {"indicator": "Low risk exposure", "ctas_level": 3, "followup_question": "Was this a superficial or low-risk exposure?"}
+    ],
+    "ctas_level_guidance": {"3": "Low risk exposure (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Burn",
+    "aliases": ["burn injury"],
+    "red_flags": [
+      {"indicator": "Burn >25% body surface area (BSA)", "ctas_level": 2, "followup_question": "How much of your body surface is burned - would you estimate more or less than a quarter?"},
+      {"indicator": "Airway/inhalation involvement (facial burns, singed nasal hair, soot in airway)", "ctas_level": 2, "followup_question": "Was your face involved, or did you breathe in smoke?"},
+      {"indicator": "Smaller area, no airway involvement", "ctas_level": 3, "followup_question": "How large is the burned area and is your breathing normal?"}
+    ],
+    "ctas_level_guidance": {"2": "Burn >25% BSA (Selected Special Complaints table), or airway involvement.", "3": "Smaller area, no airway involvement.", "4": "Minor, small area."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Cyanosis",
+    "aliases": ["blue skin/lips"],
+    "red_flags": [
+      {"indicator": "Cyanosis with respiratory distress or altered LOC", "ctas_level": 1, "followup_question": "Along with the blue color, are they having severe trouble breathing or are they less responsive?"}
+    ],
+    "ctas_level_guidance": {"1": "Cyanosis is generally a sign of severe respiratory distress (CTAS 1 per Respiratory Distress table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier)"
+  },
+  {
+    "presenting_complaint": "Foreign body, skin",
+    "aliases": ["splinter", "object embedded in skin"],
+    "red_flags": [
+      {"indicator": "Deep embedded object with neurovascular concern or signs of infection", "ctas_level": 3, "followup_question": "Is the object deeply embedded, and is there any numbness or spreading redness?"},
+      {"indicator": "Superficial, minor", "ctas_level": 5, "followup_question": "Is it a small, superficial object like a splinter?"}
+    ],
+    "ctas_level_guidance": {"3": "Deep/complicated.", "5": "Superficial, minor."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.26-27 (Pain Severity modifier applied)"
+  },
+  {
+    "presenting_complaint": "Laceration / Puncture",
+    "aliases": ["cut", "deep cut", "puncture wound"],
+    "red_flags": [
+      {"indicator": "Uncontrolled bleeding or deep laceration (life/limb threatening bleed category)", "ctas_level": 2, "followup_question": "Is the bleeding uncontrolled even with direct pressure?"},
+      {"indicator": "Sutures required, active but controlled bleeding - CTAS Level 4 case example (3cm laceration, no active bleeding, pain 4/10)", "ctas_level": 4, "followup_question": "Is the bleeding controlled, and roughly how large and deep is the cut?"}
+    ],
+    "ctas_level_guidance": {"2": "Deep laceration/uncontrolled bleeding.", "4": "Laceration requiring sutures, controlled (manual case example: 3cm laceration, pain 4/10)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19, 27-28, 55 (CTAS Level 4 case example, Bleeding Disorder modifier, Selected Special Complaints table)"
+  },
+  {
+    "presenting_complaint": "Localized swelling / redness",
+    "aliases": ["skin swelling", "localized redness"],
+    "red_flags": [
+      {"indicator": "Rapidly spreading redness, severe pain out of proportion, fever, or dark/black skin discoloration (necrotizing fasciitis concern)", "ctas_level": 2, "followup_question": "Is the redness spreading quickly, is the pain worse than expected, or is any skin turning dark?"},
+      {"indicator": "Localized, stable, no systemic signs", "ctas_level": 4, "followup_question": "Is the swelling/redness staying in one area without spreading quickly?"}
+    ],
+    "ctas_level_guidance": {"2": "Necrotizing fasciitis concern (Potential Triage Pitfall).", "4": "Localized inflammation (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55, 60"
+  },
+  {
+    "presenting_complaint": "Lumps, bumps, calluses",
+    "aliases": ["skin lump", "callus"],
+    "red_flags": [
+      {"indicator": "Rapid growth, pain, or systemic symptoms", "ctas_level": 4, "followup_question": "Has this grown quickly or become painful?"},
+      {"indicator": "Chronic, stable, asymptomatic", "ctas_level": 5, "followup_question": "Has this been stable and unchanged for a long time?"}
+    ],
+    "ctas_level_guidance": {"4": "New/changing.", "5": "Chronic, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Other skin conditions",
+    "aliases": ["skin problem NOS"],
+    "red_flags": [
+      {"indicator": "Signs of systemic illness (fever, spreading, blistering of large body surface)", "ctas_level": 3, "followup_question": "Do you have a fever, or is the skin condition spreading quickly or blistering?"},
+      {"indicator": "Localized, no systemic symptoms", "ctas_level": 4, "followup_question": "Is this localized without fever or other symptoms?"}
+    ],
+    "ctas_level_guidance": {"3": "Systemic symptoms.", "4": "Localized, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature/SIRS modifier applied)"
+  },
+  {
+    "presenting_complaint": "Pruritis",
+    "aliases": ["itching", "itchy skin"],
+    "red_flags": [
+      {"indicator": "Associated with airway swelling or respiratory distress (anaphylaxis)", "ctas_level": 1, "followup_question": "Along with the itching, is your throat or face swelling, or do you have trouble breathing?"},
+      {"indicator": "Widespread, distressing itch, no respiratory symptoms", "ctas_level": 4, "followup_question": "Is the itching widespread and bothersome, without any breathing difficulty?"}
+    ],
+    "ctas_level_guidance": {"1": "With anaphylaxis signs.", "4": "Uncomplicated itching."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Rash",
+    "aliases": ["skin rash"],
+    "red_flags": [
+      {"indicator": "Rash with airway swelling, tight throat, dizziness (anaphylaxis pattern)", "ctas_level": 2, "followup_question": "Along with the rash, is your throat feeling tight or are you feeling dizzy?"},
+      {"indicator": "Rash with fever and looking unwell (concern for meningococcemia or other serious infection)", "ctas_level": 2, "followup_question": "Do you have a fever, and does the rash look like small bruises or dark spots that don't fade with pressure?"},
+      {"indicator": "Widespread rash, well-appearing, no fever", "ctas_level": 4, "followup_question": "Do you feel well otherwise, without fever?"}
+    ],
+    "ctas_level_guidance": {"2": "Anaphylaxis or sepsis-pattern rash.", "4": "Well-appearing, no systemic signs."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22, 25 (Respiratory Distress / Temperature-SIRS modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Redness / tenderness, breast",
+    "aliases": ["breast redness", "mastitis symptoms"],
+    "red_flags": [
+      {"indicator": "Fever with spreading redness (mastitis/abscess concern)", "ctas_level": 3, "followup_question": "Do you have a fever along with the breast redness and tenderness?"},
+      {"indicator": "Mild, localized, no fever", "ctas_level": 4, "followup_question": "Is it localized without fever?"}
+    ],
+    "ctas_level_guidance": {"3": "Fever/spreading infection.", "4": "Mild, localized."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature/SIRS modifier applied)"
+  },
+  {
+    "presenting_complaint": "Removal staples / stitches",
+    "aliases": ["suture removal"],
+    "red_flags": [
+      {"indicator": "Signs of wound infection or dehiscence", "ctas_level": 4, "followup_question": "Does the wound look infected, red, swollen, or is it coming apart?"},
+      {"indicator": "Routine, healing well", "ctas_level": 5, "followup_question": "Is the wound healing well with no signs of infection?"}
+    ],
+    "ctas_level_guidance": {"4": "Infection/dehiscence signs.", "5": "Routine removal."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Rule out infestation",
+    "aliases": ["lice", "scabies concern"],
+    "red_flags": [
+      {"indicator": "Widespread, severe itching, secondary skin infection", "ctas_level": 4, "followup_question": "Is the itching severe, and does the skin look infected?"},
+      {"indicator": "Mild, no infection signs", "ctas_level": 5, "followup_question": "Is this mild without signs of skin infection?"}
+    ],
+    "ctas_level_guidance": {"4": "Secondary infection.", "5": "Mild, uncomplicated."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Spontaneous bruising",
+    "aliases": ["unexplained bruising", "easy bruising"],
+    "red_flags": [
+      {"indicator": "Extensive bruising with bleeding disorder history or suspected internal bleeding", "ctas_level": 2, "followup_question": "Do you have a bleeding disorder or take blood thinners, and is the bruising extensive or in unusual places?"},
+      {"indicator": "Limited, no bleeding disorder, stable", "ctas_level": 4, "followup_question": "Is the bruising limited to a small area?"}
+    ],
+    "ctas_level_guidance": {"2": "Bleeding disorder/extensive bruising.", "4": "Limited, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.27-28 (Bleeding Disorder modifier applied)"
+  },
+  {
+    "presenting_complaint": "Sting",
+    "aliases": ["bee sting", "insect sting"],
+    "red_flags": [
+      {"indicator": "Airway swelling, respiratory distress, or hemodynamic compromise (anaphylaxis)", "ctas_level": 1, "followup_question": "Is your throat swelling or are you having severe trouble breathing after the sting?"},
+      {"indicator": "Localized swelling/pain only", "ctas_level": 5, "followup_question": "Is the reaction limited to swelling and pain at the sting site?"}
+    ],
+    "ctas_level_guidance": {"1": "Anaphylaxis.", "5": "Localized reaction only."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22 (Respiratory Distress modifier applied)"
+  },
+  {
+    "presenting_complaint": "Wound check",
+    "aliases": ["wound follow-up"],
+    "red_flags": [
+      {"indicator": "Signs of infection (spreading redness, fever, increased pain, pus)", "ctas_level": 4, "followup_question": "Does the wound look infected - more red, swollen, or draining pus - or do you have a fever?"},
+      {"indicator": "Healing well, routine check", "ctas_level": 5, "followup_question": "Is the wound healing as expected?"}
+    ],
+    "ctas_level_guidance": {"4": "Signs of infection.", "5": "Routine, healing well."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature/SIRS modifier applied)"
+  },
+  {
+    "presenting_complaint": "Overdose ingestion",
+    "aliases": ["drug overdose", "took too many pills"],
+    "red_flags": [
+      {"indicator": "Altered LOC (GCS<9), respiratory depression, or hemodynamic instability", "ctas_level": 1, "followup_question": "Are they awake and breathing normally right now?"},
+      {"indicator": "Altered LOC (GCS 10-13) or ingestion of a potentially lethal substance/dose", "ctas_level": 2, "followup_question": "What substance and how much was taken, and are they drowsy or confused?"},
+      {"indicator": "Alert, stable, low-risk ingestion", "ctas_level": 3, "followup_question": "Are they fully alert, and was the ingestion a smaller or less dangerous amount?"}
+    ],
+    "ctas_level_guidance": {"1": "GCS 3-9 or respiratory/hemodynamic compromise.", "2": "GCS 10-13 or high-risk substance/dose.", "3": "Alert, low-risk."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23-24 (Hemodynamic/LOC modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Substance misuse / Intoxication",
+    "aliases": ["drunk", "high", "intoxicated"],
+    "red_flags": [
+      {"indicator": "Altered LOC, respiratory depression, or aggressive/violent behaviour posing safety risk", "ctas_level": 2, "followup_question": "Are they alert and cooperative, or drowsy, confused, or aggressive?"},
+      {"indicator": "Awake, cooperative, stable vital signs", "ctas_level": 3, "followup_question": "Are they able to answer questions and walk safely?"}
+    ],
+    "ctas_level_guidance": {"2": "Altered LOC/safety risk.", "3": "Stable, cooperative."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23-24, 58-59 (Hemodynamic/LOC modifiers, Mental Health safety-risk definitions applied)"
+  },
+  {
+    "presenting_complaint": "Substance withdrawal",
+    "aliases": ["withdrawal symptoms", "detox symptoms"],
+    "red_flags": [
+      {"indicator": "Seizure, hallucinations (delirium tremens), or significant hemodynamic instability", "ctas_level": 2, "followup_question": "Have you had any seizures, hallucinations, or a racing heart along with the withdrawal symptoms?"},
+      {"indicator": "Moderate symptoms (tremor, anxiety, nausea), stable vitals", "ctas_level": 3, "followup_question": "Are you shaky, anxious, or nauseated, but otherwise feeling stable?"},
+      {"indicator": "Mild symptoms", "ctas_level": 4, "followup_question": "Would you describe your withdrawal symptoms as mild?"}
+    ],
+    "ctas_level_guidance": {"2": "Seizure/DTs risk.", "3": "Moderate symptoms.", "4": "Mild symptoms."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23-25 (Hemodynamic/LOC/Temperature modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Isolated abdominal trauma – blunt",
+    "aliases": ["blunt abdominal injury"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise / shock, or high-risk MOI (impact >40-60km/h, rollover, ejection)", "ctas_level": 1, "followup_question": "Are you feeling faint, weak, or dizzy since the injury, and how fast was the impact?"},
+      {"indicator": "Bleeding disorder-relevant bleed location (abdomen classified as life/limb threatening bleed site)", "ctas_level": 2, "followup_question": "Is there any significant pain in your abdomen, and do you have a bleeding disorder or take blood thinners?"},
+      {"indicator": "Stable, low-risk mechanism", "ctas_level": 3, "followup_question": "Was this a lower-speed or lower-impact incident, and are you feeling stable?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock.", "2": "High-risk MOI or abdominal bleed (life/limb threatening bleed site).", "3": "Stable, low-risk mechanism."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 27-29 (Hemodynamic / Bleeding Disorder / MOI modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Isolated abdominal trauma – penetrating",
+    "aliases": ["stab wound abdomen", "gunshot wound abdomen"],
+    "red_flags": [
+      {"indicator": "Any penetrating injury to the abdomen (high-risk mechanism per manual's General Trauma MOI table)", "ctas_level": 2, "followup_question": "Where exactly did the penetrating object enter, and is there heavy bleeding?"},
+      {"indicator": "Hemodynamic compromise / shock", "ctas_level": 1, "followup_question": "Are you feeling faint or very weak?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock.", "2": "Penetrating injury to torso is a high-risk mechanism of injury (CTAS 2 minimum)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29 (Mechanism of Injury - General Trauma, penetrating injury to torso)"
+  },
+  {
+    "presenting_complaint": "Isolated chest trauma – blunt",
+    "aliases": ["blunt chest injury"],
+    "red_flags": [
+      {"indicator": "Respiratory distress, hemodynamic compromise, or high-risk MOI", "ctas_level": 1, "followup_question": "Are you having severe trouble breathing or feeling faint since the chest injury?"},
+      {"indicator": "Chest is a life/limb threatening bleed site under the Bleeding Disorder modifier", "ctas_level": 2, "followup_question": "How severe is the chest pain, and how did the injury occur?"},
+      {"indicator": "Stable, minor injury", "ctas_level": 3, "followup_question": "Is your breathing comfortable and the pain manageable?"}
+    ],
+    "ctas_level_guidance": {"1": "Severe respiratory distress/shock.", "2": "Chest bleed site or high-risk MOI.", "3": "Stable, minor."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-23, 27-29 (Respiratory Distress/Hemodynamic/Bleeding Disorder/MOI modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Isolated chest – penetrating",
+    "aliases": ["stab wound chest", "gunshot wound chest"],
+    "red_flags": [
+      {"indicator": "Any penetrating chest injury (high-risk mechanism)", "ctas_level": 2, "followup_question": "Where did the penetrating injury occur, and is there heavy bleeding or trouble breathing?"},
+      {"indicator": "Hemodynamic/respiratory compromise", "ctas_level": 1, "followup_question": "Are you having severe difficulty breathing or feeling faint?"}
+    ],
+    "ctas_level_guidance": {"1": "Respiratory/hemodynamic compromise.", "2": "Penetrating injury to torso (high-risk MOI, CTAS 2 minimum)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29 (Mechanism of Injury - General Trauma, penetrating injury to torso)"
+  },
+  {
+    "presenting_complaint": "Major trauma – blunt",
+    "aliases": ["multi-system trauma", "blunt polytrauma"],
+    "red_flags": [
+      {"indicator": "Shock, in obvious distress with unstable vital signs", "ctas_level": 1, "followup_question": "Are they showing obvious signs of distress with unstable vital signs?"},
+      {"indicator": "No obvious injury but pedestrian struck by vehicle travelling at speed - CTAS Level 2 case example", "ctas_level": 2, "followup_question": "Was this a pedestrian struck by a fast-moving vehicle, even without obvious visible injury?"},
+      {"indicator": "Prolonged spinal immobilization required, otherwise stable", "ctas_level": 3, "followup_question": "Are they currently immobilized on a spine board with no severe injuries identified yet?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock (manual case example).", "2": "High-energy mechanism, no obvious injury (manual case example: pedestrian struck at speed).", "3": "Prolonged spinal immobilization (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17-18, 55 (CTAS Level case examples, Selected Special Complaints table)"
+  },
+  {
+    "presenting_complaint": "Major trauma – penetrating",
+    "aliases": ["multi-system penetrating trauma", "gunshot/stab polytrauma"],
+    "red_flags": [
+      {"indicator": "Shock / major trauma with unstable vital signs", "ctas_level": 1, "followup_question": "Are they showing signs of shock with unstable vital signs?"},
+      {"indicator": "Penetrating injury to torso, proximal extremities, or high-risk location", "ctas_level": 2, "followup_question": "Where is the penetrating injury located?"}
+    ],
+    "ctas_level_guidance": {"1": "Shock/major trauma.", "2": "Penetrating injury, high-risk location (Mechanism of Injury table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.17, 29 (CTAS Level 1 definition, Mechanism of Injury modifier)"
+  },
+  {
+    "presenting_complaint": "Abnormal lab values",
+    "aliases": ["abnormal blood test", "critical lab result"],
+    "red_flags": [
+      {"indicator": "Critical/panic value with symptomatic patient", "ctas_level": 2, "followup_question": "Do you know which lab value was abnormal, and are you having any symptoms right now?"},
+      {"indicator": "Abnormal but stable, asymptomatic", "ctas_level": 4, "followup_question": "Are you feeling well despite the abnormal result?"}
+    ],
+    "ctas_level_guidance": {"2": "Critical/symptomatic.", "4": "Stable, asymptomatic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Direct referral for consultation",
+    "aliases": ["physician referral", "specialist referral"],
+    "red_flags": [
+      {"indicator": "Referral indicates urgent condition per referring provider", "ctas_level": 3, "followup_question": "Did the referring provider indicate this needs to be seen urgently?"},
+      {"indicator": "Routine, non-urgent referral", "ctas_level": 5, "followup_question": "Is this a routine referral without urgent concerns noted?"}
+    ],
+    "ctas_level_guidance": {"3": "Urgent referral.", "5": "Routine referral."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Dressing change",
+    "aliases": ["change bandage"],
+    "red_flags": [
+      {"indicator": "Signs of wound infection under dressing (fever, increased pain, spreading redness)", "ctas_level": 4, "followup_question": "Does the wound look infected or do you have a fever?"},
+      {"indicator": "Uncomplicated dressing change - CTAS Level 5 case example", "ctas_level": 5, "followup_question": "Is this a routine dressing change with no other issues?"}
+    ],
+    "ctas_level_guidance": {"4": "Signs of infection.", "5": "Uncomplicated (manual case example)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19 (CTAS Level 5 case example)"
+  },
+  {
+    "presenting_complaint": "Exposure to communicable disease",
+    "aliases": ["exposed to infectious disease"],
+    "red_flags": [
+      {"indicator": "None - typically non-urgent unless symptomatic", "ctas_level": 5, "followup_question": "Are you having any symptoms yourself, or just concerned about exposure?"}
+    ],
+    "ctas_level_guidance": {"5": "Exposure to communicable diseases is a single-level complaint (Selected Special Complaints table)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.55"
+  },
+  {
+    "presenting_complaint": "Fever",
+    "aliases": ["high temperature", "feeling feverish"],
+    "red_flags": [
+      {"indicator": "Immunocompromised (neutropenia/suspected, chemotherapy, immunosuppressive drugs)", "ctas_level": 2, "followup_question": "Are you currently on chemotherapy, steroids, or any other medication that weakens your immune system?"},
+      {"indicator": "Looks septic - 3 positive SIRS criteria or hemodynamic compromise/moderate resp distress/altered LOC", "ctas_level": 2, "followup_question": "Along with the fever, do you feel very unwell, confused, or short of breath?"},
+      {"indicator": "Looks unwell - 1-2 positive SIRS criteria, flushed/lethargic/anxious/agitated", "ctas_level": 3, "followup_question": "Do you look and feel quite unwell with the fever, even if not extremely so?"},
+      {"indicator": "Looks well - fever is the only finding, comfortable, no distress", "ctas_level": 4, "followup_question": "Aside from the fever itself, do you feel comfortable and not in distress?"}
+    ],
+    "ctas_level_guidance": {"2": "Immunocompromised, or looks septic.", "3": "Looks unwell.", "4": "Looks well, fever only."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.25 (Temperature modifier, SIRS definitions)"
+  },
+  {
+    "presenting_complaint": "Hyperglycemia",
+    "aliases": ["high blood sugar"],
+    "red_flags": [
+      {"indicator": "Blood glucose >18mmol/L with dyspnea, dehydration, tachypnea, thirst, polyuria, weakness (DKA/HHS pattern)", "ctas_level": 2, "followup_question": "Do you know your blood sugar reading, and are you feeling short of breath, very thirsty, or weak?"},
+      {"indicator": "Blood glucose >18mmol/L, no symptoms", "ctas_level": 3, "followup_question": "Is your blood sugar high but you otherwise feel okay?"}
+    ],
+    "ctas_level_guidance": {"2": "High glucose with symptoms.", "3": "High glucose, asymptomatic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29-30 (Blood Glucose Level 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Hypoglycemia",
+    "aliases": ["low blood sugar"],
+    "red_flags": [
+      {"indicator": "Blood glucose <3mmol/L with confusion, diaphoresis, behavioural change, seizure, or acute focal deficits", "ctas_level": 2, "followup_question": "Do you know your blood sugar reading, and are you feeling confused, sweaty, or shaky?"},
+      {"indicator": "Blood glucose <3mmol/L, no symptoms", "ctas_level": 3, "followup_question": "Is your blood sugar low but you feel otherwise fine?"}
+    ],
+    "ctas_level_guidance": {"2": "Low glucose with symptoms.", "3": "Low glucose, asymptomatic."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.29-30 (Blood Glucose Level 2nd order modifier)"
+  },
+  {
+    "presenting_complaint": "Imaging tests",
+    "aliases": ["MRI/CT/X-ray appointment", "patient returning for imaging"],
+    "red_flags": [
+      {"indicator": "None - scheduled imaging visit is non-urgent by nature", "ctas_level": 5, "followup_question": "Is this a scheduled imaging appointment, and do you have any new symptoms today?"}
+    ],
+    "ctas_level_guidance": {"5": "Imaging tests is a single-level complaint (Selected Special Complaints table); also given as a CEDIS example (patient returning to ED for MRI test)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.20, 55"
+  },
+  {
+    "presenting_complaint": "Medical device problem",
+    "aliases": ["device malfunction", "catheter/tube/line problem"],
+    "red_flags": [
+      {"indicator": "Device malfunction causing acute physiologic compromise (e.g. blocked catheter with respiratory/hemodynamic effect)", "ctas_level": 2, "followup_question": "Is the device malfunction causing you breathing trouble, severe pain, or feeling unwell?"},
+      {"indicator": "Malfunction without acute compromise", "ctas_level": 4, "followup_question": "Are you otherwise feeling well despite the device problem?"}
+    ],
+    "ctas_level_guidance": {"2": "Acute physiologic compromise.", "4": "Stable, no acute compromise."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-24 (generic vital sign modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Minor complaints NOS",
+    "aliases": ["minor complaint not otherwise specified"],
+    "red_flags": [
+      {"indicator": "Any distress or vital sign abnormality on critical look", "ctas_level": 3, "followup_question": "Are you in any distress or discomfort right now?"},
+      {"indicator": "No distress, stable", "ctas_level": 5, "followup_question": "Would you say this is a minor issue without significant discomfort?"}
+    ],
+    "ctas_level_guidance": {"5": "Minor, no distress."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Pallor / Anemia",
+    "aliases": ["looking pale", "low blood count"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise or shock (severe anemia/active bleeding)", "ctas_level": 2, "followup_question": "Do you feel faint, dizzy, or very weak along with looking pale?"},
+      {"indicator": "Stable vital signs, known chronic anemia", "ctas_level": 4, "followup_question": "Is this a known, longstanding anemia without new symptoms?"}
+    ],
+    "ctas_level_guidance": {"2": "Hemodynamic compromise.", "4": "Chronic, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23 (Hemodynamic Status modifier applied)"
+  },
+  {
+    "presenting_complaint": "Postoperative complications",
+    "aliases": ["post-surgery problem", "surgical complication"],
+    "red_flags": [
+      {"indicator": "Hemodynamic compromise, severe pain, wound dehiscence with evisceration, or signs of sepsis", "ctas_level": 2, "followup_question": "Are you feeling faint or very unwell, or has the surgical wound opened up?"},
+      {"indicator": "Fever or moderate pain, stable vitals", "ctas_level": 3, "followup_question": "Do you have a fever, and how severe is the pain at the surgical site?"},
+      {"indicator": "Mild symptoms, stable", "ctas_level": 4, "followup_question": "Are your symptoms mild and manageable?"}
+    ],
+    "ctas_level_guidance": {"2": "Hemodynamic compromise/sepsis/dehiscence.", "3": "Fever/moderate pain.", "4": "Mild, stable."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.23, 25-27 (Hemodynamic/Temperature/Pain modifiers applied)"
+  },
+  {
+    "presenting_complaint": "Prescription / Medication request",
+    "aliases": ["medication refill", "prescription renewal"],
+    "red_flags": [
+      {"indicator": "Symptoms of a medication-related emergency (e.g. missed critical medication causing acute illness)", "ctas_level": 3, "followup_question": "Are you experiencing any symptoms from missing this medication?"},
+      {"indicator": "Routine refill request, no acute symptoms - CTAS Level 5 example", "ctas_level": 5, "followup_question": "Is this a routine refill without any new symptoms?"}
+    ],
+    "ctas_level_guidance": {"5": "Medication request (CTAS Level 5 example in manual)."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.19"
+  },
+  {
+    "presenting_complaint": "Ring removal",
+    "aliases": ["stuck ring"],
+    "red_flags": [
+      {"indicator": "Significant swelling with neurovascular compromise of the finger", "ctas_level": 3, "followup_question": "Is the finger numb, discolored, or losing circulation because of the ring?"},
+      {"indicator": "Mild swelling, no neurovascular compromise", "ctas_level": 5, "followup_question": "Is the finger otherwise normal in color and sensation?"}
+    ],
+    "ctas_level_guidance": {"3": "Neurovascular compromise.", "5": "Mild, no compromise."},
+    "source": "CTAS Participant Manual v2.5b (Nov 2013)",
+    "source_pages": "p.22-31 (generic modifiers applied)"
+  }
+]
