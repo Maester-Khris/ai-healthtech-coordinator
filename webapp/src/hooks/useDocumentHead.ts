@@ -24,5 +24,7 @@ export function useDocumentHead(title: string, description: string) {
     setMeta('description', description)
     setMeta('og:title', fullTitle, 'property')
     setMeta('og:description', description, 'property')
+    setMeta('twitter:title', fullTitle)
+    setMeta('twitter:description', description)
   }, [title, description])
 }
