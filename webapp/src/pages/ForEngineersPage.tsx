@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CaretRight, MagnifyingGlass } from '@phosphor-icons/react'
 import { CASE_STUDIES } from '../data/caseStudies'
 import { filterCaseStudies } from '../utils/caseStudyContent'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 const ACCENT_STYLES = {
   mint: {
@@ -28,6 +29,11 @@ const ACCENT_STYLES = {
 const PRIMARY_TAGS = CASE_STUDIES.map((cs) => cs.tags[0])
 
 export default function ForEngineersPage() {
+  useDocumentHead(
+    'Engineering Blog',
+    'System deep-dives from the MediCoord AI engineering team: architecture, infrastructure, AI models, security, and what we learned building each.'
+  )
+
   const [query, setQuery] = useState('')
   const [activeTag, setActiveTag] = useState<string | null>(null)
 
@@ -105,7 +111,7 @@ export default function ForEngineersPage() {
             <span className="text-[10px] font-mono font-bold text-[#7AA0B0] uppercase tracking-widest">Status</span>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#48F6C1]" />
-              <span className="text-sm font-bold text-white">{CASE_STUDIES.length} Live Systems</span>
+              <span className="text-sm font-bold text-white">{`${CASE_STUDIES.length} Live Systems`}</span>
             </div>
           </div>
         </aside>
@@ -146,7 +152,7 @@ export default function ForEngineersPage() {
                         {cs.category}
                       </span>
                     </div>
-                    <span className="text-xs font-mono text-[#7AA0B0] whitespace-nowrap">{cs.readTimeMinutes} MIN READ</span>
+                    <span className="text-xs font-mono text-[#7AA0B0] whitespace-nowrap">{`${cs.readTimeMinutes} MIN READ`}</span>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">

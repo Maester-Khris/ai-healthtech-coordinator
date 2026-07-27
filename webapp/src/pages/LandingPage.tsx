@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { LoginModal } from '../components/auth/LoginModal'
 import { useAuth } from '../auth/useAuth'
+import { useDocumentHead } from '../hooks/useDocumentHead'
+import { loadAnalytics } from '../lib/analytics'
 import {
   MagnifyingGlass,
   Command,
@@ -34,6 +36,54 @@ const SAMPLE_CHIPS = [
   { text: "Urgent care for cut", query: "Urgent care clinic for deep cut" },
   { text: "Nearest ER", query: "Nearest ER with low wait time" }
 ]
+
+// Shared by the "How it works" section and its HowTo schema below — one source of truth.
+const HOW_IT_WORKS_STEPS = [
+  {
+    id: 1,
+    title: "1. You describe it",
+    tagline: "Plain words, no medical jargon",
+    desc: "Describe your situation in plain language. The AI asks follow-up questions to understand your symptoms fully.",
+    icon: Sparkle
+  },
+  {
+    id: 2,
+    title: "2. We assess it",
+    tagline: "Clinical context, understood",
+    desc: "Your description is mapped to clinical severity and the right type of care — without replacing a doctor's judgment.",
+    icon: Stethoscope
+  },
+  {
+    id: 3,
+    title: "3. We route you there",
+    tagline: "Nearest care, fastest total time",
+    desc: "Travel time plus live wait queue — so you arrive at the facility where you'll be seen soonest.",
+    icon: TrafficSign
+  }
+] as const
+
+const FAQ_ITEMS = [
+  {
+    q: "Is MediCoord AI a diagnosis tool?",
+    a: "No. MediCoord AI classifies the urgency of your symptoms and routes you to the right type of facility — it does not diagnose conditions and is not a substitute for professional medical advice. For life-threatening emergencies, call emergency services directly."
+  },
+  {
+    q: "Where does MediCoord AI work?",
+    a: "MediCoord AI currently covers Toronto, Ontario, routing patients across the city's hospitals, urgent care clinics, and walk-in facilities using real Canadian public health data."
+  },
+  {
+    q: "Is my symptom description stored?",
+    a: "No. Your description is used only for the current session's routing decision — it is never stored beyond your session or used to train any AI model."
+  },
+  {
+    q: "How does MediCoord AI pick a facility?",
+    a: "It combines your classified severity with live facility wait queues and real-time driving/transit time, so you're routed to wherever you'll actually be seen soonest — not just the geographically nearest option."
+  },
+  {
+    q: "Do I need an account to use it?",
+    a: "No appointment, referral, or account is required to describe your symptoms and get routed to a facility."
+  }
+] as const
 
 // Facility Coordinates (matching the generated base_map_canvas.png landmarks)
 const HOSPITAL_PIN = { left: '28%', top: '50%' }
@@ -67,6 +117,26 @@ const FAMILY_PATH = [
   { left: '58', top: '46' },
   { left: '58', top: '51' }
 ]
+
+type CookieSettings = { zoom: boolean; history: boolean; analytics: boolean }
+const COOKIE_CONSENT_KEY = 'medicoord_cookie_consent'
+
+function loadStoredConsent(): CookieSettings | null {
+  try {
+    const raw = localStorage.getItem(COOKIE_CONSENT_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function persistConsent(settings: CookieSettings) {
+  try {
+    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(settings))
+  } catch {
+    // localStorage unavailable (private browsing, etc.) — consent just won't persist across reloads
+  }
+}
 
 // Path interpolation function
 function interpolatePath(path: { left: string; top: string }[], progress: number) {
@@ -111,19 +181,24 @@ export default function LandingPage() {
   const [parsedIntents, setParsedIntents] = useState<string[]>([])
   const [parseComplete, setParseComplete] = useState(false)
 
-  // Cookie Controller states
-  const [cookieBannerOpen, setCookieBannerOpen] = useState(false)
+  // Cookie Controller states — synchronous lazy initializer (matches
+  // cookieSettings below) so the decision is made in the first render pass,
+  // not a post-mount effect: keeps prerendered HTML and hydration in sync.
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(() => !loadStoredConsent())
+  const [showPreferences, setShowPreferences] = useState(false)
+  const [cookieSettings, setCookieSettings] = useState<CookieSettings>(
+    () => loadStoredConsent() ?? { zoom: true, history: true, analytics: false }
+  )
+  const [activeStep, setActiveStep] = useState(1)
+
+  useDocumentHead(
+    'Find Urgent Care & ERs Near You — MediCoord AI Toronto',
+    "Describe your symptoms and MediCoord AI finds the nearest clinic, urgent care, or ER in Toronto with real wait times. Know where to go before you go."
+  )
 
   useEffect(() => {
-    setCookieBannerOpen(true)
-  }, [])
-  const [showPreferences, setShowPreferences] = useState(false)
-  const [cookieSettings, setCookieSettings] = useState({
-    zoom: true,
-    history: true,
-    analytics: false
-  })
-  const [activeStep, setActiveStep] = useState(1)
+    if (cookieSettings.analytics) loadAnalytics()
+  }, [cookieSettings.analytics])
 
   // Animation timeline state (0 to 12 seconds)
   const [time, setTime] = useState(0)
@@ -844,29 +919,7 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Step Selector Tabs */}
           <div className="lg:col-span-4 flex flex-col gap-4 w-full">
-            {[
-              {
-                id: 1,
-                title: "1. You describe it",
-                tagline: "Plain words, no medical jargon",
-                desc: "Describe your situation in plain language. The AI asks follow-up questions to understand your symptoms fully.",
-                icon: Sparkle
-              },
-              {
-                id: 2,
-                title: "2. We assess it",
-                tagline: "Clinical context, understood",
-                desc: "Your description is mapped to clinical severity and the right type of care — without replacing a doctor's judgment.",
-                icon: Stethoscope
-              },
-              {
-                id: 3,
-                title: "3. We route you there",
-                tagline: "Nearest care, fastest total time",
-                desc: "Travel time plus live wait queue — so you arrive at the facility where you'll be seen soonest.",
-                icon: TrafficSign
-              }
-            ].map((step) => {
+            {HOW_IT_WORKS_STEPS.map((step) => {
               const Icon = step.icon;
               return (
                 <button
@@ -906,7 +959,7 @@ export default function LandingPage() {
                 </span>
               </div>
               <span className="text-[10px] font-mono text-[#7AA0B0] bg-[#132E3C]/60 px-2.5 py-1 rounded border border-[#1C4659]/50">
-                STAGE {activeStep} / 3
+                {`STAGE ${activeStep} / 3`}
               </span>
             </div>
 
@@ -1079,6 +1132,53 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* HowTo structured data for the "How it works" section above */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How MediCoord AI routes you to the right facility",
+            "step": HOW_IT_WORKS_STEPS.map((step) => ({
+              "@type": "HowToStep",
+              "name": step.title.replace(/^\d+\.\s*/, ''),
+              "text": step.desc
+            }))
+          })
+        }}
+      />
+
+      {/* FAQ Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24 border-t border-[#132A37]/80 w-full flex flex-col gap-10 relative z-20">
+        <div className="flex flex-col gap-3">
+          <div className="text-xs font-bold uppercase tracking-widest text-[#00D2FF]">FAQ</div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white">Common questions</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {FAQ_ITEMS.map((item) => (
+            <div key={item.q} className="flex flex-col gap-2 border border-[#1C4659]/50 bg-[#0A1D27]/80 rounded-2xl p-6">
+              <h3 className="text-sm font-bold text-white">{item.q}</h3>
+              <p className="text-sm text-[#85A4B1] leading-relaxed">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": FAQ_ITEMS.map((item) => ({
+              "@type": "Question",
+              "name": item.q,
+              "acceptedAnswer": { "@type": "Answer", "text": item.a }
+            }))
+          })
+        }}
+      />
+
       {/* Modern Contextual Cookie Banner */}
       <AnimatePresence>
         {cookieBannerOpen && (
@@ -1110,7 +1210,12 @@ export default function LandingPage() {
                 </button>
 
                 <button
-                  onClick={() => setCookieBannerOpen(false)}
+                  onClick={() => {
+                    const settings: CookieSettings = { zoom: true, history: true, analytics: true }
+                    setCookieSettings(settings)
+                    persistConsent(settings)
+                    setCookieBannerOpen(false)
+                  }}
                   className="px-4 py-1.5 rounded-lg bg-[#48F6C1] hover:bg-[#3ce0ad] text-xs font-bold text-[#061219] shadow-sm transition-colors cursor-pointer"
                 >
                   Accept
@@ -1196,6 +1301,7 @@ export default function LandingPage() {
                   </button>
                   <button
                     onClick={() => {
+                      persistConsent(cookieSettings)
                       setShowPreferences(false)
                       setCookieBannerOpen(false)
                     }}
@@ -1213,7 +1319,7 @@ export default function LandingPage() {
       {/* Modern High-End Footer */}
       <footer className="w-full border-t border-[#132A37]/80 bg-[#061219]/50 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] mt-12">
         <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 text-xs text-[#7AA0B0]">
-          <span className="text-center md:text-left">© 2026 MediCoord AI · Patient Routing Platform. All rights reserved.</span>
+          <span className="text-center md:text-left">© 2026 MediCoord AI · Patient Routing Platform · Serving Toronto, ON, Canada · Web-based service, no walk-in location. All rights reserved.</span>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link to="/for-investors" className="hover:text-[#48F6C1] transition-colors">For Investors</Link>
             <Link to="/for-engineers" className="hover:text-[#00D2FF] transition-colors">For Engineers</Link>

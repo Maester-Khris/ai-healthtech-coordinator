@@ -54,7 +54,11 @@ export default function CookiesPage() {
   ]
 
   return (
-    <LegalPageLayout title="Cookie Policy" lastUpdated="June 24, 2026">
+    <LegalPageLayout
+      title="Cookie Policy"
+      description="What cookies and similar technologies MediCoord AI uses, what each one does, and how to control them."
+      lastUpdated="June 24, 2026"
+    >
       <p className="text-sm md:text-body-md text-[#85A4B1] leading-relaxed">
         MediCoord AI uses cookies only for three things: keeping your session secure, keeping the app
         stable, and remembering your map preferences. No advertising. No cross-site tracking.
@@ -73,7 +77,7 @@ export default function CookiesPage() {
             <div className="flex items-start justify-between gap-3">
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm font-bold text-white leading-snug">{item.name}</span>
-                <span className="text-[10px] font-mono text-[#7AA0B0]">Service: {item.service}</span>
+                <span className="text-[10px] font-mono text-[#7AA0B0]">{`Service: ${item.service}`}</span>
               </div>
               <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${item.badgeClass}`}>
                 {item.badge}

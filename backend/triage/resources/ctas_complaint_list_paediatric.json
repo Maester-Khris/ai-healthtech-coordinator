@@ -1,0 +1,16 @@
+{
+  "note": "This document (paedctas.pdf, 3 pages) is a conceptual/operational overview of the Canadian Paediatric Triage and Acuity Scale (PaedCTAS) implementation guidelines. It contains no presenting-complaint list, no modifiers, and no red-flag/follow-up-question data for specific paediatric symptoms. It explains what PaedCTAS is, how triage levels are assigned in general terms, and cites time/fractile response targets by CTAS level. Symptom complexes (fever, wheezing, diarrhea, vomiting, head injury) are named only as examples of 'easily identified symptom complexes' or complexes that 'may be considered Level II, III or IV depending on modifying factors' — no actual modifier or red-flag detail is given for any of them. See ctas_complaint_list_adult.json or the full combined CTAS/PaedCTAS participant manual for actual complaint-level red flags and follow-up questions applicable to children.",
+  "topics_covered": [
+    "Purpose and history of PaedCTAS as a paediatric-specific supplement to the adult CTAS guidelines",
+    "3-step triage assessment: initial impression of illness severity, evaluation of presenting complaint, assessment of behaviour and age-related physiological measurements",
+    "Note that Level I (Resuscitation) and Level II (Emergent) patients may be assigned after limited assessment, but lower-acuity patients require full triage evaluation to avoid missing subtle serious illness, particularly in infants",
+    "Operational objectives and the general purpose of a triage/acuity instrument (utility, relevance, validity)",
+    "Time objectives table (Table 1): time-to-medical-care targets, fractile response rates, and admission rates by CTAS level I-V (e.g. Level I immediate/98% fractile/70-90% admission; Level V 120 min/80% fractile/0-10% admission)",
+    "Definition and explanation of 'fractile response' as a system performance metric, distinct from acceptability of delay for any individual patient",
+    "General principles for assigning triage level: based on 'usual presentation' but modified by provider experience/intuition, caregiver input, child's age, immune status, comorbidity, past health, and physiological parameters (level of consciousness, respiratory rate/effort, heart rate, perfusion) since tachypnea/tachycardia may be the only early signs of shock, sepsis, respiratory failure, hypovolemia, or myocardial dysfunction",
+    "Mentions that symptom complexes such as vomiting, fever, and head injury can fall under Level II, III, or IV depending on unspecified 'modifying factors' -- no modifiers are actually enumerated",
+    "Reassessment of waiting patients: rationale for scheduled reassessment given that sick infants/toddlers can deteriorate rapidly, and guidance on not unfairly 'bumping' lower-acuity patients who have waited past their time objective"
+  ],
+  "source": "Canadian Paediatric Triage and Acuity Scale (paedctas.pdf)",
+  "source_pages": "p.1-3"
+}

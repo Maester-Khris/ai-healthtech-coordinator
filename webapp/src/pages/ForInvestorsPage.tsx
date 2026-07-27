@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ShieldCheck, ChartBar, Globe, Flask, PlayIcon, PauseIcon } from '@phosphor-icons/react'
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
+import { useDocumentHead } from '../hooks/useDocumentHead'
 
 interface PipelineStep {
   id: string
@@ -235,7 +236,7 @@ function PatientFlowPipeline() {
                   className="text-[9px] font-mono uppercase tracking-wider"
                   style={{ color: step.color }}
                 >
-                  Step {activeStep + 1} of {PIPELINE_STEPS.length}
+                  {`Step ${activeStep + 1} of ${PIPELINE_STEPS.length}`}
                 </div>
                 <div className="text-sm font-bold text-white">{step.label}</div>
               </div>
@@ -293,6 +294,11 @@ function PatientFlowPipeline() {
 }
 
 export default function ForInvestorsPage() {
+  useDocumentHead(
+    'For Investors & Health System Operators',
+    "City-wide patient coordination, real-time and at scale. How MediCoord AI routes hundreds of patients simultaneously across Toronto's health network."
+  )
+
   return (
     <div className="bg-[#061219] min-h-screen flex flex-col font-static text-[#E2F1F5] overflow-x-hidden">
 
@@ -380,7 +386,7 @@ export default function ForInvestorsPage() {
         {/* Main pitch */}
         <section className="border-t border-[#132A37]/80 pt-16 flex flex-col gap-8 max-w-3xl">
           <h2 className="text-2xl lg:text-3xl font-extrabold text-white leading-snug">
-            Most routing systems find the nearest facility.{' '}
+            {'Most routing systems find the nearest facility. '}
             <span className="text-[#48F6C1]">MediCoord AI coordinates across all of them.</span>
           </h2>
           <div className="flex flex-col gap-5 text-[#85A4B1] text-sm leading-relaxed">

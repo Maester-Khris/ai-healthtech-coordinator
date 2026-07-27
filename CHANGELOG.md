@@ -465,16 +465,14 @@ Android Chrome, iOS Safari ≥16.4 (live-tested on a real iPhone 15 Pro, iOS 26.
 
 ---
 
-## [Sprint 15 — Planned] · Graph RAG (Knowledge Graph)
+## [Sprint 15 — Rejected] · Graph RAG (Knowledge Graph)
 
-**Next priority this week, after Sprint 14 merges to `preview`.**
-
-Sequencing: finish the two Sprint 14 infra steps above (CI secrets, Supabase RPC update) →
-merge `feat/advanced-filtering` → `preview` → start Graph RAG work from `preview`.
-
-Scope not yet detailed — pick up from `project_kg_intent` context: KG is for grounding LLM
-follow-up questions and symptom understanding (conversational NLU), not diagnosis; Canadian
-sources preferred.
+**Rejected 2026-07-20.** Original sequencing note ("next priority after Sprint 14") went
+stale — Sprints 16, 17, and two unlogged SEO sprints shipped first. Scope was never
+detailed beyond the `project_kg_intent` pointer (KG for grounding LLM follow-up
+questions/symptom understanding, not diagnosis; Canadian sources preferred), which still
+holds and carries forward into Sprint 18/19 below. Superseded by a validated two-track
+plan (static lookup first, graph-based retrieval as a later, separately justified track).
 
 ---
 
@@ -621,6 +619,66 @@ Phase A — Instrumentation        Verify                Phase B — Run        
 - Task 5's real-backend verify run surfaced and fixed a genuine bug: `wait_times_cache_outcome_total`'s `supabase_fallback`/`total_failure` labels are absent from `/metrics` entirely until first incremented (a Prometheus Counter quirk), which crashed the CS3 load script's stat computation on a backend that had only ever served `redis_hit` — fixed to treat an absent label as a legitimate zero.
 - Eval backend for this closeout ran on Railway (`medicoordai-staging-production.up.railway.app`), not Render as originally scoped — infra choice made mid-sprint, no impact on methodology.
 - Sprint 9's separate prompt-evaluation DeepEval work (premature-classification rate) remains out of scope, as originally stated.
+
+---
+
+## [Sprint 18 — Closed] · Symptom Understanding v1 — Static CTAS Retrieval
+
+**2026-07-20 → 2026-07-24 · branch: `feat/symptom-understanding-v1` · merged to `preview` via PR #43**
+
+Scope:
+
+- `backend/graph/symptom_context.py` — `get_symptom_graph_context(user_message) -> GraphContext`,
+  a `Symptom -> RedFlag -> FollowupQuestion` lookup (alias/substring match, no embeddings, no LLM
+  extraction), content authored from CTAS (Canadian Triage and Acuity Scale), stored as a static,
+  git-reviewed file, loaded at process start
+- CTAS 5-level → app's 4-level (`routine|moderate|urgent|emergent`) mapping as an explicit,
+  reviewed design decision, not left implicit in seed content
+- `backend/llm/prompts.py::build_graph_context_block()` — fenced "reference data, not
+  instructions" block, same security posture as `build_medical_context_block`
+- One new call site in `LLMAgent._build_messages()` — zero changes to `_run`,
+  `_handle_triage`, `_generate_grounded_response`, or any tool schema
+- `GRAPH_RAG_ENABLED` feature flag (default off at merge, default on once seed content is
+  reviewed) — a quality improvement for every user
+- A cheap in-process pre-check to skip lookup on turns that can't contain a symptom
+  ("yes", "it started yesterday")
+- Instrumentation for match misses/low-confidence matches — the passive signal that would
+  eventually justify Sprint 19's v2 scope
+
+Out of scope: graph-based retrieval, the v1/v2 switch mechanism, evaluation harness, case
+study — all Sprint 19.
+
+---
+
+## [Sprint 19 — Blocked] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
+
+**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`. Blocked — 2026-07-25, pending SNOMED CT Affiliate License approval.**
+
+Design work completed this sprint (planning only — no code written, no files in this branch besides this entry): a GraphRAG v2 architecture design (Neo4j + SNOMED CT Canadian Edition) applying Clean Architecture to the existing `GraphContextProvider` interface, two rounds of adversarial design review, and concrete plans for prompt-injection hardening, RF2 versioning/ingestion, and bounded entity-linking precision testing. All design artifacts are local-only (`artifacts/`, gitignored per repo convention) — not tracked in git.
+
+**Blocker**: a SNOMED CT Affiliate License application was submitted via SNOMED International's MLDS (Canada NRC) on 2026-07-25. No RF2 release can be downloaded until the application is approved, and no response/ETA has been received from the SNOMED CT team as of this entry. Implementation cannot start without the RF2 data — resuming this sprint is gated on license approval, not on further design work.
+
+Scope (unchanged, pending resumption):
+
+- **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
+  behind the same `GraphContext` interface as v1, built as an internal/demo capability for
+  the engineering case study. Severity classification stays identical across every path,
+  always.
+- **Switch mechanism**: factory function mirroring `get_llm_client()` (`LLM_PROVIDER`
+  pattern), selecting between v1 and v2 behind the same `GraphContext` interface. Default
+  routes every request to v1; v2 reachable via the same flag for internal/demo use.
+- **Reasoning doc**: short write-up of why both retrieval paths exist and how the switch
+  works, for reuse in the case study and in interviews
+- **Evaluation protocol**: brief, industry-standard RAG eval metrics applied to both paths —
+  retrieval hit rate / MRR for v1's keyword match, faithfulness + context precision/recall
+  for v2 (DeepEval, same pattern as Sprint 17's Track A/B), plus a shared groundedness check
+  so v1 and v2 are compared on the same scale
+- **Case study**: brief outline for a new `/for-engineers` entry on symptom-understanding
+  retrieval — problem statement (conversational NLU grounding, not diagnosis), the v1→v2
+  design pivot and why, and the eval results
+
+Out of scope: exposing v2 as a correctness upgrade over v1 to end users, until a genuine
+technical trigger for it is real (not scale/file-size alone).
 
 ---
 
