@@ -17,8 +17,12 @@ function outputPathFor(route) {
   return route === '/' ? path.join(distDir, 'index.html') : path.join(distDir, route.slice(1), 'index.html')
 }
 
+// medicoord.nknext.dev is the real production domain (verified against the
+// live Vercel project) — medicoordai.com is not registered on the account.
+const PRODUCTION_DOMAIN = 'https://medicoord.nknext.dev'
+
 function injectTemplate(template, { route, title, description, rootHtml }) {
-  const canonical = `https://medicoordai.com${route === '/' ? '' : route}`
+  const canonical = `${PRODUCTION_DOMAIN}${route === '/' ? '' : route}`
   return template
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/, `$1${description}$2`)
@@ -26,6 +30,8 @@ function injectTemplate(template, { route, title, description, rootHtml }) {
     .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${description}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${canonical}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${canonical}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${title}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${description}$2`)
     .replace('<div id="root"></div>', `<div id="root">${rootHtml}</div>`)
 }
 
@@ -37,6 +43,28 @@ function assertBuildTimeCheck(route, { title, description, rootHtml }) {
   if (!/<h1[\s>]/i.test(rootHtml ?? '')) failures.push('no <h1> content anchor found')
   if (failures.length > 0) {
     throw new Error(`Prerender check failed for ${route}: ${failures.join(', ')}`)
+  }
+}
+
+// Guards the output HTML itself (post-injectTemplate), catching regressions
+// like a missing og:image or a stale/wrong hardcoded domain slipping back in.
+function assertOutputHtml(route, html) {
+  const failures = []
+  if (!new RegExp(`<meta property="og:image" content="${PRODUCTION_DOMAIN}/[^"]+"`).test(html)) {
+    failures.push('missing or non-absolute og:image')
+  }
+  if (!html.includes('<meta name="twitter:card" content="summary_large_image">') &&
+      !html.includes('<meta name="twitter:card" content="summary_large_image" />')) {
+    failures.push('missing twitter:card')
+  }
+  if (!html.includes(`content="${PRODUCTION_DOMAIN}`)) {
+    failures.push(`canonical/og:url does not use ${PRODUCTION_DOMAIN}`)
+  }
+  if (html.includes('medicoordai.com')) {
+    failures.push('stale medicoordai.com domain found in output')
+  }
+  if (failures.length > 0) {
+    throw new Error(`Prerender output check failed for ${route}: ${failures.join(', ')}`)
   }
 }
 
@@ -61,6 +89,7 @@ async function main() {
       assertBuildTimeCheck(route, result)
 
       const html = injectTemplate(template, { route, ...result })
+      assertOutputHtml(route, html)
       const outPath = outputPathFor(route)
       await mkdir(path.dirname(outPath), { recursive: true })
       await writeFile(outPath, html, 'utf-8')
