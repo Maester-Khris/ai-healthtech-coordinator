@@ -650,11 +650,15 @@ study — all Sprint 19.
 
 ---
 
-## [Sprint 19 — Started] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
+## [Sprint 19 — Blocked] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
 
-**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`**
+**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`. Blocked — 2026-07-25, pending SNOMED CT Affiliate License approval.**
 
-Scope:
+Design work completed this sprint (planning only — no code written, no files in this branch besides this entry): a GraphRAG v2 architecture design (Neo4j + SNOMED CT Canadian Edition) applying Clean Architecture to the existing `GraphContextProvider` interface, two rounds of adversarial design review, and concrete plans for prompt-injection hardening, RF2 versioning/ingestion, and bounded entity-linking precision testing. All design artifacts are local-only (`artifacts/`, gitignored per repo convention) — not tracked in git.
+
+**Blocker**: a SNOMED CT Affiliate License application was submitted via SNOMED International's MLDS (Canada NRC) on 2026-07-25. No RF2 release can be downloaded until the application is approved, and no response/ETA has been received from the SNOMED CT team as of this entry. Implementation cannot start without the RF2 data — resuming this sprint is gated on license approval, not on further design work.
+
+Scope (unchanged, pending resumption):
 
 - **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
   behind the same `GraphContext` interface as v1, built as an internal/demo capability for
