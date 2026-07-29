@@ -650,15 +650,15 @@ study — all Sprint 19.
 
 ---
 
-## [Sprint 19 — Blocked] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
+## [Sprint 19 — Unblocked] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
 
-**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`. Blocked — 2026-07-25, pending SNOMED CT Affiliate License approval.**
+**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`. Blocked — 2026-07-25, pending SNOMED CT Affiliate License approval. Unblocked — 2026-07-28.**
 
 Design work completed this sprint (planning only — no code written, no files in this branch besides this entry): a GraphRAG v2 architecture design (Neo4j + SNOMED CT Canadian Edition) applying Clean Architecture to the existing `GraphContextProvider` interface, two rounds of adversarial design review, and concrete plans for prompt-injection hardening, RF2 versioning/ingestion, and bounded entity-linking precision testing. All design artifacts are local-only (`artifacts/`, gitignored per repo convention) — not tracked in git.
 
-**Blocker**: a SNOMED CT Affiliate License application was submitted via SNOMED International's MLDS (Canada NRC) on 2026-07-25. No RF2 release can be downloaded until the application is approved, and no response/ETA has been received from the SNOMED CT team as of this entry. Implementation cannot start without the RF2 data — resuming this sprint is gated on license approval, not on further design work.
+**Blocker resolved — 2026-07-28**: the SNOMED CT Affiliate License application (submitted via SNOMED International's MLDS, Canada NRC, on 2026-07-25) is now approved, giving access to the SNOMED CT International Edition (RF2) via MLDS. Separately, a Canada Health Infoway account was created and the SNOMED CT Canadian Edition (RF2, 20260531 release, bilingual EN/FR) was acquired via the Canadian National License Agreement — the edition the v2 design doc explicitly targets. Both RF2 releases are extracted and verified (file counts, byte sizes, and `IS_A` relationship presence all confirmed against source) at `/databank`, symlinked into the repo at `assets/snomedct` (gitignored). Implementation can resume.
 
-Scope (unchanged, pending resumption):
+Scope (unchanged, resuming):
 
 - **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
   behind the same `GraphContext` interface as v1, built as an internal/demo capability for

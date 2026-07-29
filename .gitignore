@@ -83,6 +83,9 @@ skills-lock.json
 artifacts/
 graphify-out/
 
+# SNOMED CT RF2 data — licensed content, symlink to /databank, never commit
+assets/snomedct
+
 # eval-env seed data — never commit exported PII-adjacent snapshots or test credentials
 backend/scripts/eval_seed/exports/
 backend/scripts/eval_seed/*_accounts.json
