@@ -59,3 +59,22 @@ def test_find_seed_concept_ids_requires_word_boundary_not_bare_substring():
     )
     result = find_seed_concept_ids([false_positive, true_positive], keywords=["cut"])
     assert result == {"22222222"}
+
+
+def test_find_seed_concept_ids_matches_keyword_ending_in_punctuation():
+    # Regression test for fix round 2: an earlier \b...\b version anchored on
+    # the *keyword's own* edge character, so a keyword ending in ")" (real
+    # case: CTAS complaint 003 "Chest pain (cardiac features)") could never
+    # match even an exact, legitimate occurrence — \b requires a word/non-word
+    # transition at the pattern's own boundary, and ")" followed by a space
+    # has no such transition. The fixed lookaround version checks the *target
+    # text's* surrounding characters instead, so this must match.
+    exact_match = DescriptionRow(
+        "1", "20170731", True, "900000000000207008", "33333333",
+        "en", "900000000000003001",
+        "Chest pain (cardiac features) NOS (finding)", "900000000000448009",
+    )
+    result = find_seed_concept_ids(
+        [exact_match], keywords=["chest pain (cardiac features)"]
+    )
+    assert result == {"33333333"}

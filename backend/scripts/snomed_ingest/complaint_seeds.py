@@ -47,12 +47,22 @@ def find_seed_concept_ids(
     term (case-insensitive), its concept is a seed. Same match rule Phase 2's
     anchor-mapping uses, run here against the raw file instead of the graph.
 
-    Uses \\b-bounded regex rather than bare substring containment — a bare
-    `keyword in term` match let short keywords match inside unrelated words
-    (e.g. "cut" inside "acute", "high" inside "thigh"), which measurably
-    polluted the seed set with false positives on real SNOMED data.
+    Boundary-checks the *target text's* surrounding characters via negative
+    lookaround, not \\b. A first attempt used `\\b{keyword}\\b`, but `\\b`
+    anchors on a word/non-word transition at the *pattern's own* edge — any
+    keyword starting or ending in punctuation (6 of 165 CTAS complaint names
+    end in ")", e.g. "Chest pain (cardiac features)") can never satisfy that
+    anchor even against an exact, legitimate match, so those keywords silently
+    matched nothing. `(?<![A-Za-z0-9])...(?![A-Za-z0-9])` instead requires the
+    character immediately outside the match (in the target text) to be
+    non-alphanumeric-or-absent — correctly rejects "cut" inside "acute" (the
+    "a" right before is alphanumeric) while still allowing keywords that
+    themselves start/end in punctuation to match.
     """
-    patterns = [re.compile(rf"\b{re.escape(keyword)}\b") for keyword in keywords]
+    patterns = [
+        re.compile(rf"(?<![A-Za-z0-9]){re.escape(keyword)}(?![A-Za-z0-9])")
+        for keyword in keywords
+    ]
     seeds: set[str] = set()
     for d in descriptions:
         if not d.active or d.type_id != FSN_TYPE_ID or d.language_code != ENGLISH_LANGUAGE_CODE:
