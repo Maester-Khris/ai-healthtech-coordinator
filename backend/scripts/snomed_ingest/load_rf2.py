@@ -1,21 +1,44 @@
 # backend/scripts/snomed_ingest/load_rf2.py
+"""
+Phase 1 Layer 1 ingestion: SNOMED CT Canadian Edition RF2 Snapshot -> Neo4j.
+
+Loads Concept, Description, and IS_A Relationship rows for a complaint-anchored
+subset (see select_subset_ids() below and task-1-report.md for the full
+rationale — this replaces the original plan's single-root full-Clinical-Finding
+subtree design, which was ~3x over Neo4j AuraDB Free tier's 200,000-node cap).
+
+Standalone script only — never imported by the request path
+(backend/services/llm_agent.py, backend/graph/*). Invoke as:
+    cd backend && python -m scripts.snomed_ingest.load_rf2 --rf2-snapshot-dir ... --source-release ... --neo4j-uri ... --neo4j-user ... --neo4j-password ...
+
+Note on reruns: all writes are MERGE-on-id (idempotent — safe to rerun with the
+*same* seed/complaint inputs). But if a rerun changes the seed set (e.g. the
+complaint list or keyword-matching logic changes), MERGE never deletes nodes
+that fall out of the new subset — they're left behind as orphans. Rerunning
+with a different scope requires manually wiping first (MATCH (n) DETACH DELETE n
+or equivalent) if a clean, exactly-matching graph is required.
+"""
 import argparse
 from itertools import islice
 from pathlib import Path
 from typing import Iterable, Iterator, TypeVar
 from neo4j import GraphDatabase
 
-from backend.scripts.snomed_ingest.constants import (
+from scripts.snomed_ingest.constants import (
     CLINICAL_FINDING_ROOT, IS_A_TYPE_ID, FSN_TYPE_ID, MAX_SEED_DESCENDANT_DEPTH,
 )
-from backend.scripts.snomed_ingest.rf2_reader import (
+from scripts.snomed_ingest.rf2_reader import (
     read_concepts, read_descriptions, read_relationships,
+    DescriptionRow, RelationshipRow,
 )
-from backend.scripts.snomed_ingest.complaint_seeds import (
+from scripts.snomed_ingest.complaint_seeds import (
     load_complaint_keywords, find_seed_concept_ids,
 )
 
-DEFAULT_COMPLAINTS_PATH = Path("backend/triage/resources/symptom_triage_data.json")
+# Resolved relative to this file rather than cwd, so it's correct regardless of the
+# invocation directory (invoked as `python -m scripts.snomed_ingest.load_rf2` from
+# backend/, per the module docstring, but not assumed here).
+DEFAULT_COMPLAINTS_PATH = Path(__file__).resolve().parents[2] / "triage/resources/symptom_triage_data.json"
 
 # Batch size for UNWIND-based writes. Approved deviation from the plan's literal
 # one-row-per-session.run() code: the Clinical Finding subset is ~129k concepts /
@@ -35,7 +58,11 @@ def _batched(iterable: Iterable[T], size: int) -> Iterator[list[T]]:
         yield batch
 
 
-def concept_ids_in_subset(relationships, root, max_depth: int | None = None) -> set[str]:
+def concept_ids_in_subset(
+    relationships: Iterable[RelationshipRow],
+    root: str | Iterable[str],
+    max_depth: int | None = None,
+) -> set[str]:
     """Every concept reachable from `root` by walking IS_A edges downward
     (i.e. every descendant of root, transitively), plus root itself.
 
@@ -47,9 +74,13 @@ def concept_ids_in_subset(relationships, root, max_depth: int | None = None) -> 
     `max_depth` bounds how many IS_A hops to descend from each root/seed;
     None (default) walks the full subtree, preserving the original single-root
     behavior this function was written for.
+
+    Note: `relationships` is iterated in full to build the children_of index;
+    pass a re-iterable collection (e.g. list), not a one-shot generator, if
+    calling this more than once with the same relationships.
     """
     roots = {root} if isinstance(root, str) else set(root)
-    children_of = {}
+    children_of: dict[str, list[str]] = {}
     for r in relationships:
         if r.type_id == IS_A_TYPE_ID and r.active:
             children_of.setdefault(r.destination_id, []).append(r.source_id)
@@ -69,13 +100,37 @@ def concept_ids_in_subset(relationships, root, max_depth: int | None = None) -> 
     return subset
 
 
+def select_subset_ids(
+    relationships: Iterable[RelationshipRow],
+    descriptions: Iterable[DescriptionRow],
+    keywords: list[str],
+) -> set[str]:
+    """The complaint-anchored subset-selection rule (see module docstring):
+    match complaint keywords against FSNs restricted to genuine Clinical
+    Finding descendants (fixes a false-positive-seed problem — unrestricted
+    keyword matching also hits Procedure/Body Structure/other non-finding
+    concepts by string coincidence, e.g. "shock" matching "Electric shock
+    therapy"), then union each seed's IS_A descendants up to
+    MAX_SEED_DESCENDANT_DEPTH.
+
+    Extracted from load() so it's testable without a live Neo4j driver.
+
+    Note: `relationships` is traversed twice internally (once to compute the
+    Clinical Finding subtree, once for the final seed-descendant walk) — pass
+    a re-iterable collection (e.g. list), not a one-shot generator.
+    """
+    clinical_finding_subtree = concept_ids_in_subset(relationships, CLINICAL_FINDING_ROOT)
+    seed_ids = find_seed_concept_ids(descriptions, keywords) & clinical_finding_subtree
+    return concept_ids_in_subset(relationships, seed_ids, max_depth=MAX_SEED_DESCENDANT_DEPTH)
+
+
 def load(
     rf2_snapshot_dir: Path,
     source_release: str,
     neo4j_uri: str,
     neo4j_auth: tuple[str, str],
     complaints_path: Path = DEFAULT_COMPLAINTS_PATH,
-):
+) -> None:
     terminology = rf2_snapshot_dir / "Terminology"
     concept_file = next(terminology.glob("sct2_Concept_Snapshot_*.txt"))
     description_file = next(terminology.glob("sct2_Description_Snapshot_*.txt"))
@@ -84,19 +139,8 @@ def load(
     relationships = list(read_relationships(relationship_file))
     descriptions = list(read_descriptions(description_file))
 
-    # Approved deviation from the plan's literal single-root subset design (see
-    # constants.py's MAX_SEED_DESCENDANT_DEPTH comment and task-1-report.md): the
-    # full Clinical Finding subtree is ~3x over Neo4j AuraDB Free tier's 200,000-node
-    # cap, and was never actually needed downstream — only the neighborhoods around
-    # the CTAS complaint concepts. Restrict candidate seed matches to genuine Clinical
-    # Finding descendants first (fixes a false-positive-seed problem: unrestricted
-    # keyword matching also hits Procedure/Body Structure/other non-finding concepts
-    # by string coincidence, e.g. "shock" matching "Electric shock therapy"), then
-    # union each seed's IS_A descendants up to MAX_SEED_DESCENDANT_DEPTH.
-    clinical_finding_subtree = concept_ids_in_subset(relationships, CLINICAL_FINDING_ROOT)
     keywords = load_complaint_keywords(complaints_path)
-    seed_ids = find_seed_concept_ids(descriptions, keywords) & clinical_finding_subtree
-    subset_ids = concept_ids_in_subset(relationships, seed_ids, max_depth=MAX_SEED_DESCENDANT_DEPTH)
+    subset_ids = select_subset_ids(relationships, descriptions, keywords)
 
     driver = GraphDatabase.driver(neo4j_uri, auth=neo4j_auth)
     with driver.session() as session:

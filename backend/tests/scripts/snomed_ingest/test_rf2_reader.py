@@ -1,5 +1,9 @@
 # backend/tests/scripts/snomed_ingest/test_rf2_reader.py
-from backend.scripts.snomed_ingest.rf2_reader import read_concepts
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
+
+from scripts.snomed_ingest.rf2_reader import read_concepts
 
 
 def test_read_concepts_parses_tab_separated_rf2_row(tmp_path):
@@ -19,8 +23,8 @@ def test_read_concepts_parses_tab_separated_rf2_row(tmp_path):
 def test_subset_keeps_only_clinical_finding_descendants_and_root():
     # concept 404684003 = root; 22253000 = "Pain" is a real, verified descendant;
     # 71388002 = "Procedure" is NOT a descendant and must be excluded
-    from backend.scripts.snomed_ingest.load_rf2 import concept_ids_in_subset
-    from backend.scripts.snomed_ingest.rf2_reader import RelationshipRow
+    from scripts.snomed_ingest.load_rf2 import concept_ids_in_subset
+    from scripts.snomed_ingest.rf2_reader import RelationshipRow
 
     relationships = [
         # 22253000 --IS_A--> 404684003 (Pain is a Clinical finding)

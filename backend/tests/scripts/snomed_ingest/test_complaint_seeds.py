@@ -1,10 +1,13 @@
 # backend/tests/scripts/snomed_ingest/test_complaint_seeds.py
 import json
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
-from backend.scripts.snomed_ingest.complaint_seeds import (
+from scripts.snomed_ingest.complaint_seeds import (
     load_complaint_keywords, find_seed_concept_ids,
 )
-from backend.scripts.snomed_ingest.rf2_reader import DescriptionRow
+from scripts.snomed_ingest.rf2_reader import DescriptionRow
 
 
 def test_load_complaint_keywords_flattens_name_and_aliases(tmp_path):
@@ -41,3 +44,18 @@ def test_find_seed_concept_ids_matches_active_english_fsn_only():
         keywords=["pain"],
     )
     assert result == {"22253000"}
+
+
+def test_find_seed_concept_ids_requires_word_boundary_not_bare_substring():
+    # "cut" must not match "acute" (real false positive measured on live data:
+    # 2,953 of 3,999 unrestricted matches for "cut" were "acute"-only hits).
+    false_positive = DescriptionRow(
+        "1", "20170731", True, "900000000000207008", "11111111",
+        "en", "900000000000003001", "Acute nasopharyngitis (disorder)", "900000000000448009",
+    )
+    true_positive = DescriptionRow(
+        "2", "20170731", True, "900000000000207008", "22222222",
+        "en", "900000000000003001", "Cut of hand (finding)", "900000000000448009",
+    )
+    result = find_seed_concept_ids([false_positive, true_positive], keywords=["cut"])
+    assert result == {"22222222"}

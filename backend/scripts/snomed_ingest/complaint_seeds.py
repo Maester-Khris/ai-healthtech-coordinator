@@ -17,11 +17,12 @@ This is the same match logic Phase 2's anchor-mapping was always going to run
 instead of post-load against the graph, purely to scope what gets written.
 """
 import json
+import re
 from pathlib import Path
 from typing import Iterable
 
-from backend.scripts.snomed_ingest.constants import FSN_TYPE_ID
-from backend.scripts.snomed_ingest.rf2_reader import DescriptionRow
+from scripts.snomed_ingest.constants import FSN_TYPE_ID
+from scripts.snomed_ingest.rf2_reader import DescriptionRow
 
 ENGLISH_LANGUAGE_CODE = "en"
 
@@ -41,15 +42,22 @@ def load_complaint_keywords(path: Path) -> list[str]:
 def find_seed_concept_ids(
     descriptions: Iterable[DescriptionRow], keywords: list[str]
 ) -> set[str]:
-    """Mechanical substring match: for every active English FSN description,
-    if any complaint keyword is a substring of the term (case-insensitive),
-    its concept is a seed. Same match rule Phase 2's anchor-mapping uses,
-    run here against the raw file instead of the graph."""
+    """Word-boundary match: for every active English FSN description, if any
+    complaint keyword matches as a whole word (or word sequence) within the
+    term (case-insensitive), its concept is a seed. Same match rule Phase 2's
+    anchor-mapping uses, run here against the raw file instead of the graph.
+
+    Uses \\b-bounded regex rather than bare substring containment — a bare
+    `keyword in term` match let short keywords match inside unrelated words
+    (e.g. "cut" inside "acute", "high" inside "thigh"), which measurably
+    polluted the seed set with false positives on real SNOMED data.
+    """
+    patterns = [re.compile(rf"\b{re.escape(keyword)}\b") for keyword in keywords]
     seeds: set[str] = set()
     for d in descriptions:
         if not d.active or d.type_id != FSN_TYPE_ID or d.language_code != ENGLISH_LANGUAGE_CODE:
             continue
         term_lower = d.term.lower()
-        if any(keyword in term_lower for keyword in keywords):
+        if any(pattern.search(term_lower) for pattern in patterns):
             seeds.add(d.concept_id)
     return seeds
