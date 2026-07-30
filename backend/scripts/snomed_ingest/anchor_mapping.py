@@ -66,6 +66,16 @@ research, not silently dropped -- see the SDD ledger at
 the full history and individual justifications. All 11 continue to work via v1's
 StaticLookupProvider (unaffected either way) -- this SNOMED KG is an
 additive v2 enhancement, not a replacement, per the design doc.
+
+Phase 3 schema extension: `AnchorMapping` also carries `max_depth`, the IS_A
+traversal depth Phase 4's Neo4jSnomedProvider will use for this anchor. It
+defaults to MAX_SEED_DESCENDANT_DEPTH so every existing entry above keeps its
+current blanket-depth-4 behavior unchanged -- none of the 154 literal
+AnchorMapping(...) call sites below set it. depth_flagging.py's fan-out/
+overlap analysis (backend/scripts/snomed_ingest/depth_flagging.py) is how
+candidates for a narrower value get surfaced; only a human, after reviewing
+that tool's real output on the live graph, should ever set an entry's
+max_depth to anything other than the default.
 """
 from typing import NamedTuple
 
@@ -75,6 +85,12 @@ class AnchorMapping(NamedTuple):
     anchor_concept_id: str
     fsn: str
     rationale: str           # why this concept over the alternatives -- required, not optional
+    max_depth: int = 4       # IS_A traversal depth Phase 4's Neo4jSnomedProvider will use for
+                             # this anchor. Defaults to MAX_SEED_DESCENDANT_DEPTH (matches the
+                             # current blanket load depth) so every existing entry keeps its
+                             # current behavior unchanged. Only entries flagged by Phase 3's
+                             # depth_flagging.py and hand-corrected by the controller after
+                             # review should ever get a narrower value here.
 
 
 ANCHOR_MAPPINGS: list[AnchorMapping] = [

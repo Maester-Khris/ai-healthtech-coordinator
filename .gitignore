@@ -107,3 +107,7 @@ backend/scripts/cache_load_eval/results/
 backend/scripts/snomed_ingest/anchor_resolution.json
 backend/scripts/snomed_ingest/anchor_mapping_merged.json
 backend/scripts/snomed_ingest/anchor_batches/
+
+# Task 4 depth_flagging.py output -- intermediate, regeneratable build artifact,
+# regenerate via depth_flagging.py against the live graph
+backend/scripts/snomed_ingest/depth_flagging_report.json
