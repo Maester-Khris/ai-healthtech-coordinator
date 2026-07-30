@@ -61,4 +61,4 @@ def build_concept_lookup_query() -> tuple[str, dict]:
         "  AND toLower(d.term) CONTAINS toLower($text) "
         "RETURN DISTINCT c.id AS concept_id"
     )
-    return query, {"text": ""}
+    return query, {}

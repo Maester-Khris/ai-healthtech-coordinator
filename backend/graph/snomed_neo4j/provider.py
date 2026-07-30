@@ -40,10 +40,22 @@ class Neo4jSnomedProvider(GraphContextProvider):
     """
 
     def __init__(self) -> None:
+        missing = [v for v in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD") if not os.environ.get(v)]
+        if missing:
+            raise ValueError(
+                f"Neo4jSnomedProvider requires env vars: {', '.join(missing)}. "
+                "Inject via Doppler or set before constructing the provider."
+            )
         uri = os.environ["NEO4J_URI"]
         username = os.environ["NEO4J_USERNAME"]
         password = os.environ["NEO4J_PASSWORD"]
         self._client = Neo4jClient(uri, (username, password))
+
+    def close(self) -> None:
+        """Release the underlying Neo4j driver. Call at application shutdown
+        (e.g. FastAPI lifespan teardown). The base class 'never-raises' contract
+        applies only to _lookup(); the driver itself is not auto-closed."""
+        self._client.close()
 
     def _lookup(self, user_message: str, recent_messages: list[str]) -> GraphContext:
         """Per-request read: text → candidate concept IDs → IS_A traversal →
@@ -75,7 +87,10 @@ class Neo4jSnomedProvider(GraphContextProvider):
             if not rows:
                 continue
 
-            # First anchor that produces red flags → complaint_name
+            # First anchor in ANCHOR_MAPPINGS order that produces red flags
+            # becomes complaint_name. ANCHOR_MAPPINGS is ordered to match
+            # symptom_triage_data.json complaint ordering — this is intentional,
+            # not accidental reliance on list order.
             if complaint_name is None:
                 complaint_name = mapping.ctas_alias
 
