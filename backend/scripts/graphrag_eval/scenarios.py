@@ -35,6 +35,22 @@ real StaticLookupProvider before being committed.
 A couple of scenarios are deliberately novel/off-topic
 (expected_complaint=None) to check that both providers correctly report
 matched=False rather than only testing the happy path.
+
+Known bias, disclosed rather than hidden: several scenario messages above
+intentionally reuse v1's own symptom_triage_data.json `aliases` entries
+verbatim or near-verbatim (e.g. "almost drowned", "low body temperature",
+"burning with urination" are literal alias strings). The brief for this
+task directed writing scenarios this way — a natural sentence containing
+the complaint's own alias/keyword — but it means this comparison is
+calibrated to v1's curated vocabulary rather than being a corpus-neutral
+test of symptom understanding. That structurally advantages v1's substring
+matcher (StaticLookupProvider._match_entry), which was built against this
+exact vocabulary, in a way v2's SNOMED-description-based concept lookup
+gets no equivalent benefit from. This is a same-ground-truth comparison,
+not a vocabulary-neutral one — read Track A's accuracy gap with that in
+mind. A future harness iteration could add a lay-phrasing-only scenario
+subset (symptom descriptions that deliberately avoid v1's alias list) to
+isolate that effect from a genuine retrieval-quality difference.
 """
 import json
 from functools import lru_cache

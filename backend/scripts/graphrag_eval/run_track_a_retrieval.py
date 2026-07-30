@@ -47,8 +47,10 @@ def score_hit(ctx: GraphContext, expected_complaint: str | None) -> bool:
 
 
 def run_scenarios(
-    provider: GraphContextProvider, scenarios: list[dict] = SCENARIOS
+    provider: GraphContextProvider, scenarios: list[dict] | None = None
 ) -> list[dict]:
+    if scenarios is None:
+        scenarios = SCENARIOS
     details = []
     for scenario in scenarios:
         ctx = provider.get_symptom_graph_context(scenario["message"], [])
