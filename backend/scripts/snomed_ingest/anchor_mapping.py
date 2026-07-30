@@ -211,8 +211,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="15188001",
         fsn="Hearing loss (disorder)",
         rationale=(
-            "15188001 Hearing loss (disorder) is the broad canonical parent for loss of hearing, covering conductive, sensorineural, neural, and central subtypes. All candidate subtypes (60700002 SNHL, 44057004 Conductive HL, 73415002 Noise-induced HL, 68467004 Central HL) are IS-A descendants. No broader 'Hearing loss (finding)' exists in candidates; Hearing loss (disorder) is the best available umbrella. Rejected individual subtypes — all are narrower by definition."
+            "15188001 Hearing loss (disorder) is the broad canonical parent for loss of hearing, covering conductive, sensorineural, neural, and central subtypes. All candidate subtypes (60700002 SNHL, 44057004 Conductive HL, 73415002 Noise-induced HL, 68467004 Central HL) are IS-A descendants. No broader 'Hearing loss (finding)' exists in candidates; Hearing loss (disorder) is the best available umbrella. Rejected individual subtypes — all are narrower by definition. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Tinnitus",
@@ -235,8 +236,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="2999009",
         fsn="Injury of ear (disorder)",
         rationale=(
-            "[controller-corrected after fix-round-2 re-review] Original pick was 43251000 'Explosive acoustic trauma to ear (finding)'. original pick (43251000 Explosive acoustic trauma to ear) was a false 'sole candidate' claim -- 2999009 Injury of ear (disorder) exists in Clinical Finding scope and is the correct general anchor; 43251000 is not even a descendant of it (blast-injury-specific, a lateral concept). Corrected to 2999009 'Injury of ear (disorder)'."
+            "[controller-corrected after fix-round-2 re-review] Original pick was 43251000 'Explosive acoustic trauma to ear (finding)'. original pick (43251000 Explosive acoustic trauma to ear) was a false 'sole candidate' claim -- 2999009 Injury of ear (disorder) exists in Clinical Finding scope and is the correct general anchor; 43251000 is not even a descendant of it (blast-injury-specific, a lateral concept). Corrected to 2999009 'Injury of ear (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Dental / Gum problems",
@@ -251,8 +253,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="125593007",
         fsn="Injury of face (disorder)",
         rationale=(
-            "[auto-resolved, AUTO_SINGLE] Injury of face (disorder) (125593007) was the sole SNOMED Clinical Finding concept matching 'Facial trauma' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject."
+            "[auto-resolved, AUTO_SINGLE] Injury of face (disorder) (125593007) was the sole SNOMED Clinical Finding concept matching 'Facial trauma' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Sore throat",
@@ -275,8 +278,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="90460009",
         fsn="Injury of neck (disorder)",
         rationale=(
-            "[auto-resolved, AUTO_HIERARCHY] Injury of neck (disorder) (90460009) is a common IS_A ancestor of every other matched candidate for 'Neck trauma', chosen per the plan's broader-parent rule (bounded descendant traversal from it covers the rejected variants without a separate anchor per variant). Rejected as redundant descendants: Head and neck injury (disorder) (282749008)."
+            "[auto-resolved, AUTO_HIERARCHY] Injury of neck (disorder) (90460009) is a common IS_A ancestor of every other matched candidate for 'Neck trauma', chosen per the plan's broader-parent rule (bounded descendant traversal from it covers the rejected variants without a separate anchor per variant). Rejected as redundant descendants: Head and neck injury (disorder) (282749008). [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Difficulty swallowing / Dysphagia",
@@ -331,16 +335,18 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="19491003",
         fsn="Injury of nose (disorder)",
         rationale=(
-            "[controller-corrected after fix-round-2 re-review] Original pick was 263171005 'Fractured nasal bones (disorder)'. original pick (263171005 Fractured nasal bones) was a false 'sole candidate' claim -- 19491003 Injury of nose (disorder) exists and is a confirmed ancestor of the original pick, a textbook child-over-parent error. Corrected to 19491003 'Injury of nose (disorder)'."
+            "[controller-corrected after fix-round-2 re-review] Original pick was 263171005 'Fractured nasal bones (disorder)'. original pick (263171005 Fractured nasal bones) was a false 'sole candidate' claim -- 19491003 Injury of nose (disorder) exists and is a confirmed ancestor of the original pick, a textbook child-over-parent error. Corrected to 19491003 'Injury of nose (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Frostbite / Cold injury",
         anchor_concept_id="370977006",
         fsn="Frostbite (disorder)",
         rationale=(
-            "370977006 Frostbite (disorder) is the exact canonical parent for 'Frostbite / Cold injury'. All anatomically specific frostbite subtypes (face, upper arm, neck, thorax, superficial vs. deep) are IS-A descendants. Rejected 26746005 Neonatal cold injury — pediatric-specific etiological subtype. Rejected 410703004 Superficial frostbite — narrower by severity. Rejected all laterality/anatomical variants — all are narrower."
+            "370977006 Frostbite (disorder) is the exact canonical parent for 'Frostbite / Cold injury'. All anatomically specific frostbite subtypes (face, upper arm, neck, thorax, superficial vs. deep) are IS-A descendants. Rejected 26746005 Neonatal cold injury — pediatric-specific etiological subtype. Rejected 410703004 Superficial frostbite — narrower by severity. Rejected all laterality/anatomical variants — all are narrower. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Noxious inhalation",
@@ -467,8 +473,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="18165001",
         fsn="Jaundice (finding)",
         rationale=(
-            "[auto-resolved, AUTO_SIMILARITY] Jaundice (finding) (18165001) had a clearly dominant textual-similarity match against 'Jaundice' among 791 matched candidates (no IS_A hierarchy relationship among them). Rejected as less textually specific to this complaint: Hemolytic jaundice (disorder) (60217008); Hepatocellular jaundice (disorder) (66789005); Impairment level of both eyes (disorder) (68777001); Neonatal jaundice due to delayed conjugation from delayed development of conjugating system (finding) (69347004); Immature eyes (disorder) (371110006); Postoperative jaundice (disorder) (371117009) (+784 more)."
+            "[auto-resolved, AUTO_SIMILARITY] Jaundice (finding) (18165001) had a clearly dominant textual-similarity match against 'Jaundice' among 791 matched candidates (no IS_A hierarchy relationship among them). Rejected as less textually specific to this complaint: Hemolytic jaundice (disorder) (60217008); Hepatocellular jaundice (disorder) (66789005); Impairment level of both eyes (disorder) (68777001); Neonatal jaundice due to delayed conjugation from delayed development of conjugating system (finding) (69347004); Immature eyes (disorder) (371110006); Postoperative jaundice (disorder) (371117009) (+784 more). [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Hiccoughs",
@@ -483,8 +490,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="271860004",
         fsn="Abdominal mass (finding)",
         rationale=(
-            "271860004 Abdominal mass (finding) is the canonical parent for 'Abdominal mass / distention'. IS-A descendants include 404200001 Central abdominal mass, 307134002 Iliac fossa abdominal mass, 300404004 Visible abdominal mass. Abdominal distension (not present as a separate exact candidate) is often associated but not required. Rejected etiology-specific abdominal masses as all are narrower."
+            "271860004 Abdominal mass (finding) is the canonical parent for 'Abdominal mass / distention'. IS-A descendants include 404200001 Central abdominal mass, 307134002 Iliac fossa abdominal mass, 300404004 Visible abdominal mass. Abdominal distension (not present as a separate exact candidate) is often associated but not required. Rejected etiology-specific abdominal masses as all are narrower. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Anal / Rectal trauma",
@@ -523,8 +531,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="724386005",
         fsn="Lesion of genitalia (disorder)",
         rationale=(
-            "724386005 Lesion of genitalia (finding) is the broadest etiology-neutral candidate available for 'Genital discharge / lesion'. No 'genital discharge (finding)' exists as a standalone in the pool. The lesion concept covers STI lesions, ulcers, warts, and other genital pathology. Rejected 193440001 Testicular lesion of adrenogenital syndrome — too specific (adrenogenital etiology). Rejected 240608007 Donovanosis non-genital lesion — actually non-genital by definition."
+            "724386005 Lesion of genitalia (finding) is the broadest etiology-neutral candidate available for 'Genital discharge / lesion'. No 'genital discharge (finding)' exists as a standalone in the pool. The lesion concept covers STI lesions, ulcers, warts, and other genital pathology. Rejected 193440001 Testicular lesion of adrenogenital syndrome — too specific (adrenogenital etiology). Rejected 240608007 Donovanosis non-genital lesion — actually non-genital by definition. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Penile swelling",
@@ -579,8 +588,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="282772005",
         fsn="Genital injury (disorder)",
         rationale=(
-            "[auto-resolved, AUTO_SINGLE] Genital injury (disorder) (282772005) was the sole SNOMED Clinical Finding concept matching 'Genital trauma' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject."
+            "[auto-resolved, AUTO_SINGLE] Genital injury (disorder) (282772005) was the sole SNOMED Clinical Finding concept matching 'Genital trauma' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Depression / Suicidal / Deliberate self harm",
@@ -675,8 +685,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="91175000",
         fsn="Seizure (finding)",
         rationale=(
-            "91175000 Seizure (finding) is the canonical etiology-neutral parent for 'Seizure'. IS-A descendants include focal onset seizure (29753000), convulsive variants, and seizure disorder contexts. Considered 128613002 Seizure disorder (disorder) — disorder vs. finding distinction; Seizure (finding) is preferred as an anchor for a symptom-based triage complaint where etiology is unknown at presentation. Rejected 370994008 Seizure free — negative finding, inappropriate. Rejected 313287004 Seizure related finding — too vague."
+            "91175000 Seizure (finding) is the canonical etiology-neutral parent for 'Seizure'. IS-A descendants include focal onset seizure (29753000), convulsive variants, and seizure disorder contexts. Considered 128613002 Seizure disorder (disorder) — disorder vs. finding distinction; Seizure (finding) is preferred as an anchor for a symptom-based triage complaint where etiology is unknown at presentation. Rejected 370994008 Seizure free — negative finding, inappropriate. Rejected 313287004 Seizure related finding — too vague. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Gait disturbance / Ataxia",
@@ -691,8 +702,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="82271004",
         fsn="Injury of head (disorder)",
         rationale=(
-            "82271004 Injury of head (disorder) is the canonical broad parent for 'Head injury'. IS-A descendants include 451000119106 Closed injury of head, 95848000 Injury of head with otorrhagia, 127276009 Injury with rhinorrhagia, 95861000 Vertigo preceded by head injury, and all concussion subtypes (62564004, 73413009 etc.). Rejected concussion subtypes — all are narrower by definition. Rejected anatomy/mechanism-qualified variants as narrower."
+            "82271004 Injury of head (disorder) is the canonical broad parent for 'Head injury'. IS-A descendants include 451000119106 Closed injury of head, 95848000 Injury of head with otorrhagia, 127276009 Injury with rhinorrhagia, 95861000 Vertigo preceded by head injury, and all concussion subtypes (62564004, 73413009 etc.). Rejected concussion subtypes — all are narrower by definition. Rejected anatomy/mechanism-qualified variants as narrower. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Tremor",
@@ -795,8 +807,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="274205003",
         fsn="Burn of eye region (disorder)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 12114081000119101 'Chemical burn of left eye (disorder)'. Holistic review (opus) independently verified via search_snomed.py that non-lateralized parent exists; laterality was picked arbitrarily 'by convention'. Corrected to 274205003 'Burn of eye region (disorder)'."
+            "[controller-corrected after holistic review] Original pick was 12114081000119101 'Chemical burn of left eye (disorder)'. Holistic review (opus) independently verified via search_snomed.py that non-lateralized parent exists; laterality was picked arbitrarily 'by convention'. Corrected to 274205003 'Burn of eye region (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Foreign body, eye",
@@ -827,8 +840,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="9826008",
         fsn="Conjunctivitis (disorder)",
         rationale=(
-            "9826008 Conjunctivitis (disorder) is the canonical parent for 'Red Eye, discharge'. Conjunctivitis is both the primary cause of red eye with discharge and the SNOMED parent from which all specific forms descend. IS-A descendants include viral, bacterial, allergic, chemical, and other conjunctivitis. Rejected all specific conjunctivitis subtypes in the pool (Morax angular, atopic, catarrhal, phlyctenular, pseudomembranous, chronic, exudative, others) — all narrower. Rejected lateralized variants 12236161000119108 and 12236201000119103 as narrower."
+            "9826008 Conjunctivitis (disorder) is the canonical parent for 'Red Eye, discharge'. Conjunctivitis is both the primary cause of red eye with discharge and the SNOMED parent from which all specific forms descend. IS-A descendants include viral, bacterial, allergic, chemical, and other conjunctivitis. Rejected all specific conjunctivitis subtypes in the pool (Morax angular, atopic, catarrhal, phlyctenular, pseudomembranous, chronic, exudative, others) — all narrower. Rejected lateralized variants 12236161000119108 and 12236201000119103 as narrower. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Photophobia",
@@ -859,8 +873,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="282752000",
         fsn="Injury of eye region (disorder)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 735659002 'Retained magnetic foreign body in bilateral eyes due to and following eye injury (disorder)'. Holistic review (opus) independently verified via search_snomed.py that original pick was a narrow retained-foreign-body concept, grossly over-specific. Corrected to 282752000 'Injury of eye region (disorder)'."
+            "[controller-corrected after holistic review] Original pick was 735659002 'Retained magnetic foreign body in bilateral eyes due to and following eye injury (disorder)'. Holistic review (opus) independently verified via search_snomed.py that original pick was a narrow retained-foreign-body concept, grossly over-specific. Corrected to 282752000 'Injury of eye region (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Back pain",
@@ -875,8 +890,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="282766005",
         fsn="Lower back injury (disorder)",
         rationale=(
-            "282766005 Lower back injury (disorder) is the best available anchor for 'Traumatic back / spine injury'. Of 3 candidates: 698499006 Spine injury due to birth trauma — paediatric/obstetric specific; 282767001 Injury of back of chest — thoracic level; 282766005 Lower back injury — lumbar trauma, most common traumatic spinal presentation. No 'Spinal cord injury (disorder)' or 'Injury of spine (disorder)' parent appears in the restricted pool. Rejected birth trauma and thoracic-specific variants. Lower back injury is the least narrow option covering the dominant clinical scenario."
+            "282766005 Lower back injury (disorder) is the best available anchor for 'Traumatic back / spine injury'. Of 3 candidates: 698499006 Spine injury due to birth trauma — paediatric/obstetric specific; 282767001 Injury of back of chest — thoracic level; 282766005 Lower back injury — lumbar trauma, most common traumatic spinal presentation. No 'Spinal cord injury (disorder)' or 'Injury of spine (disorder)' parent appears in the restricted pool. Rejected birth trauma and thoracic-specific variants. Lower back injury is the least narrow option covering the dominant clinical scenario. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Amputation",
@@ -907,16 +923,18 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="127278005",
         fsn="Injury of upper extremity (disorder)",
         rationale=(
-            "[auto-resolved, AUTO_SINGLE] Injury of upper extremity (disorder) (127278005) was the sole SNOMED Clinical Finding concept matching 'Upper extremity injury' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject."
+            "[auto-resolved, AUTO_SINGLE] Injury of upper extremity (disorder) (127278005) was the sole SNOMED Clinical Finding concept matching 'Upper extremity injury' and its aliases via keyword search (FSN + synonym descriptions, word-boundary matched). No other candidates existed to reject. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Lower extremity injury",
         anchor_concept_id="127279002",
         fsn="Injury of lower limb (disorder)",
         rationale=(
-            "Searched 'lower extremity injury', 'lower limb injury' (0 hits CF). Searched 'injury of lower extremity' → confirmed 127279002 Injury of lower limb (disorder) (syn: 'Injury of lower extremity') — the canonical broad parent. IS-A descendants include superficial injuries, crushing injury 39595001, fractures, and all anatomically specific lower limb injuries. Rejected 274197007 Superficial injury of lower limb — mechanism-specific (superficial only). Rejected 39595001 Crushing injury — mechanism-specific."
+            "Searched 'lower extremity injury', 'lower limb injury' (0 hits CF). Searched 'injury of lower extremity' → confirmed 127279002 Injury of lower limb (disorder) (syn: 'Injury of lower extremity') — the canonical broad parent. IS-A descendants include superficial injuries, crushing injury 39595001, fractures, and all anatomically specific lower limb injuries. Rejected 274197007 Superficial injury of lower limb — mechanism-specific (superficial only). Rejected 39595001 Crushing injury — mechanism-specific. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Joint(s) swelling",
@@ -939,8 +957,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="387712008",
         fsn="Neonatal jaundice (finding)",
         rationale=(
-            "[auto-resolved, AUTO_SIMILARITY] Neonatal jaundice (finding) (387712008) had a clearly dominant textual-similarity match against 'Neonatal jaundice' among 30 matched candidates (no IS_A hierarchy relationship among them). Rejected as less textually specific to this complaint: Neonatal jaundice due to delayed conjugation from delayed development of conjugating system (finding) (69347004); Neonatal jaundice associated with preterm delivery (finding) (73749009); Hypermelanosis following phototherapy for neonatal jaundice (disorder) (403525002); Neonatal jaundice due to delayed conjugation (finding) (17140000); Neonatal jaundice due to glucose-6-phosphate dehydrogenase deficiency (finding) (206439006); Neonatal jaundice with congenital hypothyroidism (disorder) (206457007) (+23 more)."
+            "[auto-resolved, AUTO_SIMILARITY] Neonatal jaundice (finding) (387712008) had a clearly dominant textual-similarity match against 'Neonatal jaundice' among 30 matched candidates (no IS_A hierarchy relationship among them). Rejected as less textually specific to this complaint: Neonatal jaundice due to delayed conjugation from delayed development of conjugating system (finding) (69347004); Neonatal jaundice associated with preterm delivery (finding) (73749009); Hypermelanosis following phototherapy for neonatal jaundice (disorder) (403525002); Neonatal jaundice due to delayed conjugation (finding) (17140000); Neonatal jaundice due to glucose-6-phosphate dehydrogenase deficiency (finding) (206439006); Neonatal jaundice with congenital hypothyroidism (disorder) (206457007) (+23 more). [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Inconsolable crying in infants",
@@ -1003,8 +1022,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="66091009",
         fsn="Congenital disease (disorder)",
         rationale=(
-            "Searched 'congenital problem' (0 hits CF). Searched 'congenital disease' → confirmed 66091009 Congenital disease (disorder) (syn: 'Congenital disease', 'Congenital disorder'). Searched 'congenital malformation' → 276654001 Congenital malformation (disorder) (syn: 'Congenital anomaly'). 66091009 Congenital disease (disorder) is the broadest top-level SNOMED parent for all congenital conditions, covering structural anomalies, metabolic disorders, chromosomal abnormalities — all categories of 'congenital problem in children'. Rejected 276654001 Congenital malformation — covers structural anomalies only, excludes inborn errors of metabolism and chromosomal disorders."
+            "Searched 'congenital problem' (0 hits CF). Searched 'congenital disease' → confirmed 66091009 Congenital disease (disorder) (syn: 'Congenital disease', 'Congenital disorder'). Searched 'congenital malformation' → 276654001 Congenital malformation (disorder) (syn: 'Congenital anomaly'). 66091009 Congenital disease (disorder) is the broadest top-level SNOMED parent for all congenital conditions, covering structural anomalies, metabolic disorders, chromosomal abnormalities — all categories of 'congenital problem in children'. Rejected 276654001 Congenital malformation — covers structural anomalies only, excludes inborn errors of metabolism and chromosomal disorders. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Shortness of breath",
@@ -1067,8 +1087,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="283682007",
         fsn="Bite - wound (disorder)",
         rationale=(
-            "[controller-corrected after fix-round-2 re-review] Original pick was 283683002 'Mammal bite wound (disorder)'. original pick (283683002 Mammal bite wound) is a descendant of 283682007 Bite - wound; prevalence ('vast majority of ED bite presentations') was wrongly used as a tie-break against a real parent, inverting the plan's actual rule. Corrected to 283682007 'Bite - wound (disorder)'."
+            "[controller-corrected after fix-round-2 re-review] Original pick was 283683002 'Mammal bite wound (disorder)'. original pick (283683002 Mammal bite wound) is a descendant of 283682007 Bite - wound; prevalence ('vast majority of ED bite presentations') was wrongly used as a tie-break against a real parent, inverting the plan's actual rule. Corrected to 283682007 'Bite - wound (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Sting",
@@ -1083,40 +1104,45 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="399963005",
         fsn="Abrasion (disorder)",
         rationale=(
-            "399963005 Abrasion (disorder) is the canonical etiology-neutral parent for 'Abrasion'. IS-A descendants include corneal abrasion, infected abrasion, abrasions of specific body sites. The broad Abrasion (disorder) anchors the entire IS-A tree. Rejected 85848002 Corneal abrasion — ocular specific. Rejected 110164000, 110168000 forehead/chin abrasions — anatomy-specific. Rejected infected abrasion variants — complication qualifier."
+            "399963005 Abrasion (disorder) is the canonical etiology-neutral parent for 'Abrasion'. IS-A descendants include corneal abrasion, infected abrasion, abrasions of specific body sites. The broad Abrasion (disorder) anchors the entire IS-A tree. Rejected 85848002 Corneal abrasion — ocular specific. Rejected 110164000, 110168000 forehead/chin abrasions — anatomy-specific. Rejected infected abrasion variants — complication qualifier. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Laceration / Puncture",
         anchor_concept_id="274165007",
         fsn="Laceration of skin (disorder)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 370247008 'Facial laceration (disorder)'. Holistic review (opus) independently verified via search_snomed.py that broader parent exists, matches 704's own complaint scope. Corrected to 274165007 'Laceration of skin (disorder)'."
+            "[controller-corrected after holistic review] Original pick was 370247008 'Facial laceration (disorder)'. Holistic review (opus) independently verified via search_snomed.py that broader parent exists, matches 704's own complaint scope. Corrected to 274165007 'Laceration of skin (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Burn",
         anchor_concept_id="125666000",
         fsn="Burn (disorder)",
         rationale=(
-            "125666000 Burn (disorder) is the canonical etiology-neutral parent for 'Burn'. IS-A descendants include 314534006 Thermal burn, chemical burns, electrical burns, and all body-site specific burns. Considered 314534006 Thermal burn — valid but excludes chemical and electrical burns. Rejected all anatomy- and mechanism-specific burns as narrower."
+            "125666000 Burn (disorder) is the canonical etiology-neutral parent for 'Burn'. IS-A descendants include 314534006 Thermal burn, chemical burns, electrical burns, and all body-site specific burns. Considered 314534006 Thermal burn — valid but excludes chemical and electrical burns. Rejected all anatomy- and mechanism-specific burns as narrower. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Blood and body fluid exposure",
         anchor_concept_id="304235000",
         fsn="Sharps injury (disorder)",
         rationale=(
-            "304235000 Sharps injury (disorder) is the anchor for 'Blood and body fluid exposure'. Broad search confirmed no 'Blood and body fluid exposure (finding)' or 'Occupational exposure to blood (finding)' exists in Clinical Finding scope -- Sharps injury is the closest verified concept covering the most common exposure route. Known limitation, documented rather than hidden: splash/mucosal exposure events (non-sharps) are not well covered by this anchor's descendant traversal; a future pass could add a second seed keyword search specifically for mucosal/splash exposure if this proves to miss real user mentions."
+            "304235000 Sharps injury (disorder) is the anchor for 'Blood and body fluid exposure'. Broad search confirmed no 'Blood and body fluid exposure (finding)' or 'Occupational exposure to blood (finding)' exists in Clinical Finding scope -- Sharps injury is the closest verified concept covering the most common exposure route. Known limitation, documented rather than hidden: splash/mucosal exposure events (non-sharps) are not well covered by this anchor's descendant traversal; a future pass could add a second seed keyword search specifically for mucosal/splash exposure if this proves to miss real user mentions. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Pruritus",
         anchor_concept_id="418290006",
         fsn="Itching (finding)",
         rationale=(
-            "418290006 Itching (finding) is the only etiology-neutral itch parent in the pool for 'Pruritus'. All other itch candidates are body-site specific (scrotal, vulvar, penile, perianal). Itching (finding) is the broad symptom parent covering all localizations. Rejected 65645005, 67882000, 69069001, 90446007 — all are anatomically specific subtypes."
+            "418290006 Itching (finding) is the only etiology-neutral itch parent in the pool for 'Pruritus'. All other itch candidates are body-site specific (scrotal, vulvar, penile, perianal). Itching (finding) is the broad symptom parent covering all localizations. Rejected 65645005, 67882000, 69069001, 90446007 — all are anatomically specific subtypes. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Rash",
@@ -1139,16 +1165,18 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="95320005",
         fsn="Disorder of skin (disorder)",
         rationale=(
-            "Searched 'skin condition' (0 hits CF), 'skin disorder', 'disorder of skin', 'skin disease', 'skin finding'. Confirmed 95320005 Disorder of skin (disorder) (syn: 'Skin disorder', 'Skin disease', 'Dermatosis') as the canonical SNOMED top-level parent for all skin disorders. IS-A traversal from this concept covers all specific dermatological diagnoses. Also confirmed 106076001 Skin finding (finding) exists but is less specific. 95320005 is the correct anchor for 'Other skin conditions NOS'. Rejected 106076001 Skin finding — observation-level, not disorder parent."
+            "Searched 'skin condition' (0 hits CF), 'skin disorder', 'disorder of skin', 'skin disease', 'skin finding'. Confirmed 95320005 Disorder of skin (disorder) (syn: 'Skin disorder', 'Skin disease', 'Dermatosis') as the canonical SNOMED top-level parent for all skin disorders. IS-A traversal from this concept covers all specific dermatological diagnoses. Also confirmed 106076001 Skin finding (finding) exists but is less specific. 95320005 is the correct anchor for 'Other skin conditions NOS'. Rejected 106076001 Skin finding — observation-level, not disorder parent. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Lumps, bumps, calluses",
         anchor_concept_id="201040000",
         fsn="Callosity (disorder)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 229810006 'Apical callus (disorder)'. 201040000 Callosity (disorder) has the synonym 'Callus' -- exact match the original 8-candidate pool missed (picked Apical callus, foot-specific). Corrected to 201040000 'Callosity (disorder)'."
+            "[controller-corrected after holistic review] Original pick was 229810006 'Apical callus (disorder)'. 201040000 Callosity (disorder) has the synonym 'Callus' -- exact match the original 8-candidate pool missed (picked Apical callus, foot-specific). Corrected to 201040000 'Callosity (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Redness / tenderness, breast",
@@ -1179,8 +1207,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="93458008",
         fsn="Foreign body in skin (disorder)",
         rationale=(
-            "93458008 Foreign body in skin (disorder) is the canonical etiology-neutral parent for 'Foreign body, skin'. IS-A descendants include all anatomically specific skin FB variants (eyelid, foot, foreskin, finger, etc.) across the 3493-candidate pool. Rejected all anatomy-specific subtypes as all are IS-A children of this parent. Rejected 211463006 Foreign body in skin wound — wound qualifier narrows to open-wound scenarios only."
+            "93458008 Foreign body in skin (disorder) is the canonical etiology-neutral parent for 'Foreign body, skin'. IS-A descendants include all anatomically specific skin FB variants (eyelid, foot, foreskin, finger, etc.) across the 3493-candidate pool. Rejected all anatomy-specific subtypes as all are IS-A children of this parent. Rejected 211463006 Foreign body in skin wound — wound qualifier narrows to open-wound scenarios only. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Substance misuse / Intoxication",
@@ -1211,8 +1240,9 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="262560006",
         fsn="Penetrating wound (disorder)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 283545005 'Gunshot wound (disorder)'. Holistic review (opus) independently verified via search_snomed.py that generic parent exists, matches 802's correct pattern. Corrected to 262560006 'Penetrating wound (disorder)'."
+            "[controller-corrected after holistic review] Original pick was 283545005 'Gunshot wound (disorder)'. Holistic review (opus) independently verified via search_snomed.py that generic parent exists, matches 802's correct pattern. Corrected to 262560006 'Penetrating wound (disorder)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Major trauma – blunt",
@@ -1307,23 +1337,26 @@ ANCHOR_MAPPINGS: list[AnchorMapping] = [
         anchor_concept_id="271737000",
         fsn="Anemia (disorder)",
         rationale=(
-            "271737000 Anemia (disorder) is the canonical parent for 'Pallor / Anemia'. The pallor pole is captured by 1237486008 Pale discoloration of entire skin of body and 1209208002 Pallor of skin of face as related concepts. Anemia (disorder) is the primary clinical diagnosis and the most actionable; pallor is a sign of anemia. IS-A descendants include all anemia subtypes in the 408-candidate pool: hemolytic, aplastic, megaloblastic, nutritional, congenital, immune-mediated, and others. Rejected individual anemia subtypes as all are narrower. Rejected organ-specific pallor findings as sign concepts, not disorder anchors."
+            "271737000 Anemia (disorder) is the canonical parent for 'Pallor / Anemia'. The pallor pole is captured by 1237486008 Pale discoloration of entire skin of body and 1209208002 Pallor of skin of face as related concepts. Anemia (disorder) is the primary clinical diagnosis and the most actionable; pallor is a sign of anemia. IS-A descendants include all anemia subtypes in the 408-candidate pool: hemolytic, aplastic, megaloblastic, nutritional, congenital, immune-mediated, and others. Rejected individual anemia subtypes as all are narrower. Rejected organ-specific pallor findings as sign concepts, not disorder anchors. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Post-operative complications",
         anchor_concept_id="385486001",
         fsn="Postoperative complication (disorder)",
         rationale=(
-            "Searched 'postoperative complication' → confirmed 385486001 Postoperative complication (disorder) as the broad parent. Also confirmed 88797001 Complication of surgical procedure (disorder) (syn: 'Complication of surgical procedure') as an alternative. 385486001 Postoperative complication (disorder) is the more specific and clinically relevant anchor for 'Post-operative complications' — IS-A descendants include all specific postoperative complications (wound dehiscence, hemorrhage, infection, etc.). Rejected 88797001 — slightly broader (includes intraoperative complications). Chose 385486001 as the most precise match."
+            "Searched 'postoperative complication' → confirmed 385486001 Postoperative complication (disorder) as the broad parent. Also confirmed 88797001 Complication of surgical procedure (disorder) (syn: 'Complication of surgical procedure') as an alternative. 385486001 Postoperative complication (disorder) is the more specific and clinically relevant anchor for 'Post-operative complications' — IS-A descendants include all specific postoperative complications (wound dehiscence, hemorrhage, infection, etc.). Rejected 88797001 — slightly broader (includes intraoperative complications). Chose 385486001 as the most precise match. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
     AnchorMapping(
         ctas_alias="Newly Born",
         anchor_concept_id="118188004",
         fsn="Neonatal finding (finding)",
         rationale=(
-            "[controller-corrected after holistic review] Original pick was 102500002 'Good neonatal condition at birth (finding)'. original pick (Good neonatal condition at birth) had an inverted polarity mismatch with its own red flag's emergent severity ('good condition' implying no concern vs 'emergent' implying concern); 118188004 is a neutral broad umbrella category, matches the plan's broader-parent preference. Corrected to 118188004 'Neonatal finding (finding)'."
+            "[controller-corrected after holistic review] Original pick was 102500002 'Good neonatal condition at birth (finding)'. original pick (Good neonatal condition at birth) had an inverted polarity mismatch with its own red flag's emergent severity ('good condition' implying no concern vs 'emergent' implying concern); 118188004 is a neutral broad umbrella category, matches the plan's broader-parent preference. Corrected to 118188004 'Neonatal finding (finding)'. [Phase 3 review] Depth-4 descendant set over-broad (flagged by depth_flagging.py). Narrowed to max_depth=2."
         ),
+        max_depth=2,
     ),
 ]
