@@ -48,7 +48,7 @@ from typing import Any
 
 from neo4j import GraphDatabase, Session
 
-from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS, AnchorMapping
+from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS, AnchorMapping
 from scripts.snomed_ingest.constants import MAX_SEED_DESCENDANT_DEPTH
 
 DEFAULT_REPORT_PATH = Path(__file__).resolve().parent / "depth_flagging_report.json"

@@ -9,7 +9,7 @@ Both providers key GraphContext.complaint_name to the same identity space:
 - StaticLookupProvider (backend/graph/static_provider.py) returns
   entry["name"] from backend/triage/resources/symptom_triage_data.json.
 - Neo4jSnomedProvider (backend/graph/snomed_neo4j/provider.py) returns
-  mapping.ctas_alias from backend/scripts/snomed_ingest/anchor_mapping.py's
+  mapping.ctas_alias from backend/graph/snomed_neo4j/anchor_mapping.py's
   ANCHOR_MAPPINGS — and anchor_mapping.py's own module docstring states
   ctas_alias values are drawn directly from symptom_triage_data.json's
   `name` field.
@@ -56,7 +56,7 @@ import json
 from functools import lru_cache
 from pathlib import Path
 
-from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS
+from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS
 
 _DATA_PATH = (
     Path(__file__).resolve().parent.parent.parent

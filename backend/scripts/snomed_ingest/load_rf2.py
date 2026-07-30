@@ -37,7 +37,7 @@ from scripts.snomed_ingest.rf2_reader import (
 from scripts.snomed_ingest.complaint_seeds import (
     load_complaint_keywords, find_seed_concept_ids,
 )
-from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS
+from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS
 
 # Resolved relative to this file rather than cwd, so it's correct regardless of the
 # invocation directory (invoked as `python -m scripts.snomed_ingest.load_rf2` from

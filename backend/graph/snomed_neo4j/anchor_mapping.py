@@ -1,4 +1,4 @@
-# backend/scripts/snomed_ingest/anchor_mapping.py
+# backend/graph/snomed_neo4j/anchor_mapping.py
 """
 Phase 2 -- CTAS complaint -> SNOMED CT anchor concept mappings.
 

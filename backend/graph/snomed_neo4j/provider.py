@@ -28,7 +28,7 @@ from graph.snomed_neo4j.queries import (
     build_concept_lookup_query,
     build_red_flag_traversal_query,
 )
-from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS
+from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS
 
 
 class Neo4jSnomedProvider(GraphContextProvider):

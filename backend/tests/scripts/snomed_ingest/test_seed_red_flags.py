@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
 from scripts.snomed_ingest import seed_red_flags
-from scripts.snomed_ingest.anchor_mapping import AnchorMapping
+from graph.snomed_neo4j.anchor_mapping import AnchorMapping
 from scripts.snomed_ingest.seed_red_flags import build_rows, load_red_flag_lookup
 
 

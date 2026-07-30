@@ -151,7 +151,7 @@ def test_lookup_deduplicates_repeated_indicator(mock_provider):
 
 def test_lookup_uses_per_anchor_max_depth(mock_provider):
     """_lookup() must pass mapping.max_depth, not a hardcoded constant."""
-    from scripts.snomed_ingest.anchor_mapping import AnchorMapping
+    from graph.snomed_neo4j.anchor_mapping import AnchorMapping
 
     test_mapping = AnchorMapping(
         ctas_alias="Test complaint",

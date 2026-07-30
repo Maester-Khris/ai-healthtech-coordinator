@@ -49,7 +49,7 @@ from typing import Any, Iterable, Iterator, TypeVar
 
 from neo4j import GraphDatabase, Session
 
-from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS, AnchorMapping
+from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS, AnchorMapping
 
 # Resolved relative to this file rather than cwd, matching load_rf2.py's
 # DEFAULT_COMPLAINTS_PATH convention -- correct regardless of invocation directory.
