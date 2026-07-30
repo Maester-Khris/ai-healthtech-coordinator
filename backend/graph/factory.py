@@ -14,9 +14,6 @@ def get_graph_provider() -> GraphContextProvider:
         from graph.static_provider import StaticLookupProvider
         return StaticLookupProvider()
     if provider == "neo4j":
-        raise NotImplementedError(
-            "GRAPH_RAG_PROVIDER=neo4j has no v2 trigger yet — see "
-            "artifacts/2026-07-19-graphrag-neo4j-integration-plan.md §6. "
-            "Use 'static' or leave unset."
-        )
+        from graph.snomed_neo4j.provider import Neo4jSnomedProvider
+        return Neo4jSnomedProvider()
     return NullGraphProvider()
