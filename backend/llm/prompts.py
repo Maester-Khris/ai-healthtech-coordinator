@@ -55,6 +55,15 @@ def build_system_prompt(max_followups: int = 4) -> str:
     return TRIAGE_SYSTEM_PROMPT.format(max_followups=max_followups)
 
 
+def _sanitise_patient_field(value: str) -> str:
+    """Strip XML angle-bracket characters from patient-supplied free text.
+    Prevents a delimiter-escape payload (e.g. '</patient_provided_medical_context>')
+    from breaking out of the fence and injecting content into the surrounding
+    system prompt. The real content (allergies, conditions) is unambiguous without
+    angle brackets; stripping them loses nothing clinically meaningful."""
+    return value.replace("<", "").replace(">", "")
+
+
 def build_medical_context_block(
     allergies: str | None,
     conditions: str | None,
@@ -69,11 +78,11 @@ def build_medical_context_block(
     """
     entries = []
     if blood_type:
-        entries.append(f"- Blood type: {blood_type}")
+        entries.append(f"- Blood type: {_sanitise_patient_field(blood_type)}")
     if allergies:
-        entries.append(f"- Known allergies: {allergies}")
+        entries.append(f"- Known allergies: {_sanitise_patient_field(allergies)}")
     if conditions:
-        entries.append(f"- Pre-existing conditions: {conditions}")
+        entries.append(f"- Pre-existing conditions: {_sanitise_patient_field(conditions)}")
     if not entries:
         return ""
     return (
