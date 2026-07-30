@@ -19,20 +19,21 @@ from graph.snomed_neo4j.queries import (
 
 def test_traversal_query_bounds_is_a_depth_and_filters_by_candidate_ids():
     """Verbatim from the plan doc Step 1 (TDD anchor)."""
-    query, params = build_red_flag_traversal_query(candidate_concept_ids=["22253000"])
-    assert "IS_A*0..3" in query
+    query, params = build_red_flag_traversal_query(candidate_concept_ids=["22253000"], anchor_concept_id="123456")
+    assert "MATCH (c)-[:IS_A*0..3]->(anchor:SnomedConcept {id: $anchor_concept_id})" in query
     assert params["candidate_concept_ids"] == ["22253000"]
+    assert params["anchor_concept_id"] == "123456"
 
 
 def test_traversal_query_respects_custom_max_depth():
-    query, params = build_red_flag_traversal_query(["22253000"], max_depth=2)
-    assert "IS_A*0..2" in query
+    query, params = build_red_flag_traversal_query(["22253000"], "123456", max_depth=2)
+    assert "MATCH (c)-[:IS_A*0..2]->(anchor:SnomedConcept {id: $anchor_concept_id})" in query
     assert "IS_A*0..3" not in query
 
 
 def test_traversal_query_rejects_negative_depth():
     with pytest.raises(ValueError):
-        build_red_flag_traversal_query(["22253000"], max_depth=-1)
+        build_red_flag_traversal_query(["22253000"], "123456", max_depth=-1)
 
 
 def test_concept_lookup_query_filters_by_english_language_code():

@@ -13,25 +13,26 @@ list parameters (candidate_concept_ids) remain real bound params.
 
 def build_red_flag_traversal_query(
     candidate_concept_ids: list[str],
+    anchor_concept_id: str,
     max_depth: int = 3,
 ) -> tuple[str, dict]:
     """Build the IS_A traversal + red-flag collection query.
 
     Walks from each candidate concept *upward* toward its ancestors
     (schema direction: (child:SnomedConcept)-[:IS_A]->(parent:SnomedConcept))
-    up to max_depth hops, finds all SnomedConcept anchors reachable that way,
-    then returns their attached RedFlag + FollowupQuestion nodes.
+    up to max_depth hops, finds the specific SnomedConcept anchor reachable that way,
+    then returns its attached RedFlag + FollowupQuestion nodes.
 
     max_depth is interpolated as a validated int literal (Neo4j doesn't accept
     a query param for a variable-length relationship range bound).
-    candidate_concept_ids remains a real bound parameter.
+    candidate_concept_ids and anchor_concept_id remain real bound parameters.
     """
     if max_depth < 0:
         raise ValueError(f"max_depth must be >= 0, got {max_depth}")
     query = (
         f"MATCH (c:SnomedConcept) "
         f"WHERE c.id IN $candidate_concept_ids "
-        f"MATCH (c)-[:IS_A*0..{max_depth}]->(anchor:SnomedConcept) "
+        f"MATCH (c)-[:IS_A*0..{max_depth}]->(anchor:SnomedConcept {{id: $anchor_concept_id}}) "
         f"MATCH (anchor)-[:HAS_RED_FLAG]->(rf:RedFlag)-[:ASKS]->(q:FollowupQuestion) "
         f"RETURN DISTINCT c.id AS candidate_id, "
         f"anchor.id AS anchor_id, "
@@ -40,7 +41,7 @@ def build_red_flag_traversal_query(
         f"rf.app_severity AS app_severity, "
         f"q.text AS followup_question"
     )
-    return query, {"candidate_concept_ids": candidate_concept_ids}
+    return query, {"candidate_concept_ids": candidate_concept_ids, "anchor_concept_id": anchor_concept_id}
 
 
 def build_concept_lookup_query() -> tuple[str, dict]:
@@ -58,7 +59,8 @@ def build_concept_lookup_query() -> tuple[str, dict]:
     query = (
         "MATCH (c:SnomedConcept)-[:HAS_DESCRIPTION]->(d:Description) "
         "WHERE d.language_code = \"en\" "
-        "  AND toLower(d.term) CONTAINS toLower($text) "
+        "  AND size(d.term) >= 4 "
+        "  AND toLower($text) CONTAINS toLower(d.term) "
         "RETURN DISTINCT c.id AS concept_id"
     )
     return query, {}

@@ -81,7 +81,7 @@ class Neo4jSnomedProvider(GraphContextProvider):
 
         for mapping in ANCHOR_MAPPINGS:
             traversal_query, traversal_params = build_red_flag_traversal_query(
-                candidate_ids, max_depth=mapping.max_depth
+                candidate_ids, mapping.anchor_concept_id, max_depth=mapping.max_depth
             )
             rows = self._client.run_query(traversal_query, traversal_params)
             if not rows:
