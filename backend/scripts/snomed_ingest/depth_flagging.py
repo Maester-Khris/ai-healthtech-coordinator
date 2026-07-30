@@ -21,10 +21,17 @@ Q3 + 1.5*IQR) relative to the other anchors' depth-4 counts, computed over the
 actual measured distribution across all anchors.
 
 Signal 2 -- cross-anchor overlap: for each anchor, compute the *set* of
-concept IDs in its depth-4 descendant set. Flag any anchor whose set shares
-one or more concept IDs with another anchor's set -- a concrete contamination
-signal (this exact failure mode already happened once: the 68235000
-duplicate-anchor bug found during Task 2a's holistic review).
+concept IDs in its depth-4 descendant set. For every pair of anchors whose
+sets intersect, compute the *size* of that intersection, then apply the same
+IQR rule as Signal 1 to the distribution of overlap-pair sizes -- flag only
+pairs whose shared-concept count is itself a statistical outlier relative to
+the other overlapping pairs (not merely "shares at least one concept": a
+first live run found that a bare presence/absence check flagged a majority of
+the 154 anchors, almost entirely via one-or-two-concept overlaps that are
+ordinary SNOMED polyhierarchy noise, not contamination -- the same IQR
+discipline used for fan-out separates that noise from the genuinely large
+subtree merges, e.g. the 68235000 duplicate-anchor bug found during Task 2a's
+holistic review, which this signal is meant to catch).
 
 Standalone script only -- never imported by the request path
 (backend/services/llm_agent.py, backend/graph/*). Invoke as:
@@ -92,26 +99,42 @@ def build_descendant_ids_query(anchor_id: str, depth: int) -> tuple[str, dict[st
 # --------------------------------------------------------------------------
 
 
+def _iqr_upper_threshold(values: list[float]) -> float | None:
+    """Shared IQR-fence computation: Q3 + 1.5*IQR (the standard Tukey fence --
+    not invented for this task) over `values`, computed via
+    `statistics.quantiles(..., n=4, method="exclusive")` (Python stdlib, no new
+    dependency) -- the traditional textbook/Excel-QUARTILE.EXC method, a
+    defensible standard choice; any linear-interpolation quartile method would
+    give near-identical cut points on a distribution this size.
+
+    Used by both `detect_fanout_outliers` (over per-anchor depth-4 counts) and
+    `detect_cross_anchor_overlap` (over overlapping-pair shared-concept
+    counts) -- same computation, two different input distributions, so the
+    quartile math lives in exactly one place rather than being duplicated
+    with its own separately-tunable magic number per signal.
+
+    Returns None if there are too few data points for a meaningful quartile
+    split (fewer than 4 -- `statistics.quantiles` requires at least that many
+    with method="exclusive"). Callers treat None as "nothing flagged."
+    """
+    if len(values) < 4:
+        return None
+    q1, _, q3 = statistics.quantiles(sorted(values), n=4, method="exclusive")
+    iqr = q3 - q1
+    return q3 + 1.5 * iqr
+
+
 def detect_fanout_outliers(depth4_counts: dict[str, int]) -> list[str]:
     """IQR-based outlier detection over the actual measured depth-4-count
-    distribution: flag anchor IDs whose count is above Q3 + 1.5*IQR (the
-    standard Tukey fence -- not invented for this task).
+    distribution: flag anchor IDs whose count is above the shared IQR fence
+    (see `_iqr_upper_threshold`).
 
-    Q1/Q3 are computed via `statistics.quantiles(..., n=4, method="exclusive")`
-    (Python stdlib, no new dependency), the traditional textbook/Excel-QUARTILE.EXC
-    method -- a defensible, standard choice; any linear-interpolation quartile
-    method would give near-identical cut points on a 154-point distribution.
-
-    Returns an empty list if there are too few anchors for a meaningful quartile
-    split (fewer than 4 data points -- `statistics.quantiles` requires at least
-    that many with method="exclusive").
+    Returns an empty list if there are too few anchors for a meaningful
+    quartile split.
     """
-    if len(depth4_counts) < 4:
+    threshold = _iqr_upper_threshold(list(depth4_counts.values()))
+    if threshold is None:
         return []
-    values = sorted(depth4_counts.values())
-    q1, _, q3 = statistics.quantiles(values, n=4, method="exclusive")
-    iqr = q3 - q1
-    threshold = q3 + 1.5 * iqr
     return sorted(
         anchor_id for anchor_id, count in depth4_counts.items() if count > threshold
     )
@@ -119,16 +142,39 @@ def detect_fanout_outliers(depth4_counts: dict[str, int]) -> list[str]:
 
 def detect_cross_anchor_overlap(descendant_sets: dict[str, set[str]]) -> dict[str, set[str]]:
     """For each anchor, find which *other* anchors' depth-4 descendant sets it
-    shares one or more concept IDs with. Anchors with no overlap are omitted
-    from the result entirely (empty overlap is not a flag)."""
+    shares a statistically-outlying number of concept IDs with.
+
+    First computes every overlapping pair's shared-concept-set size, then
+    applies the same IQR fence used by `detect_fanout_outliers` (see
+    `_iqr_upper_threshold`) to that distribution of pair sizes: only pairs
+    whose overlap size is itself an outlier relative to the other overlapping
+    pairs are flagged. Pairs at or below the fence (typically single- or
+    few-concept overlaps -- ordinary SNOMED polyhierarchy noise, e.g. a leaf
+    concept legitimately having two IS_A parents under different anchors) are
+    not flagged at all, not even with a smaller/differently-worded reason.
+
+    Anchors with no *outlying* overlap are omitted from the result entirely
+    (empty overlap is not a flag) -- including the case where there are too
+    few overlapping pairs overall for a meaningful quartile split.
+    """
     anchor_ids = sorted(descendant_sets)
-    overlap: dict[str, set[str]] = {}
+    pair_sizes: dict[tuple[str, str], int] = {}
     for i, anchor_a in enumerate(anchor_ids):
         set_a = descendant_sets[anchor_a]
         for anchor_b in anchor_ids[i + 1 :]:
-            if set_a & descendant_sets[anchor_b]:
-                overlap.setdefault(anchor_a, set()).add(anchor_b)
-                overlap.setdefault(anchor_b, set()).add(anchor_a)
+            shared = len(set_a & descendant_sets[anchor_b])
+            if shared:
+                pair_sizes[(anchor_a, anchor_b)] = shared
+
+    threshold = _iqr_upper_threshold(list(pair_sizes.values()))
+    if threshold is None:
+        return {}
+
+    overlap: dict[str, set[str]] = {}
+    for (anchor_a, anchor_b), size in pair_sizes.items():
+        if size > threshold:
+            overlap.setdefault(anchor_a, set()).add(anchor_b)
+            overlap.setdefault(anchor_b, set()).add(anchor_a)
     return overlap
 
 
@@ -138,7 +184,14 @@ def flag_anchors(
 ) -> dict[str, list[str]]:
     """Union both signals into a per-anchor reason list. Anchors flagged by
     neither signal are not included in the output at all. Reasons within an
-    anchor's list are sorted for deterministic (rerun-stable) output."""
+    anchor's list are sorted for deterministic (rerun-stable) output.
+
+    Cross-anchor-overlap reasons include the actual shared-concept count
+    (`cross_anchor_overlap:<other_anchor_id>:<n_shared>`), recomputed here
+    from `descendant_sets` (already available to this function) rather than
+    threaded through `detect_cross_anchor_overlap`'s return value, so that
+    function's return shape stays a plain `dict[str, set[str]]`.
+    """
     outliers = set(detect_fanout_outliers(depth4_counts))
     overlaps = detect_cross_anchor_overlap(descendant_sets)
 
@@ -147,9 +200,9 @@ def flag_anchors(
         reasons: list[str] = []
         if anchor_id in outliers:
             reasons.append("fanout_outlier")
-        reasons.extend(
-            f"cross_anchor_overlap:{other}" for other in sorted(overlaps.get(anchor_id, ()))
-        )
+        for other in sorted(overlaps.get(anchor_id, ())):
+            n_shared = len(descendant_sets[anchor_id] & descendant_sets[other])
+            reasons.append(f"cross_anchor_overlap:{other}:{n_shared}")
         if reasons:
             flagged[anchor_id] = reasons
     return flagged

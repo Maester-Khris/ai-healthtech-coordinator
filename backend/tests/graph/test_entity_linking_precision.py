@@ -94,20 +94,36 @@ def test_detect_fanout_outliers_result_is_sorted_and_deterministic():
 
 
 # --------------------------------------------------------------------------
-# detect_cross_anchor_overlap -- pure set-intersection check, synthetic dict
+# detect_cross_anchor_overlap -- pure IQR check over overlapping-pair sizes,
+# synthetic dict, no Neo4j. A first live run of the raw "any shared concept"
+# version of this signal flagged a majority of the 154 real anchors, almost
+# entirely via single-concept overlaps (ordinary SNOMED polyhierarchy noise);
+# it now applies the same IQR fence detect_fanout_outliers uses, but over the
+# distribution of overlap-pair *sizes* rather than per-anchor counts.
 # --------------------------------------------------------------------------
 
 
-def test_detect_cross_anchor_overlap_finds_shared_concept_between_two_anchors():
-    # Reproduces the shape of the 68235000 duplicate-anchor bug: two anchors'
-    # descendant sets share a concept.
+def test_detect_cross_anchor_overlap_does_not_flag_a_small_overlap_among_larger_ones():
+    # Five pairs sharing exactly one concept each (ordinary polyhierarchy
+    # noise -- ie. the old bare "any overlap" behavior would have flagged all
+    # of these) plus one pair sharing 60 concepts (a genuine large-subtree
+    # merge, reproducing the shape of the 68235000 duplicate-anchor bug). The
+    # IQR fence over [1, 1, 1, 1, 1, 60] flags only the 60.
     sets = {
-        "anchor_a": {"100", "101", "68235000"},
-        "anchor_b": {"200", "68235000"},
-        "anchor_c": {"300", "301"},
+        "p1a": {"1a", "x1"}, "p1b": {"1b", "x1"},
+        "p2a": {"2a", "x2"}, "p2b": {"2b", "x2"},
+        "p3a": {"3a", "x3"}, "p3b": {"3b", "x3"},
+        "p4a": {"4a", "x4"}, "p4b": {"4b", "x4"},
+        "p5a": {"5a", "x5"}, "p5b": {"5b", "x5"},
+        "big_a": {f"big{i}" for i in range(60)} | {"a_only"},
+        "big_b": {f"big{i}" for i in range(60)} | {"b_only"},
     }
     overlap = detect_cross_anchor_overlap(sets)
-    assert overlap == {"anchor_a": {"anchor_b"}, "anchor_b": {"anchor_a"}}
+    assert overlap == {"big_a": {"big_b"}, "big_b": {"big_a"}}
+    # The five 1-concept-overlap pairs must not appear at all -- not flagged,
+    # not flagged-with-a-smaller-reason, just absent.
+    for anchor_id in ("p1a", "p1b", "p2a", "p2b", "p3a", "p3b", "p4a", "p4b", "p5a", "p5b"):
+        assert anchor_id not in overlap
 
 
 def test_detect_cross_anchor_overlap_omits_anchors_with_no_shared_concepts():
@@ -115,18 +131,42 @@ def test_detect_cross_anchor_overlap_omits_anchors_with_no_shared_concepts():
     assert detect_cross_anchor_overlap(sets) == {}
 
 
-def test_detect_cross_anchor_overlap_handles_overlap_across_three_or_more_anchors():
+def test_detect_cross_anchor_overlap_returns_empty_dict_with_fewer_than_four_overlapping_pairs():
+    # Only 2 overlapping pairs exist here -- too few for a meaningful IQR
+    # split (mirrors detect_fanout_outliers' same-shaped guard), so nothing
+    # is flagged even though real overlap exists.
     sets = {
-        "anchor_a": {"shared", "1"},
-        "anchor_b": {"shared", "2"},
-        "anchor_c": {"shared", "3"},
+        "anchor_a": {"shared1", "1"}, "anchor_b": {"shared1", "2"},
+        "anchor_c": {"shared2", "3"}, "anchor_d": {"shared2", "4"},
     }
+    assert detect_cross_anchor_overlap(sets) == {}
+
+
+def test_detect_cross_anchor_overlap_handles_overlap_across_three_or_more_anchors():
+    # a, b, c mutually share a large block of concepts (three-way overlap --
+    # three equal-sized overlapping pairs). A dozen ordinary 1-concept noise
+    # pairs give the IQR fence enough data points to register the three-way
+    # block as the outlier and confirm it's still detected as fully symmetric
+    # across all three anchors, not just pairwise.
+    shared_block = {f"shared{i}" for i in range(50)}
+    sets = {
+        "a": shared_block | {"a_only"},
+        "b": shared_block | {"b_only"},
+        "c": shared_block | {"c_only"},
+    }
+    for i in range(12):
+        sets[f"n{i}a"] = {f"n{i}", f"u{i}a"}
+        sets[f"n{i}b"] = {f"n{i}", f"u{i}b"}
+
     overlap = detect_cross_anchor_overlap(sets)
     assert overlap == {
-        "anchor_a": {"anchor_b", "anchor_c"},
-        "anchor_b": {"anchor_a", "anchor_c"},
-        "anchor_c": {"anchor_a", "anchor_b"},
+        "a": {"b", "c"},
+        "b": {"a", "c"},
+        "c": {"a", "b"},
     }
+    for i in range(12):
+        assert f"n{i}a" not in overlap
+        assert f"n{i}b" not in overlap
 
 
 # --------------------------------------------------------------------------
@@ -141,18 +181,32 @@ def test_flag_anchors_unions_both_signals_with_reasons():
     }
     descendant_sets = {
         "a1": {"1"}, "a2": {"2"}, "a3": {"3"}, "a4": {"4"}, "a5": {"5"},
-        "a6": {"6"}, "a7": {"7"}, "a8": {"8"}, "a9": {"9", "shared"},
+        "a6": {"6"}, "a7": {"7"}, "a8": {"8"},
+        "a9": {"9"} | {f"shared{i}" for i in range(60)},
         "outlier": {"10000"},
-        "overlap_partner": {"shared"},
+        "overlap_partner": {f"shared{i}" for i in range(60)} | {"op_only"},
+        # Noise pairs sharing exactly 1 concept each -- give the IQR fence
+        # enough data points, and confirm they stay below it (unlike a bare
+        # "any overlap" check, which would have flagged all of these too).
+        "n0a": {"n0", "u0a"}, "n0b": {"n0", "u0b"},
+        "n1a": {"n1", "u1a"}, "n1b": {"n1", "u1b"},
+        "n2a": {"n2", "u2a"}, "n2b": {"n2", "u2b"},
+        "n3a": {"n3", "u3a"}, "n3b": {"n3", "u3b"},
+        "n4a": {"n4", "u4a"}, "n4b": {"n4", "u4b"},
     }
     flagged = flag_anchors(depth4_counts, descendant_sets)
 
     assert flagged["outlier"] == ["fanout_outlier"]
-    assert flagged["a9"] == ["cross_anchor_overlap:overlap_partner"]
-    assert flagged["overlap_partner"] == ["cross_anchor_overlap:a9"]
-    # Anchors flagged by neither signal must not appear at all.
-    for unflagged in ("a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"):
-        assert unflagged not in flagged
+    # Reason string now carries the actual shared-concept count.
+    assert flagged["a9"] == ["cross_anchor_overlap:overlap_partner:60"]
+    assert flagged["overlap_partner"] == ["cross_anchor_overlap:a9:60"]
+    # Anchors flagged by neither signal must not appear at all -- including
+    # the small 1-concept noise-overlap pairs, which are below the fence.
+    unflagged = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]
+    for i in range(5):
+        unflagged += [f"n{i}a", f"n{i}b"]
+    for anchor_id in unflagged:
+        assert anchor_id not in flagged
 
 
 def test_flag_anchors_returns_empty_dict_when_nothing_flagged():
