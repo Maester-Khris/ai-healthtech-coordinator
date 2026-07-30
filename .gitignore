@@ -98,3 +98,10 @@ backend/.deepeval/
 # Sprint 17 Task 6 load-script output — regenerate via the scripts
 backend/scripts/routing_shadow_eval/results/
 backend/scripts/cache_load_eval/results/
+
+# Sprint 19 anchor_mapping.py build process artifacts — regenerate via
+# anchor_resolver.py + the batch process documented in the SDD ledger;
+# anchor_mapping.py itself (committed) is the source of truth going forward
+backend/scripts/snomed_ingest/anchor_resolution.json
+backend/scripts/snomed_ingest/anchor_mapping_merged.json
+backend/scripts/snomed_ingest/anchor_batches/
