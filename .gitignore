@@ -101,6 +101,11 @@ backend/.deepeval/
 backend/scripts/routing_shadow_eval/results/
 backend/scripts/cache_load_eval/results/
 
+# Task 6.3 GraphRAG eval harness (v1 vs v2) — generated transcripts and
+# scoring results, regenerate via the scripts
+backend/scripts/graphrag_eval/transcripts/
+backend/scripts/graphrag_eval/results/
+
 # Sprint 19 anchor_mapping.py build process artifacts — regenerate via
 # anchor_resolver.py + the batch process documented in the SDD ledger;
 # anchor_mapping.py itself (committed) is the source of truth going forward
