@@ -7,6 +7,9 @@ subset (see select_subset_ids() below and task-1-report.md for the full
 rationale — this replaces the original plan's single-root full-Clinical-Finding
 subtree design, which was ~3x over Neo4j AuraDB Free tier's 200,000-node cap).
 
+Seeds from both keyword matches and Task 2a's final anchor list, so the loaded
+subset and the anchor mapping can't silently diverge again (see task-2c-report.md).
+
 Standalone script only — never imported by the request path
 (backend/services/llm_agent.py, backend/graph/*). Invoke as:
     cd backend && python -m scripts.snomed_ingest.load_rf2 --rf2-snapshot-dir ... --source-release ... --neo4j-uri ... --neo4j-user ... --neo4j-password ...
@@ -34,6 +37,7 @@ from scripts.snomed_ingest.rf2_reader import (
 from scripts.snomed_ingest.complaint_seeds import (
     load_complaint_keywords, find_seed_concept_ids,
 )
+from scripts.snomed_ingest.anchor_mapping import ANCHOR_MAPPINGS
 
 # Resolved relative to this file rather than cwd, so it's correct regardless of the
 # invocation directory (invoked as `python -m scripts.snomed_ingest.load_rf2` from
@@ -104,14 +108,22 @@ def select_subset_ids(
     relationships: Iterable[RelationshipRow],
     descriptions: Iterable[DescriptionRow],
     keywords: list[str],
+    extra_seed_ids: Iterable[str] = (),
 ) -> set[str]:
     """The complaint-anchored subset-selection rule (see module docstring):
     match complaint keywords against FSNs restricted to genuine Clinical
     Finding descendants (fixes a false-positive-seed problem — unrestricted
     keyword matching also hits Procedure/Body Structure/other non-finding
     concepts by string coincidence, e.g. "shock" matching "Electric shock
-    therapy"), then union each seed's IS_A descendants up to
-    MAX_SEED_DESCENDANT_DEPTH.
+    therapy"), union in `extra_seed_ids` (e.g. Task 2a's anchor_mapping.py
+    concept IDs — see module docstring), then union each seed's IS_A
+    descendants up to MAX_SEED_DESCENDANT_DEPTH.
+
+    `extra_seed_ids` is run through the same Clinical-Finding restriction as
+    the keyword-matched seeds even though Task 2a's anchors are already
+    guaranteed Clinical Finding concepts by construction — harmless, and
+    keeps this function's invariant (every seed is Clinical-Finding-restricted)
+    simple and uniform regardless of seed source.
 
     Extracted from load() so it's testable without a live Neo4j driver.
 
@@ -120,7 +132,7 @@ def select_subset_ids(
     a re-iterable collection (e.g. list), not a one-shot generator.
     """
     clinical_finding_subtree = concept_ids_in_subset(relationships, CLINICAL_FINDING_ROOT)
-    seed_ids = find_seed_concept_ids(descriptions, keywords) & clinical_finding_subtree
+    seed_ids = (find_seed_concept_ids(descriptions, keywords) | set(extra_seed_ids)) & clinical_finding_subtree
     return concept_ids_in_subset(relationships, seed_ids, max_depth=MAX_SEED_DESCENDANT_DEPTH)
 
 
@@ -140,7 +152,8 @@ def load(
     descriptions = list(read_descriptions(description_file))
 
     keywords = load_complaint_keywords(complaints_path)
-    subset_ids = select_subset_ids(relationships, descriptions, keywords)
+    anchor_seed_ids = {m.anchor_concept_id for m in ANCHOR_MAPPINGS}
+    subset_ids = select_subset_ids(relationships, descriptions, keywords, anchor_seed_ids)
 
     driver = GraphDatabase.driver(neo4j_uri, auth=neo4j_auth)
     with driver.session() as session:

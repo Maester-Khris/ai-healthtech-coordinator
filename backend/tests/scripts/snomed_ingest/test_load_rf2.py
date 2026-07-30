@@ -43,3 +43,28 @@ def test_select_subset_ids_bounds_depth_and_restricts_to_clinical_finding():
     assert {"SEED", "D1", "D2", "D3", "D4"} <= result
     assert "D5" not in result
     assert "PROC" not in result
+
+
+def test_select_subset_ids_unions_extra_seed_ids_not_matched_by_keywords():
+    # ANCHOR is a Clinical Finding descendant with no FSN matching any keyword
+    # (simulates a Task 2a anchor_mapping.py concept that Phase 1's keyword
+    # matching never would have found on its own). AD1 is its depth-1
+    # descendant (must be included via the same bounded-depth walk as any
+    # other seed); UNRELATED is a separate Clinical Finding concept that
+    # neither keywords nor extra_seed_ids reference (must stay excluded).
+    relationships = [
+        _rel("1", "ANCHOR", CLINICAL_FINDING_ROOT),
+        _rel("2", "AD1", "ANCHOR"),
+        _rel("3", "UNRELATED", CLINICAL_FINDING_ROOT),
+    ]
+    descriptions = [
+        _desc("d1", "ANCHOR", "Some unrelated finding (finding)"),
+        _desc("d2", "UNRELATED", "Another unrelated finding (finding)"),
+    ]
+
+    result = select_subset_ids(
+        relationships, descriptions, keywords=["nomatch"], extra_seed_ids={"ANCHOR"},
+    )
+
+    assert {"ANCHOR", "AD1"} <= result
+    assert "UNRELATED" not in result
