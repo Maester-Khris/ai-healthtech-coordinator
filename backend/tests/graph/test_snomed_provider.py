@@ -45,6 +45,21 @@ def test_concept_lookup_query_filters_by_english_language_code():
     assert "concept_id" in query
 
 
+def test_concept_lookup_query_matches_keyword_in_term_not_reversed():
+    """Keyword-containment direction: $text CONTAINS d.term, not reversed."""
+    query, params = build_concept_lookup_query()
+    # Verify the correct (fixed) direction: input keyword is containment source
+    assert "toLower($text) CONTAINS toLower(d.term)" in query
+    # Verify the old (buggy) reversed direction is NOT present
+    assert "toLower(d.term) CONTAINS toLower($text)" not in query
+
+
+def test_concept_lookup_query_filters_trivial_short_terms():
+    """Short-term guard: filter out d.term < 4 chars to prevent false positives."""
+    query, params = build_concept_lookup_query()
+    assert "size(d.term) >= 4" in query
+
+
 # ---------------------------------------------------------------------------
 # Provider integration tests — mocked Neo4jClient
 # ---------------------------------------------------------------------------
