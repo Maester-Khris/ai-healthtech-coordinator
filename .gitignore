@@ -98,3 +98,6 @@ backend/.deepeval/
 # Sprint 17 Task 6 load-script output — regenerate via the scripts
 backend/scripts/routing_shadow_eval/results/
 backend/scripts/cache_load_eval/results/
+
+# Git worktree scratch space
+.worktrees/
