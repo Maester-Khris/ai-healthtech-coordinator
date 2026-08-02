@@ -84,7 +84,9 @@ artifacts/
 graphify-out/
 
 # SNOMED CT RF2 data — licensed content, symlink to /databank, never commit
-assets/snomedct
+# (unanchored **/ form: the plain "assets/snomedct" pattern only matched the
+# repo-root copy per git's path-anchoring rules, missing backend/assets/snomedct)
+**/assets/snomedct
 
 # eval-env seed data — never commit exported PII-adjacent snapshots or test credentials
 backend/scripts/eval_seed/exports/
@@ -101,3 +103,19 @@ backend/scripts/cache_load_eval/results/
 
 # Git worktree scratch space
 .worktrees/
+
+# Task 6.3 GraphRAG eval harness (v1 vs v2) — generated transcripts and
+# scoring results, regenerate via the scripts
+backend/scripts/graphrag_eval/transcripts/
+backend/scripts/graphrag_eval/results/
+
+# Sprint 19 anchor_mapping.py build process artifacts — regenerate via
+# anchor_resolver.py + the batch process documented in the SDD ledger;
+# anchor_mapping.py itself (committed) is the source of truth going forward
+backend/scripts/snomed_ingest/anchor_resolution.json
+backend/scripts/snomed_ingest/anchor_mapping_merged.json
+backend/scripts/snomed_ingest/anchor_batches/
+
+# Task 4 depth_flagging.py output -- intermediate, regeneratable build artifact,
+# regenerate via depth_flagging.py against the live graph
+backend/scripts/snomed_ingest/depth_flagging_report.json

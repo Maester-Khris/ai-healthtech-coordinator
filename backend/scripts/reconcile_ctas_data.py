@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 _RESOURCES = Path(__file__).resolve().parent.parent / "triage" / "resources"
+_ARTIFACTS = Path(__file__).resolve().parent.parent.parent / "artifacts"
 
 
 def normalize_name(name: str) -> str:
@@ -150,10 +151,82 @@ def _adult_question_for(indicator: str, adult: dict | None) -> str:
     return "NEEDS_AUTHORING"
 
 
-def transform_entry(cot: dict, adult: dict | None) -> dict:
+def build_indicator_overrides() -> dict[str, dict[str, dict]]:
+    """Loads artifacts/followup_question_bank_v3.json (165 complaints, 591
+    hand-verified red flags, 0 placeholders — see
+    artifacts/2026-07-29-snomed-ctas-followup-corpus-documentation.md §2 for
+    how it was built) and indexes it by nacrs_code -> {indicator: v3
+    red-flag dict}. transform_entry consults this *before* falling back to
+    _adult_question_for's adult-file matching (kept as defense-in-depth,
+    even though v3's 165/591 coverage means it should never need to fire
+    against the current source data).
+
+    This map alone resolves the common case: an exact (nacrs_code,
+    indicator) match between cot_triage_data.json's own extraction and v3,
+    overriding followup_question (~588 entries). Two additional hand-
+    verified exceptions, documented in the corpus doc's §2 Step 6, aren't
+    reachable by exact-key lookup and are handled explicitly in
+    transform_entry rather than here — never a fuzzy guess:
+
+      - nacrs_code 551 (Back pain): v3 has a cauda-equina/AAA red flag
+        ("Severe pain with fever, saddle anesthesia, bowel/bladder
+        dysfunction (cauda equina concern), or pulsatile abdominal mass
+        (AAA concern)") with no cot-side indicator at all — cot's raw
+        extraction only ever collapses this into the generic "Acute central
+        severe pain (8-10)" tag. transform_entry injects it as a brand-new
+        red flag when a v3 indicator for a complaint is never matched by
+        any of that complaint's cot-extracted indicators.
+      - nacrs_code 608 (Concern for patient's welfare): cot's raw indicator
+        ("and there is no acute") is a corrupted PDF-table-extraction
+        fragment of a definitional footnote, not real red-flag text.
+        INDICATOR_TEXT_CORRECTIONS (below) renames it to v3's corrected
+        text ("Risk of flight or ongoing abuse") before this map is
+        consulted, so it resolves through the same common-case lookup.
+
+    Verified against the real data: every other nacrs_code in v3 exists in
+    cot_triage_data.json, and every other v3 indicator exact-matches one of
+    that complaint's cot-extracted indicators — these two are the only
+    exceptions."""
+    v3_entries = json.loads((_ARTIFACTS / "followup_question_bank_v3.json").read_text())
+    overrides: dict[str, dict[str, dict]] = {}
+    for entry in v3_entries:
+        per_complaint = overrides.setdefault(entry["nacrs_code"], {})
+        for rf in entry.get("red_flags", []):
+            per_complaint[rf["indicator"]] = rf
+    return overrides
+
+
+# Hand-verified correction to cot_triage_data.json's own raw indicator
+# text — not a followup_question override, a correction of the indicator
+# string itself, applied before build_indicator_overrides()'s
+# (nacrs_code, indicator) lookup happens. See corpus doc §2 Step 6,
+# "Concern for patient's welfare's indicator corrected". Confirmed against
+# the real source file: cot's level-2 criteria for nacrs_code 608 is the
+# single-element list ["and there is no acute"] — a corrupted extraction of
+# a definitional footnote, not a real red flag; v3 corrects it to the real
+# COT level-2 criterion.
+INDICATOR_TEXT_CORRECTIONS: dict[tuple[str, str], str] = {
+    ("608", "and there is no acute"): "Risk of flight or ongoing abuse",
+}
+
+
+def transform_entry(
+    cot: dict,
+    adult: dict | None,
+    indicator_overrides: dict[str, dict[str, dict]] | None = None,
+) -> dict:
     """Canonical schema per design §1. cot is the base (broader coverage,
     full per-level criteria); adult supplies aliases and per-indicator
-    followup_questions where available."""
+    followup_questions where available.
+
+    indicator_overrides (from build_indicator_overrides()) is the
+    highest-priority source for followup_question, consulted before
+    adult's per-indicator matching. See build_indicator_overrides() and
+    INDICATOR_TEXT_CORRECTIONS for how the two non-common-case exceptions
+    (a corrected indicator string, a genuinely new indicator) are handled."""
+    indicator_overrides = indicator_overrides or {}
+    v3_for_complaint = indicator_overrides.get(cot["nacrs_code"], {})
+
     indicators: list[str] = []
     for level in cot["triage_levels"]:
         if level["level"] <= 2:
@@ -161,23 +234,41 @@ def transform_entry(cot: dict, adult: dict | None) -> dict:
                 if text not in indicators:
                     indicators.append(text)
 
-    red_flags = [
-        {
-            "indicator": indicator,
-            "ctas_level": next(
-                lvl["level"] for lvl in cot["triage_levels"]
-                if lvl["level"] <= 2 and indicator in [*lvl["criteria"], *lvl["modifiers"]]
+    red_flags: list[dict] = []
+    matched_v3_indicators: set[str] = set()
+    for indicator in indicators:
+        corrected_indicator = INDICATOR_TEXT_CORRECTIONS.get(
+            (cot["nacrs_code"], indicator), indicator
+        )
+        ctas_level = next(
+            lvl["level"] for lvl in cot["triage_levels"]
+            if lvl["level"] <= 2 and indicator in [*lvl["criteria"], *lvl["modifiers"]]
+        )
+        v3_match = v3_for_complaint.get(corrected_indicator)
+        if v3_match is not None:
+            matched_v3_indicators.add(corrected_indicator)
+        red_flags.append({
+            "indicator": corrected_indicator,
+            "ctas_level": ctas_level,
+            "app_severity": CTAS_TO_APP_SEVERITY[ctas_level],
+            "followup_question": (
+                v3_match["followup_question"] if v3_match is not None
+                else _adult_question_for(corrected_indicator, adult)
             ),
-            "app_severity": CTAS_TO_APP_SEVERITY[
-                next(
-                    lvl["level"] for lvl in cot["triage_levels"]
-                    if lvl["level"] <= 2 and indicator in [*lvl["criteria"], *lvl["modifiers"]]
-                )
-            ],
-            "followup_question": _adult_question_for(indicator, adult),
-        }
-        for indicator in indicators
-    ]
+        })
+
+    # Case 2 — a v3 red flag for this complaint with no cot-side indicator
+    # at all (e.g. nacrs_code 551's cauda-equina/AAA entry): add it as a
+    # brand-new red flag rather than an override, using v3's own ctas_level.
+    for v3_indicator, v3_rf in v3_for_complaint.items():
+        if v3_indicator in matched_v3_indicators:
+            continue
+        red_flags.append({
+            "indicator": v3_indicator,
+            "ctas_level": v3_rf["ctas_level"],
+            "app_severity": CTAS_TO_APP_SEVERITY[v3_rf["ctas_level"]],
+            "followup_question": v3_rf["followup_question"],
+        })
 
     return {
         "nacrs_code": cot["nacrs_code"],
@@ -195,9 +286,10 @@ def main() -> None:
     adult_entries = json.loads((_RESOURCES / "ctas_complaint_list_adult.json").read_text())
 
     result = match_complaints(cot_entries, adult_entries, build_alias_overrides())
+    indicator_overrides = build_indicator_overrides()
 
-    canonical = [transform_entry(cot, adult) for cot, adult in result.matched]
-    canonical += [transform_entry(cot, None) for cot in result.cot_only]
+    canonical = [transform_entry(cot, adult, indicator_overrides) for cot, adult in result.matched]
+    canonical += [transform_entry(cot, None, indicator_overrides) for cot in result.cot_only]
 
     needs_authoring = [
         {"nacrs_code": e["nacrs_code"], "name": e["name"], "indicator": rf["indicator"]}
