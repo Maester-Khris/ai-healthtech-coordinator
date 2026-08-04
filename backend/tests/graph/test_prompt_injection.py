@@ -59,25 +59,7 @@ def _sanitised(s: str) -> str:
     the actual string that lands in the block, not the raw input."""
     return s.replace("<", "").replace(">", "")
 
-# The EMERGENCY cross-check function (output-side validation, §9 point 4).
-# Deterministic, no LLM. Fires if user message has an EMERGENCY keyword but
-# the returned severity is not "emergent".
-EMERGENCY_KEYWORDS = [
-    "chest pain",
-    "difficulty breathing",
-    "stroke",
-    "severe bleeding",
-    "loss of consciousness",
-    "unconscious",
-]
-
-def check_emergency_mismatch(user_message: str, severity: str) -> bool:
-    """Return True (anomalous) if the message contains an EMERGENCY keyword
-    but the severity is not 'emergent'. This is a second, independent check
-    that doesn't rely on the LLM fence having held."""
-    lower = user_message.lower()
-    has_keyword = any(kw in lower for kw in EMERGENCY_KEYWORDS)
-    return has_keyword and severity != "emergent"
+from services.triage_eval import EMERGENCY_KEYWORDS, check_emergency_mismatch
 
 
 # ---------------------------------------------------------------------------
