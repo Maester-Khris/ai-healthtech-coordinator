@@ -64,3 +64,37 @@ def build_concept_lookup_query() -> tuple[str, dict]:
         "RETURN DISTINCT c.id AS concept_id"
     )
     return query, {}
+
+
+def build_red_flag_traversal_query_batch(
+    candidate_concept_ids: list[str],
+    anchor_concept_ids: list[str],
+    max_depth: int,
+) -> tuple[str, dict]:
+    """Same traversal as build_red_flag_traversal_query, batched across every
+    anchor that shares the same max_depth — collapses what was one Neo4j
+    round-trip per anchor (up to 154 per message) into one query per distinct
+    max_depth value present in ANCHOR_MAPPINGS (2 today). See plan:
+    2026-08-03-sprint19-postreview-critical-important-fixes.md, C2.
+    """
+    if max_depth < 0:
+        raise ValueError(f"max_depth must be >= 0, got {max_depth}")
+    query = (
+        f"MATCH (c:SnomedConcept) "
+        f"WHERE c.id IN $candidate_concept_ids "
+        f"MATCH (c)-[:IS_A*0..{max_depth}]->(anchor:SnomedConcept) "
+        f"WHERE anchor.id IN $anchor_concept_ids "
+        f"MATCH (anchor)-[:HAS_RED_FLAG]->(rf:RedFlag)-[:ASKS]->(q:FollowupQuestion) "
+        f"OPTIONAL MATCH (rf)-[:PART_OF]->(cluster:RedFlagCluster) "
+        f"RETURN DISTINCT c.id AS candidate_id, "
+        f"anchor.id AS anchor_id, "
+        f"rf.indicator AS indicator, "
+        f"rf.ctas_level AS ctas_level, "
+        f"rf.app_severity AS app_severity, "
+        f"q.text AS followup_question, "
+        f"cluster.name AS cluster_name"
+    )
+    return query, {
+        "candidate_concept_ids": candidate_concept_ids,
+        "anchor_concept_ids": anchor_concept_ids,
+    }

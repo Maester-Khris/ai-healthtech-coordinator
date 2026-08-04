@@ -20,16 +20,19 @@ Global constraints (binding, same as every prior task in this pipeline):
   — never graph.snomed_neo4j.* directly.
 - Severity classification is the LLM's job, unconditionally.
 """
+import logging
 import os
+from collections import defaultdict
 
 from graph.base import GraphContext, GraphContextProvider, RedFlagMatch
 from graph.snomed_neo4j.client import Neo4jClient
 from graph.snomed_neo4j.queries import (
     build_concept_lookup_query,
-    build_red_flag_traversal_query,
+    build_red_flag_traversal_query_batch,
 )
 from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS
 
+logger = logging.getLogger(__name__)
 
 class Neo4jSnomedProvider(GraphContextProvider):
     """v2 provider — reads the live Neo4j KG built by Phases 0-3.
@@ -58,13 +61,8 @@ class Neo4jSnomedProvider(GraphContextProvider):
         self._client.close()
 
     def _lookup(self, user_message: str, recent_messages: list[str]) -> GraphContext:
-        """Per-request read: text → candidate concept IDs → IS_A traversal →
-        GraphContext. Steps mirror the plan doc's §4 design steps 1-6."""
-
-        # Step 1: build search text
         all_text = " ".join([user_message, *recent_messages]).strip()
 
-        # Step 2: resolve text → candidate SnomedConcept IDs
         lookup_query, lookup_params = build_concept_lookup_query()
         lookup_params = {**lookup_params, "text": all_text}
         concept_rows = self._client.run_query(lookup_query, lookup_params)
@@ -72,25 +70,20 @@ class Neo4jSnomedProvider(GraphContextProvider):
             return GraphContext(matched=False)
 
         candidate_ids = [row["concept_id"] for row in concept_rows]
+        rows_by_anchor = self._traverse_all_anchors(candidate_ids)
+        self._log_cross_symptom_clusters(rows_by_anchor)
 
-        # Step 3-5: for each anchor, walk IS_A upward using that anchor's
-        # per-anchor max_depth (Phase 3 schema extension), collect red flags.
         red_flags: list[RedFlagMatch] = []
         seen_indicators: set[str] = set()
         complaint_name: str | None = None
 
         for mapping in ANCHOR_MAPPINGS:
-            traversal_query, traversal_params = build_red_flag_traversal_query(
-                candidate_ids, mapping.anchor_concept_id, max_depth=mapping.max_depth
-            )
-            rows = self._client.run_query(traversal_query, traversal_params)
+            rows = rows_by_anchor.get(mapping.anchor_concept_id, [])
             if not rows:
                 continue
-
             # First anchor in ANCHOR_MAPPINGS order that produces red flags
-            # becomes complaint_name. ANCHOR_MAPPINGS is ordered to match
-            # symptom_triage_data.json complaint ordering — this is intentional,
-            # not accidental reliance on list order.
+            # becomes complaint_name — preserved exactly, batching only
+            # changes how the rows are fetched, not this reassembly order.
             if complaint_name is None:
                 complaint_name = mapping.ctas_alias
 
@@ -107,12 +100,46 @@ class Neo4jSnomedProvider(GraphContextProvider):
                         )
                     )
 
-        # Step 6: no red flags found
         if not red_flags:
             return GraphContext(matched=False)
 
-        return GraphContext(
-            matched=True,
-            complaint_name=complaint_name,
-            red_flags=red_flags,
-        )
+        # Design §4 point 4 / §8 — precedence rule, explicit not learned:
+        # most severe (lowest ctas_level) first, regardless of traversal order.
+        red_flags.sort(key=lambda rf: rf.ctas_level)
+        return GraphContext(matched=True, complaint_name=complaint_name, red_flags=red_flags)
+
+    def _traverse_all_anchors(self, candidate_ids: list[str]) -> dict[str, list[dict]]:
+        """Groups ANCHOR_MAPPINGS by max_depth and issues one batched query per
+        distinct depth (C2 fix) instead of one query per anchor. Returns rows
+        keyed by anchor_id so _lookup() can reassemble them in ANCHOR_MAPPINGS's
+        own order."""
+        anchors_by_depth: dict[int, list[str]] = defaultdict(list)
+        for mapping in ANCHOR_MAPPINGS:
+            anchors_by_depth[mapping.max_depth].append(mapping.anchor_concept_id)
+
+        rows_by_anchor: dict[str, list[dict]] = defaultdict(list)
+        for max_depth, anchor_ids in anchors_by_depth.items():
+            query, params = build_red_flag_traversal_query_batch(
+                candidate_ids, anchor_ids, max_depth
+            )
+            for row in self._client.run_query(query, params):
+                rows_by_anchor[row["anchor_id"]].append(row)
+        return rows_by_anchor
+
+    def _log_cross_symptom_clusters(self, rows_by_anchor: dict[str, list[dict]]) -> None:
+        """Design §4 point 3 (disclosed deviation: single-pass, not a second
+        query — see plan I9). Detection/logging only — does not affect
+        severity classification, per the same restraint as I3."""
+        anchors_by_cluster: dict[str, set[str]] = defaultdict(set)
+        for anchor_id, rows in rows_by_anchor.items():
+            for row in rows:
+                cluster_name = row.get("cluster_name")
+                if cluster_name:
+                    anchors_by_cluster[cluster_name].add(anchor_id)
+
+        for cluster_name, anchor_ids in anchors_by_cluster.items():
+            if len(anchor_ids) >= 2:
+                logger.info(
+                    "cross_symptom_cluster_matched",
+                    extra={"cluster_name": cluster_name, "anchor_count": len(anchor_ids)},
+                )
