@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from graph.snomed_neo4j.provider import is_corrupted_indicator
 from graph.snomed_neo4j.queries import (
     build_concept_lookup_query,
     build_red_flag_traversal_query,
@@ -77,6 +78,98 @@ def test_concept_lookup_query_filters_trivial_short_terms():
     """Short-term guard: filter out d.term < 4 chars to prevent false positives."""
     query, params = build_concept_lookup_query()
     assert "size(d.term) >= 4" in query
+
+def test_concept_lookup_query_has_a_result_limit():
+    """I-5: unbounded, this scans ~127k Description nodes per message and
+    returns an unbounded candidate-concept list into the traversal."""
+    query, params = build_concept_lookup_query()
+    assert "LIMIT 50" in query
+
+class TestIsCorruptedIndicator:
+    def test_flags_level_prefixed_duplicates(self):
+        assert is_corrupted_indicator("1 Shock") is True
+        assert is_corrupted_indicator("2 Hemodynamic compromise") is True
+        assert is_corrupted_indicator("3 Vital signs outside the limits of normal") is True
+
+    def test_flags_vs_stub_fragments(self):
+        assert is_corrupted_indicator("VS,") is True
+        assert is_corrupted_indicator("VS, PSC") is True
+        assert is_corrupted_indicator("VS, BD,") is True
+
+    def test_does_not_flag_real_indicators(self):
+        assert is_corrupted_indicator("Shock") is False
+        assert is_corrupted_indicator("Hemodynamic compromise") is False
+        assert is_corrupted_indicator("VS, Moderate dehydration") is False  # real complete phrase, not a stub
+
+
+def test_lookup_excludes_corrupted_indicators(mock_provider):
+    from graph.snomed_neo4j.anchor_mapping import AnchorMapping
+    mapping = AnchorMapping(
+        ctas_alias="Test", anchor_concept_id="X", fsn="Test", rationale="Test", max_depth=4,
+    )
+    good_row = {
+        "candidate_id": "1", "anchor_id": "X", "indicator": "Shock",
+        "ctas_level": 1, "app_severity": "emergent", "followup_question": "q1",
+    }
+    bad_row = {
+        "candidate_id": "1", "anchor_id": "X", "indicator": "1 Shock",
+        "ctas_level": 1, "app_severity": "emergent", "followup_question": "q2",
+    }
+    call_count = 0
+
+    def side_effect(query, params):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return [{"concept_id": "1"}]
+        if call_count == 2:
+            return [good_row, bad_row]
+        return []
+
+    mock_provider._client.run_query = MagicMock(side_effect=side_effect)
+    with patch("graph.snomed_neo4j.provider.ANCHOR_MAPPINGS", [mapping]):
+        result = mock_provider.get_symptom_graph_context("test", [])
+
+    indicators = [rf.indicator for rf in result.red_flags]
+    assert "Shock" in indicators
+    assert "1 Shock" not in indicators
+
+
+def test_lookup_does_not_name_the_complaint_after_an_all_corrupted_anchor(mock_provider):
+    """The I-3 filter must run before complaint_name is chosen: an anchor whose
+    rows are all extraction artifacts contributes zero red flags, so it must
+    not win complaint_name over a later anchor that actually contributed."""
+    from graph.snomed_neo4j.anchor_mapping import AnchorMapping
+    corrupt_only = AnchorMapping(
+        ctas_alias="CorruptOnly", anchor_concept_id="A", fsn="A", rationale="A", max_depth=4,
+    )
+    real = AnchorMapping(
+        ctas_alias="Real", anchor_concept_id="B", fsn="B", rationale="B", max_depth=4,
+    )
+    rows = [
+        {"candidate_id": "1", "anchor_id": "A", "indicator": "VS, PSC",
+         "ctas_level": 2, "app_severity": "urgent", "followup_question": "q1"},
+        {"candidate_id": "1", "anchor_id": "B", "indicator": "Shock",
+         "ctas_level": 1, "app_severity": "emergent", "followup_question": "q2"},
+    ]
+    call_count = 0
+
+    def side_effect(query, params):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return [{"concept_id": "1"}]
+        if call_count == 2:
+            return rows
+        return []
+
+    mock_provider._client.run_query = MagicMock(side_effect=side_effect)
+    with patch("graph.snomed_neo4j.provider.ANCHOR_MAPPINGS", [corrupt_only, real]):
+        result = mock_provider.get_symptom_graph_context("test", [])
+
+    assert result.matched is True
+    assert result.complaint_name == "Real"
+    assert [rf.indicator for rf in result.red_flags] == ["Shock"]
 
 
 # ---------------------------------------------------------------------------

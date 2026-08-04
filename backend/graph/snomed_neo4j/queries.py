@@ -61,7 +61,8 @@ def build_concept_lookup_query() -> tuple[str, dict]:
         "WHERE d.language_code = \"en\" "
         "  AND size(d.term) >= 4 "
         "  AND toLower($text) CONTAINS toLower(d.term) "
-        "RETURN DISTINCT c.id AS concept_id"
+        "RETURN DISTINCT c.id AS concept_id "
+        "LIMIT 50"
     )
     return query, {}
 

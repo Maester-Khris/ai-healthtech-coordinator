@@ -18,15 +18,15 @@ Standalone script only -- never imported by the request path
 (backend/services/llm_agent.py, backend/graph/*). Invoke as:
     cd backend && python -m scripts.snomed_ingest.seed_red_flags --neo4j-uri ... --neo4j-user ... --neo4j-password ...
 
-Note on reruns: all writes are MERGE-on-key (RedFlag.indicator, FollowupQuestion.text)
--- idempotent, safe to rerun. RedFlag is keyed by indicator text alone (not
-per-complaint) and FollowupQuestion by question text alone -- this is deliberate: the
-same indicator (e.g. "Shock") and the same follow-up question legitimately recur
-across multiple different complaints/anchors, and MERGE-on-key means these become
-one shared node with multiple incoming edges, not a duplicate per complaint. If two
-different complaints have the same indicator text but different ctas_level/
-app_severity, last-SET-wins applies (order-dependent, same accepted-limitation
-pattern as load_rf2.py's c.fsn field) -- not a bug, this is the documented design.
+Note on reruns: all writes are MERGE-on-key -- idempotent, safe to rerun.
+RedFlag is keyed by (anchor_id, indicator), not indicator text alone (I-1/I-2
+fix, 2026-08): an indicator like "Shock" recurs across many complaints/anchors,
+but each anchor now gets its OWN RedFlag node for it, so a cluster edge on one
+anchor's node can never leak into an unrelated anchor, and each anchor keeps
+its own ASKS->FollowupQuestion edge instead of racing other anchors for a
+shared node's arbitrarily-ordered edges. FollowupQuestion stays keyed by
+question text alone -- deliberately shared, since the same literal question
+text is fine to reuse verbatim across complaints.
 
 Known limitation (not fixed here, flagged per this repo's convention): Phase 1
 (load_rf2.py) loads a keyword-seeded Clinical Finding subset, bounded to stay under
@@ -181,9 +181,15 @@ def seed(
             # practice as load_rf2.py's SnomedConcept/Description constraints, applied
             # here to RedFlag/FollowupQuestion from the first draft rather than added
             # after the fact.
-            session.run(
-                "CREATE CONSTRAINT IF NOT EXISTS FOR (rf:RedFlag) REQUIRE rf.indicator IS UNIQUE"
-            )
+            # I-1/I-2 fix: RedFlag identity is now scoped per anchor, not
+            # global by indicator text alone — a single-property uniqueness
+            # constraint on rf.indicator would incorrectly forbid two
+            # different anchors from each having their own RedFlag node for
+            # the same indicator string. AuraDB Free is Community-edition
+            # based and does not support composite/node-key uniqueness
+            # constraints, so this relies on MERGE-on-the-full-pattern for
+            # idempotency instead (standard Neo4j practice, same idiom
+            # load_rf2.py already uses for SnomedConcept/Description).
             session.run(
                 "CREATE CONSTRAINT IF NOT EXISTS FOR (q:FollowupQuestion) REQUIRE q.text IS UNIQUE"
             )
@@ -193,9 +199,8 @@ def seed(
                 session.run(
                     "UNWIND $rows AS row "
                     "MATCH (anchor:SnomedConcept {id: row.anchor_id}) "
-                    "MERGE (rf:RedFlag {indicator: row.indicator}) "
+                    "MERGE (anchor)-[:HAS_RED_FLAG]->(rf:RedFlag {anchor_id: row.anchor_id, indicator: row.indicator}) "
                     "SET rf.ctas_level = row.ctas_level, rf.app_severity = row.app_severity "
-                    "MERGE (anchor)-[:HAS_RED_FLAG]->(rf) "
                     "MERGE (q:FollowupQuestion {text: row.followup_question}) "
                     "MERGE (rf)-[:ASKS]->(q)",
                     rows=batch,

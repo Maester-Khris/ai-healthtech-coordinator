@@ -22,6 +22,7 @@ Global constraints (binding, same as every prior task in this pipeline):
 """
 import logging
 import os
+import re
 from collections import defaultdict
 
 from graph.base import GraphContext, GraphContextProvider, RedFlagMatch
@@ -33,6 +34,28 @@ from graph.snomed_neo4j.queries import (
 from graph.snomed_neo4j.anchor_mapping import ANCHOR_MAPPINGS
 
 logger = logging.getLogger(__name__)
+
+# I-3: ~25 of 86 canonical indicator strings in symptom_triage_data.json are
+# corrupted PDF-extraction fragments. These two patterns catch 15 of them
+# (7 level-prefixed + 8 bare VS-abbreviation stubs), verified directly
+# against current data (2026-08-03) and confirmed to correctly NOT flag the
+# other 3 "VS, ... dehydration" entries, which are real descriptive phrases,
+# not stubs. The remainder of the estimated ~25 are free-text sentence
+# fragments needing manual clinical review, not a regex; this is a
+# defensive filter, not a claim of full data cleanup. v1
+# (static_provider.py) shares this exposure and is not touched here.
+_LEVEL_PREFIX_RE = re.compile(r"^\d+\s")
+_VS_STUB_RE = re.compile(r"^VS,?\s*(?:[A-Z]{2,4},?\s*)*$")
+
+
+def is_corrupted_indicator(indicator: str) -> bool:
+    """True when `indicator` is a known PDF-extraction artifact that must not
+    reach the LLM prompt (see the pattern notes above)."""
+    if _LEVEL_PREFIX_RE.match(indicator):
+        return True
+    if _VS_STUB_RE.match(indicator):
+        return True
+    return False
 
 class Neo4jSnomedProvider(GraphContextProvider):
     """v2 provider — reads the live Neo4j KG built by Phases 0-3.
@@ -79,6 +102,11 @@ class Neo4jSnomedProvider(GraphContextProvider):
 
         for mapping in ANCHOR_MAPPINGS:
             rows = rows_by_anchor.get(mapping.anchor_concept_id, [])
+            # I-3: drop corrupted PDF-extraction indicators before anything
+            # downstream can see them — including the complaint_name choice
+            # below. An anchor whose rows are *all* extraction artifacts
+            # contributes no red flags, so it must not name the complaint.
+            rows = [row for row in rows if not is_corrupted_indicator(row["indicator"])]
             if not rows:
                 continue
             # First anchor in ANCHOR_MAPPINGS order that produces red flags

@@ -167,10 +167,21 @@ def test_seed_red_flags_writes_are_merge_on_key_not_create():
     # All writes must be MERGE-on-key (idempotent, safe to rerun), never a bare
     # CREATE for RedFlag or FollowupQuestion nodes.
     source = inspect.getsource(seed_red_flags)
-    assert "MERGE (rf:RedFlag {indicator:" in source
+    assert "MERGE (anchor)-[:HAS_RED_FLAG]->(rf:RedFlag {anchor_id: row.anchor_id, indicator: row.indicator})" in source
     assert "MERGE (q:FollowupQuestion {text:" in source
     assert "CREATE (rf:RedFlag" not in source
     assert "CREATE (q:FollowupQuestion" not in source
+
+def test_seeding_query_scopes_red_flag_by_anchor_not_just_indicator():
+    """I-1/I-2 regression guard: the MERGE pattern must key RedFlag on
+    (anchor_id, indicator), not indicator alone — otherwise two different
+    anchors sharing an indicator string collapse onto one shared node,
+    which is exactly what caused the false cross-symptom-cluster signal
+    and the nondeterministic follow-up question."""
+    source = inspect.getsource(seed_red_flags.seed)
+    assert "MERGE (anchor)-[:HAS_RED_FLAG]->(rf:RedFlag {anchor_id: row.anchor_id, indicator: row.indicator})" in source
+    assert "MERGE (rf:RedFlag {indicator: row.indicator})" not in source
+    assert "REQUIRE rf.indicator IS UNIQUE" not in source
 
 
 def test_seed_pilot_clusters_merges_cluster_and_part_of_edges():
