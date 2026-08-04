@@ -63,6 +63,37 @@ DEFAULT_COMPLAINTS_PATH = Path(__file__).resolve().parents[2] / "triage/resource
 # is actually meaningful rather than a single "[1/1] (100%)" line.
 BATCH_SIZE = 50
 
+# Pilot RedFlagCluster (I9) — deliberately narrow scope, see plan
+# 2026-08-03-sprint19-postreview-critical-important-fixes.md, Task 5. Grounds
+# design §4 point 3's cross-symptom mechanism in the same three anchors
+# already used by the Phase 6 Step 2 worked example
+# (test_two_turn_eval.py / research artifact Addendum 3). Expanding cluster
+# coverage beyond this pilot needs the same clinical-review rigor as Task 2a
+# — not done here.
+PILOT_CLUSTERS = [
+    {
+        "cluster_name": "Cardiac symptom cluster",
+        "anchor_concept_ids": ["426396005", "267036007", "271594007"],
+    },
+]
+
+def seed_pilot_clusters(session) -> None:
+    for cluster in PILOT_CLUSTERS:
+        session.run(
+            "MERGE (cluster:RedFlagCluster {name: $cluster_name})",
+            {"cluster_name": cluster["cluster_name"]},
+        )
+        session.run(
+            "MATCH (anchor:SnomedConcept)-[:HAS_RED_FLAG]->(rf:RedFlag) "
+            "WHERE anchor.id IN $anchor_concept_ids "
+            "MATCH (cluster:RedFlagCluster {name: $cluster_name}) "
+            "MERGE (rf)-[:PART_OF]->(cluster)",
+            {
+                "anchor_concept_ids": cluster["anchor_concept_ids"],
+                "cluster_name": cluster["cluster_name"],
+            },
+        )
+
 T = TypeVar("T")
 
 
@@ -128,7 +159,18 @@ def seed(
     neo4j_uri: str,
     neo4j_auth: tuple[str, str],
     complaints_path: Path = DEFAULT_COMPLAINTS_PATH,
+    do_seed_pilot_clusters: bool = False,
 ) -> dict[str, int]:
+    if do_seed_pilot_clusters:
+        driver = GraphDatabase.driver(neo4j_uri, auth=neo4j_auth)
+        try:
+            with driver.session() as session:
+                seed_pilot_clusters(session)
+                print("Seeded pilot clusters.")
+                return _count_layer_2(session)
+        finally:
+            driver.close()
+
     red_flag_lookup = load_red_flag_lookup(complaints_path)
     rows = build_rows(ANCHOR_MAPPINGS, red_flag_lookup)
 
@@ -178,5 +220,6 @@ if __name__ == "__main__":
     parser.add_argument("--neo4j-user", required=True)
     parser.add_argument("--neo4j-password", required=True)
     parser.add_argument("--complaints-path", type=Path, default=DEFAULT_COMPLAINTS_PATH)
+    parser.add_argument("--seed-pilot-clusters", action="store_true")
     args = parser.parse_args()
-    seed(args.neo4j_uri, (args.neo4j_user, args.neo4j_password), args.complaints_path)
+    seed(args.neo4j_uri, (args.neo4j_user, args.neo4j_password), args.complaints_path, args.seed_pilot_clusters)

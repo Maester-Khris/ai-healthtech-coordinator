@@ -171,3 +171,15 @@ def test_seed_red_flags_writes_are_merge_on_key_not_create():
     assert "MERGE (q:FollowupQuestion {text:" in source
     assert "CREATE (rf:RedFlag" not in source
     assert "CREATE (q:FollowupQuestion" not in source
+
+
+def test_seed_pilot_clusters_merges_cluster_and_part_of_edges():
+    from unittest.mock import MagicMock
+    from scripts.snomed_ingest.seed_red_flags import seed_pilot_clusters, PILOT_CLUSTERS
+
+    session = MagicMock()
+    seed_pilot_clusters(session)
+
+    assert session.run.call_count == len(PILOT_CLUSTERS) * 2
+    first_call_query = session.run.call_args_list[0][0][0]
+    assert "MERGE (cluster:RedFlagCluster" in first_call_query
