@@ -31,7 +31,7 @@ from typing import Any
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from graph.base import GraphContext, GraphContextProvider  # noqa: E402
-from graph.factory import get_graph_provider  # noqa: E402
+from graph.factory import close_graph_provider, get_graph_provider  # noqa: E402
 from scripts.graphrag_eval.scenarios import SCENARIOS  # noqa: E402
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
@@ -92,9 +92,14 @@ def run_provider_leg(provider_name: str) -> dict:
     try:
         details = run_scenarios(provider)
     finally:
-        close = getattr(provider, "close", None)
-        if callable(close):
-            close()
+        # C-1 fix: close via the factory, not the instance directly — this
+        # evicts the closed provider from _provider_cache too, so a later
+        # get_graph_provider() call for the same provider name constructs
+        # fresh instead of returning a dead driver. Calling provider.close()
+        # directly closed the driver but left it cached, so any later
+        # _lookup() silently degraded to matched=False (swallowed by
+        # GraphContextProvider's never-raises contract) instead of erroring.
+        close_graph_provider()
 
     return {"summary": summarize(details), "details": details}
 

@@ -3,12 +3,34 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
+from graph import factory
 from graph.base import GraphContext
 from scripts.graphrag_eval.run_track_a_retrieval import (
+    run_provider_leg,
     run_scenarios,
     score_hit,
     summarize,
 )
+
+class TestRunProviderLegClosesViaFactory:
+    def test_run_provider_leg_does_not_leave_a_closed_provider_cached(self, monkeypatch):
+        """Reproduces the C-1 bug: provider.close() directly leaves a dead
+        instance in factory._provider_cache; a later get_graph_provider()
+        call for the same provider name must return a fresh, live instance,
+        not the one this leg just closed."""
+        monkeypatch.setenv("GRAPH_RAG_PROVIDER", "off")
+        factory._provider_cache.clear()
+
+        first = factory.get_graph_provider()
+        run_provider_leg("off")
+
+        # The eviction itself is the contract: closing through the factory
+        # empties the cache. Asserting only that a later get_graph_provider()
+        # equals whatever is cached would be tautological — it always is.
+        assert factory._provider_cache == {}
+
+        second = factory.get_graph_provider()
+        assert second is not first
 
 
 class FakeProvider:

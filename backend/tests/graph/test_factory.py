@@ -60,3 +60,13 @@ class TestCloseGraphProvider:
         monkeypatch.setenv("GRAPH_RAG_PROVIDER", "off")
         factory.get_graph_provider()  # NullGraphProvider has no close()
         factory.close_graph_provider()  # must not raise
+
+    def test_get_graph_provider_after_close_returns_a_fresh_instance(self, monkeypatch):
+        monkeypatch.setenv("GRAPH_RAG_PROVIDER", "off")
+        factory._provider_cache.clear()
+
+        first = factory.get_graph_provider()
+        factory.close_graph_provider()
+        second = factory.get_graph_provider()
+
+        assert first is not second
