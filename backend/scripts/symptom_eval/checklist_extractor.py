@@ -26,11 +26,24 @@ EXTRACTION_PROMPT = """You are authoring a standardized-patient script for a cli
 Case (third-person clinical narrative):
 {scenario}
 
+Speaker selection (check this first, before writing anything): if the case
+states the patient is unresponsive, unconscious, has an altered or reduced
+level of consciousness (e.g. a low GCS), is pre-verbal (e.g. an infant or
+toddler), or is otherwise clinically unable to answer questions themselves,
+then BOTH opening_message and every disclosure_item's first_person_phrasing
+must be spoken by a bystander, caregiver, or first responder describing the
+patient from the outside (e.g. "She's not responding to me," "His pulse
+feels really fast") — never the patient's own first-person self-report of
+their own consciousness, sensations, or exam findings. A patient who cannot
+speak or respond cannot narrate their own unresponsiveness. Only use the
+patient's own first-person voice when the case indicates they are awake,
+oriented, and able to converse.
+
 Return strict JSON:
 {{
-  "opening_message": "<first-person chief-complaint sentence a real patient/caller would say, containing ONLY the presenting complaint, no other detail>",
+  "opening_message": "<first-person chief-complaint sentence, in whichever voice the Speaker selection rule above requires, containing ONLY the presenting complaint, no other detail>",
   "disclosure_items": [
-    {{"feature_id": "<short_slug>", "category": "<chief_complaint|history|vitals|exam>", "first_person_phrasing": "<what the patient says when this is asked about>", "reveal_only_if_asked": true}}
+    {{"feature_id": "<short_slug>", "category": "<chief_complaint|history|vitals|exam>", "first_person_phrasing": "<what the speaker (patient or bystander, per the rule above) says when this is asked about>", "reveal_only_if_asked": true}}
   ],
   "update_message": null
 }}
