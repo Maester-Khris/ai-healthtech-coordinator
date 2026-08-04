@@ -109,6 +109,11 @@ backend/scripts/cache_load_eval/results/
 backend/scripts/graphrag_eval/transcripts/
 backend/scripts/graphrag_eval/results/
 
+# Symptom-understanding 4-metric eval — checklists/ is git-tracked
+# (human-reviewed disclosure scripts); only generated run output is ignored.
+backend/scripts/symptom_eval/transcripts/
+backend/scripts/symptom_eval/results/
+
 # Sprint 19 anchor_mapping.py build process artifacts — regenerate via
 # anchor_resolver.py + the batch process documented in the SDD ledger;
 # anchor_mapping.py itself (committed) is the source of truth going forward
