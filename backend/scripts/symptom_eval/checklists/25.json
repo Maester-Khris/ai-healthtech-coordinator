@@ -1,0 +1,36 @@
+{
+  "opening_message": "I was bitten by a large dog on my calf.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_level",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain is a 3 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "anxiety",
+      "category": "history",
+      "first_person_phrasing": "I'm feeling a bit anxious about the bite.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "puncture_wounds",
+      "category": "exam",
+      "first_person_phrasing": "I have several puncture wounds on my calf.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "no_lacerations",
+      "category": "exam",
+      "first_person_phrasing": "There are no lacerations, just the puncture wounds.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs",
+      "category": "vitals",
+      "first_person_phrasing": "I know my vital signs are stable.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

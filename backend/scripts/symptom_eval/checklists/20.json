@@ -1,0 +1,36 @@
+{
+  "opening_message": "He's collapsed and isn't responding.",
+  "disclosure_items": [
+    {
+      "feature_id": "vital_signs",
+      "category": "vitals",
+      "first_person_phrasing": "His pulse is 96 and slightly irregular.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "His blood pressure is 108 over 68.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "He has spontaneous respirations of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "consciousness",
+      "category": "exam",
+      "first_person_phrasing": "He responds to loud verbal stimuli by opening his eyes.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cardiac_monitor",
+      "category": "exam",
+      "first_person_phrasing": "The cardiac monitor shows a sinus rhythm with occasional PVCs.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

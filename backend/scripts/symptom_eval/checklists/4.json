@@ -1,0 +1,90 @@
+{
+  "opening_message": "I've been having trouble breathing.",
+  "disclosure_items": [
+    {
+      "feature_id": "sob",
+      "category": "chief_complaint",
+      "first_person_phrasing": "I feel short of breath, especially when I'm trying to talk.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cough",
+      "category": "history",
+      "first_person_phrasing": "I've been coughing and I\u2019m expectorating.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "fever",
+      "category": "history",
+      "first_person_phrasing": "I have a mild fever.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "antibiotic",
+      "category": "history",
+      "first_person_phrasing": "I was recently put on antibiotics for a chest infection.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I was breathing faster earlier; it was about 26 breaths per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "My heart rate was 120 beats per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "My blood pressure was 110 over 70.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "oxygen_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "My oxygen levels were at 92 percent on room air.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "wheezes",
+      "category": "exam",
+      "first_person_phrasing": "The doctor told me I had wheezes in both lungs.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "improvement",
+      "category": "exam",
+      "first_person_phrasing": "I feel better now, my breathing is easier.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "current_resp_rate",
+      "category": "vitals",
+      "first_person_phrasing": "Now my breathing is around 20 breaths per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "current_pulse",
+      "category": "vitals",
+      "first_person_phrasing": "Now my heart rate is 110 beats per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "current_o2_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "Now my oxygen saturation is 95 percent.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "wheezes_diminished",
+      "category": "exam",
+      "first_person_phrasing": "The wheezes have diminished since I got treatment.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

@@ -1,0 +1,60 @@
+{
+  "opening_message": "I've been feeling really weak and unwell.",
+  "disclosure_items": [
+    {
+      "feature_id": "dizziness",
+      "category": "history",
+      "first_person_phrasing": "No, I don\u2019t feel dizzy at all.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "nausea",
+      "category": "history",
+      "first_person_phrasing": "No, I haven't had any nausea.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vomiting",
+      "category": "history",
+      "first_person_phrasing": "No, I haven\u2019t vomited.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pain",
+      "category": "history",
+      "first_person_phrasing": "I don't have any pain.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "dialysis_missed",
+      "category": "history",
+      "first_person_phrasing": "I missed my dialysis yesterday.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "I know my blood pressure is 105 over 60.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "My pulse is 60.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "I'm breathing 14 times a minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "oxygen_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "My oxygen saturation is 96% on room air.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

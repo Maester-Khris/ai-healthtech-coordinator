@@ -1,0 +1,48 @@
+{
+  "opening_message": "I'm eight weeks pregnant and I've started bleeding.",
+  "disclosure_items": [
+    {
+      "feature_id": "bleeding_type",
+      "category": "chief_complaint",
+      "first_person_phrasing": "It's like a period flow now.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cramping",
+      "category": "history",
+      "first_person_phrasing": "I have some abdominal cramping.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "emotional_state",
+      "category": "history",
+      "first_person_phrasing": "I'm really upset about this.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "appearance",
+      "category": "exam",
+      "first_person_phrasing": "I feel well and my color is good.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "My pulse was 86.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "My blood pressure was 120 over 70.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "My respirations were 16.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

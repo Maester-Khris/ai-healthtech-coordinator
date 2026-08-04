@@ -1,0 +1,48 @@
+{
+  "opening_message": "I can\u2019t breathe!",
+  "disclosure_items": [
+    {
+      "feature_id": "asthma_history",
+      "category": "history",
+      "first_person_phrasing": "I have severe asthma and I have had many attacks before.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "response_to_stimuli",
+      "category": "exam",
+      "first_person_phrasing": "I'm only able to respond to pain.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I don't know my pulse rate, but I feel my heart racing.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I feel like I'm breathing really fast.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cyanosis",
+      "category": "exam",
+      "first_person_phrasing": "I can\u2019t feel my lips; they might be blue.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "air_entry",
+      "category": "exam",
+      "first_person_phrasing": "I can\u2019t get enough air in.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "oxygen_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "I can't really tell my oxygen levels, but I feel weak.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}
