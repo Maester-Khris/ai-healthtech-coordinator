@@ -197,6 +197,23 @@ LAY_SCENARIOS: list[dict] = [
     },
 ]
 
+# Step 5 (docs/superpowers/plans/2026-08-05-v1-v2-retrieval-eval-fairness.md):
+# scenarios combining wording from more than one of the pilot
+# RedFlagCluster's anchors (cardiac chest pain, dyspnea, syncope — see
+# Sprint 19's 2026-07-29 pilot cluster entry) in a single message, so a
+# single _lookup() call's candidate set spans multiple anchors and
+# _log_cross_symptom_clusters() has a real chance to fire. This exercises
+# the multi-hop/relational structure v1's flat alias lookup has no
+# equivalent for — Track A/B's other scenarios only test single-complaint
+# identification, where v1 wins by construction (see the gap analysis's
+# GraphRAG-literature citations).
+CLUSTER_SCENARIOS: list[dict] = [
+    {
+        "message": "I have cardiac chest pain and shortness of breath and I feel like I might faint.",
+        "expected_complaint": "Shortness of breath",
+    },
+]
+
 
 @lru_cache(maxsize=1)
 def _entries_by_name() -> dict:
