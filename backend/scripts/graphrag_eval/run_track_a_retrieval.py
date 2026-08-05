@@ -46,6 +46,22 @@ def score_hit(ctx: GraphContext, expected_complaint: str | None) -> bool:
     return ctx.matched and ctx.complaint_name == expected_complaint
 
 
+def score_recall(candidates: list[str] | None, expected_complaint: str | None) -> bool | None:
+    """Recall (k = however many candidates debug_all_matches() surfaced):
+    was the correct complaint ANYWHERE in the candidate set, regardless of
+    which one the provider ultimately selected as complaint_name?
+    Separates a coverage failure (the right concept was never found at
+    all) from a selection/ranking failure (it was found, but score_hit()
+    below still fails because a different candidate got chosen). Returns
+    None when the provider doesn't expose debug_all_matches() — recall is
+    undefined, not false, in that case."""
+    if candidates is None:
+        return None
+    if expected_complaint is None:
+        return len(candidates) == 0
+    return expected_complaint in candidates
+
+
 def run_scenarios(
     provider: GraphContextProvider, scenarios: list[dict] | None = None
 ) -> list[dict]:
@@ -54,13 +70,17 @@ def run_scenarios(
     details = []
     for scenario in scenarios:
         ctx = provider.get_symptom_graph_context(scenario["message"], [])
+        debug_fn = getattr(provider, "debug_all_matches", None)
+        candidates = debug_fn(scenario["message"]) if debug_fn else None
         details.append(
             {
                 "message": scenario["message"],
                 "expected_complaint": scenario["expected_complaint"],
                 "actual_complaint": ctx.complaint_name,
                 "matched": ctx.matched,
+                "candidates": candidates,
                 "hit": score_hit(ctx, scenario["expected_complaint"]),
+                "recall": score_recall(candidates, scenario["expected_complaint"]),
             }
         )
     return details
@@ -78,9 +98,18 @@ def write_results(results: dict, filename_prefix: str = "track_a_results") -> st
 def summarize(details: list[dict]) -> dict:
     count = len(details)
     if count == 0:
-        return {"count": 0, "hits": 0, "accuracy": 0.0}
+        return {"count": 0, "hits": 0, "accuracy": 0.0, "recall_count": 0, "recall_rate": 0.0}
     hits = sum(1 for d in details if d["hit"])
-    return {"count": count, "hits": hits, "accuracy": hits / count}
+    recall_evaluable = [d for d in details if d["recall"] is not None]
+    recall_count = len(recall_evaluable)
+    recall_hits = sum(1 for d in recall_evaluable if d["recall"])
+    return {
+        "count": count,
+        "hits": hits,
+        "accuracy": hits / count,
+        "recall_count": recall_count,
+        "recall_rate": (recall_hits / recall_count) if recall_count else 0.0,
+    }
 
 
 def build_provider(provider_name: str) -> GraphContextProvider:
