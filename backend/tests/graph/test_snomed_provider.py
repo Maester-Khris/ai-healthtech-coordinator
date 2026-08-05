@@ -121,7 +121,7 @@ def test_lookup_excludes_corrupted_indicators(mock_provider):
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "1"}]
+            return [{"concept_id": "1", "matched_length": 20}]
         if call_count == 2:
             return [good_row, bad_row]
         return []
@@ -158,7 +158,7 @@ def test_lookup_does_not_name_the_complaint_after_an_all_corrupted_anchor(mock_p
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "1"}]
+            return [{"concept_id": "1", "matched_length": 20}]
         if call_count == 2:
             return rows
         return []
@@ -226,7 +226,7 @@ def test_lookup_maps_records_to_red_flag_matches(mock_provider):
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "22253000"}]
+            return [{"concept_id": "22253000", "matched_length": 20}]
         # one batched call per distinct max_depth group — only one group
         # here (max_depth=4), so exactly one traversal call.
         if call_count == 2:
@@ -277,7 +277,7 @@ def test_lookup_deduplicates_repeated_indicator(mock_provider):
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "22253000"}]
+            return [{"concept_id": "22253000", "matched_length": 20}]
         if call_count == 2:
             return [dup_row_anchor_a, dup_row_anchor_b]
         return []
@@ -307,7 +307,7 @@ def test_lookup_uses_per_anchor_max_depth(mock_provider):
         captured_queries.append(query)
         if not captured_queries or captured_queries[0] == query:
             if len(captured_queries) == 1:
-                return [{"concept_id": "22253000"}]
+                return [{"concept_id": "22253000", "matched_length": 20}]
         return []
 
     mock_provider._client.run_query = MagicMock(side_effect=side_effect)
@@ -329,7 +329,7 @@ def test_lookup_returns_matched_false_when_traversal_has_no_red_flags(mock_provi
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "22253000"}]
+            return [{"concept_id": "22253000", "matched_length": 20}]
         return []  # all traversals empty
 
     mock_provider._client.run_query = MagicMock(side_effect=side_effect)
@@ -368,7 +368,7 @@ def test_lookup_sorts_red_flags_by_ctas_level_ascending(mock_provider):
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "1"}]
+            return [{"concept_id": "1", "matched_length": 20}]
         if call_count == 2:
             return [urgent_row]      # deliberately returned BEFORE the emergent one
         if call_count == 3:
@@ -400,7 +400,7 @@ def test_lookup_logs_cross_symptom_cluster_when_two_anchors_share_one(mock_provi
         nonlocal call_count
         call_count += 1
         if call_count == 1:
-            return [{"concept_id": "1"}]
+            return [{"concept_id": "1", "matched_length": 20}]
         if call_count == 2:
             return [cardiac_row, dyspnea_row]
         return []
@@ -412,3 +412,104 @@ def test_lookup_logs_cross_symptom_cluster_when_two_anchors_share_one(mock_provi
     matches = [r for r in caplog.records if r.message == "cross_symptom_cluster_matched"]
     assert len(matches) == 1
     assert matches[0].cluster_name == "Cardiac symptom cluster"
+
+
+def test_concept_lookup_query_returns_matched_length_ordered_by_specificity():
+    """Task 2 fix: the query must return matched_length per concept and
+    order candidates by it, so provider.py can rank anchors by specificity
+    instead of picking whichever comes first in ANCHOR_MAPPINGS order."""
+    query, params = build_concept_lookup_query()
+    assert "matched_length" in query
+    assert "ORDER BY matched_length DESC" in query
+
+
+def test_lookup_prefers_most_specific_match_over_list_order(mock_provider):
+    """Task 2 fix regression test: two anchors both have surviving
+    red-flag rows. Anchor A comes FIRST in ANCHOR_MAPPINGS order but its
+    matched concept only hit on a short/generic term (matched_length=5).
+    Anchor B comes SECOND but matched on a much longer, more specific term
+    (matched_length=18). The pre-fix behavior picked whichever came first
+    in ANCHOR_MAPPINGS order (Anchor A) regardless of specificity. The fix
+    must pick Anchor B."""
+    from graph.snomed_neo4j.anchor_mapping import AnchorMapping
+
+    anchor_a = AnchorMapping(
+        ctas_alias="Generic Complaint A", anchor_concept_id="100",
+        fsn="A (finding)", rationale="test", max_depth=4,
+    )
+    anchor_b = AnchorMapping(
+        ctas_alias="Specific Complaint B", anchor_concept_id="200",
+        fsn="B (finding)", rationale="test", max_depth=4,
+    )
+
+    call_count = 0
+
+    def side_effect(query, params):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return [
+                {"concept_id": "candidate-short", "matched_length": 5},
+                {"concept_id": "candidate-long", "matched_length": 18},
+            ]
+        if call_count == 2:
+            return [
+                {"candidate_id": "candidate-short", "anchor_id": "100",
+                 "indicator": "Flag A", "ctas_level": 3, "app_severity": "urgent",
+                 "followup_question": "Q A?"},
+                {"candidate_id": "candidate-long", "anchor_id": "200",
+                 "indicator": "Flag B", "ctas_level": 3, "app_severity": "urgent",
+                 "followup_question": "Q B?"},
+            ]
+        return []
+
+    mock_provider._client.run_query = MagicMock(side_effect=side_effect)
+    with patch("graph.snomed_neo4j.provider.ANCHOR_MAPPINGS", [anchor_a, anchor_b]):
+        result = mock_provider.get_symptom_graph_context("some text", [])
+
+    assert result.matched is True
+    assert result.complaint_name == "Specific Complaint B"
+
+
+def test_debug_all_matches_returns_every_surviving_complaint(mock_provider):
+    """New eval-only method: exposes ALL complaints with surviving red
+    flags, not just the one _lookup() selects as most specific. Same
+    fixture shape as the ranking test above — both anchors survive, so
+    debug_all_matches must return both, in ANCHOR_MAPPINGS order."""
+    from graph.snomed_neo4j.anchor_mapping import AnchorMapping
+
+    anchor_a = AnchorMapping(
+        ctas_alias="Generic Complaint A", anchor_concept_id="100",
+        fsn="A (finding)", rationale="test", max_depth=4,
+    )
+    anchor_b = AnchorMapping(
+        ctas_alias="Specific Complaint B", anchor_concept_id="200",
+        fsn="B (finding)", rationale="test", max_depth=4,
+    )
+
+    call_count = 0
+
+    def side_effect(query, params):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return [
+                {"concept_id": "candidate-short", "matched_length": 5},
+                {"concept_id": "candidate-long", "matched_length": 18},
+            ]
+        if call_count == 2:
+            return [
+                {"candidate_id": "candidate-short", "anchor_id": "100",
+                 "indicator": "Flag A", "ctas_level": 3, "app_severity": "urgent",
+                 "followup_question": "Q A?"},
+                {"candidate_id": "candidate-long", "anchor_id": "200",
+                 "indicator": "Flag B", "ctas_level": 3, "app_severity": "urgent",
+                 "followup_question": "Q B?"},
+            ]
+        return []
+
+    mock_provider._client.run_query = MagicMock(side_effect=side_effect)
+    with patch("graph.snomed_neo4j.provider.ANCHOR_MAPPINGS", [anchor_a, anchor_b]):
+        matches = mock_provider.debug_all_matches("some text")
+
+    assert matches == ["Generic Complaint A", "Specific Complaint B"]

@@ -83,38 +83,59 @@ class Neo4jSnomedProvider(GraphContextProvider):
         applies only to _lookup(); the driver itself is not auto-closed."""
         self._client.close()
 
-    def _lookup(self, user_message: str, recent_messages: list[str]) -> GraphContext:
-        all_text = " ".join([user_message, *recent_messages]).strip()
-
+    def _resolve_surviving_mappings(
+        self, all_text: str
+    ) -> list[tuple]:
+        """Shared by _lookup() and debug_all_matches(): every
+        ANCHOR_MAPPINGS entry with surviving (non-corrupted) red-flag
+        rows, each paired with its specificity score (the longest matched
+        Description.term length among the candidate concepts that
+        traversed to it) and its rows. Iteration follows ANCHOR_MAPPINGS
+        order, which also becomes the tie-break when two anchors share the
+        same specificity score (fixed 2026-08-05 — see docs/superpowers/
+        plans/2026-08-05-v1-v2-retrieval-eval-fairness.md Task 2;
+        previously this picked the first anchor in list order regardless
+        of specificity)."""
         lookup_query, lookup_params = build_concept_lookup_query()
         lookup_params = {**lookup_params, "text": all_text}
         concept_rows = self._client.run_query(lookup_query, lookup_params)
         if not concept_rows:
-            return GraphContext(matched=False)
+            return []
 
         candidate_ids = [row["concept_id"] for row in concept_rows]
+        candidate_specificity = {
+            row["concept_id"]: row["matched_length"] for row in concept_rows
+        }
         rows_by_anchor = self._traverse_all_anchors(candidate_ids)
         self._log_cross_symptom_clusters(rows_by_anchor)
 
-        red_flags: list[RedFlagMatch] = []
-        seen_indicators: set[str] = set()
-        complaint_name: str | None = None
-
+        surviving = []
         for mapping in ANCHOR_MAPPINGS:
             rows = rows_by_anchor.get(mapping.anchor_concept_id, [])
-            # I-3: drop corrupted PDF-extraction indicators before anything
-            # downstream can see them — including the complaint_name choice
-            # below. An anchor whose rows are *all* extraction artifacts
-            # contributes no red flags, so it must not name the complaint.
             rows = [row for row in rows if not is_corrupted_indicator(row["indicator"])]
             if not rows:
                 continue
-            # First anchor in ANCHOR_MAPPINGS order that produces red flags
-            # becomes complaint_name — preserved exactly, batching only
-            # changes how the rows are fetched, not this reassembly order.
-            if complaint_name is None:
-                complaint_name = mapping.ctas_alias
+            specificity = max(candidate_specificity.get(row["candidate_id"], 0) for row in rows)
+            surviving.append((mapping, specificity, rows))
+        return surviving
 
+    def _lookup(self, user_message: str, recent_messages: list[str]) -> GraphContext:
+        all_text = " ".join([user_message, *recent_messages]).strip()
+        surviving = self._resolve_surviving_mappings(all_text)
+        if not surviving:
+            return GraphContext(matched=False)
+
+        # Task 2 fix: most specific (longest matched term) anchor wins,
+        # not whichever comes first in ANCHOR_MAPPINGS's static order.
+        # max() with key= returns the first maximal element while
+        # iterating in order, so ties still preserve the original
+        # ANCHOR_MAPPINGS-order tie-break.
+        best_mapping, _, _ = max(surviving, key=lambda triple: triple[1])
+        complaint_name = best_mapping.ctas_alias
+
+        red_flags: list[RedFlagMatch] = []
+        seen_indicators: set[str] = set()
+        for _, _, rows in surviving:
             for row in rows:
                 indicator = row["indicator"]
                 if indicator not in seen_indicators:
@@ -135,6 +156,15 @@ class Neo4jSnomedProvider(GraphContextProvider):
         # most severe (lowest ctas_level) first, regardless of traversal order.
         red_flags.sort(key=lambda rf: rf.ctas_level)
         return GraphContext(matched=True, complaint_name=complaint_name, red_flags=red_flags)
+
+    def debug_all_matches(self, text: str) -> list[str]:
+        """Eval-only introspection for Track A's Recall@k metric (backend/
+        scripts/graphrag_eval/run_track_a_retrieval.py): every complaint
+        (ctas_alias) with any surviving red-flag rows, not just the one
+        _lookup() selects as most specific. Never called from the request
+        path — LLMAgent only calls get_symptom_graph_context()."""
+        surviving = self._resolve_surviving_mappings(text)
+        return [mapping.ctas_alias for mapping, _, _ in surviving]
 
     def _traverse_all_anchors(self, candidate_ids: list[str]) -> dict[str, list[dict]]:
         """Groups ANCHOR_MAPPINGS by max_depth and issues one batched query per

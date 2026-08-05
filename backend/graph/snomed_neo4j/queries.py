@@ -53,6 +53,13 @@ def build_concept_lookup_query() -> tuple[str, dict]:
     across EN and FR in the Canadian Edition RF2 release (can be French).
     See deployment reference §Known Limitations §1.
 
+    Also returns matched_length — the longest matching Description.term's
+    character length for that concept — so provider.py can rank candidate
+    anchors by specificity instead of picking whichever comes first in
+    ANCHOR_MAPPINGS's static order regardless of match quality (fixed
+    2026-08-05, see docs/superpowers/plans/
+    2026-08-05-v1-v2-retrieval-eval-fairness.md Task 2).
+
     Returns a (query, params_template) tuple; caller sets params["text"] at
     call time.
     """
@@ -61,7 +68,8 @@ def build_concept_lookup_query() -> tuple[str, dict]:
         "WHERE d.language_code = \"en\" "
         "  AND size(d.term) >= 4 "
         "  AND toLower($text) CONTAINS toLower(d.term) "
-        "RETURN DISTINCT c.id AS concept_id "
+        "RETURN c.id AS concept_id, max(size(d.term)) AS matched_length "
+        "ORDER BY matched_length DESC "
         "LIMIT 50"
     )
     return query, {}
