@@ -10,6 +10,7 @@ from scripts.graphrag_eval.run_track_a_retrieval import (
     run_scenarios,
     score_hit,
     summarize,
+    write_results,
 )
 
 class TestRunProviderLegClosesViaFactory:
@@ -102,3 +103,12 @@ class TestSummarize:
         details = [{"hit": True}, {"hit": False}, {"hit": True}]
         summary = summarize(details)
         assert summary == {"count": 3, "hits": 2, "accuracy": 2 / 3}
+
+
+class TestScenarioSetSelection:
+    def test_lay_scenario_set_writes_to_a_distinct_results_prefix(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(
+            "scripts.graphrag_eval.run_track_a_retrieval.RESULTS_DIR", str(tmp_path)
+        )
+        path = write_results({}, filename_prefix="track_a_lay_results")
+        assert os.path.basename(path).startswith("track_a_lay_results_")

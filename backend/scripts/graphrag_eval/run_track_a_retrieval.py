@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from graph.base import GraphContext, GraphContextProvider  # noqa: E402
 from graph.factory import close_graph_provider, get_graph_provider  # noqa: E402
-from scripts.graphrag_eval.scenarios import SCENARIOS  # noqa: E402
+from scripts.graphrag_eval.scenarios import LAY_SCENARIOS, SCENARIOS  # noqa: E402
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 PROVIDER_NAMES = ("static", "neo4j")
@@ -66,6 +66,15 @@ def run_scenarios(
     return details
 
 
+def write_results(results: dict, filename_prefix: str = "track_a_results") -> str:
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    path = os.path.join(RESULTS_DIR, f"{filename_prefix}_{stamp}.json")
+    with open(path, "w") as f:
+        json.dump(results, f, indent=2)
+    return path
+
+
 def summarize(details: list[dict]) -> dict:
     count = len(details)
     if count == 0:
@@ -82,7 +91,7 @@ def build_provider(provider_name: str) -> GraphContextProvider:
     return get_graph_provider()
 
 
-def run_provider_leg(provider_name: str) -> dict:
+def run_provider_leg(provider_name: str, scenarios: list[dict] | None = None) -> dict:
     try:
         provider = build_provider(provider_name)
     except Exception as exc:
@@ -90,7 +99,7 @@ def run_provider_leg(provider_name: str) -> dict:
         return {"skipped": True, "reason": str(exc)}
 
     try:
-        details = run_scenarios(provider)
+        details = run_scenarios(provider, scenarios)
     finally:
         # C-1 fix: close via the factory, not the instance directly — this
         # evicts the closed provider from _provider_cache too, so a later
@@ -102,15 +111,6 @@ def run_provider_leg(provider_name: str) -> dict:
         close_graph_provider()
 
     return {"summary": summarize(details), "details": details}
-
-
-def write_results(results: dict) -> str:
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    path = os.path.join(RESULTS_DIR, f"track_a_results_{stamp}.json")
-    with open(path, "w") as f:
-        json.dump(results, f, indent=2)
-    return path
 
 
 def print_summary(results: dict[str, Any]) -> None:
@@ -134,13 +134,21 @@ def main() -> None:
         default="both",
         help="Which provider leg(s) to run (default: both)",
     )
+    parser.add_argument(
+        "--scenario-set", choices=["main", "lay"], default="main",
+        help="'main' = original vocabulary-calibrated-to-v1 set (SCENARIOS); "
+             "'lay' = vocabulary-neutral set (LAY_SCENARIOS, avoids every v1 "
+             "alias/name substring) — see scenarios.py's disclosed-bias note.",
+    )
     args = parser.parse_args()
 
     names = list(PROVIDER_NAMES) if args.provider == "both" else [args.provider]
+    scenarios = LAY_SCENARIOS if args.scenario_set == "lay" else SCENARIOS
+    prefix = "track_a_lay_results" if args.scenario_set == "lay" else "track_a_results"
 
-    results: dict[str, Any] = {name: run_provider_leg(name) for name in names}
+    results: dict[str, Any] = {name: run_provider_leg(name, scenarios) for name in names}
 
-    path = write_results(results)
+    path = write_results(results, prefix)
     print_summary(results)
     print(f"Full results written to {path}")
 

@@ -147,6 +147,56 @@ SCENARIOS: list[dict] = [
     },
 ]
 
+# Vocabulary-neutral subset (Task 3, Step 2 of docs/superpowers/plans/
+# 2026-08-05-v1-v2-retrieval-eval-fairness.md): every message here is
+# rewritten to deliberately avoid every v1 alias/name substring in
+# symptom_triage_data.json — verified programmatically, not by hand, in
+# tests/test_scenarios.py::test_lay_scenarios_avoid_every_v1_alias_and_name_substring.
+# This isolates a genuine retrieval-quality difference from the
+# vocabulary-calibration bias the main SCENARIOS list discloses above.
+LAY_SCENARIOS: list[dict] = [
+    {
+        "message": "There's an elephant sitting on my chest and my left arm feels heavy and tingly.",
+        "expected_complaint": "Chest pain (cardiac features)",
+    },
+    {
+        "message": "I got up too fast and everything went black for a second before I hit the floor.",
+        "expected_complaint": "Syncope / Pre-syncope",
+    },
+    {
+        "message": "It feels like swallowing broken glass every time I try to eat.",
+        "expected_complaint": "Sore throat",
+    },
+    {
+        "message": "Blood keeps dripping out of my nose no matter how long I pinch it.",
+        "expected_complaint": "Epistaxis",
+    },
+    {
+        "message": "My little boy's lips went blue after he went under in the bathtub and he will not stop hacking.",
+        "expected_complaint": "Near Drowning",
+    },
+    {
+        "message": "It feels like acid every single time I use the bathroom.",
+        "expected_complaint": "UTI complaints",
+    },
+    {
+        "message": "I have not gone to the bathroom in five days and my belly feels rock hard.",
+        "expected_complaint": "Constipation",
+    },
+    {
+        "message": "My urine came out pink today and it scared me.",
+        "expected_complaint": "Hematuria",
+    },
+    {
+        "message": "I cannot keep anything down, everything comes right back up within minutes.",
+        "expected_complaint": "Vomiting and/or nausea",
+    },
+    {
+        "message": "My skin and the whites of my eyes turned a strange yellow color overnight.",
+        "expected_complaint": "Jaundice",
+    },
+]
+
 
 @lru_cache(maxsize=1)
 def _entries_by_name() -> dict:

@@ -3,8 +3,12 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
+import pytest
+
 from scripts.graphrag_eval.scenarios import (
+    LAY_SCENARIOS,
     SCENARIOS,
+    _entries_by_name,
     expected_red_flag_indicators,
     verified_intersection,
 )
@@ -58,3 +62,42 @@ class TestExpectedRedFlagIndicators:
 
     def test_returns_empty_list_for_unknown_complaint(self):
         assert expected_red_flag_indicators("Not a real complaint") == []
+
+
+def test_lay_scenarios_avoid_every_v1_alias_and_name_substring():
+    """Task 3: a vocabulary-neutral scenario subset, per scenarios.py's own
+    disclosed-bias note and docs/superpowers/plans/
+    2026-08-05-v1-v2-retrieval-eval-fairness.md Step 2. Don't hand-pick and
+    hope: assert programmatically, the same way verified_intersection()
+    already does for the main SCENARIOS list, that no LAY_SCENARIOS message
+    contains any v1 alias or complaint name as a substring — using the
+    exact normalization StaticLookupProvider itself uses, so this test
+    fails the moment a lay scenario accidentally reuses v1's own
+    vocabulary. If this fails against the real data, rephrase the
+    offending scenario until it passes — that's the intended guard, not a
+    bug in the test."""
+    from graph.static_provider import _normalize
+
+    entries = _entries_by_name()
+    all_terms = set()
+    for entry in entries.values():
+        all_terms.add(entry["name"])
+        all_terms.update(entry.get("aliases", []))
+
+    for scenario in LAY_SCENARIOS:
+        normalized_message = _normalize(scenario["message"])
+        for term in all_terms:
+            normalized_term = _normalize(term)
+            if len(normalized_term) >= 4 and normalized_term in normalized_message:
+                pytest.fail(
+                    f"Lay scenario {scenario['message']!r} contains v1 term "
+                    f"{term!r} — defeats the purpose of a vocabulary-neutral subset"
+                )
+
+
+def test_lay_scenarios_expected_complaints_are_in_verified_intersection():
+    """Same ground-truth-identity-space guarantee as the main SCENARIOS
+    list — see verified_intersection()'s own docstring."""
+    intersection = verified_intersection()
+    for scenario in LAY_SCENARIOS:
+        assert scenario["expected_complaint"] in intersection
