@@ -15,7 +15,7 @@ import os
 from dataclasses import asdict
 from datetime import datetime, timezone
 
-from scripts.symptom_eval.ablation import run_ablation
+from scripts.symptom_eval.ablation import CheckpointStore, run_ablation
 from scripts.symptom_eval.checklist_extractor import OpenAIChecklistExtractor
 from scripts.symptom_eval.elicitation_coverage import DeepEvalFeaturePresenceJudge
 from scripts.symptom_eval.information_gain import DeepEvalRubricJudge
@@ -40,7 +40,7 @@ def extract_checklists() -> None:
         print(f"wrote {path} — review before committing")
 
 
-def run_ablation_command(limit: int | None) -> None:
+def run_ablation_command(limit: int | None, checkpoint_path: str | None = None) -> None:
     vignettes = load_all_vignettes()
     if limit:
         vignettes = vignettes[:limit]
@@ -50,15 +50,22 @@ def run_ablation_command(limit: int | None) -> None:
             "'extract-checklists' first, review the output, then re-run."
         )
 
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    checkpoint_path = checkpoint_path or os.path.join(RESULTS_DIR, "checkpoint.jsonl")
+    checkpoint = CheckpointStore(checkpoint_path)
+    already_done = len(checkpoint.done)
+    if already_done:
+        print(f"Resuming from checkpoint {checkpoint_path} — {already_done} vignette-legs already recorded")
+
     legs = run_ablation(
         vignettes=vignettes,
         system_factory=lambda provider: LiveLLMAgentAdapter(graph_rag_provider=provider),
         simulator=AnthropicPatientSimulator(),
         feature_judge=DeepEvalFeaturePresenceJudge(),
         rubric_judge=DeepEvalRubricJudge(),
+        checkpoint=checkpoint,
     )
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     path = os.path.join(RESULTS_DIR, f"ablation_results_{stamp}.json")
     with open(path, "w") as f:
@@ -86,12 +93,17 @@ def main() -> None:
     subparsers.add_parser("extract-checklists")
     run_parser = subparsers.add_parser("run-ablation")
     run_parser.add_argument("--limit", type=int, default=None)
+    run_parser.add_argument(
+        "--checkpoint", type=str, default=None,
+        help="Path to the JSONL checkpoint file (default: results/checkpoint.jsonl). "
+             "Rerunning the same command with the same path resumes from where it left off.",
+    )
     args = parser.parse_args()
 
     if args.command == "extract-checklists":
         extract_checklists()
     elif args.command == "run-ablation":
-        run_ablation_command(args.limit)
+        run_ablation_command(args.limit, args.checkpoint)
 
 
 if __name__ == "__main__":
