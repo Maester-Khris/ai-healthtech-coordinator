@@ -718,6 +718,8 @@ The retried full run hit the identical `groq.RateLimitError: 429` (Used 99590/10
 
 v1 wins on every axis this eval measures except faithfulness (both are near-ceiling there — v2 is marginally grounded-er, v1 is marginally more prone to unsupported claims, both well above threshold). This sharpens rather than resolves the Task 13 tension noted above: v1 retrieves better and more completely by every measure here, yet still loses on Task 13's end-to-end triage accuracy (51.9% vs 66.7%) and has the worst under-triage rate of all three legs there (37.0%). Retrieval quality and end-to-end triage outcome are not the same axis for either version — this eval pair is evidence of that, not evidence that either version's retrieval "explains" its triage performance.
 
+**Task 7 live-Neo4j verification passed — 2026-08-18.** `test_cluster_scenarios.py::test_cluster_scenario_logs_cross_symptom_cluster_matched` (`@pytest.mark.integration`) run against live Aura: `cross_symptom_cluster_matched` fired as expected for `CLUSTER_SCENARIOS[0]`. This was the plan's last outstanding gate — Tasks 1-8 of `docs/superpowers/plans/2026-08-05-v1-v2-retrieval-eval-fairness.md` are now all complete and verified.
+
 Scope (unchanged, resuming):
 
 - **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
