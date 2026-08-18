@@ -83,6 +83,13 @@ class Neo4jSnomedProvider(GraphContextProvider):
         applies only to _lookup(); the driver itself is not auto-closed."""
         self._client.close()
 
+    def ping(self) -> None:
+        """Ops-only connectivity check for /health (backend/main.py) — keeps
+        AuraDB's free-tier instance from hitting the 72h auto-pause window
+        mentioned in this class's docstring. Raises on failure; never called
+        from the triage request path."""
+        self._client.ping()
+
     def _resolve_surviving_mappings(
         self, all_text: str
     ) -> list[tuple]:

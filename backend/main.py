@@ -14,7 +14,7 @@ from db import supabase_rpc
 from models import NearbyFacilityResult
 from middleware.auth import AuthMiddleware, get_current_user
 from cache import get_cached_facilities, set_cached_facilities
-from graph.factory import close_graph_provider
+from graph.factory import close_graph_provider, get_graph_provider
 from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
 from routers.chat import router as chat_router
 from routers.notifications import router as notifications_router
@@ -74,10 +74,21 @@ def root() -> dict:
 
 @app.get("/health")
 def health() -> dict:
-    return {
+    result = {
         "status": "ok",
         "llmProvider": os.environ.get("LLM_PROVIDER", "groq"),
     }
+    # Doubles as a keep-alive ping for AuraDB's free-tier 72h auto-pause
+    # window (graph/snomed_neo4j/provider.py) — meant to be polled by an
+    # external cronjob, not just a status check.
+    if os.environ.get("GRAPH_RAG_PROVIDER", "off").lower() == "neo4j":
+        try:
+            get_graph_provider().ping()
+            result["neo4j"] = "ok"
+        except Exception as exc:
+            result["neo4j"] = "unreachable"
+            logger.warning("neo4j_health_ping_failed", extra={"error_type": type(exc).__name__})
+    return result
 
 
 @app.get("/me")

@@ -24,5 +24,11 @@ class Neo4jClient:
             result = session.run(query, params)
             return [dict(record) for record in result]
 
+    def ping(self) -> None:
+        """Trivial connectivity check. Raises on failure — callers decide
+        how to report it. Used by provider.py's ping() for /health, not the
+        triage request path."""
+        self._driver.verify_connectivity()
+
     def close(self) -> None:
         self._driver.close()

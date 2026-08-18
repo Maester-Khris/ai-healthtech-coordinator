@@ -191,6 +191,18 @@ def mock_provider():
             yield provider
 
 
+def test_ping_calls_verify_connectivity(mock_provider):
+    mock_provider._client._driver.verify_connectivity = MagicMock()
+    mock_provider.ping()
+    mock_provider._client._driver.verify_connectivity.assert_called_once()
+
+
+def test_ping_propagates_failure(mock_provider):
+    mock_provider._client._driver.verify_connectivity = MagicMock(side_effect=ConnectionError("down"))
+    with pytest.raises(ConnectionError):
+        mock_provider.ping()
+
+
 def test_lookup_returns_matched_false_on_zero_concept_hits(mock_provider):
     """Zero concept-lookup rows → matched=False, no traversal attempted."""
     mock_provider._client.run_query = MagicMock(return_value=[])
