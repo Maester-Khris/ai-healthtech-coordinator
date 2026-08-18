@@ -1,5 +1,5 @@
 import os
-from groq import Groq
+from groq import BadRequestError, Groq
 from .base import BaseLLMClient, LLMMessage, LLMResponse, ToolDefinition
 
 
@@ -46,7 +46,17 @@ class GroqClient(BaseLLMClient):
             kwargs["tools"] = groq_tools
             kwargs["tool_choice"] = tool_choice
 
-        resp = self._client.chat.completions.create(**kwargs)
+        try:
+            resp = self._client.chat.completions.create(**kwargs)
+        except BadRequestError as e:
+            # ponytail: llama occasionally emits a tool-call arg as the wrong
+            # JSON type (e.g. "true" instead of true) — a transient sampling
+            # glitch, not a systematic prompt/schema problem. One retry, no
+            # backoff; if it fails twice, let it raise.
+            if groq_tools and "tool_use_failed" in str(e):
+                resp = self._client.chat.completions.create(**kwargs)
+            else:
+                raise
         choice = resp.choices[0]
 
         tool_calls = None
