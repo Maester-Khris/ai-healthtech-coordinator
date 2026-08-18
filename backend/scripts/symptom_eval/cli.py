@@ -40,7 +40,9 @@ def extract_checklists() -> None:
         print(f"wrote {path} — review before committing")
 
 
-def run_ablation_command(limit: int | None, checkpoint_path: str | None = None) -> None:
+def run_ablation_command(
+    limit: int | None, checkpoint_path: str | None = None, providers: tuple[str, ...] = ("off", "neo4j")
+) -> None:
     vignettes = load_all_vignettes()
     if limit:
         vignettes = vignettes[:limit]
@@ -63,6 +65,7 @@ def run_ablation_command(limit: int | None, checkpoint_path: str | None = None) 
         simulator=AnthropicPatientSimulator(),
         feature_judge=DeepEvalFeaturePresenceJudge(),
         rubric_judge=DeepEvalRubricJudge(),
+        providers=providers,
         checkpoint=checkpoint,
     )
 
@@ -98,12 +101,18 @@ def main() -> None:
         help="Path to the JSONL checkpoint file (default: results/checkpoint.jsonl). "
              "Rerunning the same command with the same path resumes from where it left off.",
     )
+    run_parser.add_argument(
+        "--providers", type=str, default="off,neo4j",
+        help="Comma-separated GRAPH_RAG_PROVIDER values to run as legs, e.g. "
+             "'static' or 'static,off,neo4j'. Default: 'off,neo4j'.",
+    )
     args = parser.parse_args()
 
     if args.command == "extract-checklists":
         extract_checklists()
     elif args.command == "run-ablation":
-        run_ablation_command(args.limit, args.checkpoint)
+        providers = tuple(p.strip() for p in args.providers.split(","))
+        run_ablation_command(args.limit, args.checkpoint, providers)
 
 
 if __name__ == "__main__":
