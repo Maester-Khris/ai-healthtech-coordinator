@@ -17,7 +17,14 @@ call per scenario — no multi-turn conversation loop needed here.
 
 Invocation:
     doppler run --config eval -- python -m scripts.graphrag_eval.generate_track_b_transcripts
+    doppler run --config eval -- python -m scripts.graphrag_eval.generate_track_b_transcripts --provider static
+
+--provider selects which GraphContextProvider (graph/factory.py) drives the
+adapter — 'neo4j' (v2, the original scope) or 'static' (v1), so both
+versions go through the identical transcript-generation and DeepEval
+scoring path per the fairness plan's own premise.
 """
+import argparse
 import json
 import os
 import sys
@@ -43,25 +50,32 @@ def build_transcript_row(scenario: dict, adapter: LiveLLMAgentAdapter) -> dict:
     }
 
 
-def generate_transcripts(scenarios: list[dict] | None = None) -> list[dict]:
+def generate_transcripts(scenarios: list[dict] | None = None, provider: str = "neo4j") -> list[dict]:
     if scenarios is None:
         scenarios = SCENARIOS
-    adapter = LiveLLMAgentAdapter(graph_rag_provider="neo4j")
+    adapter = LiveLLMAgentAdapter(graph_rag_provider=provider)
     return [build_transcript_row(scenario, adapter) for scenario in scenarios]
 
 
-def write_transcripts(transcripts: list[dict]) -> str:
+def write_transcripts(transcripts: list[dict], provider: str) -> str:
     os.makedirs(TRANSCRIPTS_DIR, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    path = os.path.join(TRANSCRIPTS_DIR, f"track_b_transcripts_{stamp}.json")
+    path = os.path.join(TRANSCRIPTS_DIR, f"track_b_transcripts_{provider}_{stamp}.json")
     with open(path, "w") as f:
         json.dump(transcripts, f, indent=2)
     return path
 
 
 def main() -> None:
-    transcripts = generate_transcripts()
-    path = write_transcripts(transcripts)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--provider", type=str, default="neo4j",
+        help="GRAPH_RAG_PROVIDER value to drive the adapter with — 'static' (v1) or 'neo4j' (v2).",
+    )
+    args = parser.parse_args()
+
+    transcripts = generate_transcripts(provider=args.provider)
+    path = write_transcripts(transcripts, args.provider)
     print(f"Generated {len(transcripts)} Track B transcripts -> {path}")
 
 

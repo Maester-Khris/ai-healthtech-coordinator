@@ -54,3 +54,20 @@ class TestGenerateTranscripts:
 
         assert len(transcripts) == 2
         assert fake_adapter.respond.call_count == 2
+
+    def test_provider_defaults_to_neo4j_but_is_overridable(self, monkeypatch):
+        captured = {}
+
+        def fake_ctor(graph_rag_provider):
+            captured["provider"] = graph_rag_provider
+            return MagicMock()
+
+        monkeypatch.setattr(
+            "scripts.graphrag_eval.generate_track_b_transcripts.LiveLLMAgentAdapter", fake_ctor,
+        )
+
+        generate_transcripts([])
+        assert captured["provider"] == "neo4j"
+
+        generate_transcripts([], provider="static")
+        assert captured["provider"] == "static"

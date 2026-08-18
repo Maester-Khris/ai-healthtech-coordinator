@@ -705,6 +705,19 @@ The retried full run hit the identical `groq.RateLimitError: 429` (Used 99590/10
 
 **Track B (DeepEval) real results — 2026-08-07, branch `feat/graphrag-eval-track-ab`, closing Task 6 of `docs/superpowers/plans/2026-08-05-v1-v2-retrieval-eval-fairness.md`.** Generated 20 real Track B transcripts via live Groq + Neo4j (`generate_track_b_transcripts.py`, no quota issues this run) and scored 18 complaint-grounded transcripts with DeepEval (`run_track_b_deepeval.py`): faithfulness mean 1.000 (100% pass), contextual precision mean 0.337 (33.3% pass), contextual recall mean 0.333 (27.8% pass). Reading: v2 retrieval is grounded (doesn't fabricate) but pulls incomplete/wrong context most of the time — consistent with Track A's earlier 8/20 (40%) hit-rate finding. Raw transcripts and results JSON are gitignored per repo convention (`backend/scripts/graphrag_eval/{transcripts,results}/`); these numbers are the durable record. Plan Tasks 1-8 all now complete on this branch.
 
+**Track B extended to v1 for a fair same-process comparison — 2026-08-12.** `generate_track_b_transcripts.py` originally hardcoded `graph_rag_provider="neo4j"` — Task 6's scope was only ever "close the v2 gap" since v1 already had a Track A number from Sprint 19's original run. Given a direct ask for full parity (same eval process, both versions, every metric), added a `--provider` flag (default `neo4j`, preserving existing behavior) and ran it for `static` (v1): 20 transcripts generated cleanly (no Groq quota issues), 18 complaint-grounded transcripts scored — faithfulness mean 0.962 (94.4% pass), contextual precision mean 0.896 (94.4% pass), contextual recall mean 1.000 (100% pass). v1 decisively outperforms v2 on every Track B metric, not just Track A's hit-rate. Test coverage: `test_generate_track_b_transcripts.py` gained a case asserting the provider defaults to `neo4j` but is overridable; full suite still passes (43/43 in `scripts/graphrag_eval/tests/`).
+
+**Track A/B now fully symmetric — both tracks, both versions:**
+
+| Metric | v1 (static) | v2 (neo4j) |
+|---|---|---|
+| Track A retrieval hit-rate | 100% (20/20) | 40% (8/20) |
+| Track B faithfulness | 96.2% | 100% |
+| Track B contextual precision | 89.6% | 33.7% |
+| Track B contextual recall | 100% | 33.3% |
+
+v1 wins on every axis this eval measures except faithfulness (both are near-ceiling there — v2 is marginally grounded-er, v1 is marginally more prone to unsupported claims, both well above threshold). This sharpens rather than resolves the Task 13 tension noted above: v1 retrieves better and more completely by every measure here, yet still loses on Task 13's end-to-end triage accuracy (51.9% vs 66.7%) and has the worst under-triage rate of all three legs there (37.0%). Retrieval quality and end-to-end triage outcome are not the same axis for either version — this eval pair is evidence of that, not evidence that either version's retrieval "explains" its triage performance.
+
 Scope (unchanged, resuming):
 
 - **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
