@@ -1,8 +1,11 @@
 # backend/tests/scripts/snomed_ingest/test_load_rf2.py
+import inspect
 import os
+import re
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
+from scripts.snomed_ingest import load_rf2
 from scripts.snomed_ingest.load_rf2 import select_subset_ids
 from scripts.snomed_ingest.rf2_reader import DescriptionRow, RelationshipRow
 from scripts.snomed_ingest.constants import CLINICAL_FINDING_ROOT, IS_A_TYPE_ID, FSN_TYPE_ID
@@ -68,3 +71,49 @@ def test_select_subset_ids_unions_extra_seed_ids_not_matched_by_keywords():
 
     assert {"ANCHOR", "AD1"} <= result
     assert "UNRELATED" not in result
+
+
+def test_load_rf2_never_writes_layer_2_labels():
+    # Structural isolation check (opposite direction of seed_red_flags.py's own
+    # test_seed_red_flags_never_writes_layer_1_labels) — the whole-branch
+    # review (CHANGELOG, 2026-08-03) flagged this as a load-bearing claim that
+    # was never verified: Layer 1 (this module) must never be able to clobber
+    # Layer 2 (RedFlag/FollowupQuestion/RedFlagCluster, seeded separately by
+    # seed_red_flags.py). Scoped to load()'s own source, not the whole module,
+    # so the module docstring's documented manual-wipe escape hatch
+    # ("MATCH (n) DETACH DELETE n") doesn't produce a false positive here —
+    # that's an explicit, separate, human-invoked operation, not part of the
+    # automated ingestion path this test guards.
+    source = inspect.getsource(load_rf2.load)
+
+    forbidden_patterns = [
+        r"MERGE\s*\([^)]*:RedFlagCluster",
+        r"MERGE\s*\([^)]*:RedFlag\b",
+        r"MERGE\s*\([^)]*:FollowupQuestion",
+        r"CREATE\s*\([^)]*:RedFlagCluster",
+        r"CREATE\s*\([^)]*:RedFlag\b",
+        r"CREATE\s*\([^)]*:FollowupQuestion",
+        r"SET\s+\w+\s*:\s*RedFlagCluster",
+        r"SET\s+\w+\s*:\s*RedFlag\b",
+        r"SET\s+\w+\s*:\s*FollowupQuestion",
+        r"FOR\s*\([^)]*:RedFlagCluster",
+        r"FOR\s*\([^)]*:RedFlag\b",
+        r"FOR\s*\([^)]*:FollowupQuestion",
+        r"-\[:HAS_RED_FLAG\]",
+        r"-\[:ASKS\]",
+        r"-\[:PART_OF\]",
+        r"\bDELETE\b",
+    ]
+    for pattern in forbidden_patterns:
+        assert not re.search(pattern, source), (
+            f"load_rf2.load() must never write RedFlag/FollowupQuestion/"
+            f"RedFlagCluster or their relationships, and must never DELETE -- "
+            f"Layer 2 is seed_red_flags.py's exclusive write responsibility "
+            f"(matched pattern: {pattern!r})"
+        )
+
+    # Positive control: load() must still genuinely write real Layer 1 data --
+    # otherwise the assertions above would pass vacuously on an empty function.
+    assert "MERGE (c:SnomedConcept" in source
+    assert "MERGE (d:Description" in source
+    assert "MERGE (child)-[:IS_A]->(parent)" in source
