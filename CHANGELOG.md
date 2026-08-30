@@ -650,32 +650,76 @@ study — all Sprint 19.
 
 ---
 
-## [Sprint 19 — Blocked] · Symptom Understanding v2 + Evaluation — GraphRAG, Metrics, Case Study
+## [Sprint 19 — Closed] · Symptom Understanding v2 — GraphRAG, Metrics, Case Study
 
-**Started — 2026-07-25 · branch: `feat/symptom-understanding-v2`. Blocked — 2026-07-25, pending SNOMED CT Affiliate License approval.**
+**2026-07-25 → 2026-08-30 · branches: `feat/symptom-understanding-v2` + 3 sub-branches, merged to `preview` via PR #47.** Blocked 2026-07-25 pending SNOMED CT Affiliate License approval, unblocked 2026-07-28 (approved within 3 days; a separate Canada Health Infoway acquisition secured the Canadian Edition specifically). Scope grew twice past the original plan (full list at the bottom of this entry) — an independent end-to-end triage eval, and a retrieval-fairness re-audit — and the build needed two rounds of review pushback before it was mergeable. Full detail lives in the commit history and the plan docs referenced below; this entry is a summary, not a day-by-day log.
 
-Design work completed this sprint (planning only — no code written, no files in this branch besides this entry): a GraphRAG v2 architecture design (Neo4j + SNOMED CT Canadian Edition) applying Clean Architecture to the existing `GraphContextProvider` interface, two rounds of adversarial design review, and concrete plans for prompt-injection hardening, RF2 versioning/ingestion, and bounded entity-linking precision testing. All design artifacts are local-only (`artifacts/`, gitignored per repo convention) — not tracked in git.
+### Delivered — KG pipeline
 
-**Blocker**: a SNOMED CT Affiliate License application was submitted via SNOMED International's MLDS (Canada NRC) on 2026-07-25. No RF2 release can be downloaded until the application is approved, and no response/ETA has been received from the SNOMED CT team as of this entry. Implementation cannot start without the RF2 data — resuming this sprint is gated on license approval, not on further design work.
+- Follow-up-question corpus gap (588/590 placeholders) closed by merging a dormant internal CTAS dataset via a new indicator-override pass — 0 placeholders remaining, 591 red flags
+- RF2 → Neo4j ingestion (`load_rf2.py`, `seed_red_flags.py`, `anchor_mapping.py`), redesigned after hitting AuraDB Free's undocumented 200,000-node cap. Final graph: 31,327 concepts / 126,816 descriptions / 50,351 `IS_A` / 566 red flags / 566 follow-up questions, all 154 curated anchors backed by loaded data
+- `Neo4jSnomedProvider` wired behind the same interface v1 uses via `GRAPH_RAG_PROVIDER=neo4j`; default stays `off`, zero behavior change for real users
+- Prompt-injection regression suite added as a real CI gate, not just a local one
 
-Scope (unchanged, pending resumption):
+### Delivered — Evaluation (scope extended twice)
 
-- **v2 build**: Neo4j GraphRAG (`neo4j-graphrag-python`, hybrid vector+Cypher retrieval)
-  behind the same `GraphContext` interface as v1, built as an internal/demo capability for
-  the engineering case study. Severity classification stays identical across every path,
-  always.
+- **Extension 1 — an end-to-end triage harness, not in the original plan.** The original "evaluation protocol" scope item only measured isolated retrieval quality (Track A/B below) — it couldn't say whether the graph context actually changed a triage outcome, which is the question that determines whether v2 was worth building. Added a 27-vignette, 4-metric CTAS end-to-end triage eval (`backend/scripts/symptom_eval/` — confusion matrix, elicitation coverage, information gain, ablation), including a per-vignette checkpointing fix after a Groq daily-quota exhaustion mid-run, and a prompt fix after 4 unconscious/pre-verbal patients were generated as first-person narrators.
+- **Extension 2 — a retrieval-fairness re-audit.** The first Track A/B comparison turned out to rest on a stale, pre-fix hit-rate and on scenario text drawn from v1's own alias vocabulary — not an actually fair comparison, just a disclosed bias nobody had controlled for. Re-ran Track A/B, added a vocabulary-neutral control set, and split hit-rate from recall so a coverage failure and a ranking failure can't be confused with each other.
+
+### Results
+
+| Metric | v1 (static) | v2 (neo4j) |
+|---|---|---|
+| Track A retrieval hit-rate | 100% (20/20)* | 35% (7/20) |
+| Track A recall | 100% | 35% |
+| Track B faithfulness | 96.2% | 100% |
+| Track B contextual precision | 89.6% | 33.7% |
+| Track B contextual recall | 100% | 33.3% |
+| Task 13 end-to-end triage accuracy (27 vignettes) | 51.9% | 66.7% (vs. 63.0% no graph) |
+
+*v1's near-perfect score is a vocabulary-overlap artifact: on a vocabulary-neutral control set, both providers scored 0/10 — neither does real semantic retrieval today, both do literal substring matching against different vocabularies. v1 wins every isolated retrieval metric yet is the worst end-to-end performer of the three triage legs (worst under-triage rate too); v2 edges out both alternatives end-to-end despite weaker retrieval numbers. Retrieval quality and end-to-end triage outcome are not the same axis. Full mechanism discussion and methodology live in the two case studies below.
+
+**Neither result is conclusive on its own.** Retrieval quality is weak and non-semantic for both providers, and v2's end-to-end edge over no graph at all (66.7% vs. 63.0%) is one flipped case out of 27 — inside the noise floor for this sample size. Read together, this says the symptom-understanding system needs further improvement before either retrieval mechanism can be called validated, not that v2 has won; that improvement work is explicitly carried into a later sprint (see `### Deferred` below), not silently dropped.
+
+### Delivered — Case studies
+
+- Two new `/for-engineers` entries, tagged `#Draft`: "Symptom-Understanding Retrieval" (architecture) and "Fair Retrieval Evaluation" (methodology + the table above) — substantially deliver the sprint's original reasoning-doc and case-study scope items
+- Left in draft pending a production-`GRAPH_RAG_PROVIDER`-default confirmation against the live deployed config, and an internal decision on further external publishing (deferred, not cancelled — the numbers are durably recorded either way)
+
+### Post-review fixes
+
+- Whole-branch review returned "ready to merge, with fixes, not clean": 2 Critical findings (a per-request Neo4j connection leak; ~154 sequential queries per message) and 12 Important findings, including the PART_OF/cross-symptom-cluster layer — the design's own stated reason v2 exists — never having been built
+- First fix wave closed both Criticals and 5 Important findings, but introduced 2 regressions of its own; a second, targeted re-verification pass corrected those plus 2 more issues a diff-only review would have missed
+- Live Neo4j reseed and a final structural test (Layer 1/2 write isolation) closed the review's remaining tracked items
+
+### Deferred to a future symptom-understanding-improvement sprint
+
+- Full PART_OF/cross-symptom-cluster authoring beyond one pilot cluster
+- Entity-linking precision suite beyond 3 pilot anchors
+- The remaining 7 Important review findings not recovered during the fix waves
+
+Planned direction for that sprint, not yet scoped or started:
+
+- Graph reconstruction/rebalancing to close the cluster gap above — the single-pilot-cluster limitation is itself hindering retrieval, not just an incomplete-authoring gap
+- A real semantic-understanding layer for both v1 and v2 — today both are literal substring matchers over different vocabularies, which is what the vocabulary-neutral eval result exposed
+- Removing the remaining blockers on the eval methods themselves (elicitation coverage and the other Task 13 metrics, the entity-linking precision suite) so a future run is more informative than this one
+
+**Closed 2026-08-30** via PR #47 to `preview`.
+
+Original scope:
+
+- **v2 build**: Neo4j GraphRAG behind the same `GraphContext` interface as v1, built as an
+  internal/demo capability for the engineering case study. Severity classification stays
+  identical across every path, always.
 - **Switch mechanism**: factory function mirroring `get_llm_client()` (`LLM_PROVIDER`
   pattern), selecting between v1 and v2 behind the same `GraphContext` interface. Default
   routes every request to v1; v2 reachable via the same flag for internal/demo use.
 - **Reasoning doc**: short write-up of why both retrieval paths exist and how the switch
   works, for reuse in the case study and in interviews
-- **Evaluation protocol**: brief, industry-standard RAG eval metrics applied to both paths —
-  retrieval hit rate / MRR for v1's keyword match, faithfulness + context precision/recall
-  for v2 (DeepEval, same pattern as Sprint 17's Track A/B), plus a shared groundedness check
-  so v1 and v2 are compared on the same scale
+- **Evaluation protocol**: brief, industry-standard RAG eval metrics applied to both paths,
+  plus a shared groundedness check so v1 and v2 are compared on the same scale
 - **Case study**: brief outline for a new `/for-engineers` entry on symptom-understanding
-  retrieval — problem statement (conversational NLU grounding, not diagnosis), the v1→v2
-  design pivot and why, and the eval results
+  retrieval
 
 Out of scope: exposing v2 as a correctness upgrade over v1 to end users, until a genuine
 technical trigger for it is real (not scale/file-size alone).

@@ -1,0 +1,84 @@
+{
+  "opening_message": "I've been having this painful sensation in my stomach.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_severity",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain is about 7 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pain_character",
+      "category": "chief_complaint",
+      "first_person_phrasing": "It feels colicky.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "nausea_vomiting",
+      "category": "chief_complaint",
+      "first_person_phrasing": "I\u2019ve been feeling nauseous and I\u2019ve vomited.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "diarrhea",
+      "category": "chief_complaint",
+      "first_person_phrasing": "I haven\u2019t had any diarrhea.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "alcohol_intake",
+      "category": "history",
+      "first_person_phrasing": "I had some wine with dinner.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "past_ulcer",
+      "category": "history",
+      "first_person_phrasing": "I have a history of duodenal ulcers.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "past_pancreatitis",
+      "category": "history",
+      "first_person_phrasing": "I've had pancreatitis in the past.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "past_migraines",
+      "category": "history",
+      "first_person_phrasing": "I also suffer from migraines.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_rate",
+      "category": "vitals",
+      "first_person_phrasing": "My pulse is 60.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "My respirations are 18.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "My blood pressure is 113 over 65.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "abdominal_tenderness",
+      "category": "exam",
+      "first_person_phrasing": "My abdomen is tender in the right upper quadrant.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "chest_exam",
+      "category": "exam",
+      "first_person_phrasing": "The doctor said my chest is clear.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

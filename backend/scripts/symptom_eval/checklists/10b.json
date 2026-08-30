@@ -1,0 +1,36 @@
+{
+  "opening_message": "My leg is broken and there\u2019s a lot of blood.",
+  "disclosure_items": [
+    {
+      "feature_id": "open_fracture_femur",
+      "category": "chief_complaint",
+      "first_person_phrasing": "I have an open fracture in my leg.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "They told me my blood pressure is 130 over 70.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "My heart rate is 80 beats per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "I\u2019m breathing 16 times a minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "oxygen_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "They said my oxygen level is 96%.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

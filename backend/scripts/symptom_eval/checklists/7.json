@@ -1,0 +1,24 @@
+{
+  "opening_message": "My wrist really hurts after I fell off the swing.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_severity",
+      "category": "history",
+      "first_person_phrasing": "It hurts about a 5 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "injured_limb_exam",
+      "category": "exam",
+      "first_person_phrasing": "I can move my fingers and feel things in my hand.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "normal_vitals",
+      "category": "vitals",
+      "first_person_phrasing": "I don't think my heart rate or temperature is high.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

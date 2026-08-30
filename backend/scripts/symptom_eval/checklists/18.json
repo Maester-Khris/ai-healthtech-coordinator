@@ -1,0 +1,78 @@
+{
+  "opening_message": "I got hit by a car while cycling, and now I have severe abdominal pain.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_severity",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain is about an 8 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pain_location",
+      "category": "chief_complaint",
+      "first_person_phrasing": "It's mostly in my left upper quadrant.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "handlebar_injury",
+      "category": "history",
+      "first_person_phrasing": "The handlebar went into my stomach.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "loss_of_consciousness",
+      "category": "history",
+      "first_person_phrasing": "I don't remember losing consciousness.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "headache",
+      "category": "history",
+      "first_person_phrasing": "I don't have a headache.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "neck_pain",
+      "category": "history",
+      "first_person_phrasing": "I don't have any neck pain.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_pulse",
+      "category": "vitals",
+      "first_person_phrasing": "I know my heart feels fast, but I don't know the exact number.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "I don't know what my blood pressure is.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_respirations",
+      "category": "vitals",
+      "first_person_phrasing": "I'm breathing a bit fast and shallow.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "gcs",
+      "category": "exam",
+      "first_person_phrasing": "I can see and talk to you fine.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "abdominal_rigidity",
+      "category": "exam",
+      "first_person_phrasing": "I feel like my stomach is really tight.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "extremity_injuries",
+      "category": "exam",
+      "first_person_phrasing": "I have no obvious injuries to my arms or legs.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

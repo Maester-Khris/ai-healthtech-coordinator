@@ -7,7 +7,7 @@ from llm.base import BaseLLMClient, LLMMessage
 from llm.tools import ALL_TOOLS, TRIAGE_RESPONSE
 from llm.prompts import build_system_prompt, build_medical_context_block, build_graph_context_block
 from services.proximity import find_nearest_facilities
-from services.triage_eval import check_facility_groundedness
+from services.triage_eval import check_emergency_mismatch, check_facility_groundedness
 
 logger = logging.getLogger(__name__)
 
@@ -202,6 +202,14 @@ class LLMAgent:
         args = json.loads(tool_call["arguments"])
         severity = args["severity"]
         reasoning = args["reasoning"]
+        original_user_message = next(
+            (m.content for m in reversed(messages) if m.role == "user"), ""
+        )
+        if check_emergency_mismatch(original_user_message, severity):
+            logger.warning(
+                "emergency_mismatch_detected",
+                extra={"severity": severity, "user_turns": user_turns},
+            )
         logger.info(
             "triage_called",
             extra={

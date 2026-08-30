@@ -1,0 +1,66 @@
+{
+  "opening_message": "I've had a sore throat for the past two days.",
+  "disclosure_items": [
+    {
+      "feature_id": "fever",
+      "category": "history",
+      "first_person_phrasing": "I might have a fever today; I took my temperature 30 minutes ago, and it was 38 degrees Celsius.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "medications",
+      "category": "history",
+      "first_person_phrasing": "I have been using throat lozenges, but I'm not taking any other medications.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cough",
+      "category": "history",
+      "first_person_phrasing": "No, I don't have a cough.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "runny_nose",
+      "category": "history",
+      "first_person_phrasing": "No, I don't have a runny nose.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "swallowing",
+      "category": "history",
+      "first_person_phrasing": "I'm able to swallow both liquids and solids with no difficulty.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "appearance",
+      "category": "exam",
+      "first_person_phrasing": "I think I look well.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "My blood pressure was 140 over 65.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "My pulse was 95 and regular.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "My respirations were 16 and regular.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "oxygen_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "My oxygen saturation is 96% on room air.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

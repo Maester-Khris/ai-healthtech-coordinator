@@ -1,0 +1,42 @@
+{
+  "opening_message": "I hurt my right ankle while playing basketball.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_severity",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain is about a 4 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "ice_elevation",
+      "category": "history",
+      "first_person_phrasing": "I've elevated it and put ice on it, but it still hurts.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "swelling",
+      "category": "exam",
+      "first_person_phrasing": "Yeah, it's swollen.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "deformity",
+      "category": "exam",
+      "first_person_phrasing": "No, it doesn't look deformed.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_colour_sensation",
+      "category": "exam",
+      "first_person_phrasing": "Yes, my pulse is normal and I can feel everything.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs",
+      "category": "vitals",
+      "first_person_phrasing": "I think my vital signs are normal.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

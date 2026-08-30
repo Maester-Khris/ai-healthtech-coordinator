@@ -1,0 +1,42 @@
+{
+  "opening_message": "My child swallowed a small plastic toy.",
+  "disclosure_items": [
+    {
+      "feature_id": "vomiting",
+      "category": "history",
+      "first_person_phrasing": "Yes, my child has vomited during the assessment.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "gagging",
+      "category": "history",
+      "first_person_phrasing": "Sometimes my child gags.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "stridor",
+      "category": "exam",
+      "first_person_phrasing": "I've noticed some slight stridor.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_effort",
+      "category": "exam",
+      "first_person_phrasing": "No, the respirations are not labored.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "chest_clear",
+      "category": "exam",
+      "first_person_phrasing": "The doctor said the chest is clear.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs",
+      "category": "vitals",
+      "first_person_phrasing": "Yes, the vital signs are within normal limits.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

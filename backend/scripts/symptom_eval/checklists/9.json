@@ -1,0 +1,48 @@
+{
+  "opening_message": "I've been having pain in my left eye and trouble seeing clearly for the last day.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_level",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain is about a 2 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "visual_difficulty",
+      "category": "chief_complaint",
+      "first_person_phrasing": "I'm having difficulty seeing clearly.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "halo_around_lights",
+      "category": "history",
+      "first_person_phrasing": "When I look at lights, I see a halo around them.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vision_distance",
+      "category": "history",
+      "first_person_phrasing": "I can't tell how many fingers you're holding up past 3 feet.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "I don't know my blood pressure, but it's been high lately.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "I don't usually check my pulse.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "I'm not aware of my breathing rate.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

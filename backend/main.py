@@ -14,6 +14,7 @@ from db import supabase_rpc
 from models import NearbyFacilityResult
 from middleware.auth import AuthMiddleware, get_current_user
 from cache import get_cached_facilities, set_cached_facilities
+from graph.factory import close_graph_provider, get_graph_provider
 from observability import init_observability, verify_metrics_token, RequestIDMiddleware, _registry
 from routers.chat import router as chat_router
 from routers.notifications import router as notifications_router
@@ -30,6 +31,7 @@ async def lifespan(_app: FastAPI):
     except Exception as exc:
         logger.warning("cache_warm_failed", extra={"error_type": type(exc).__name__})
     yield
+    close_graph_provider()
 
 
 app = FastAPI(title="MediCoord AI API", version="0.1.0", lifespan=lifespan)
@@ -72,10 +74,21 @@ def root() -> dict:
 
 @app.get("/health")
 def health() -> dict:
-    return {
+    result = {
         "status": "ok",
         "llmProvider": os.environ.get("LLM_PROVIDER", "groq"),
     }
+    # Doubles as a keep-alive ping for AuraDB's free-tier 72h auto-pause
+    # window (graph/snomed_neo4j/provider.py) — meant to be polled by an
+    # external cronjob, not just a status check.
+    if os.environ.get("GRAPH_RAG_PROVIDER", "off").lower() == "neo4j":
+        try:
+            get_graph_provider().ping()
+            result["neo4j"] = "ok"
+        except Exception as exc:
+            result["neo4j"] = "unreachable"
+            logger.warning("neo4j_health_ping_failed", extra={"error_type": type(exc).__name__})
+    return result
 
 
 @app.get("/me")
@@ -92,7 +105,12 @@ async def facilities(
 ) -> Response:
     cached_data, _ = get_cached_facilities()
 
-    if cached_data is None:
+    # `cache.py` has no TTL/invalidation. `cached_data is None` alone isn't enough:
+    # if the lifespan warm-up ran before Supabase had rows (or before they were
+    # marked is_operational), it caches `[]` — not None — and every request since
+    # would serve that empty snapshot forever. Treat an empty cache as not-yet-warm
+    # too, so it self-heals on the next request once real data exists.
+    if not cached_data:
         raw = get_all_facilities(category=None, severity=None)
         cached_etag = set_cached_facilities(raw)
         cached_data = raw
