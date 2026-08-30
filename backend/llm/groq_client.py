@@ -1,5 +1,5 @@
 import os
-from groq import Groq
+from groq import BadRequestError, Groq
 from .base import BaseLLMClient, LLMMessage, LLMResponse, ToolDefinition
 
 
@@ -10,7 +10,9 @@ class GroqClient(BaseLLMClient):
         if not api_key:
             raise RuntimeError("GROQ_API_KEY is not set")
         self._client = Groq(api_key=api_key)
-        self._model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+        # llama-3.3-70b-versatile was shut down by Groq 2026-08-16; openai/gpt-oss-120b
+        # is Groq's official migration target and supports tool calling.
+        self._model = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
 
     @property
     def model_name(self) -> str:
@@ -44,7 +46,17 @@ class GroqClient(BaseLLMClient):
             kwargs["tools"] = groq_tools
             kwargs["tool_choice"] = tool_choice
 
-        resp = self._client.chat.completions.create(**kwargs)
+        try:
+            resp = self._client.chat.completions.create(**kwargs)
+        except BadRequestError as e:
+            # ponytail: llama occasionally emits a tool-call arg as the wrong
+            # JSON type (e.g. "true" instead of true) — a transient sampling
+            # glitch, not a systematic prompt/schema problem. One retry, no
+            # backoff; if it fails twice, let it raise.
+            if groq_tools and "tool_use_failed" in str(e):
+                resp = self._client.chat.completions.create(**kwargs)
+            else:
+                raise
         choice = resp.choices[0]
 
         tool_calls = None

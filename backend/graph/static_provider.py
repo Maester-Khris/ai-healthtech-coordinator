@@ -27,16 +27,40 @@ class StaticLookupProvider(GraphContextProvider):
             for name in [entry["name"], *entry.get("aliases", [])]:
                 self._alias_index[_normalize(name)] = entry
 
-    def _match_entry(self, text: str) -> dict | None:
+    def _find_all_matches(self, text: str) -> list[tuple[str, dict]]:
+        """All (alias, entry) pairs whose alias is a substring of the
+        normalized text — not just the first one found. Iteration order
+        still follows self._alias_index (dict insertion order = JSON file
+        order), but this returns every match instead of stopping at the
+        first, so the caller can rank by specificity (longest alias)
+        instead of accepting whichever happened to be inserted first."""
         normalized = _normalize(text)
-        for alias, entry in self._alias_index.items():
-            # ponytail: skip aliases under 4 chars — avoids trivial
-            # false-positive substring matches ("ent" inside "different").
-            # Real precision tuning is a measured v1.1 concern (see design
-            # §6 trigger list), not a v1 blocker.
-            if len(alias) >= 4 and alias in normalized:
-                return entry
-        return None
+        return [
+            (alias, entry)
+            for alias, entry in self._alias_index.items()
+            if len(alias) >= 4 and alias in normalized
+        ]
+
+    def _match_entry(self, text: str) -> dict | None:
+        """Longest-alias-wins: the most specific matching alias is
+        returned, not whichever happened to be inserted first into
+        self._alias_index (fixed 2026-08-05 — see docs/superpowers/plans/
+        2026-08-05-v1-v2-retrieval-eval-fairness.md Task 1). Ties
+        (equal-length aliases) preserve the original insertion-order
+        tie-break, since max() with a key= returns the first maximal
+        element it encounters while iterating in order."""
+        matches = self._find_all_matches(text)
+        if not matches:
+            return None
+        return max(matches, key=lambda pair: len(pair[0]))[1]
+
+    def debug_all_matches(self, text: str) -> list[str]:
+        """Eval-only introspection for Track A's Recall@k metric (backend/
+        scripts/graphrag_eval/run_track_a_retrieval.py): every complaint
+        name whose alias matched, not just the one _match_entry() selected
+        as most specific. Never called from the request path — LLMAgent
+        only calls get_symptom_graph_context()."""
+        return [entry["name"] for _, entry in self._find_all_matches(text)]
 
     def _lookup(self, user_message: str, recent_messages: list[str]) -> GraphContext:
         matched_entry: dict | None = None

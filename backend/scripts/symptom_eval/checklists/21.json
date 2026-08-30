@@ -1,0 +1,54 @@
+{
+  "opening_message": "My baby has been really sick and won't stop vomiting.",
+  "disclosure_items": [
+    {
+      "feature_id": "illness_duration",
+      "category": "history",
+      "first_person_phrasing": "My child has been ill for the last 2 days.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vomiting",
+      "category": "history",
+      "first_person_phrasing": "Yes, my child has been vomiting a lot.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "food_intake",
+      "category": "history",
+      "first_person_phrasing": "He has had very little food or fluid intake.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pallor",
+      "category": "exam",
+      "first_person_phrasing": "Yes, he looks really pale to me.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "limpness",
+      "category": "exam",
+      "first_person_phrasing": "He feels limp in my arms.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I think he's breathing really fast, like 46 breaths per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_quality",
+      "category": "vitals",
+      "first_person_phrasing": "His pulse feels fast and really weak.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "I don't think they could get his blood pressure.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

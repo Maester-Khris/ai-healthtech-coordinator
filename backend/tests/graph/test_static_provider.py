@@ -64,3 +64,40 @@ def test_dedups_repeated_indicator_across_turns(provider):
         "chest pain again", recent_messages=["I have chest pain"],
     )
     assert len(result.red_flags) == 1
+
+
+def test_match_entry_prefers_longest_alias_not_first_inserted(tmp_path):
+    """Task 1 fix regression test: 'cough' is inserted BEFORE 'coughing up
+    water' in the fixture, so the pre-fix first-match-wins behavior would
+    return 'Complaint Short'. The fix must return the more specific,
+    longer-alias match instead — see docs/superpowers/plans/
+    2026-08-05-v1-v2-retrieval-eval-fairness.md Task 1."""
+    fixture = [
+        {"nacrs_code": "900", "name": "Complaint Short", "aliases": ["cough"], "red_flags": []},
+        {"nacrs_code": "901", "name": "Complaint Long", "aliases": ["coughing up water"], "red_flags": []},
+    ]
+    data_path = tmp_path / "symptom_triage_data.json"
+    data_path.write_text(json.dumps(fixture))
+    provider = StaticLookupProvider(data_path=data_path)
+
+    result = provider.get_symptom_graph_context(
+        "my son is coughing up water and I am worried", []
+    )
+
+    assert result.complaint_name == "Complaint Long"
+
+
+def test_debug_all_matches_returns_every_matching_complaint(tmp_path):
+    """New eval-only method exposes every matching complaint, not just the
+    one _match_entry() selects as most specific."""
+    fixture = [
+        {"nacrs_code": "900", "name": "Complaint Short", "aliases": ["cough"], "red_flags": []},
+        {"nacrs_code": "901", "name": "Complaint Long", "aliases": ["coughing up water"], "red_flags": []},
+    ]
+    data_path = tmp_path / "symptom_triage_data.json"
+    data_path.write_text(json.dumps(fixture))
+    provider = StaticLookupProvider(data_path=data_path)
+
+    matches = provider.debug_all_matches("my son is coughing up water and I am worried")
+
+    assert set(matches) == {"Complaint Short", "Complaint Long"}

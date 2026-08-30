@@ -1,0 +1,54 @@
+{
+  "opening_message": "My daughter has been seizing for over 30 minutes!",
+  "disclosure_items": [
+    {
+      "feature_id": "seizure_history",
+      "category": "history",
+      "first_person_phrasing": "She has a known history of a seizure disorder.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "superior_response",
+      "category": "history",
+      "first_person_phrasing": "We gave her Ativan sublingually at home, but it didn\u2019t help.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "initial_pulse",
+      "category": "vitals",
+      "first_person_phrasing": "Her initial pulse was 120.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "initial_respirations",
+      "category": "vitals",
+      "first_person_phrasing": "Her initial respirations were 20 and noisy.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "post_seizure_pulse",
+      "category": "vitals",
+      "first_person_phrasing": "After the seizure stopped, her heart rate was 115.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "post_seizure_respirations",
+      "category": "vitals",
+      "first_person_phrasing": "Her respiratory rate after the seizure stopped was 16.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "o2_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "Her oxygen saturation was 99% on high concentration oxygen.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "neurologic_response",
+      "category": "exam",
+      "first_person_phrasing": "She was able to localize pain after the seizure.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

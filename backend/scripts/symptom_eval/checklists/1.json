@@ -1,0 +1,30 @@
+{
+  "opening_message": "He's not responding at all.",
+  "disclosure_items": [
+    {
+      "feature_id": "gcs_3",
+      "category": "exam",
+      "first_person_phrasing": "His GCS is 3.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_64",
+      "category": "vitals",
+      "first_person_phrasing": "His pulse feels really slow, around 64 beats per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations_6",
+      "category": "vitals",
+      "first_person_phrasing": "His breathing is very shallow and only about 6 times a minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "bp_106_60",
+      "category": "vitals",
+      "first_person_phrasing": "His blood pressure is 106 over 60.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

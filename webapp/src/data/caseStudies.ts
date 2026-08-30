@@ -1,5 +1,5 @@
 import type { ElementType } from 'react'
-import { TreeStructure, Compass, ChartLineUp, FlowArrow, Gauge } from '@phosphor-icons/react'
+import { TreeStructure, Compass, ChartLineUp, FlowArrow, Gauge, ShareNetwork, Target } from '@phosphor-icons/react'
 import type { MetricBullet } from '../utils/caseStudyContent'
 import twoPassTriageDiagram from '../assets/case-studies/two-pass-tool-orchestration-symptom-triage.png'
 import haversineProximityDiagram from '../assets/case-studies/haversine-proximity-severity-gated-eligibility.png'
@@ -673,6 +673,184 @@ def summarize_scores(results: list[dict]) -> dict:
       { text: 'Both tracks run against a dedicated staging eval environment — a separate Supabase project and preview backend seeded from real facility data, never live user traffic.', bold: [] },
       { text: 'Track A: 106 classifications had a facility present, all 106 grounded. Window: 2026-07-11, about 15 minutes, exercised via a 4-turn manual smoke test plus a 100-request single-thread synthetic conversation run.', bold: ['106', '2026-07-11', '15 minutes'] },
       { text: 'Track B: of the 100 replayed requests, 89 returned a recommended facility and were scored (the rest resolved to a clarifying follow-up question instead). Window: 2026-07-12, single-thread run against the eval Supabase project.', bold: ['89', '2026-07-12'] },
+    ],
+  },
+  {
+    slug: 'symptom-understanding-retrieval-ctas-lookup-snomed-knowledge-graph',
+    navSection: 'ai-models',
+    category: 'Symptom-Understanding Retrieval',
+    accent: 'blue',
+    icon: ShareNetwork,
+    tags: ['#GraphRAG', '#Neo4j', '#SNOMEDCT', '#Evals', '#Draft'],
+    title: 'Symptom-Understanding Retrieval: CTAS Lookup + SNOMED Knowledge Graph',
+    readTimeMinutes: 9,
+    publishedDate: '2026-08-19',
+    author: 'MediCoord Core Platform Team',
+    summary:
+      "The tradeoff case study 1 flagged as in-progress: a knowledge-graph grounding step for the classification pass. We built a SNOMED CT knowledge graph in Neo4j behind the same GraphContextProvider interface a hand-curated CTAS lookup table already used, evaluated both with two independently-designed eval efforts, and found that the more sophisticated retrieval backend didn't retrieve better by the metrics that measure retrieval — but that turned out not to be the thing that determined the end-to-end result.",
+    background:
+      "A knowledge-graph retrieval idea was actually rejected once already: Sprint 15's original 'Graph RAG' proposal had no detailed scope beyond a one-line intent pointer and was scrapped for it. What replaced it was a validated two-track plan — ship a static, hand-curated lookup first, then justify a graph-based retrieval track separately and later, on its own evidence, not as a bet made in advance. Case study 1's tradeoff section named this explicitly: a knowledge-graph grounding step 'aimed at the classification step itself' was in active development, with the static two-pass orchestration as the layer it would plug into, not a replacement for it. This is that step, and the evaluation of whether it was worth building.",
+    problem:
+      "v1's retrieval is alias/substring matching against a manually maintained table: no embeddings, no LLM extraction, just a literal string match against a curated symptom_triage_data.json. That has two structural ceilings. First, it can't generalize to how patients actually phrase things — a match only fires if the patient's words happen to contain one of the table's exact aliases. Second, the table itself caps what the system can ever recognize: every new complaint, synonym, or red flag has to be hand-added by someone who thought to add it. A structured medical vocabulary — SNOMED CT, the terminology standard Canadian health systems already use — was the candidate fix for both ceilings at once: a vastly larger, professionally maintained concept graph instead of a hand-rolled list.",
+    problemHighlights: [
+      {
+        heading: "Literal Matching Can't Generalize",
+        body: "v1 only recognizes a symptom if the patient's words happen to contain one of a curated list of aliases verbatim — no embeddings, no semantic step, nothing that bridges lay phrasing to clinical terms.",
+        accent: 'danger',
+      },
+      {
+        heading: 'A Hand-Curated Table Has a Hard Ceiling',
+        body: 'Every complaint, synonym, or red flag the system can ever recognize has to be manually authored first. The table cannot grow past what someone remembered to add.',
+        accent: 'info',
+      },
+    ],
+    alternativesConsidered: [
+      {
+        title: "Keep extending v1's alias table",
+        body: "The lowest-effort option: keep hand-adding aliases as gaps get noticed. Rejected as a strategy, not just a tactic — it doesn't fix the structural ceiling, it just raises it slowly, and every addition is unmaintained-vocabulary debt someone has to keep paying down.",
+      },
+      {
+        title: 'Go straight to embedding-based semantic search',
+        body: "Considered and not built this round. The v2 design explicitly targeted a graph traversal with precedence rules over a curated concept set, not a vector index — a scope decision this case study's own eval later surfaces as consequential: see case study 'Fair Retrieval Evaluation' for what that specific choice cost.",
+      },
+    ],
+    approach:
+      "v1 (Sprint 18) is a straightforward Symptom → RedFlag → FollowupQuestion static lookup sourced from the CTAS (Canadian Triage and Acuity Scale) reference tables, with an explicit, reviewed mapping from CTAS's 5 acuity levels down to the app's 4-level severity schema — a deliberate design decision, not an implicit rounding. It shipped behind a feature flag with zero behavior change to existing users. v2 (Sprint 19) keeps the same GraphContextProvider interface and the same hand-curated Symptom → RedFlag → FollowupQuestion content, but re-anchors that content onto a small curated set of SNOMED CT concepts instead of hand-listed alias strings, backed by a Neo4j graph seeded from the SNOMED CT Canadian Edition (RF2 release). Severity classification stays the LLM's job unconditionally in both versions — the graph only ever supplies context, never a verdict. Getting there required a real SNOMED CT Affiliate License (submitted to SNOMED International's MLDS, approved within 3 days) plus a separate Canada Health Infoway acquisition for the Canadian Edition specifically. And the build hit a real ceiling of its own: Neo4j AuraDB's free-tier 200,000-node cap, discovered empirically mid-load at roughly 14% of the originally planned single-root subtree — not documented anywhere in advance. The fix was a redesign to a multi-root, bounded-depth (4 levels) subset keyed off the 165 CTAS complaints, landing at 31,327 concepts, 126,816 descriptions, and 50,351 IS_A relationships — 79% of the free-tier cap, with all 154 curated anchor concepts backed by loaded data, up from 69 before the redesign.",
+    approachEmphasis: ['re-anchors that content onto a small curated set of SNOMED CT concepts instead of hand-listed alias strings', 'the graph only ever supplies context, never a verdict'],
+    codeSamples: [
+      {
+        filename: 'factory.py',
+        language: 'python',
+        content: `def get_graph_provider() -> GraphContextProvider:
+    """v1 and v2 sit behind the identical interface. Switching is an
+    env var, not a code change on either side, and each provider is
+    constructed once and cached, not rebuilt per request."""
+    provider_name = os.environ.get("GRAPH_RAG_PROVIDER", "off").lower()
+    if provider_name not in _provider_cache:
+        _provider_cache[provider_name] = _build_provider(provider_name)
+    return _provider_cache[provider_name]`,
+      },
+    ],
+    diagramSteps: [
+      { title: 'User Message In', desc: 'Chat turn reaches LLMAgent, same entry point regardless of which provider is active.', icon: 'ti ti-message-chatbot' },
+      { title: 'Provider Selection', desc: 'get_graph_provider() reads GRAPH_RAG_PROVIDER — static, neo4j, or off — and returns a cached instance behind the shared GraphContextProvider interface.', icon: 'ti ti-git-branch' },
+      { title: 'Graph Lookup', desc: 'v1: alias-substring match against the curated table. v2: SNOMED concept lookup + bounded IS_A traversal in Neo4j.', icon: 'ti ti-sitemap' },
+      { title: 'Context Injected, Never a Verdict', desc: 'Matched red flags and follow-up questions are added to the LLM prompt. Severity classification stays the model\'s decision either way.', icon: 'ti ti-brain' },
+    ],
+    lessonsLearned: [
+      {
+        title: "Two eval efforts, designed independently, told two different stories",
+        body: "Retrieval-quality eval (Track A/B, full depth in case study 'Fair Retrieval Evaluation') and end-to-end triage-accuracy eval (a 27-vignette multi-turn ablation) were built by different work, at different times, measuring different things. Reading either one alone would have been misleading — the pairing is the actual finding, not a footnote.",
+      },
+      {
+        title: "This case study is the 'reasoning doc' that never got written as its own artifact",
+        body: 'Sprint 19\'s original scope named a deliverable — a short write-up of why both retrieval paths exist and how the switch works — that never shipped as its own file. This case study substantially fulfills that intent; better to say so directly than leave the gap silently unresolved.',
+      },
+    ],
+    tradeoff:
+      "The production default for GRAPH_RAG_PROVIDER has not been independently confirmed against the live deployed config as of this writing — the factory code defaults to off when the env var is unset, but that's a code-level default, not a verified statement about what's actually running. Given the results below, that's worth checking rather than assuming, not a footnote. Separately, and by design: full PART_OF/cross-symptom-cluster authoring beyond one seeded pilot cluster, and expanding the entity-linking precision test suite past its current 3 pilot anchors, are both explicitly deferred to a future symptom-understanding-improvement sprint — not fixed here, and not silently dropped either.",
+    result: [
+      { text: 'End-to-end triage accuracy: neo4j (v2) 66.7% (18/27), off (no graph) 63.0% (17/27), static (v1) 51.9% (14/27) — v1 is the worst-performing leg of all three, including worse than no augmentation at all.', bold: ['66.7%', '63.0%', '51.9%'] },
+      { text: "v1's under-triage rate (37.0%, 10/27) is the worst of the three legs and concentrated in the highest-stakes bucket: 7 of 16 emergent-severity vignettes under-triaged, versus 4 of 16 for both other legs.", bold: ['37.0%', '7 of 16', '4 of 16'] },
+      { text: "Isolated retrieval quality: v1 scores 100% (20/20) hit-rate on its calibrated scenario set, v2 scores 35% (7/20) — full methodology, the vocabulary-neutral control that overturns the naive reading of this number, and the complete Track A/B tables live in case study 'Fair Retrieval Evaluation: Static Lookup vs. SNOMED Knowledge Graph'.", bold: ['100%', '35%'] },
+    ],
+    methodology: [
+      { text: "Task 13: a purpose-built, Clean-Architecture eval harness driving 27 real Ontario CTAS vignettes through the actual multi-turn conversation agent, three legs (static / off / neo4j), scored on confusion-matrix accuracy, under-triage rate, and elicitation coverage — because the only existing vignette source is third-person exam narrative, not a chat conversation, and elicitation coverage specifically requires information that's disclosed only when asked.", bold: [] },
+      { text: 'Track A/B: isolated single-turn retrieval-quality eval, run identically against both providers — see the dedicated case study for the full design, including a vocabulary-neutral control set and a stale-number correction caught mid-eval.', bold: [] },
+    ],
+  },
+  {
+    slug: 'fair-retrieval-evaluation-static-lookup-vs-snomed-knowledge-graph',
+    navSection: 'ai-models',
+    category: 'Retrieval Evaluation',
+    accent: 'mint',
+    icon: Target,
+    tags: ['#RetrievalEval', '#RAG', '#DeepEval', '#Evals', '#Draft'],
+    title: 'Fair Retrieval Evaluation: Static Lookup vs. SNOMED Knowledge Graph',
+    readTimeMinutes: 8,
+    publishedDate: '2026-08-19',
+    author: 'MediCoord Core Platform Team',
+    summary:
+      "A retrieval comparison that looks fair on paper — same scenarios, same scoring, both providers — can still hide a confound. Building one for MediCoord's two symptom-understanding retrieval backends took a shared ranking fix, a split hit-rate/recall metric to tell coverage failures from ranking failures apart, a vocabulary-neutral control scenario set, and a caught-and-corrected stale number. The eval design process is as much the content here as the final numbers.",
+    background:
+      "See case study 'Symptom-Understanding Retrieval: CTAS Lookup + SNOMED Knowledge Graph' for why both retrieval backends (a static CTAS alias table, a SNOMED CT knowledge graph in Neo4j) exist and how the switch between them works. This case study starts one level down: how do you compare two retrieval systems fairly once you suspect — correctly, as it turns out — that they share their core retrieval mechanism underneath architecturally different implementations.",
+    problem:
+      "The first retrieval comparison run had a real, if disclosed, bias baked in: its scenario messages were written using v1's own alias vocabulary, so a system that matches on that exact vocabulary was always going to look artificially strong. Disclosing a bias in code comments isn't the same as controlling for it — nothing in the original eval separated 'v1 retrieves well' from 'v1 retrieves well on text calibrated to v1.' A second problem sat underneath the architecture docs: v1 (flat alias table) and v2 (SNOMED knowledge graph) look structurally distinct, but reading their actual query code side by side shows both retrieve via the same operation — case-insensitive substring containment — just against different vocabularies. Nothing in the design documentation surfaces that; only the code does.",
+    problemHighlights: [
+      {
+        heading: 'A Disclosed Bias Is Not a Controlled One',
+        body: "The original scenario set was written against v1's own alias vocabulary — known and commented in the code, but never isolated with an actual control set until this eval redesign.",
+        accent: 'danger',
+      },
+      {
+        heading: 'Same Mechanism, Different Vocabulary',
+        body: "v1 and v2 look architecturally distinct — a flat table versus a knowledge graph — but both retrieve via literal substring containment. That equivalence only surfaces from reading the query code, not from the architecture documents.",
+        accent: 'info',
+      },
+    ],
+    alternativesConsidered: [
+      {
+        title: 'Score Track A as a single hit/miss number',
+        body: "Rejected in favor of a split recall (was the right concept anywhere among the candidates) / hit (was it the one actually selected) metric pair. A single hit-rate number conflates two different defects — 'never found it' and 'found it, picked wrong' — that need different fixes. In practice this diagnosis mattered: v2's hit-rate and recall came back numerically identical, which is itself proof every v2 miss in that scenario set is a coverage failure, not a ranking failure.",
+      },
+    ],
+    approach:
+      "Before any comparison could be called fair, both providers needed a shared prerequisite fix: both originally used first-match-wins retrieval, so a longer, more specific match sitting later in the data could lose to an earlier, less-specific one purely by insertion order. Both were rebuilt to rank by match specificity instead. Only after that fix landed did the actual eval run: Track A is a deterministic retrieval hit-rate check, 20 isolated single-turn scenarios, identical scoring against both providers. Track B runs DeepEval's faithfulness, contextual precision, and contextual recall metrics (same judge model and methodology as case study 'Two-Track LLM Evaluation' — see that post for how those metrics work) against transcripts generated by replaying the same in-process agent used for the end-to-end eval, so no retrieval-context construction logic is duplicated between the two eval efforts. The change that actually mattered most: a second scenario set, LAY_SCENARIOS, was built specifically to avoid every one of v1's alias/name substrings — enforced programmatically against the real alias table, not by hand-checking — but it sat built and unexecuted for two weeks before this eval redesign finally ran it.",
+    approachEmphasis: ['ranking by match specificity', 'sat built and unexecuted for two weeks'],
+    codeSamples: [
+      {
+        filename: 'run_track_a_retrieval.py',
+        language: 'python',
+        content: `def score_hit(ctx, expected_complaint):
+    """Selection accuracy: given the candidates, did the FINAL choice match?"""
+    if expected_complaint is None:
+        return not ctx.matched
+    return ctx.matched and ctx.complaint_name == expected_complaint
+
+
+def score_recall(candidates, expected_complaint):
+    """Coverage: was the right concept ANYWHERE in the candidate set,
+    regardless of which one got selected? Separates 'never found it'
+    from 'found it, picked wrong' — collapsing these into one number
+    is exactly what a naive hit-rate metric does."""
+    if candidates is None:
+        return None
+    if expected_complaint is None:
+        return len(candidates) == 0
+    return expected_complaint in candidates`,
+      },
+    ],
+    diagramSteps: [
+      { title: 'Shared Ranking Fix', desc: 'Both providers rebuilt to rank matches by specificity instead of first-match-wins, a precondition for any fair comparison.', icon: 'ti ti-adjustments' },
+      { title: 'Track A — Hit-Rate + Recall', desc: '20 isolated scenarios, both providers, split into selection accuracy (score_hit) and coverage (score_recall).', icon: 'ti ti-target-arrow' },
+      { title: 'Track B — DeepEval Faithfulness', desc: 'Transcripts generated via the real in-process agent, scored for faithfulness, contextual precision, contextual recall.', icon: 'ti ti-scale' },
+      { title: 'Vocabulary-Neutral Control', desc: 'LAY_SCENARIOS, built to avoid every v1 alias substring, run for the first time — the result that overturned the headline number.', icon: 'ti ti-flask' },
+    ],
+    lessonsLearned: [
+      {
+        title: 'A disclosed bias needs an actual control, and the control has to actually run',
+        body: "Naming a bias in a code comment doesn't neutralize it. LAY_SCENARIOS existed, tested, and ready for two weeks before it was finally executed — eval debt accumulates exactly like code debt, silently, until someone runs the thing that was already built.",
+      },
+      {
+        title: 'A stale number shipped everywhere it was quoted',
+        body: "The original v2 hit-rate figure (8/20, 40%) predated the shared ranking fix above and was never re-run afterward — it propagated into every downstream summary and an already-published write-up before the re-run caught it. The corrected number is 7/20 (35%), and the ranking fix turned out to change nothing here: recall and hit-rate came back identical, meaning every miss was a coverage failure the fix had no way to touch.",
+      },
+    ],
+    tradeoff:
+      "This eval measures isolated single-turn retrieval quality. It says nothing on its own about end-to-end triage outcome — see case study 'Symptom-Understanding Retrieval' for that separate, complementary result, where the system with the worse retrieval score wins on the metric that matters. Track B's v2 numbers were generated before this eval's Track A re-run and have not themselves been independently re-verified against the same ranking-fix code path; the ranking fix should only affect which candidate wins when multiple match, not whether DeepEval scores the resulting context as faithful, but that's an inference, not a re-run result, and is stated here as an open item rather than a settled one.",
+    resultOrdered: false,
+    result: [
+      { text: 'Corrected: v2 (neo4j) Track A hit-rate is 35% (7/20), not the 40% (8/20) previously quoted — the original figure was stale, predating the shared ranking fix. v1 (static) scores 100% (20/20) on the same scenario set.', bold: ['35%', '40%', '100%'] },
+      { text: "v2's recall is also 35% — numerically identical to its hit-rate, proving every miss is a coverage failure (the concept was never among the candidates), not a selection/ranking failure.", bold: ['35%'] },
+      { text: 'Vocabulary-neutral control (LAY_SCENARIOS, n=10, run for the first time): both v1 and v2 score 0% (0/10). Neither system does semantic retrieval — both match via literal substring containment, just against different vocabularies. v1\'s 100% on the main set is a vocabulary-overlap artifact, not evidence of a better retrieval mechanism.', bold: ['0%', '0/10'] },
+      { text: 'Track B (DeepEval): faithfulness 96.2% (v1) vs. 100% (v2); contextual precision 89.6% (v1) vs. 33.7% (v2); contextual recall 100% (v1) vs. 33.3% (v2) — v1 wins every axis except faithfulness, where both sit near ceiling.', bold: ['96.2%', '100%', '89.6%', '33.7%', '33.3%'] },
+    ],
+    methodologyOrdered: true,
+    methodology: [
+      { text: 'Track A and Track B both run against the same 20-scenario main set, both providers, identical scoring code — no per-provider special-casing.', bold: [] },
+      { text: "Track B's judge model is gpt-4o-mini, the same model and methodology as case study 'Two-Track LLM Evaluation' — see that post for how faithfulness/contextual precision/recall are computed; not re-explained here.", bold: [] },
+      { text: 'LAY_SCENARIOS: 10 vocabulary-neutral scenarios, verified programmatically to contain zero substring overlap with v1\'s real alias table before being trusted as a control.', bold: ['10'] },
+      { text: "Explicitly not re-run: Track B's v2 numbers predate the ranking fix validated by the Track A re-run above and have not been independently re-verified against it — stated directly rather than silently assumed unaffected.", bold: [] },
     ],
   },
 ]

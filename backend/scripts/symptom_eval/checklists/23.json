@@ -1,0 +1,66 @@
+{
+  "opening_message": "My 18-month-old son has had a fever, vomiting, and diarrhea for the last two days.",
+  "disclosure_items": [
+    {
+      "feature_id": "fever_duration",
+      "category": "history",
+      "first_person_phrasing": "He's had a mild fever for about two days.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vomiting_duration",
+      "category": "history",
+      "first_person_phrasing": "He started vomiting two days ago as well.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "diarrhea_duration",
+      "category": "history",
+      "first_person_phrasing": "He's been having diarrhea for the same two days.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "urgent_care_visit",
+      "category": "history",
+      "first_person_phrasing": "We went to an urgent care clinic last night.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "doctor_instructions",
+      "category": "history",
+      "first_person_phrasing": "They told us to continue with acetaminophen and fluids.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "overnight_voiding",
+      "category": "history",
+      "first_person_phrasing": "He usually voids overnight, but he didn't last night.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "axillary_temperature",
+      "category": "history",
+      "first_person_phrasing": "I took his temperature this morning and it was 38.1 degrees Celsius.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "general_appearance",
+      "category": "exam",
+      "first_person_phrasing": "He looks sick, but he's alert and making good eye contact.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "I noticed his pulse is about 140.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "His breathing seems a bit fast; I counted 32 breaths per minute.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

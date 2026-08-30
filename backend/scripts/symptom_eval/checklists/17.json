@@ -1,0 +1,72 @@
+{
+  "opening_message": "I have severe left flank pain that radiates into my left groin.",
+  "disclosure_items": [
+    {
+      "feature_id": "pain_intensity",
+      "category": "chief_complaint",
+      "first_person_phrasing": "My pain is 10 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pain_radiation",
+      "category": "chief_complaint",
+      "first_person_phrasing": "The pain radiates into my left groin.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vomiting",
+      "category": "history",
+      "first_person_phrasing": "I've been vomiting.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pain_history",
+      "category": "history",
+      "first_person_phrasing": "I had a previous episode of renal colic three years ago.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_pulse",
+      "category": "vitals",
+      "first_person_phrasing": "I feel my heart racing.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "I feel a bit dizzy.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "vital_signs_respirations",
+      "category": "vitals",
+      "first_person_phrasing": "I feel like I'm breathing normally.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "current_pain_level",
+      "category": "chief_complaint",
+      "first_person_phrasing": "Now it's a dull ache, about 1 out of 10.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pale",
+      "category": "exam",
+      "first_person_phrasing": "I can't see myself, but I feel pretty bad.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "diaphoretic",
+      "category": "exam",
+      "first_person_phrasing": "I've been sweating a lot.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "restlessness",
+      "category": "exam",
+      "first_person_phrasing": "I can't sit still; the pain is too much.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

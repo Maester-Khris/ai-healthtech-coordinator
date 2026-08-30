@@ -1,0 +1,36 @@
+{
+  "opening_message": "He's not responding to me.",
+  "disclosure_items": [
+    {
+      "feature_id": "gcs",
+      "category": "exam",
+      "first_person_phrasing": "His GCS is 3.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "blood_pressure",
+      "category": "vitals",
+      "first_person_phrasing": "His blood pressure is 190 over 100.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse",
+      "category": "vitals",
+      "first_person_phrasing": "His pulse feels like it's 60.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respirations",
+      "category": "vitals",
+      "first_person_phrasing": "His respirations are 12 per minute.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "o2_saturation",
+      "category": "vitals",
+      "first_person_phrasing": "His oxygen saturation is 94%.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

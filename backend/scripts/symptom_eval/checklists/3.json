@@ -1,0 +1,60 @@
+{
+  "opening_message": "My child has been vomiting and having diarrhea for the last three days.",
+  "disclosure_items": [
+    {
+      "feature_id": "vomiting_duration",
+      "category": "history",
+      "first_person_phrasing": "The vomiting started about three days ago.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "diarrhea_duration",
+      "category": "history",
+      "first_person_phrasing": "The diarrhea also started about three days ago.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "lethargy",
+      "category": "exam",
+      "first_person_phrasing": "Yes, the child is very lethargic.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "cracked_lips",
+      "category": "exam",
+      "first_person_phrasing": "I noticed the child's lips are cracked.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "sunken_eyes",
+      "category": "exam",
+      "first_person_phrasing": "Yes, the child's eyes look sunken.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "tenting_skin",
+      "category": "exam",
+      "first_person_phrasing": "I can feel that the skin is tenting.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "heart_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I believe the heart rate is very fast.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "pulse_strength",
+      "category": "vitals",
+      "first_person_phrasing": "The pulse feels very weak.",
+      "reveal_only_if_asked": true
+    },
+    {
+      "feature_id": "respiratory_rate",
+      "category": "vitals",
+      "first_person_phrasing": "I think the breathing is really fast and shallow.",
+      "reveal_only_if_asked": true
+    }
+  ],
+  "update_message": null
+}

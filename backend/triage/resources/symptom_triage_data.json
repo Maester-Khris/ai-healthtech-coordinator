@@ -75,79 +75,79 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"
       },
       {
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "2 Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"
       },
       {
         "indicator": "evidence of potential lethal",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's beating in a fast, irregular, or unusual pattern right now?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having trouble breathing, feeling faint, or looking pale/sweaty along with the chest pain?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -209,31 +209,31 @@
         "indicator": "VS, PS",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       },
       {
         "indicator": "Acute severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale of 0-10, how severe is the chest pain, and did it start suddenly or build up gradually?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -282,31 +282,31 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "evidence of potential lethal",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you ever been diagnosed with a dangerous heart rhythm problem before?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -371,49 +371,49 @@
         "indicator": "VS, Severe dehydration",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you so dehydrated that you feel severely weak or dizzy, or have you had little to no urine for many hours?"
       },
       {
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "with symptoms+ any of (SOB, chest",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "What is your blood pressure reading, and do you have a headache, chest pain, or shortness of breath with it?"
       },
       {
         "indicator": "VS, Moderate dehydration",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel unusually thirsty or dizzy when standing, or have you noticed much less urine than normal?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -472,25 +472,25 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, Moderate dehydration",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your mouth very dry and has your heart been racing?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -541,31 +541,31 @@
         "indicator": "irregular pulse &/or change in",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did your heartbeat feel irregular or unusually fast right before you felt faint or passed out?"
       },
       {
         "indicator": "No prodromal symptoms",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did you have any warning before you fainted, like dizziness or nausea, or did it happen without warning?"
       },
       {
         "indicator": "Occurring during exercise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen while you were exercising or being physically active?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -616,19 +616,19 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the swelling, are you short of breath, feeling faint, or confused?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the swelling, are you short of breath, feeling faint, or confused?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -683,13 +683,13 @@
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -729,43 +729,43 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Cool Pulseless Limb",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the limb cold, pale, and can you feel a pulse in it?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -814,13 +814,13 @@
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the pain much worse than the redness would suggest, or is any of the skin turning dark or black?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -984,25 +984,25 @@
         "indicator": "Amputation",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has any part of the body been completely severed or cut off?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1111,43 +1111,43 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How did the injury happen - was it a fall, assault, or vehicle collision, and from what height or speed?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1217,49 +1217,49 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Drooling or stridor",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you drooling, having trouble breathing, or does your voice sound muffled?"
       },
       {
         "indicator": "2 Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1328,31 +1328,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is it becoming hard to breathe or is the swelling growing quickly?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1415,61 +1415,61 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hoarseness and dysphasia",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has your voice suddenly become hoarse, or are you having trouble swallowing?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Was there a high-speed collision, a fall from a height, or a direct impact to the top of your head?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1521,7 +1521,7 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Drooling or stridor",
@@ -1533,19 +1533,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1602,13 +1602,13 @@
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1648,13 +1648,13 @@
         "indicator": "VS,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1749,7 +1749,7 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever with chills, and are you having trouble breathing?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1808,25 +1808,25 @@
         "indicator": "(despite appropriate",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there ongoing bleeding, and does the nose look visibly deformed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there ongoing bleeding, and does the nose look visibly deformed?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1908,13 +1908,13 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen in an enclosed space, and are you coughing or short of breath?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -1962,31 +1962,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did you lose consciousness or have any irregular heartbeat after the shock?"
       },
       {
         "indicator": "Obvious cutaneous injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Was this a high-voltage source, and do you see any burn marks where the current entered or exited?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2025,31 +2025,31 @@
         "indicator": "Major burn >25% BSA",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is any part of your airway or breathing affected, and how much of your body was exposed?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is any part of your airway or breathing affected, and how much of your body was exposed?"
       },
       {
         "indicator": "Symptomatic eye 'splash'",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did the chemical splash into your eye, and is it causing pain, burning, or trouble seeing?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2103,31 +2103,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2175,31 +2175,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did the person stop breathing, lose consciousness, or feel extremely cold after the incident?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they coughing, having trouble breathing, or shivering significantly?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did the person stop breathing, lose consciousness, or feel extremely cold after the incident?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2270,31 +2270,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale of 0-10, how severe is the pain right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2342,13 +2342,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel like you might faint, or has your urine output dropped significantly?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2410,19 +2410,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have severe belly pain, bloating, or vomiting along with the constipation?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2480,25 +2480,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel like you might pass out, or has urination almost stopped?"
       },
       {
         "indicator": "VS, moderate dehydration",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel unusually thirsty or dizzy when standing, or have you noticed much less urine than normal?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel like you might pass out, or has urination almost stopped?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2554,13 +2554,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2622,19 +2622,19 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2692,31 +2692,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "1 Shock",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel faint or extremely weak, and has your urine output dropped a lot?"
       },
       {
         "indicator": "VS, moderate dehydration",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your mouth very dry and has your heart rate felt fast?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2774,7 +2774,7 @@
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2823,31 +2823,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2902,25 +2902,25 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -2981,25 +2981,25 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you confused, feeling very unwell, or have you had fever and chills?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you confused, feeling very unwell, or have you had fever and chills?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3096,31 +3096,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the pain severe and does your abdomen feel hard or rigid?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the pain severe and does your abdomen feel hard or rigid?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3177,19 +3177,19 @@
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there heavy bleeding, and can you tell me how the injury happened?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3250,37 +3250,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hoarseness and dysphasia",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has your voice suddenly become hoarse, or are you having trouble swallowing?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3352,37 +3352,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3456,31 +3456,31 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you passing large clots or feeling faint/dizzy, or unable to urinate?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3578,25 +3578,25 @@
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "VS, PSP",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3654,19 +3654,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3723,13 +3723,13 @@
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How long have you been unable to urinate, and how severe is the lower abdominal pain?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3787,19 +3787,19 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3862,49 +3862,49 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -3966,43 +3966,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4072,43 +4072,43 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there heavy bleeding, and how did the injury occur?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4150,7 +4150,7 @@
         "indicator": "active suicidal intent",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you currently wanting to end your life?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4192,7 +4192,7 @@
         "indicator": "uncertain flight or safety risk",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel unsafe staying here, or are you having any thoughts of hurting yourself or others?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4246,13 +4246,13 @@
         "indicator": "uncertain flight or safety risk",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling very agitated, or is there a safety concern for you or others?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4365,13 +4365,13 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4420,31 +4420,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is this a new change in their thinking or alertness compared to normal?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen from something high-impact, like a fall from height, a high-speed crash, or being struck with major force?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4487,19 +4487,19 @@
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "2 Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is this a sudden change from how they normally think and act?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4543,19 +4543,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4623,43 +4623,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "sudden, severe, worst ever",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this headache come on suddenly and is it the worst you've ever had?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4710,37 +4710,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Post-ictal",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has the seizure stopped and are they alert and back to normal now?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4792,25 +4792,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4872,43 +4872,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did they lose consciousness or seem confused, and how did the head injury happen?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -4953,19 +4953,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5019,37 +5019,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Time of onset < 3 hours",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "When did the weakness or symptoms start - was it less than 3 hours ago?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5110,37 +5110,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you soaking through pads very quickly, or feeling dizzy/faint from the bleeding?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you soaking through pads very quickly, or feeling dizzy/faint from the bleeding?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5208,31 +5208,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSP",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5290,13 +5290,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5355,43 +5355,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "< 2 hours",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen less than 2 hours ago?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5450,37 +5450,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, dizzy, or very weak with the bleeding?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, dizzy, or very weak with the bleeding?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, dizzy, or very weak with the bleeding?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5538,13 +5538,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5601,25 +5601,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, very weak, or having severe abdominal pain along with the bleeding?"
       },
       {
         "indicator": "VS, PSC,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, very weak, or having severe abdominal pain along with the bleeding?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5688,43 +5688,43 @@
         "indicator": "1 Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Vaginal bleeding 3rd trimester",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you bleeding vaginally, and how far along is the pregnancy?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC, BD,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Active labor (contractions <2 min)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How far apart are your contractions right now?"
       },
       {
         "indicator": "2 Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "headache+/- edema+/- abdo pain+/-",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a headache, swelling, high blood pressure, or abdominal pain along with the pregnancy?"
       },
       {
         "indicator": "Post delivery",
@@ -5736,19 +5736,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5908,7 +5908,7 @@
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -5986,19 +5986,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6040,7 +6040,7 @@
         "indicator": "chemical or direct thermal",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Was this from a chemical splash or a heat injury to your eye?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6136,37 +6136,43 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "1 Shock",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
+      },
+      {
+        "indicator": "Severe pain with fever, saddle anesthesia, bowel/bladder dysfunction (cauda equina concern), or pulsatile abdominal mass (AAA concern)",
+        "ctas_level": 2,
+        "app_severity": "emergent",
+        "followup_question": "Do you have any numbness in the groin area, loss of bladder/bowel control, fever, or a pulsing sensation in your abdomen?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6229,49 +6235,49 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "1 Shock",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC, BD,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have any numbness, weakness, or loss of bladder/bowel control since the injury, and how did it happen?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6329,31 +6335,31 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "VS, MOI,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there major uncontrolled bleeding, or are they feeling faint or losing consciousness?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there major uncontrolled bleeding, or are they feeling faint or losing consciousness?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen from something high-impact, like a fall from height, a high-speed crash, or being struck with major force?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6420,25 +6426,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6504,19 +6510,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6584,37 +6590,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, MOI,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6682,37 +6688,37 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, BD,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6773,13 +6779,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the joint very hot, swollen, and do you have a fever?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6820,25 +6826,25 @@
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       },
       {
         "indicator": "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child between 3 months and 3 years old, with a fever over 38.5\u00b0C (101.3\u00b0F) or an unusually low temperature, and looking seriously unwell to you?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6869,10 +6875,10 @@
     ],
     "red_flags": [
       {
-        "indicator": "and there is no acute",
+        "indicator": "Risk of flight or ongoing abuse",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you currently in an unsafe living situation or relationship?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -6925,43 +6931,43 @@
         "indicator": "Airway compromise",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the breathing sound very faint but with severe struggling to breathe?"
       },
       {
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Marked stridor",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you hear the sound both when breathing in and out, with visible chest indrawing?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       },
       {
         "indicator": "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child between 3 months and 3 years old, with a fever over 38.5\u00b0C (101.3\u00b0F) or an unusually low temperature, and looking seriously unwell to you?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7009,13 +7015,13 @@
         "indicator": "or PEFR <40% predicted",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you so short of breath that you can only speak in single words or short phrases?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7058,19 +7064,19 @@
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you working hard to breathe, or is your oxygen level low if you've checked it?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7122,25 +7128,25 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the fast breathing, do you have chest pain, numbness, or feel confused?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7197,43 +7203,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How much blood have you coughed up, and are you having any trouble breathing?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How much blood have you coughed up, and are you having any trouble breathing?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7290,31 +7296,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "VS, PSC",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Drooling or stridor",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you hear a high-pitched sound when they breathe, and are they very distressed?"
       },
       {
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7379,25 +7385,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your throat or tongue swelling, or are you having severe trouble breathing?"
       },
       {
         "indicator": "Previous severe reaction",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you ever had a severe allergic reaction (like anaphylaxis) to this before?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your throat or tongue swelling, or are you having severe trouble breathing?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7467,31 +7473,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Previous severe reaction",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you ever had a severe allergic reaction (like anaphylaxis) to this before?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7560,31 +7566,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your throat swelling or are you having severe trouble breathing after the sting?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Previous severe reaction",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you ever had a severe allergic reaction (like anaphylaxis) to this before?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is your throat swelling or are you having severe trouble breathing after the sting?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7679,19 +7685,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7753,25 +7759,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "2 Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7805,7 +7811,7 @@
         "indicator": "known or suspected HIV or",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Was the exposure to a known high-risk source, or a deep needlestick or mucous membrane splash?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7884,19 +7890,19 @@
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "2 Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and does the rash look like small bruises or dark spots that don't fade with pressure?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -7961,19 +7967,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8108,13 +8114,13 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8170,7 +8176,7 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8245,37 +8251,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the blue color, are they having severe trouble breathing or are they less responsive?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the blue color, are they having severe trouble breathing or are they less responsive?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the blue color, are they having severe trouble breathing or are they less responsive?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8333,43 +8339,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a bleeding disorder or take blood thinners, and is the bruising extensive or in unusual places?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8459,19 +8465,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8522,19 +8528,19 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they awake and breathing normally right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they awake and breathing normally right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8589,31 +8595,31 @@
         "indicator": "Actively seizing",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you had any seizures, hallucinations, or a racing heart along with the withdrawal symptoms?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you had any seizures, hallucinations, or a racing heart along with the withdrawal symptoms?"
       },
       {
         "indicator": "Severe anxiety/agitation",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling extremely anxious or agitated right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8665,43 +8671,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they showing signs of shock with unstable vital signs?"
       },
       {
         "indicator": "VS, PSC, BD,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they showing signs of shock with unstable vital signs?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen from something high-impact, like a fall from height, a high-speed crash, or being struck with major force?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8762,43 +8768,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they showing obvious signs of distress with unstable vital signs?"
       },
       {
         "indicator": "VS, PSC, BD,",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel unusually short of breath or light-headed?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are they showing obvious signs of distress with unstable vital signs?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did this happen from something high-impact, like a fall from height, a high-speed crash, or being struck with major force?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8837,43 +8843,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having severe difficulty breathing or feeling faint?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having severe difficulty breathing or feeling faint?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -8942,37 +8948,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having severe trouble breathing or feeling faint since the chest injury?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having severe trouble breathing or feeling faint since the chest injury?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "How severe is the chest pain, and how did the injury occur?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having severe trouble breathing or feeling faint since the chest injury?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9013,55 +9019,55 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint or very weak?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Where exactly did the penetrating object enter, and is there heavy bleeding?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9122,43 +9128,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, weak, or dizzy since the injury, and how fast was the impact?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is there any significant pain in your abdomen, and do you have a bleeding disorder or take blood thinners?"
       },
       {
         "indicator": "High risk mechanism of injury",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint, weak, or dizzy since the injury, and how fast was the impact?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9215,37 +9221,37 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the fever, do you feel very unwell, confused, or short of breath?"
       },
       {
         "indicator": "Petechial rash",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a rash of small, flat, reddish-purple spots that don't fade when you press on them?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the fever, do you feel very unwell, confused, or short of breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the fever, do you feel very unwell, confused, or short of breath?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you currently on chemotherapy, steroids, or any other medication that weakens your immune system?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Along with the fever, do you feel very unwell, confused, or short of breath?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9294,37 +9300,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": ">18 mmol/L symptomatic",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you know your blood sugar reading, and are you feeling short of breath, very thirsty, or weak?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9373,37 +9379,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "<3 mmol/L symptomatic",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you know your blood sugar reading, and are you feeling confused, sweaty, or shaky?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you know your blood sugar reading, and are you feeling confused, sweaty, or shaky?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9474,25 +9480,25 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9645,25 +9651,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the device malfunction causing you breathing trouble, severe pain, or feeling unwell?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the device malfunction causing you breathing trouble, severe pain, or feeling unwell?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9762,31 +9768,31 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you know which lab value was abnormal, and are you having any symptoms right now?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you know which lab value was abnormal, and are you having any symptoms right now?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9844,43 +9850,43 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel faint, dizzy, or very weak along with looking pale?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel faint, dizzy, or very weak along with looking pale?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel faint, dizzy, or very weak along with looking pale?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -9930,19 +9936,19 @@
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint or very unwell, or has the surgical wound opened up?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling faint or very unwell, or has the surgical wound opened up?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10045,127 +10051,127 @@
         "indicator": "clear suicide plan",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a specific, clear plan for how you would end your life?"
       },
       {
         "indicator": "active suicidal intent",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you currently having thoughts of ending your life that you feel you might act on?"
       },
       {
         "indicator": "Suicide intent",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having thoughts of wanting to end your life, even without a specific plan?"
       },
       {
         "indicator": "attempt",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Have you already tried to harm yourself today?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you feeling drowsy, confused, or having trouble staying awake right now?"
       },
       {
         "indicator": "Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does your heart feel like it's racing, or do you feel dizzy or faint along with this?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you having noticeably more trouble breathing than usual, even if you can still talk?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever, and are you immunocompromised (for example, from chemotherapy, an organ transplant, or a condition that weakens your immune system)?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       },
       {
         "indicator": "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child between 3 months and 3 years old, with a fever over 38.5\u00b0C (101.3\u00b0F) or an unusually low temperature, and looking seriously unwell to you?"
       },
       {
         "indicator": "retractions, flaring, speaking phrases or clipped",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child breathing fast with their chest pulling in or nostrils flaring, or only able to speak a few words at a time?"
       },
       {
         "indicator": "common etiology; the signs of dehydration",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you showing signs of dehydration, like a very dry mouth, no tears, or much less urine than usual?"
       },
       {
         "indicator": "combative; inconsolable, poor feeding in an infant; able to protect",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the infant unusually combative, inconsolable, or feeding poorly?"
       },
       {
         "indicator": "Acute central severe pain (8-10)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "On a scale where 10 is the worst pain imaginable, is your pain currently an 8 or higher?"
       },
       {
         "indicator": "Looks septic (3 SIRS criteria)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you have a fever along with a racing heart or fast breathing, and do you feel like you're rapidly getting sicker?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person completely unresponsive, even to a loud voice or firm touch?"
       },
       {
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Do you feel extremely weak, cold, clammy, or like you might pass out right now?"
       },
       {
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Are you struggling so much to breathe that you can't speak in full sentences?"
       },
       {
         "indicator": "retractions, nasal flaring; grunting; absent or",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child grunting with every breath or working so hard to breathe that their chest is pulling in severely?"
       },
       {
         "indicator": "tachycardia or bradycardia, ineffective",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does the pulse feel extremely fast, extremely slow, or very weak?"
       },
       {
         "indicator": "continuous seizing; progressive deterioration in level of",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has the seizure been continuous without stopping, or is the person becoming less responsive over time?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10194,7 +10200,7 @@
         "indicator": "Cardiac arrest (non-traumatic)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person breathing and do they have a pulse?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10221,7 +10227,7 @@
         "indicator": "Cardiac arrest (traumatic)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did the person collapse after an injury, and are they breathing or moving?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10331,7 +10337,7 @@
         "indicator": "Chemical exposure, eye",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has the eye been rinsed with water yet, and what chemical was involved?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10366,7 +10372,7 @@
         "indicator": "Acute or abrupt change in vision",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Did the vision change happen suddenly, or does it feel like a curtain coming across your vision?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10393,7 +10399,7 @@
         "indicator": "Respiratory arrest",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the person breathing at all right now?"
       }
     ],
     "source": "CTAS Participant Manual v2.5b (Nov 2013)",
@@ -10500,37 +10506,37 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby completely unresponsive \u2014 not moving, not making sounds, and not reacting even to a loud voice or firm touch?"
       },
       {
         "indicator": "Refusing oral feeds",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby refusing to feed at all?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby breathing faster or harder than usual \u2014 for example, pulling in at the chest, flaring the nostrils, or grunting with each breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby unusually hard to wake up, floppy, or not responding normally to you?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       },
       {
         "indicator": "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child between 3 months and 3 years old, with a fever over 38.5\u00b0C (101.3\u00b0F) or an unusually low temperature, and looking seriously unwell to you?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10573,37 +10579,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby working so hard to breathe that they're struggling to feed or cry normally, or do they seem to be tiring out?"
       },
       {
         "indicator": "Infant < 7 days of age",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 7 days old?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby breathing faster or harder than usual \u2014 for example, pulling in at the chest, flaring the nostrils, or grunting with each breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby unusually hard to wake up, floppy, or not responding normally to you?"
       },
       {
         "indicator": "Fever, immunocompromised",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does the baby have a fever, and were they born prematurely or do they have any known condition affecting their immune system?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10652,25 +10658,25 @@
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby completely unresponsive \u2014 not moving, not making sounds, and not reacting even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby breathing faster or harder than usual \u2014 for example, pulling in at the chest, flaring the nostrils, or grunting with each breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby unusually hard to wake up, floppy, or not responding normally to you?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10726,7 +10732,7 @@
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the bleeding heavy enough that it feels like it could be life-threatening or could cost you a limb?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10762,31 +10768,31 @@
         "indicator": "Infant < 7 days of age",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 7 days old?"
       },
       {
         "indicator": "with apnea or respiratory",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Has the baby had pauses in breathing, or do they seem to be working hard to breathe?"
       },
       {
         "indicator": "Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby breathing faster or harder than usual \u2014 for example, pulling in at the chest, flaring the nostrils, or grunting with each breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby unusually hard to wake up, floppy, or not responding normally to you?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10835,37 +10841,37 @@
         "indicator": "Severe respiratory distress",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby working so hard to breathe that they're struggling to feed or cry normally, or do they seem to be tiring out?"
       },
       {
         "indicator": "Unconscious (GCS 3-9)",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby completely unresponsive \u2014 not moving, not making sounds, and not reacting even to a loud voice or firm touch?"
       },
       {
         "indicator": "2 Moderate respiratory distress",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby breathing faster or harder than usual \u2014 for example, pulling in at the chest, flaring the nostrils, or grunting with each breath?"
       },
       {
         "indicator": "Altered level of consciousness (GCS 10 - 13)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby unusually hard to wake up, floppy, or not responding normally to you?"
       },
       {
         "indicator": "3-36 mos, T <32C OR >38.5C, & appearing unwell (toxic)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child between 3 months and 3 years old, with a fever over 38.5\u00b0C (101.3\u00b0F) or an unusually low temperature, and looking seriously unwell to you?"
       },
       {
         "indicator": "Bleeding disorder (life or limb threatening bleed)",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the child bleeding heavily enough that it looks like it could be life-threatening, or affecting a limb badly enough that it could be lost?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10915,25 +10921,25 @@
         "indicator": "Shock",
         "ctas_level": 1,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does the child look unusually pale, cold, clammy, or limp, or seem like they might pass out?"
       },
       {
         "indicator": "2 Hemodynamic compromise",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does the child look pale or bluish, feel unusually weak or faint, or does their heart seem to be racing?"
       },
       {
         "indicator": "3 Vital signs outside the limits of normal",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Does the child's heart rate, breathing, or temperature seem clearly abnormal to you?"
       },
       {
         "indicator": "<3 mos, T < 36C OR >38C",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Is the baby younger than 3 months old with a temperature below 36\u00b0C (96.8\u00b0F) or above 38\u00b0C (100.4\u00b0F)?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",
@@ -10957,7 +10963,7 @@
         "indicator": "Newly Born",
         "ctas_level": 2,
         "app_severity": "emergent",
-        "followup_question": "NEEDS_AUTHORING"
+        "followup_question": "Was your baby born very recently, within the last few hours to days?"
       }
     ],
     "source": "CTAS COT 2012 (English Canada v02.03)",

@@ -45,6 +45,27 @@ class TestFacilitiesRoute:
         data = json.loads(response.body)
         assert len(data) == 2
 
+    def test_facilities_treats_empty_cached_list_as_not_warm(self):
+        """I-6 regression guard: an empty list (not None) from a lifespan warm-up
+        that ran before Supabase had any operational rows must not be served
+        forever — main.py's `if not cached_data` (not `is None`) re-queries and
+        re-warms on the next request once real data exists."""
+        fake_fresh_data = [
+            {"id": "a", "category": "hospital", "accepted_severity": ["urgent"]},
+        ]
+        # Return an empty list, NOT None, to simulate the lifespan warming case
+        with patch("main.get_cached_facilities", return_value=([], "etag-empty")), \
+             patch("main.get_all_facilities", return_value=fake_fresh_data), \
+             patch("main.set_cached_facilities") as mock_set, \
+             patch("main.get_wait_minutes_map", return_value={"a": 10}):
+            request = type("FakeRequest", (), {"headers": {}})()
+            response = asyncio.run(main.facilities(request))
+
+        data = json.loads(response.body)
+        ids = [r["id"] for r in data]
+        assert ids == ["a"]
+        mock_set.assert_called_once_with(fake_fresh_data)
+
 
 class TestFacilitiesNearbyRoute:
     def test_max_wait_minutes_filters_results(self):
