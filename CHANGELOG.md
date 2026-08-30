@@ -679,6 +679,8 @@ study — all Sprint 19.
 
 *v1's near-perfect score is a vocabulary-overlap artifact: on a vocabulary-neutral control set, both providers scored 0/10 — neither does real semantic retrieval today, both do literal substring matching against different vocabularies. v1 wins every isolated retrieval metric yet is the worst end-to-end performer of the three triage legs (worst under-triage rate too); v2 edges out both alternatives end-to-end despite weaker retrieval numbers. Retrieval quality and end-to-end triage outcome are not the same axis. Full mechanism discussion and methodology live in the two case studies below.
 
+**Neither result is conclusive on its own.** Retrieval quality is weak and non-semantic for both providers, and v2's end-to-end edge over no graph at all (66.7% vs. 63.0%) is one flipped case out of 27 — inside the noise floor for this sample size. Read together, this says the symptom-understanding system needs further improvement before either retrieval mechanism can be called validated, not that v2 has won; that improvement work is explicitly carried into a later sprint (see `### Deferred` below), not silently dropped.
+
 ### Delivered — Case studies
 
 - Two new `/for-engineers` entries, tagged `#Draft`: "Symptom-Understanding Retrieval" (architecture) and "Fair Retrieval Evaluation" (methodology + the table above) — substantially deliver the sprint's original reasoning-doc and case-study scope items
@@ -695,6 +697,12 @@ study — all Sprint 19.
 - Full PART_OF/cross-symptom-cluster authoring beyond one pilot cluster
 - Entity-linking precision suite beyond 3 pilot anchors
 - The remaining 7 Important review findings not recovered during the fix waves
+
+Planned direction for that sprint, not yet scoped or started:
+
+- Graph reconstruction/rebalancing to close the cluster gap above — the single-pilot-cluster limitation is itself hindering retrieval, not just an incomplete-authoring gap
+- A real semantic-understanding layer for both v1 and v2 — today both are literal substring matchers over different vocabularies, which is what the vocabulary-neutral eval result exposed
+- Removing the remaining blockers on the eval methods themselves (elicitation coverage and the other Task 13 metrics, the entity-linking precision suite) so a future run is more informative than this one
 
 **Closed 2026-08-30** via PR #47 to `preview`.
 
